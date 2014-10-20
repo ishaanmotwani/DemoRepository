@@ -54,6 +54,7 @@
         <name>Layout</name>
     </types>
     <types>
+        <members>HideAddressBar</members>
         <members>MYBZ_Region_Rollup</members>
         <name>StaticResource</name>
     </types>
