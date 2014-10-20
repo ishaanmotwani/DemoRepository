@@ -8,11 +8,6 @@
         <value>IHS Products</value>
     </caseValues>
     <fields>
-        <label><!-- Call Planning --></label>
-        <name>Call_Planning__c</name>
-        <relationshipLabel><!-- IHS Products --></relationshipLabel>
-    </fields>
-    <fields>
         <label><!-- Lilly Product --></label>
         <name>Lilly_Product__c</name>
     </fields>
