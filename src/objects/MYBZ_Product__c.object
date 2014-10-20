@@ -19,7 +19,7 @@
     <fields>
         <fullName>Market_Share__c</fullName>
         <label>Market Share</label>
-        <referenceTo>Market_Share__c</referenceTo>
+        <referenceTo>MYBZ_Market_Share__c</referenceTo>
         <relationshipName>Products</relationshipName>
         <type>Lookup</type>
     </fields>

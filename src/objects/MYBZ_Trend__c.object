@@ -106,12 +106,8 @@
         <fullName>All</fullName>
         <columns>OBJECT_ID</columns>
         <columns>Global_ID__c</columns>
+        <columns>NAME</columns>
         <filterScope>Everything</filterScope>
-        <filters>
-            <field>Global_ID__c</field>
-            <operation>equals</operation>
-            <value>123804</value>
-        </filters>
         <label>All</label>
     </listViews>
     <nameField>

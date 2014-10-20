@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Area__c</fullName>
+        <label>Area</label>
+        <referenceTo>MYBZ_Region__c</referenceTo>
+        <relationshipLabel>Product Trend Details</relationshipLabel>
+        <relationshipName>Product_Trend_Details</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>District__c</fullName>
+        <label>District</label>
+        <referenceTo>MYBZ_District__c</referenceTo>
+        <relationshipLabel>Product Trend Details</relationshipLabel>
+        <relationshipName>Product_Trend_Details</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <label>End Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Global_ID__c</fullName>
+        <label>Global ID</label>
+        <precision>10</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>HCP_First_Name__c</fullName>
+        <label>HCP First Name</label>
+        <length>255</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>HCP_Last_Name__c</fullName>
+        <label>HCP Last Name</label>
+        <length>255</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>IHS_Product__c</fullName>
+        <label>IHS Product</label>
+        <referenceTo>MYBZ_Product__c</referenceTo>
+        <relationshipLabel>Product Trend Details</relationshipLabel>
+        <relationshipName>Product_Trend_Details</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Lilly_Product__c</fullName>
+        <formula>IF(Owner__c=&apos;LILLY&apos;,true,false)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Lilly Product</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Month__c</fullName>
+        <formula>MONTH( Start_Date__c )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Month</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Owner__c</fullName>
+        <label>Owner</label>
+        <length>255</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Range__c</fullName>
+        <label>Range</label>
+        <picklist>
+            <picklistValues>
+                <fullName>6M</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>12M</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <label>Start Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>TRx_Units__c</fullName>
+        <label>TRx Units</label>
+        <precision>18</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Territory__c</fullName>
+        <label>Territory</label>
+        <referenceTo>MYBZ_Territory__c</referenceTo>
+        <relationshipLabel>Product Trend Details</relationshipLabel>
+        <relationshipName>Product_Trend_Details</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Year__c</fullName>
+        <formula>Year(Start_Date__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Year</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <label>Product Trend Detail</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>PT-{00000}</displayFormat>
+        <label>Record ID</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Product Trend Details</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

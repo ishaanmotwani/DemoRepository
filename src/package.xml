@@ -12,6 +12,8 @@
     <types>
         <members>MYBZ_District__c</members>
         <members>MYBZ_IHS_Division__c</members>
+        <members>MYBZ_Market_Share__c</members>
+        <members>MYBZ_Product_Trend_Detail__c</members>
         <members>MYBZ_Product__c</members>
         <members>MYBZ_Region__c</members>
         <members>MYBZ_Territory__c</members>
@@ -21,6 +23,8 @@
     <types>
         <members>MYBZ_District__c-en_US</members>
         <members>MYBZ_IHS_Division__c-en_US</members>
+        <members>MYBZ_Market_Share__c-en_US</members>
+        <members>MYBZ_Product_Trend_Detail__c-en_US</members>
         <members>MYBZ_Product__c-en_US</members>
         <members>MYBZ_Region__c-en_US</members>
         <members>MYBZ_Territory__c-en_US</members>
@@ -30,6 +34,8 @@
     <types>
         <members>MYBZ_District__c</members>
         <members>MYBZ_IHS_Division__c</members>
+        <members>MYBZ_Market_Share__c</members>
+        <members>MYBZ_Product_Trend_Detail__c</members>
         <members>MYBZ_Product__c</members>
         <members>MYBZ_Region__c</members>
         <members>MYBZ_Territory__c</members>
@@ -39,6 +45,8 @@
     <types>
         <members>MYBZ_District__c-State Layout</members>
         <members>MYBZ_IHS_Division__c-Parent Layout</members>
+        <members>MYBZ_Market_Share__c-Market Share Layout</members>
+        <members>MYBZ_Product_Trend_Detail__c-Product Trend Detail Layout</members>
         <members>MYBZ_Product__c-Product Layout</members>
         <members>MYBZ_Region__c-Region Layout</members>
         <members>MYBZ_Territory__c-Tier Layout</members>
@@ -52,6 +60,8 @@
     <types>
         <members>MYBZ_District__c</members>
         <members>MYBZ_IHS_Division__c</members>
+        <members>MYBZ_Market_Share__c</members>
+        <members>MYBZ_Product_Trend_Detail__c</members>
         <members>MYBZ_Product__c</members>
         <members>MYBZ_Region__c</members>
         <members>MYBZ_Territory__c</members>

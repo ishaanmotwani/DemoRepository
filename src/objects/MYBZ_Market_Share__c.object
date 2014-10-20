@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <fields>
+        <fullName>Email__c</fullName>
+        <label>Email</label>
+        <type>Email</type>
+    </fields>
+    <fields>
+        <fullName>Market__c</fullName>
+        <label>Market</label>
+        <length>10</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Month__c</fullName>
+        <label>Month</label>
+        <precision>2</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Owner__c</fullName>
+        <label>Owner</label>
+        <length>30</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Previous_Month_TRx__c</fullName>
+        <label>Previous Month TRx</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Product__c</fullName>
+        <label>Product</label>
+        <referenceTo>MYBZ_Product__c</referenceTo>
+        <relationshipLabel>Market Shares</relationshipLabel>
+        <relationshipName>Market_Shares</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Record_ID__c</fullName>
+        <label>Record ID</label>
+        <type>AutoNumber</type>
+    </fields>
+    <fields>
+        <fullName>TRx__c</fullName>
+        <label>TRx</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Territory__c</fullName>
+        <label>Territory</label>
+        <referenceTo>MYBZ_Territory__c</referenceTo>
+        <relationshipLabel>Market Shares</relationshipLabel>
+        <relationshipName>Market_Shares</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Year__c</fullName>
+        <label>Year</label>
+        <precision>4</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <label>Market Share</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Market Share Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Market Shares</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

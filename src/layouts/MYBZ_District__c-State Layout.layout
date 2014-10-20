@@ -97,4 +97,8 @@
         <fields>NAME</fields>
         <relatedList>Region_Rollup__c.District__c</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>MYBZ_Product_Trend_Detail__c.District__c</relatedList>
+    </relatedLists>
 </Layout>

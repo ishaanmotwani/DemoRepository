@@ -1,4 +1,4 @@
-<apex:page docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="TrendsController">
+<apex:page docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="MYBZ_RegionRollup_Controller">
     <html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="lillyApp">
     <head>
         <meta charset="utf-8" />
@@ -28,9 +28,16 @@
             <!--window.RESOURCE_ROOT = "{!URLFOR($Resource.MYBZ_Region_Rollup, '')}";-->
             
           
-            var abc='123';
+            lillyApp.run(function($rootScope) {
+    $rootScope.chartTypes = ["Region Rollup", "Target Goals", "Market Share", "Trends", "Call Planning"];
+    $rootScope.selectedChartType = 0; // Chart button that is selected
+    $rootScope.currentChartType = 0;  // Chart that is actually displayed
+    $rootScope.currentSubhead = "Subhead Goes Here";
+
+    var abc='123';
+            console.log('b4 invoke');
                    Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.TrendsController.mysampledata}',abc,  
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.mysampledata}',abc,  
                     function(result, event){
                           
                           
@@ -40,15 +47,145 @@
                             e.innerHTML = result;
                            
                            
-                          window.JSON=result;
-                        // $scope.jsonData= {"name":"Root","children":[{"name":"West","children":[{"name":"CA","children":[{"name":"CA Ter. 1","goal":50,"value":10},{"name":"CA Ter. 2","goal":50,"value":28},{"name":"CA Ter. 3","goal":50,"value":16}]},{"name":"UT","children":[{"name":"UT Ter. 1","goal":50,"value":22},{"name":"UT Ter. 2","goal":50,"value":24},{"name":"UT Ter. 3","goal":50,"value":34}]}]},{"name":"East","children":[{"name":"PA","children":[{"name":"PA Ter. 1","goal":50,"value":10},{"name":"PA Ter. 2","goal":50,"value":28},{"name":"PA Ter. 3","goal":50,"value":16}]},{"name":"MA","children":[{"name":"MA Ter. 1","goal":50,"value":22},{"name":"MA Ter. 2","goal":50,"value":24},{"name":"MA Ter. 3","goal":50,"value":34}]}]},{"name":"Central","children":[{"name":"MN","children":[{"name":"MN Ter. 1","goal":50,"value":10},{"name":"MN Ter. 2","goal":50,"value":28},{"name":"MN Ter. 3","goal":50,"value":16}]},{"name":"WI","children":[{"name":"WI Ter. 1","goal":50,"value":22},{"name":"WI Ter. 2","goal":50,"value":24},{"name":"WI Ter. 3","goal":50,"value":34}]}]}]};
+                          //window.JSON=result;
+                          $rootScope.regionRollupData =result;
+                       
                              console.log('window.JSON'+window.JSON);
                             
-                            //$scope.$apply();
+                            $rootScope.$apply();
                             
                       }
                        
                 );
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.mysampledata1}',abc,  
+                    function(result, event){
+                          
+                          
+                           console.log('result');
+                            console.log(result);
+                            var e = document.createElement('div');
+                            e.innerHTML = result;
+                           
+                           
+                          //window.JSON=result;
+                          $rootScope.trendsData=result;
+                       
+                             console.log('window.JSON'+window.JSON);
+                            
+                            $rootScope.$apply();
+                            
+                      }
+                       
+                );
+          /*      Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.mysampledata2}',abc,  
+                    function(result, event){
+                          
+                          
+                           console.log('result');
+                            console.log(result);
+                            var e = document.createElement('div');
+                            e.innerHTML = result;
+                           
+                           
+                          //window.JSON=result;
+                          $rootScope.marketShareData =result;
+                       
+                             console.log('window.JSON'+window.JSON);
+                            
+                            $rootScope.$apply();
+                            
+                      }
+                       
+                );*/
+    
+    //Load JSON data
+    $rootScope.callPlanningData = [{"firstName": "Lynda","lastName": "Richman","tier": 1,"products": [{"name": "Forteo","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": -2,"percentageChangePastThreeMonths": -1.5,"percentageChangePastSixMonths": 1.5},{"name": "Strattera","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": -1.5,"percentageChangePastThreeMonths": -1.5,"percentageChangePastSixMonths": 1.5}],"calls": [{"date": "Wed Sep 03 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Strattera","type": "Call only"},{"date": "Wed Oct 08 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Strattera","type": "Sample only"},{"date": "Wed Sep 17 2014 13:46:11 GMT-0600 (MDT)","product1": "Strattera","product2": "Forteo","type": "Detail w/ sample"},{"date": "Sat Sep 20 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Cialis","type": "Detail only"},{"date": "Sat Sep 27 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Forteo","type": "Call only"}]},{"firstName": "Meredith","lastName": "Klein","tier": 2,"products": [{"name": "Cialis","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 3.1,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5},{"name": "Forteo","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": -1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5}],"calls": [{"date": "Wed Sep 03 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Strattera","type": "Call only"},{"date": "Wed Sep 10 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Strattera","type": "Sample only"},{"date": "Wed Sep 17 2014 13:46:11 GMT-0600 (MDT)","product1": "Strattera","product2": "Forteo","type": "Detail w/ sample"},{"date": "Sat Sep 20 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Cialis","type": "Detail only"},{"date": "Sat Sep 27 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Forteo","type": "Call only"}]},{"firstName": "Jordan","lastName": "Oh","tier": 4,"products": [{"name": "Strattera","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5},{"name": "Cialis","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5}],"calls": [{"date": "Wed Sep 03 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Strattera","type": "Call only"},{"date": "Wed Sep 10 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Strattera","type": "Sample only"},{"date": "Wed Sep 17 2014 13:46:11 GMT-0600 (MDT)","product1": "Strattera","product2": "Forteo","type": "Detail w/ sample"},{"date": "Sat Sep 20 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Cialis","type": "Detail only"},{"date": "Sat Sep 27 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Forteo","type": "Call only"}]},{"firstName": "Rachel","lastName": "Lee","tier": 3,"products": [{"name": "Forteo","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5},{"name": "Strattera","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5}],"calls": [{"date": "Wed Sep 03 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Strattera","type": "Call only"},{"date": "Wed Sep 10 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Strattera","type": "Sample only"},{"date": "Wed Sep 17 2014 13:46:11 GMT-0600 (MDT)","product1": "Strattera","product2": "Forteo","type": "Detail w/ sample"},{"date": "Sat Sep 20 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Cialis","type": "Detail only"},{"date": "Fri Sep 26 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Forteo","type": "Call only"}]},{"firstName": "Henry","lastName": "Webster","tier": 1,"products": [{"name": "Cialis","scriptsWrittenPastMonth": 22,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 6.1,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5},{"name": "Forteo","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5}],"calls": [{"date": "Wed Sep 03 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Strattera","type": "Call only"},{"date": "Wed Sep 10 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Strattera","type": "Sample only"},{"date": "Wed Sep 17 2014 13:46:11 GMT-0600 (MDT)","product1": "Strattera","product2": "Forteo","type": "Detail w/ sample"},{"date": "Sat Sep 20 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Cialis","type": "Detail only"},{"date": "Sat Sep 27 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Forteo","type": "Call only"}]},{"firstName": "Brian","lastName": "Cranston","tier": 2,"products": [{"name": "Strattera","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5},{"name": "Cialis","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5}],"calls": [{"date": "Wed Sep 03 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Strattera","type": "Call only"},{"date": "Wed Sep 10 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Strattera","type": "Sample only"},{"date": "Wed Sep 17 2014 13:46:11 GMT-0600 (MDT)","product1": "Strattera","product2": "Forteo","type": "Detail w/ sample"},{"date": "Sat Sep 20 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Cialis","type": "Detail only"},{"date": "Sat Sep 27 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Forteo","type": "Call only"}]},{"firstName": "Sharon","lastName": "Cooper","tier": 4,"products": [{"name": "Forteo","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5},{"name": "Strattera","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5}],"calls": [{"date": "Wed Sep 03 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Strattera","type": "Call only"},{"date": "Wed Sep 10 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Strattera","type": "Sample only"},{"date": "Wed Sep 17 2014 13:46:11 GMT-0600 (MDT)","product1": "Strattera","product2": "Forteo","type": "Detail w/ sample"},{"date": "Sat Sep 20 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Cialis","type": "Detail only"},{"date": "Sat Sep 27 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Forteo","type": "Call only"}]},{"firstName": "Omar","lastName": "Sabiha","tier": 3,"products": [{"name": "Cialis","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5},{"name": "Forteo","scriptsWrittenPastMonth": 16,"scriptsWrittenPastThreeMonths": 165,"scriptsWrittenPastSixMonths": 1650,"percentageChangePastMonth": 1.5,"percentageChangePastThreeMonths": 1.5,"percentageChangePastSixMonths": 1.5}],"calls": [{"date": "Wed Sep 03 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Strattera","type": "Call only"},{"date": "Wed Sep 10 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Strattera","type": "Sample only"},{"date": "Wed Sep 17 2014 13:46:11 GMT-0600 (MDT)","product1": "Strattera","product2": "Forteo","type": "Detail w/ sample"},{"date": "Sat Sep 20 2014 13:46:11 GMT-0600 (MDT)","product1": "Forteo","product2": "Cialis","type": "Detail only"},{"date": "Sat Sep 27 2014 13:46:11 GMT-0600 (MDT)","product1": "Cialis","product2": "Forteo","type": "Call only"}]}];
+    /*$rootScope.$apply(function () {
+            $rootScope.regionRollupData = JSON;
+            console.log('inside lilly');
+            console.log($rootScope.regionRollupData);
+       })*/
+    //$rootScope.trendsData = JSON;
+    //$rootScope.$apply();
+    //alert($rootScope.trendsData);
+   // $rootScope.regionRollupData = {"name" : "Root","children" : [{"name" : "West","children" : [{"name" : "CA","performance" : {"oneMonthPerformance": {"opex": -500,"grossMargins": 12345,"netProfit": 12345},"threeMonthPerformance": {"opex": -1500,"grossMargins": 42345,"netProfit": 52345},"sixMonthPerformance": {"opex": -3000,"grossMargins": 123450,"netProfit": 123450}},"children" : [{"name" : "CA Ter. 1","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]},{"name" : "CA Ter. 2","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]}]},{"name" : "UT","performance" : {"oneMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345},"threeMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345},"sixMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345}},"children" : [{"name" : "UT Ter. 1","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]},{"name" : "UT Ter. 2","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]}]}]},{"name" : "East","children" : [{"name" : "MA","performance" : {"oneMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345},"threeMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345},"sixMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345}},"children" : [{"name" : "MA Ter. 1","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]},{"name" : "MA Ter. 2","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]}]},{"name" : "PA","performance" : {"oneMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345},"threeMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345},"sixMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345}},"children" : [{"name" : "PA Ter. 1","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]},{"name" : "PA Ter. 2","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]}]}]},{"name" : "Central","children" : [{"name" : "MN","performance" : {"oneMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345},"threeMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345},"sixMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345}},"children" : [{"name" : "MN Ter. 1","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]},{"name" : "CMNA Ter. 2","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]}]},{"name" : "WI","performance" : {"oneMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345},"threeMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345},"sixMonthPerformance": {"opex": 12345,"grossMargins": 12345,"netProfit": 12345}},"children" : [{"name" : "WI Ter. 1","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]},{"name" : "WI Ter. 2","oneMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"threeMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}],"sixMonthData": [{"name": "Forteo","trxValue": 10,"nrxValue": 20},{"name": "Strattera","trxValue": 10,"nrxValue": 20},{"name": "Axiron","trxValue": 10,"nrxValue": 20}]}]}]}]};
+    //$rootScope.trendsData = [{"month":1,"year":2014,"products":[{"productName":"Cialis","trx":5000,"percentageChangeFromPreviousMonth":-3.1,"lillyProduct":"true"},{"productName":"Viagra","trx":1000,"percentageChangeFromPreviousMonth":2.1,"lillyProduct":"false"},{"productName":"Vardenafil","trx":200,"percentageChangeFromPreviousMonth":3.3,"lillyProduct":"false"}]},{"month":2,"year":2013,"products":[{"productName":"Cialis","trx":5400,"percentageChangeFromPreviousMonth":4.3,"lillyProduct":"true"},{"productName":"Viagra","trx":1200,"percentageChangeFromPreviousMonth":-3.3,"lillyProduct":"false"},{"productName":"Vardenafil","trx":700,"percentageChangeFromPreviousMonth":1.1,"lillyProduct":"false"}]},{"month":3,"year":2014,"products":[{"productName":"Cialis","trx":5800,"percentageChangeFromPreviousMonth":-5.1,"lillyProduct":"true"},{"productName":"Viagra","trx":1700,"percentageChangeFromPreviousMonth":-10.4,"lillyProduct":"false"},{"productName":"Vardenafil","trx":1000,"percentageChangeFromPreviousMonth":10.2,"lillyProduct":"false"}]},{"month":4,"year":2014,"products":[{"productName":"Cialis","trx":4800,"percentageChangeFromPreviousMonth":4.4,"lillyProduct":"true"},{"productName":"Viagra","trx":1400,"percentageChangeFromPreviousMonth":3.8,"lillyProduct":"false"},{"productName":"Vardenafil","trx":1200,"percentageChangeFromPreviousMonth":4.9,"lillyProduct":"false"}]},{"month":5,"year":2014,"products":[{"productName":"Cialis","trx":5000,"percentageChangeFromPreviousMonth":8.3,"lillyProduct":"true"},{"productName":"Viagra","trx":1200,"percentageChangeFromPreviousMonth":6.1,"lillyProduct":"false"},{"productName":"Vardenafil","trx":1100,"percentageChangeFromPreviousMonth":-4.2,"lillyProduct":"false"}]},{"month":6,"year":2014,"products":[{"productName":"Cialis","trx":5500,"percentageChangeFromPreviousMonth":-3.1,"lillyProduct":"true"},{"productName":"Viagra","trx":1600,"percentageChangeFromPreviousMonth":4.9,"lillyProduct":"false"},{"productName":"Vardenafil","trx":800,"percentageChangeFromPreviousMonth":8.0,"lillyProduct":"false"}]}];
+    $rootScope.trendsPrescriberData = {"month":1,"year":2014,"numberOfMonths":12,"products":[{"product":"Cialis","lillyProduct":"true","totalTrx":2049,"percentChange":-18,"topFivePrescribers":[{"prescriberFirstName":"Jane","prescriberLastName":"Toffer","trx":1021},{"prescriberFirstName":"Chris","prescriberLastName":"Patel","trx":1021},{"prescriberFirstName":"Henry","prescriberLastName":"Foreman","trx":1021},{"prescriberFirstName":"Mandy","prescriberLastName":"Price","trx":1021},{"prescriberFirstName":"Keith","prescriberLastName":"Weiss","trx":1021}]},{"product":"Viagra","lillyProduct":"false","totalTrx":2049,"percentChange":-18,"topFivePrescribers":[{"prescriberFirstName":"Jane","prescriberLastName":"Toffer","trx":1021},{"prescriberFirstName":"Chris","prescriberLastName":"Patel","trx":1021},{"prescriberFirstName":"Henry","prescriberLastName":"Foreman","trx":1021},{"prescriberFirstName":"Mandy","prescriberLastName":"Price","trx":1021},{"prescriberFirstName":"Keith","prescriberLastName":"Weiss","trx":1021}]},{"product":"Vardenafil","lillyProduct":"false","totalTrx":2049,"percentChange":-18,"topFivePrescribers":[{"prescriberFirstName":"Jane","prescriberLastName":"Toffer","trx":1021},{"prescriberFirstName":"Chris","prescriberLastName":"Patel","trx":1021},{"prescriberFirstName":"Henry","prescriberLastName":"Foreman","trx":1021},{"prescriberFirstName":"Mandy","prescriberLastName":"Price","trx":1021},{"prescriberFirstName":"Keith","prescriberLastName":"Weiss","trx":1021}]}]};
+    $rootScope.goalsData = [{"month":1,"year":2014,"goals":[{"productName":"AXIRON","goalSet":1000,"goalMet":500},{"productName":"CIALIS","goalSet":1000,"goalMet":500},{"productName":"FORTEO","goalSet":1000,"goalMet":500}]},{"month":2,"year":2014,"goals":[{"productName":"AXIRON","goalSet":1000,"goalMet":500},{"productName":"CIALIS","goalSet":1000,"goalMet":500},{"productName":"FORTEO","goalSet":1000,"goalMet":500}]},{"month":3,"year":2014,"goals":[{"productName":"AXIRON","goalSet":1000,"goalMet":500},{"productName":"CIALIS","goalSet":1000,"goalMet":500},{"productName":"FORTEO","goalSet":1000,"goalMet":500}]}];
+  //  $rootScope.marketShareData = [{"month": 1,"year": 2014,"products": [{"productName": "Cialis","trx": 2000},{"productName": "Viagra","trx": 2000},{"productName": "Levitra","trx": 2000},{"productName": "Vardenafil","trx": 2000},{"productName": "All Others","trx": 2000}]},{"month": 2,"year": 2014,"products": [{"productName": "Cialis","trx": 2000},{"productName": "Viagra","trx": 2000},{"productName": "Levitra","trx": 2000},{"productName": "Vardenafil","trx": 2000},{"productName": "All Others","trx": 2000}]},{"month": 3,"year": 2014,"products": [{"productName": "Cialis","trx": 2000},{"productName": "Viagra","trx": 2000},{"productName": "Levitra","trx": 2000},{"productName": "Vardenafil","trx": 2000},{"productName": "All Others","trx": 2000}]},{"month": 4,"year": 2014,"products": [{"productName": "Cialis","trx": 2000},{"productName": "Viagra","trx": 2000},{"productName": "Levitra","trx": 2000},{"productName": "Vardenafil","trx": 2000},{"productName": "All Others","trx": 2000}]},{"month": 5,"year": 2014,"products": [{"productName": "Cialis","trx": 2000},{"productName": "Viagra","trx": 2000},{"productName": "Levitra","trx": 2000},{"productName": "Vardenafil","trx": 2000},{"productName": "All Others","trx": 2000}]},{"month": 6,"year": 2014,"products": [{"productName": "Cialis","trx": 2000},{"productName": "Viagra","trx": 2000},{"productName": "Levitra","trx": 2000},{"productName": "Vardenafil","trx": 2000},{"productName": "All Others","trx": 2000}]}];
+
+    $rootScope.daysSinceLastCallCutoff = 10; // For call planning
+    $rootScope.minCallPercentage = 80; // For call planning dashboard view
+
+    // Derive the list of products the Rep represents from callPlanningData.
+    $rootScope.productsRepresented = [];
+    for (var p = 0; p < $rootScope.callPlanningData.length; p++) {
+        var physician = $rootScope.callPlanningData[p];
+        var products = physician.products;
+        for (var d = 0; d < products.length; d++) {
+            if ($.inArray(products[d].name, $rootScope.productsRepresented) == -1) {
+                $rootScope.productsRepresented.push(products[d].name);
+            }
+        }
+    }
+
+    $rootScope.tiers = [{
+        name: "Tier 1",
+        selected: true
+    }, {
+        name: "Tier 2",
+        selected: false
+    }, {
+        name: "Tier 3",
+        selected: false
+    }, {
+        name: "Tier 4",
+        selected: false
+    }];
+    $rootScope.months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    $rootScope.initialDisplayDone = false;
+
+    $rootScope.hideNavigation = function() {
+        $rootScope.navigationHidden = true;
+        return "ignore";
+    }
+
+    $rootScope.showNavigation = function() {
+        $rootScope.navigationHidden = false;
+        return "ignore";
+    }
+
+    $rootScope.hideControlsButton = function() {
+        $rootScope.$apply(function(){
+            $rootScope.controlsButtonHidden = true;
+        });
+        return "ignore";
+    }
+
+    $rootScope.showControlsButton = function() {
+        $rootScope.$apply(function(){
+            $rootScope.controlsButtonHidden = false;
+        });
+        return "ignore";
+    }
+
+    $rootScope.navigateTo = function(page) {
+        window.location = RESOURCE_ROOT+"/index.html#/" + page;
+    }
+
+    $rootScope.dateForDisplay = function(dateAsString) {
+        var date = new Date(dateAsString);
+        var month = date.getUTCMonth() + 1;
+        var day = date.getUTCDate();
+        var year = date.getUTCFullYear();
+        var formattedDate = "" + month + "/" + day + "/" + year;
+        return formattedDate;
+    }
+
+
+});
                 
              
             
