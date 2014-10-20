@@ -4,7 +4,7 @@
 *@ Modification Log                                              :                                      
 */
 
-global class MYBZ_TrendsController{
+global class MYBZ_Trends_Controller{
 /*
  
    /* 
@@ -18,7 +18,7 @@ global class MYBZ_TrendsController{
     
     @RemoteAction  
     global static Object mysampledata(string abc) {
-        Integer UserId = 123804;
+        Integer UserId = Integer.ValueOf(UserInfo.getUserId());
         List<MYBZ_Trend__c> TrendsList = [Select Name,Month__c,Year__c,Product__c,Product__r.Name,Lilly_Product__c,TRx_Units__c,percentageChangeFromPreviousMonth__c,Global_ID__c from MYBZ_Trend__c where Global_ID__c=:UserId order by Year__c,Month__c asc];
         //Set<Decimal> TrendsMonthsSet = new Set<Decimal>();
         Set<Decimal> TrendsYearsSet = new Set<Decimal>();
