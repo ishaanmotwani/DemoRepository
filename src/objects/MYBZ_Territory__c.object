@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Global_Id__c</fullName>
+        <label>Global Id</label>
+        <length>12</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Goal__c</fullName>
+        <label>Goal</label>
+        <precision>5</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>NRx_Units_1_Month__c</fullName>
+        <label>NRx Units (1 Month)</label>
+        <precision>12</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>NRx_Units_3_Month__c</fullName>
+        <label>NRx Units (3 Month)</label>
+        <precision>12</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>NRx_Units_6_Month__c</fullName>
+        <label>NRx Units (6 Month)</label>
+        <precision>12</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Product__c</fullName>
+        <label>Product</label>
+        <referenceTo>MYBZ_Product__c</referenceTo>
+        <relationshipLabel>Territories</relationshipLabel>
+        <relationshipName>Territories</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>State__c</fullName>
+        <label>State</label>
+        <referenceTo>MYBZ_District__c</referenceTo>
+        <relationshipName>Tier</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>TRx_Units_1_Month__c</fullName>
+        <label>TRx Units (1 Month)</label>
+        <precision>12</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>TRx_Units_3_Month__c</fullName>
+        <label>TRx Units (3 Month)</label>
+        <precision>12</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>TRx_Units_6_Month__c</fullName>
+        <label>TRx Units (6 Month)</label>
+        <precision>12</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Value__c</fullName>
+        <label>Value</label>
+        <precision>5</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <label>Territory</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Territories</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

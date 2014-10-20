@@ -1,4 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <version>30.0</version>
+    <types>
+        <members>MYBZ_RegionRollup_Controller</members>
+        <members>MYBZ_TrendsController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>MYBZ_RegionRollup</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>MYBZ_District__c</members>
+        <members>MYBZ_IHS_Division__c</members>
+        <members>MYBZ_Product__c</members>
+        <members>MYBZ_Region__c</members>
+        <members>MYBZ_Territory__c</members>
+        <members>MYBZ_Trend__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>MYBZ_District__c-en_US</members>
+        <members>MYBZ_IHS_Division__c-en_US</members>
+        <members>MYBZ_Product__c-en_US</members>
+        <members>MYBZ_Region__c-en_US</members>
+        <members>MYBZ_Territory__c-en_US</members>
+        <members>MYBZ_Trend__c-en_US</members>
+        <name>CustomObjectTranslation</name>
+    </types>
+    <types>
+        <members>MYBZ_District__c</members>
+        <members>MYBZ_IHS_Division__c</members>
+        <members>MYBZ_Product__c</members>
+        <members>MYBZ_Region__c</members>
+        <members>MYBZ_Territory__c</members>
+        <members>MYBZ_Trend__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>MYBZ_District__c-State Layout</members>
+        <members>MYBZ_IHS_Division__c-Parent Layout</members>
+        <members>MYBZ_Product__c-Product Layout</members>
+        <members>MYBZ_Region__c-Region Layout</members>
+        <members>MYBZ_Territory__c-Tier Layout</members>
+        <members>MYBZ_Trend__c-Product Trend Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>MYBZ_Region_Rollup</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>MYBZ_District__c</members>
+        <members>MYBZ_IHS_Division__c</members>
+        <members>MYBZ_Product__c</members>
+        <members>MYBZ_Region__c</members>
+        <members>MYBZ_Territory__c</members>
+        <members>MYBZ_Trend__c</members>
+        <name>Workflow</name>
+    </types>
+    <version>15.0</version>
 </Package>

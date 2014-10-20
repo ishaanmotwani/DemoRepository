@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>IHS Division</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>IHS Division</value>
+    </caseValues>
+    <fields>
+        <label><!-- Alignment --></label>
+        <name>Alignment__c</name>
+        <picklistValues>
+            <masterLabel>AREA</masterLabel>
+            <translation><!-- AREA --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>DSTRCT</masterLabel>
+            <translation><!-- DSTRCT --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>DVSN</masterLabel>
+            <translation><!-- DVSN --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>TRTRY</masterLabel>
+            <translation><!-- TRTRY --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Area --></label>
+        <name>Area__c</name>
+    </fields>
+    <fields>
+        <label><!-- District --></label>
+        <name>District__c</name>
+    </fields>
+    <fields>
+        <label><!-- End Date --></label>
+        <name>End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Metric --></label>
+        <name>Metric__c</name>
+        <picklistValues>
+            <masterLabel>Gross Margin</masterLabel>
+            <translation><!-- Gross Margin --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>NRx</masterLabel>
+            <translation><!-- NRx --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Net Profit</masterLabel>
+            <translation><!-- Net Profit --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>OPEX</masterLabel>
+            <translation><!-- OPEX --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>TRx</masterLabel>
+            <translation><!-- TRx --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Product --></label>
+        <name>Product_Ref__c</name>
+        <relationshipLabel><!-- IHS Division --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Range --></label>
+        <name>Range__c</name>
+        <picklistValues>
+            <masterLabel>1M</masterLabel>
+            <translation><!-- 1M --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>3M</masterLabel>
+            <translation><!-- 3M --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>6M</masterLabel>
+            <translation><!-- 6M --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Start Date --></label>
+        <name>Start_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Territory --></label>
+        <name>Territory__c</name>
+    </fields>
+    <fields>
+        <label><!-- User --></label>
+        <name>User_Ref__c</name>
+        <relationshipLabel><!-- IHS Division --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Value --></label>
+        <name>Value__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>
