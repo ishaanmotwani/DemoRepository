@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Call_Date__c</fullName>
+        <label>Call Date</label>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Call_Planning__c</fullName>
+        <label>Call Planning</label>
+        <referenceTo>MYBZ_Call_Planning__c</referenceTo>
+        <relationshipLabel>Calls</relationshipLabel>
+        <relationshipName>Calls</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Call_Type__c</fullName>
+        <label>Call Type</label>
+        <length>255</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Date__c</fullName>
+        <label>Date</label>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Email__c</fullName>
+        <label>Email</label>
+        <type>Email</type>
+    </fields>
+    <fields>
+        <fullName>HCP__c</fullName>
+        <label>HCP</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Calls</relationshipLabel>
+        <relationshipName>Calls</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Product1__c</fullName>
+        <label>Product1</label>
+        <referenceTo>MYBZ_Product__c</referenceTo>
+        <relationshipLabel>Calls</relationshipLabel>
+        <relationshipName>Calls</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Product2__c</fullName>
+        <label>Product2</label>
+        <referenceTo>MYBZ_Product__c</referenceTo>
+        <relationshipLabel>Calls (Product2)</relationshipLabel>
+        <relationshipName>Calls1</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Product_Position__c</fullName>
+        <label>Product Position</label>
+        <precision>2</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Territory__c</fullName>
+        <label>Territory</label>
+        <referenceTo>MYBZ_Territory__c</referenceTo>
+        <relationshipLabel>Calls</relationshipLabel>
+        <relationshipName>Calls</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <label>Call</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Call Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Calls</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

@@ -190,7 +190,7 @@
              
             
         </script>
-         <apex:includeScript value="{!URLFOR($Resource.HideAddressBar,'')}"/>
+         <apex:includeScript value="{!URLFOR($Resource.MYBZ_HideAddressBar,'')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup,'css/lillyApp.css')}"/> 
         <!--This is problem area -->
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup,'css/component.css')}"/>

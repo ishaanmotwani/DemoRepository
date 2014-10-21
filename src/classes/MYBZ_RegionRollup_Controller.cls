@@ -21,7 +21,12 @@ global class MYBZ_RegionRollup_Controller
         MYBZ_IHS_Division__c oParent = [select name from MYBZ_IHS_Division__c];
         Map < String, List < MYBZ_Territory__c >> mapProd = new Map < String, List < MYBZ_Territory__c >> ();
         //Initializing JSON string
-        string sdata = '{"name" :  "' +oParent.name +'",';
+        
+        JSONGenerator gen = JSON.createGenerator(true);
+        gen.writeStartObject();  
+        gen.writeStringField('name',oParent.Name);
+        
+        //string sdata = '{"name" :  "' +oParent.name +'",';
         integer xcount; //To keep count of regions
         integer ycount; //To keep count of states
         integer zcount; //To keep count of tiers
@@ -32,22 +37,33 @@ global class MYBZ_RegionRollup_Controller
         if (oRegion != null)
         {
             //Appending to JSON string before adding children of parent
-            sdata += '"children":[';
+            
+            gen.writeFieldName('children');
+            gen.writeStartArray();
+            
+            //sdata += '"children":[';
             //Initializing count for regions
             xcount = 0;
             //For each region
+            
             for (MYBZ_Region__c oReg: oRegion)
             {
+                system.debug('Region Name--'+oReg.Name);
                 xcount++;
-                sdata += '{';
-                sdata += '"name" : "' + oReg.name + '",';
-                system.debug('*' + sdata);
+                gen.writeStartObject(); 
+                //sdata += '{';
+                gen.writeStringField('name',oReg.Name);
+                //sdata += '"name" : "' + oReg.name + '",';
+                //system.debug('*' + sdata);
                 //List to store all states of a specified region
                 List < MYBZ_District__c > oState = [select name, Region__c,OPEX_1_Month__c, Gross_Margin_1_Month__c, Net_Profit_1_month__c,OPEX_3_Month__c,Gross_Margin_3_Month__c,Net_Profit_3_months__c,OPEX_6_Month__c,Gross_Margin_6_Month__c,Net_Profit_6_months__c from MYBZ_District__c where Region__c = : oReg.id];
                 if (oState != null)
                 {
+                    gen.writeFieldName('children');
+                    gen.writeStartArray();
+                    
                     //Appending to JSON string before adding children of region
-                    sdata += '"children" : [';
+                    //sdata += '"children" : [';
                     //Initializing count for states
                     ycount = 0;
                     //For each state
@@ -59,21 +75,52 @@ global class MYBZ_RegionRollup_Controller
                         List < MYBZ_Territory__c > oTier = [select Name, Goal__c, Value__c, State__c, Product__r.Name,TRx_Units_1_Month__c,NRx_Units_1_Month__c,TRx_Units_3_Month__c,NRx_Units_3_Month__c,TRx_Units_6_Month__c,NRx_Units_6_Month__c from MYBZ_Territory__c where State__c = : y.id];
                         if (oTier != null)
                         {
-                            sdata += '{';
-                            sdata += '"name" : "' + y.name + '",';
-                
-                            sdata += '"performance": { "oneMonthPerformance": { "opex" :' + y.OPEX_1_Month__c + ',';
-                            sdata += '"grossMargins":' + y.Gross_Margin_1_Month__c + ',';
-                            sdata += '"netProfit":' + y.Net_Profit_1_month__c + '},';
-                            sdata += '"threeMonthPerformance": { "opex" :' + y.OPEX_3_Month__c + ',';
-                            sdata += '"grossMargins":' + y.Gross_Margin_3_Month__c + ',';
-                            sdata += '"netProfit":' + y.Net_Profit_3_months__c + '},';
-                            sdata += '"sixMonthPerformance": { "opex" :' + y.OPEX_6_Month__c + ',';
-                            sdata += '"grossMargins":' + y.Gross_Margin_6_Month__c + ',';
-                            sdata += '"netProfit":' + y.Net_Profit_6_months__c + '}},';
-                            System.debug('chck1'+sdata);
+                            system.debug('JSON----'+gen);
+                            gen.writeStartObject(); 
+                            //sdata += '{';
+                            gen.writeStringField('name',y.Name);
+                            //sdata += '"name" : "' + y.name + '",';
+                            
+                            gen.writeFieldName('performance');
+                            gen.writeStartObject();
+                            gen.writeFieldName('oneMonthPerformance');
+                            gen.writeStartObject();
+                            gen.writeNumberField('opex',y.OPEX_1_Month__c);
+                            gen.writeNumberField('grossMargins',y.Gross_Margin_1_Month__c);
+                            gen.writeNumberField('netProfit',y.Net_Profit_1_month__c);
+                            gen.writeEndObject();
+                            
+                            gen.writeFieldName('threeMonthPerformance');
+                            gen.writeStartObject();
+                            gen.writeNumberField('opex',y.OPEX_3_Month__c);
+                            gen.writeNumberField('grossMargins',y.Gross_Margin_3_Month__c);
+                            gen.writeNumberField('netProfit',y.Net_Profit_3_months__c);
+                            gen.writeEndObject();
+                            
+                            gen.writeFieldName('sixMonthPerformance');
+                            gen.writeStartObject();
+                            gen.writeNumberField('opex',y.OPEX_6_Month__c);
+                            gen.writeNumberField('grossMargins',y.Gross_Margin_6_Month__c);
+                            gen.writeNumberField('netProfit',y.Net_Profit_6_months__c);
+                            gen.writeEndObject();
+                            gen.writeEndObject();
+                            
+                            //sdata += '"performance": { "oneMonthPerformance": { "opex" :' + y.OPEX_1_Month__c + ',';
+                            //sdata += '"grossMargins":' + y.Gross_Margin_1_Month__c + ',';
+                            //sdata += '"netProfit":' + y.Net_Profit_1_month__c + '},';
+                            //sdata += '"threeMonthPerformance": { "opex" :' + y.OPEX_3_Month__c + ',';
+                            //sdata += '"grossMargins":' + y.Gross_Margin_3_Month__c + ',';
+                            //sdata += '"netProfit":' + y.Net_Profit_3_months__c + '},';
+                            //sdata += '"sixMonthPerformance": { "opex" :' + y.OPEX_6_Month__c + ',';
+                            //sdata += '"grossMargins":' + y.Gross_Margin_6_Month__c + ',';
+                            //sdata += '"netProfit":' + y.Net_Profit_6_months__c + '}},';
+                            //System.debug('chck1'+sdata);
                             //Appending to JSON string before adding children of state
-                            sdata += '"children":[';
+                            
+                            gen.writeFieldName('children');
+                            gen.writeStartArray();
+                            
+                            //sdata += '"children":[';
                             //Initializing count for tiers
                             zcount = 0;
                             //For each tier
@@ -91,7 +138,7 @@ global class MYBZ_RegionRollup_Controller
                                     mapProd.get(otr.Name).add(otr);                    
                                 }
                             }
-                            System.debug('chck2'+sdata);
+                            //System.debug('chck2'+sdata);
                             //To determine if there are more tiers to parse
                             if (zcount < mapProd.size())
                             {
@@ -103,41 +150,73 @@ global class MYBZ_RegionRollup_Controller
                                         System.debug('--str'+str);
                                         zcount++;
                                         pcount = 0;
-                                        sdata += '{';
-                                        sdata += '"name" : "' + str + '",';
+                                        
+                                        gen.writeStartObject();
+                                        //sdata += '{';
+                                        
+                                        gen.writeStringField('name',str);
+                                        //sdata += '"name" : "' + str + '",';
                                         if (mapProd.get(str) != null)
                                         {
+                                            
                                             System.debug('--mapProd'+mapProd.get(str));
                                             for (integer i = pcount; i < 3; i++)
                                             {
                                                 qcount = 0;
                                                 if (pcount == 0)
                                                 {
-                                                    sdata += '"oneMonthData": [{';
+                                                    gen.writeFieldName('oneMonthData');
+                                                    gen.writeStartArray();
+                                                    gen.writeStartObject();
+                                                    
+                                                    //sdata += '"oneMonthData": [{';
                                                 }
                                                 else if (pcount == 1)
                                                 {
-                                                    sdata += '"threeMonthData": [{';
+                                                    gen.writeFieldName('threeMonthData');
+                                                    gen.writeStartArray();
+                                                    gen.writeStartObject();
+                                                    
+                                                    
+                                                    //sdata += '"threeMonthData": [{';
                                                 }
                                                 else if (pcount == 2)
                                                 {
-                                                    sdata += '"sixMonthData": [{';
+                                                    gen.writeFieldName('sixMonthData');
+                                                    gen.writeStartArray();
+                                                    gen.writeStartObject();
+                                                    
+                                                    //sdata += '"sixMonthData": [{';
                                                 }
-                                                for (MYBZ_Territory__c glbl: mapProd.get(str))
+                                            
+                                            System.debug('--mapProd'+mapProd.get(str));
+                                            for (MYBZ_Territory__c glbl: mapProd.get(str))
                                                 {
                                                     if (qcount < mapProd.get(str).size() - 1)
                                                     { 
                                                         system.debug('Inside');
                                                         if(pcount == 0){
-                                                            sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            sdata += '"trxValue":' + glbl.TRx_Units_1_Month__c + ',';
-                                                            sdata += '"nrxValue":' + glbl.NRx_Units_1_Month__c + '},';
+                                                            
+                                                            gen.writeStringField('name',glbl.Product__r.Name);
+                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_1_Month__c);
+                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_1_Month__c);
+                                                            gen.writeEndObject();
+                                                            
+                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
+                                                            //sdata += '"trxValue":' + glbl.TRx_Units_1_Month__c + ',';
+                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_1_Month__c + '},';
                                                             qcount++;
                                                         }
                                                         if(pcount == 1){
-                                                            sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            sdata += '"trxValue":' + glbl.TRx_Units_3_Month__c + ',';
-                                                            sdata += '"nrxValue":' + glbl.NRx_Units_3_Month__c + '},';
+                                                        
+                                                            gen.writeStringField('name',glbl.Product__r.Name);
+                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_3_Month__c);
+                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_3_Month__c);
+                                                            gen.writeEndObject();
+                                                            
+                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
+                                                            //sdata += '"trxValue":' + glbl.TRx_Units_3_Month__c + ',';
+                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_3_Month__c + '},';
                                                             qcount++;
                                                         }
                               
@@ -147,37 +226,68 @@ global class MYBZ_RegionRollup_Controller
                                                     {
                                                         if (pcount == 2 && zcount < mapProd.size())
                                                         {
-                                                            sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            sdata += '"trxValue":' + glbl.TRx_Units_6_Month__c + ',';
-                                                            sdata += '"nrxValue":' + glbl.NRx_Units_6_Month__c + '}]},';
+                                                            gen.writeStringField('name',glbl.Product__r.Name);
+                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_6_Month__c);
+                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_6_Month__c);
+                                                            gen.writeEndObject();
+                                                            gen.writeEndArray();
+                                                            gen.writeEndObject();
+                                                            
+                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
+                                                            //sdata += '"trxValue":' + glbl.TRx_Units_6_Month__c + ',';
+                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_6_Month__c + '}]},';
                                                             pcount++;
                                                         }
                                                         else if (pcount == 0 && zcount < mapProd.size())
                                                         {
-                                                            sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            sdata += '"trxValue":' + glbl.TRx_Units_1_Month__c + ',';
-                                                            sdata += '"nrxValue":' + glbl.NRx_Units_1_Month__c + '}],';
+                                                            gen.writeStringField('name',glbl.Product__r.Name);
+                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_1_Month__c);
+                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_1_Month__c);
+                                                            gen.writeEndObject();
+                                                            gen.writeEndArray();
+                                                            
+                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
+                                                            //sdata += '"trxValue":' + glbl.TRx_Units_1_Month__c + ',';
+                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_1_Month__c + '}],';
                                                             pcount++;
                                                         }
                                                         else if (pcount == 1 && zcount < mapProd.size())
                                                         {
-                                                            sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            sdata += '"trxValue":' + glbl.TRx_Units_3_Month__c + ',';
-                                                            sdata += '"nrxValue":' + glbl.NRx_Units_3_Month__c + '}],';
+                                                            gen.writeStringField('name',glbl.Product__r.Name);
+                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_3_Month__c);
+                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_3_Month__c);
+                                                            gen.writeEndObject();
+                                                            gen.writeEndArray();
+                                                            
+                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
+                                                            //sdata += '"trxValue":' + glbl.TRx_Units_3_Month__c + ',';
+                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_3_Month__c + '}],';
                                                             pcount++;
                                                         }
                                                         else if (pcount == 0 && zcount  == mapProd.size())
                                                         {
-                                                            sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            sdata += '"trxValue":' + glbl.TRx_Units_1_Month__c + ',';
-                                                            sdata += '"nrxValue":' + glbl.NRx_Units_1_Month__c + '}],';
+                                                            gen.writeStringField('name',glbl.Product__r.Name);
+                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_1_Month__c);
+                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_1_Month__c);
+                                                            gen.writeEndObject();
+                                                            gen.writeEndArray();
+                                                            
+                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
+                                                            //sdata += '"trxValue":' + glbl.TRx_Units_1_Month__c + ',';
+                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_1_Month__c + '}],';
                                                             pcount++;
                                                         }
                                                         else if (pcount == 1 && zcount == mapProd.size())
                                                         {
-                                                            sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            sdata += '"trxValue":' + glbl.TRx_Units_3_Month__c + ',';
-                                                            sdata += '"nrxValue":' + glbl.NRx_Units_3_Month__c + '}],';
+                                                            gen.writeStringField('name',glbl.Product__r.Name);
+                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_3_Month__c);
+                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_3_Month__c);
+                                                            gen.writeEndObject();
+                                                            gen.writeEndArray();
+                                                            
+                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
+                                                            //sdata += '"trxValue":' + glbl.TRx_Units_3_Month__c + ',';
+                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_3_Month__c + '}],';
                                                             pcount++;
                                                         }
                                                         /*else if (pcount != 2 && zcount == mapProd.size())
@@ -189,14 +299,20 @@ global class MYBZ_RegionRollup_Controller
                                                         }*/
                                                         else if (pcount == 2 && zcount == mapProd.size())
                                                         {
-                                                            sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            sdata += '"trxValue":' + glbl.TRx_Units_6_Month__c + ',';
-                                                            sdata += '"nrxValue":' + glbl.NRx_Units_6_Month__c + '}]}';
+                                                            gen.writeStringField('name',glbl.Product__r.Name);
+                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_6_Month__c);
+                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_6_Month__c);
+                                                            gen.writeEndObject();
+                                                            gen.writeEndArray();
+                                                            gen.writeEndObject();
+                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
+                                                            //sdata += '"trxValue":' + glbl.TRx_Units_6_Month__c + ',';
+                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_6_Month__c + '}]}';
                                                             pcount++;
                                                         }
                                                     }
     
-                                                    System.debug('chck3'+sdata);
+                                                    //System.debug('chck3'+sdata);
                                                     // sdata+='"goal":'+ oTr.goal__c+',';
                                                     //sdata+='"value":'+ oTr.value__c+'},'; 
                                                 }
@@ -212,37 +328,24 @@ global class MYBZ_RegionRollup_Controller
                                     }
                                 }
                             }
-                            System.debug('chck4'+sdata);
+                            //System.debug('chck4'+sdata);
                             //Appending to JSON string to mark end of tiers
-                            sdata += ']';
-                      
-                            if (ycount < oState.size()) 
-                                sdata += '},';
-                            else 
-                                sdata += '}]';
-                    
-                            System.debug('chck5'+sdata);
-                            //Appending to JSON string to mark end of states
-                           // sdata += ']';
-                  
-                            System.debug('chck6'+sdata);
-                 
+                            gen.writeEndArray();
+                            //sdata += ']';
                         }
+                        gen.writeEndObject();
                     }
+                    //system.debug('JSON--'+gen.getAsString());
+                    gen.writeEndArray();
                 }
-                if (xcount < oRegion.size())
-                    sdata += '},';
-                else
-                    sdata += '}';
-                    //Appending to JSON string to mark end of region
-                    //sdata += ']';
-                    //Appending to JSON string to mark end of string
-                    //sdata += '}';
-                    system.debug('***' + sdata);
+                gen.writeEndObject();
             }
-            sdata += ']}';
-            system.debug('***Final' + sdata);
-        }   
+            gen.writeEndArray();
+            gen.writeEndObject();
+            //sdata += ']}';
+            //system.debug('***Final' + sdata);
+        }
+        String sdata = gen.getAsString();
         Object obj = Json.deserializeUntyped(sdata);
         return obj;
     }

@@ -6,7 +6,7 @@
     <fields>
         <fullName>Call_Planning__c</fullName>
         <label>Call Planning</label>
-        <referenceTo>Call_Planning__c</referenceTo>
+        <referenceTo>MYBZ_Call_Planning__c</referenceTo>
         <relationshipName>Products</relationshipName>
         <type>Lookup</type>
     </fields>

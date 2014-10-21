@@ -10,6 +10,8 @@
         <name>ApexPage</name>
     </types>
     <types>
+        <members>MYBZ_Call_Planning__c</members>
+        <members>MYBZ_Call__c</members>
         <members>MYBZ_District__c</members>
         <members>MYBZ_IHS_Division__c</members>
         <members>MYBZ_Market_Share__c</members>
@@ -49,7 +51,7 @@
         <name>Layout</name>
     </types>
     <types>
-        <members>HideAddressBar</members>
+        <members>MYBZ_HideAddressBar</members>
         <members>MYBZ_Region_Rollup</members>
         <name>StaticResource</name>
     </types>
