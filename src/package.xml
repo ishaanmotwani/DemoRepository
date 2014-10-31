@@ -53,7 +53,7 @@
     </types>
     <types>
         <members>MYBZ_HideAddressBar</members>
-        <members>MYBZ_Region_Rollup</members>
+        <members>MYBZ_RegionRollup</members>
         <name>StaticResource</name>
     </types>
     <types>

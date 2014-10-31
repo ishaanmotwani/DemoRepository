@@ -35,7 +35,10 @@ global class MYBZ_RegionRollup_Controller
     global static Id UserId;
     global static String Role;
     global static String GlobalId;
-       
+      
+    global MYBZ_RegionRollup_Controller(){
+        pickerDistrictName = '';
+    }
     public static void test(){
      
     }
@@ -569,12 +572,14 @@ global class MYBZ_RegionRollup_Controller
         Map<Decimal, Set<Decimal>> YearAndMonthsMap = new Map<Decimal, Set<Decimal>>();
         
         Map<Decimal, Map<Decimal, List<MYBZ_Target_Goal__c>>> YearAndMonthTargetGoalMap = new Map<Decimal, Map<Decimal, List<MYBZ_Target_Goal__c>>>();
-        if((Role == 'District Sales Manager' || Role == 'Major Marketing Manager') && targetGoalDistrictName == '' && pickerDistrictName == ''){
+        system.debug('Role---'+Role);
+        system.debug('targetGoalDistrictName--'+targetGoalDistrictName);
+        system.debug('pickerDistrictName--'+pickerDistrictName);
+        
+        if((Role == 'District Sales Manager' || Role == 'Major Marketing Manager') && targetGoalDistrictName == null && pickerDistrictName == null){
             targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
         }
-        
         else if(Role == 'Sales Representative'){
-            System.Debug('xxxxxx'+Role);
             MYBZ_Territory__c territoryObj = [SELECT Id, State__r.Name FROM MYBZ_Territory__c WHERE Global_Id__c =:GlobalId LIMIT 1];
             String associatedDistrictName = territoryObj.State__r.Name;
             targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:associatedDistrictName ORDER BY Month__c, Year__c ASC];
