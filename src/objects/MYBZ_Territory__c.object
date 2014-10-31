@@ -1,31 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
     <fields>
         <fullName>Global_Id__c</fullName>
+        <externalId>false</externalId>
         <label>Global Id</label>
         <length>12</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
         <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>NRx__c</fullName>
+        <externalId>false</externalId>
         <label>NRx</label>
         <precision>18</precision>
+        <required>false</required>
         <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
         <type>Number</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Product__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
         <label>Product</label>
         <referenceTo>MYBZ_Product__c</referenceTo>
         <relationshipLabel>Territories</relationshipLabel>
         <relationshipName>Territories</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Range__c</fullName>
+        <externalId>false</externalId>
         <label>Range</label>
         <picklist>
             <picklistValues>
@@ -42,33 +108,55 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
         <type>Picklist</type>
     </fields>
     <fields>
         <fullName>Region_Global_ID__c</fullName>
+        <externalId>false</externalId>
         <formula>State__r.Region__r.Global_Id__c</formula>
         <label>Region Global ID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
         <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Region_Name__c</fullName>
+        <externalId>false</externalId>
         <formula>State__r.Region__r.Name</formula>
         <label>Region Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
         <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>State__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
         <label>State</label>
         <referenceTo>MYBZ_District__c</referenceTo>
         <relationshipName>Tier</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Trx__c</fullName>
+        <externalId>false</externalId>
         <label>Trx</label>
         <precision>18</precision>
+        <required>false</required>
         <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
         <type>Number</type>
+        <unique>false</unique>
     </fields>
     <label>Territory</label>
     <listViews>
@@ -78,9 +166,11 @@
         <columns>OBJECT_ID</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
+        <language>en_US</language>
     </listViews>
     <nameField>
         <label>Name</label>
+        <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Territories</pluralLabel>
