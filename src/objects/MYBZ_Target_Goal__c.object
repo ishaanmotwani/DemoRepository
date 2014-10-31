@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <fields>
+        <fullName>District__c</fullName>
+        <label>District</label>
+        <referenceTo>MYBZ_District__c</referenceTo>
+        <relationshipLabel>Target Goals</relationshipLabel>
+        <relationshipName>Target_Goals</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Global_Id__c</fullName>
+        <label>Global Id</label>
+        <length>18</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Month__c</fullName>
+        <label>Month</label>
+        <precision>2</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Product__c</fullName>
+        <label>Product</label>
+        <referenceTo>MYBZ_Product__c</referenceTo>
+        <relationshipLabel>Target Goals</relationshipLabel>
+        <relationshipName>Target_Goals</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>TRx_Goal_Attainment__c</fullName>
+        <label>TRx Goal Attainment</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>TRx_Goal__c</fullName>
+        <label>TRx Goal</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Territory__c</fullName>
+        <label>Territory</label>
+        <referenceTo>MYBZ_Territory__c</referenceTo>
+        <relationshipLabel>Target Goals</relationshipLabel>
+        <relationshipName>Target_Goals</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Year__c</fullName>
+        <label>Year</label>
+        <precision>4</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <label>Target Goal</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Month__c</columns>
+        <columns>Year__c</columns>
+        <columns>Product__c</columns>
+        <columns>District__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Global_Id__c</field>
+            <operation>equals</operation>
+            <value>18783</value>
+        </filters>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Target Goal Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Target Goals</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

@@ -12,20 +12,8 @@
         <name>Global_Id__c</name>
     </fields>
     <fields>
-        <label><!-- Goal --></label>
-        <name>Goal__c</name>
-    </fields>
-    <fields>
-        <label><!-- NRx Units (1 Month) --></label>
-        <name>NRx_Units_1_Month__c</name>
-    </fields>
-    <fields>
-        <label><!-- NRx Units (3 Month) --></label>
-        <name>NRx_Units_3_Month__c</name>
-    </fields>
-    <fields>
-        <label><!-- NRx Units (6 Month) --></label>
-        <name>NRx_Units_6_Month__c</name>
+        <label><!-- NRx --></label>
+        <name>NRx__c</name>
     </fields>
     <fields>
         <label><!-- Product --></label>
@@ -33,25 +21,37 @@
         <relationshipLabel><!-- Territories --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Range --></label>
+        <name>Range__c</name>
+        <picklistValues>
+            <masterLabel>oneMonthData</masterLabel>
+            <translation><!-- oneMonthData --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>sixMonthData</masterLabel>
+            <translation><!-- sixMonthData --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>threeMonthData</masterLabel>
+            <translation><!-- threeMonthData --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Region Global ID --></label>
+        <name>Region_Global_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Region Name --></label>
+        <name>Region_Name__c</name>
+    </fields>
+    <fields>
         <label><!-- State --></label>
         <name>State__c</name>
         <relationshipLabel><!-- Territories --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- TRx Units (1 Month) --></label>
-        <name>TRx_Units_1_Month__c</name>
-    </fields>
-    <fields>
-        <label><!-- TRx Units (3 Month) --></label>
-        <name>TRx_Units_3_Month__c</name>
-    </fields>
-    <fields>
-        <label><!-- TRx Units (6 Month) --></label>
-        <name>TRx_Units_6_Month__c</name>
-    </fields>
-    <fields>
-        <label><!-- Value --></label>
-        <name>Value__c</name>
+        <label><!-- Trx --></label>
+        <name>Trx__c</name>
     </fields>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

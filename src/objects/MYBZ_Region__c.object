@@ -4,6 +4,60 @@
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
     <fields>
+        <fullName>Global_Id__c</fullName>
+        <label>Global Id</label>
+        <length>15</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>GrossMarginStartDates__c</fullName>
+        <label>GrossMarginStartDates</label>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Gross_Margin__c</fullName>
+        <label>Gross Margin</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>NRxStartDates__c</fullName>
+        <label>NRxStartDates</label>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>NRx__c</fullName>
+        <label>NRx</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>NetProfitStartDates__c</fullName>
+        <label>NetProfitStartDates</label>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Net_Profit__c</fullName>
+        <label>Net  Profit</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>OPEX__c</fullName>
+        <label>OPEX</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>OpexStartDates__c</fullName>
+        <label>OpexStartDates</label>
+        <type>DateTime</type>
+    </fields>
+    <fields>
         <fullName>Parent__c</fullName>
         <label>Parent</label>
         <referenceTo>MYBZ_IHS_Division__c</referenceTo>
@@ -11,9 +65,60 @@
         <relationshipName>Region</relationshipName>
         <type>Lookup</type>
     </fields>
+    <fields>
+        <fullName>Product__c</fullName>
+        <label>IHS Product</label>
+        <referenceTo>MYBZ_Product__c</referenceTo>
+        <relationshipLabel>Region</relationshipLabel>
+        <relationshipName>Region</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Range__c</fullName>
+        <label>Range</label>
+        <picklist>
+            <picklistValues>
+                <fullName>oneMonthData</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>threeMonthData</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>sixMonthData</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <label>Start Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>TRxStartDates__c</fullName>
+        <label>TRxStartDates</label>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>TRx__c</fullName>
+        <label>TRx</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
     <label>Region</label>
     <listViews>
         <fullName>All</fullName>
+        <columns>OBJECT_ID</columns>
+        <columns>NAME</columns>
+        <columns>Range__c</columns>
+        <columns>Product__c</columns>
+        <columns>Global_Id__c</columns>
+        <columns>Parent__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>

@@ -4,67 +4,38 @@
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
     <fields>
-        <fullName>Gross_Margin_1_Month__c</fullName>
-        <label>Gross Margin (1 Month)</label>
-        <precision>12</precision>
-        <scale>2</scale>
-        <type>Currency</type>
+        <fullName>Global_Id__c</fullName>
+        <label>Global Id</label>
+        <length>18</length>
+        <type>Text</type>
     </fields>
     <fields>
-        <fullName>Gross_Margin_3_Month__c</fullName>
-        <label>Gross Margin (3 Month)</label>
-        <precision>12</precision>
-        <scale>2</scale>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Gross_Margin_6_Month__c</fullName>
-        <label>Gross Margin (6 Month)</label>
-        <precision>12</precision>
-        <scale>2</scale>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Net_Profit_1_month__c</fullName>
-        <label>Net Profit(1 month)</label>
+        <fullName>Gross_Margin__c</fullName>
+        <label>Gross Margin</label>
         <precision>18</precision>
         <scale>0</scale>
         <type>Number</type>
     </fields>
     <fields>
-        <fullName>Net_Profit_3_months__c</fullName>
-        <label>Net Profit(3 months)</label>
+        <fullName>NRx__c</fullName>
+        <label>NRx</label>
         <precision>18</precision>
         <scale>0</scale>
         <type>Number</type>
     </fields>
     <fields>
-        <fullName>Net_Profit_6_months__c</fullName>
-        <label>Net Profit(6 months)</label>
+        <fullName>Net_Profit__c</fullName>
+        <label>Net Profit</label>
         <precision>18</precision>
         <scale>0</scale>
         <type>Number</type>
     </fields>
     <fields>
-        <fullName>OPEX_1_Month__c</fullName>
-        <label>OPEX (1 Month)</label>
-        <precision>12</precision>
-        <scale>2</scale>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>OPEX_3_Month__c</fullName>
-        <label>OPEX (3 Month)</label>
-        <precision>12</precision>
-        <scale>2</scale>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>OPEX_6_Month__c</fullName>
-        <label>OPEX (6 Month)</label>
-        <precision>12</precision>
-        <scale>2</scale>
-        <type>Currency</type>
+        <fullName>OPEX__c</fullName>
+        <label>OPEX</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
     </fields>
     <fields>
         <fullName>Product__c</fullName>
@@ -75,15 +46,47 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Range__c</fullName>
+        <label>Range</label>
+        <picklist>
+            <picklistValues>
+                <fullName>oneMonthData</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>threeMonthData</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>sixMonthData</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
         <fullName>Region__c</fullName>
         <label>Region</label>
         <referenceTo>MYBZ_Region__c</referenceTo>
         <relationshipName>State</relationshipName>
         <type>Lookup</type>
     </fields>
+    <fields>
+        <fullName>TRx__c</fullName>
+        <label>TRx</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
     <label>District</label>
     <listViews>
         <fullName>All</fullName>
+        <columns>OBJECT_ID</columns>
+        <columns>NAME</columns>
+        <columns>Region__c</columns>
+        <columns>Range__c</columns>
+        <columns>Product__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>

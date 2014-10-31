@@ -15,544 +15,1008 @@ global class MYBZ_RegionRollup_Controller
          * @Param                          :  abc
                                            
    */
-    @RemoteAction
-    global static Object mysampledata(string abc)
+  
+    
+    global static String targetGoalDistrictName {get;set;}
+    
+    global static String productTrendRegionName {get;set;}
+    global static String productTrendDistrictName {get;set;}
+    global static String productTrendTerritoryName {get;set;}
+    
+    global static String marketShareRegionName {get;set;}
+    global static String marketShareDistrictName {get;set;}
+    global static String marketShareTerritoryName {get;set;}
+    
+    global static Sobject datePassed{get;set;}
+    public static void test(){
+        system.debug('datePassed---'+datePassed);
+        
+    }
+    @RemoteAction 
+    global static Object RegionRollup()
     {
-        MYBZ_IHS_Division__c oParent = [select name from MYBZ_IHS_Division__c];
-        Map < String, List < MYBZ_Territory__c >> mapProd = new Map < String, List < MYBZ_Territory__c >> ();
-        //Initializing JSON string
+        JSONGenerator gen;
         
-        JSONGenerator gen = JSON.createGenerator(true);
-        gen.writeStartObject();  
-        gen.writeStringField('name',oParent.Name);
+        Id UserId = UserInfo.getUserId();
         
-        //string sdata = '{"name" :  "' +oParent.name +'",';
-        integer xcount; //To keep count of regions
-        integer ycount; //To keep count of states
-        integer zcount; //To keep count of tiers
-        integer pcount;
-        integer qcount;
-        //List to store all regions for a specified parent
-        List < MYBZ_Region__c > oRegion = [select name, parent__c from MYBZ_Region__c where parent__c = : oParent.id];
-        if (oRegion != null)
-        {
-            //Appending to JSON string before adding children of parent
-            
-            gen.writeFieldName('children');
-            gen.writeStartArray();
-            
-            //sdata += '"children":[';
-            //Initializing count for regions
-            xcount = 0;
-            //For each region
-            
-            for (MYBZ_Region__c oReg: oRegion)
-            {
-                system.debug('Region Name--'+oReg.Name);
-                xcount++;
-                gen.writeStartObject(); 
-                //sdata += '{';
-                gen.writeStringField('name',oReg.Name);
-                //sdata += '"name" : "' + oReg.name + '",';
-                //system.debug('*' + sdata);
-                //List to store all states of a specified region
-                List < MYBZ_District__c > oState = [select name, Region__c,OPEX_1_Month__c, Gross_Margin_1_Month__c, Net_Profit_1_month__c,OPEX_3_Month__c,Gross_Margin_3_Month__c,Net_Profit_3_months__c,OPEX_6_Month__c,Gross_Margin_6_Month__c,Net_Profit_6_months__c from MYBZ_District__c where Region__c = : oReg.id];
-                if (oState != null)
+        String GlobalId;
+        
+        User userObj = [SELECT Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
+        
+        GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+        
+        MYBZ_IHS_Division__c divisionObj = [SELECT Name FROM MYBZ_IHS_Division__c LIMIT 1];
+        
+        Set<Id> regionIds = new Set<Id>();
+        Set<Id> districtIds = new Set<Id>();
+        String firstRegionName;
+        
+        Map<String, Map<String, List<MYBZ_Region__c>>> RegionNameAndRegionListMap = new Map<String, Map<String, List<MYBZ_Region__c>>>();
+        Map<String, Set<String>> RegionNameAndDistrictMap = new Map<String, Set<String>>();
+        Map<String, Map<String, List<MYBZ_District__c>>> DistrictNameAndDistrictListMap = new  Map<String, Map<String, List<MYBZ_District__c>>>();
+        Map<String, Set<String>> DistrictNameAndTerritoryMap = new Map<String, Set<String>>();
+        Map<String, Map<String, List<MYBZ_Territory__c>>> TerritoryNameAndTerritoryListMap = new Map<String, Map<String, List<MYBZ_Territory__c>>>();
+        Map<String, Map<String, DateTime>> DateNameAndDatesMap = new Map<String, Map<String, DateTime>>();
+        
+        List <MYBZ_Region__c> regionList = [SELECT Name, Range__c, TRxStartDates__c, NRxStartDates__c, OpexStartDates__c, GrossMarginStartDates__c, NetProfitStartDates__c, Global_Id__c, Parent__c, Product__r.Name, TRx__c, NRx__c, OPEX__c, Net_Profit__c, Gross_Margin__c FROM MYBZ_Region__c WHERE Parent__c =: divisionObj.id];
+        if(!regionList.isEmpty()){
+            firstRegionName = regionList[0].Name;
+            for(MYBZ_Region__c regionObj : regionList){
+                if(!RegionNameAndRegionListMap.containsKey(regionObj.Name)){
+                    Map<String, List<MYBZ_Region__c>> MonthAndRegionMap = new Map<String, List<MYBZ_Region__c>>();
+                    List<MYBZ_Region__c> tempRegionList = new List<MYBZ_Region__c>();
+                    tempRegionList.add(regionObj);
+                    MonthAndRegionMap.put(regionObj.Range__c, tempRegionList);
+                    RegionNameAndRegionListMap.put(regionObj.Name, MonthAndRegionMap);
+                }
+                else{
+                    if(RegionNameAndRegionListMap.get(regionObj.Name).containsKey(regionObj.Range__c)){
+                        RegionNameAndRegionListMap.get(regionObj.Name).get(regionObj.Range__c).add(regionObj);
+                    }
+                    else{
+                        List<MYBZ_Region__c> tempRegionList = new List<MYBZ_Region__c>();
+                        tempRegionList.add(regionObj);
+                        RegionNameAndRegionListMap.get(regionObj.Name).put(regionObj.Range__c, tempRegionList);
+                    }
+                }
+                regionIds.add(regionObj.id);
+            }
+        }
+        
+        if(!regionIds.isEmpty()){
+            List<MYBZ_Region__c> regions = [SELECT Id, Range__c, TRxStartDates__c, NRxStartDates__c, OpexStartDates__c, GrossMarginStartDates__c, NetProfitStartDates__c, Global_Id__c, Parent__c, Product__r.Name, TRx__c, NRx__c, OPEX__c, Net_Profit__c, Gross_Margin__c FROM MYBZ_Region__c WHERE Parent__c =: divisionObj.id AND Name =:firstRegionName];
+            for(MYBZ_Region__c regionObj : regions){
+                if(!DateNameAndDatesMap.containsKey('trxStartDates')){
+                    Map<String, DateTime> RangeAndTRxValueMap = new Map<String, DateTime>();
+                    RangeAndTRxValueMap.put(regionObj.Range__c, regionObj.TRxStartDates__c);
+                    DateNameAndDatesMap.put('trxStartDates',RangeAndTRxValueMap);
+                }
+                if(!DateNameAndDatesMap.containsKey('nrxStartDates')){
+                    Map<String, DateTime> RangeAndNRxValueMap = new Map<String, DateTime>();
+                    RangeAndNRxValueMap.put(regionObj.Range__c, regionObj.NRxStartDates__c);
+                    DateNameAndDatesMap.put('nrxStartDates',RangeAndNRxValueMap);
+                }
+                if(!DateNameAndDatesMap.containsKey('opexStartDates')){
+                    Map<String, DateTime> RangeAndOpexValueMap = new Map<String, DateTime>();
+                    RangeAndOpexValueMap.put(regionObj.Range__c, regionObj.OpexStartDates__c);
+                    DateNameAndDatesMap.put('opexStartDates',RangeAndOpexValueMap);
+                }
+                if(!DateNameAndDatesMap.containsKey('grossMarginsStartDates')){
+                    Map<String, DateTime> RangeAndGrossValueMap = new Map<String, DateTime>();
+                    RangeAndGrossValueMap.put(regionObj.Range__c, regionObj.GrossMarginStartDates__c);
+                    DateNameAndDatesMap.put('grossMarginsStartDates',RangeAndGrossValueMap);
+                }
+                if(!DateNameAndDatesMap.containsKey('netProfitStartDates')){
+                    Map<String, DateTime> RangeAndNetProfitValueMap = new Map<String, DateTime>();
+                    RangeAndNetProfitValueMap.put(regionObj.Range__c, regionObj.NetProfitStartDates__c);
+                    DateNameAndDatesMap.put('netProfitStartDates',RangeAndNetProfitValueMap);
+                }
+                else
                 {
-                    gen.writeFieldName('children');
-                    gen.writeStartArray();
+                    if(!DateNameAndDatesMap.get('trxStartDates').containsKey(regionObj.Range__c)){
+                        DateNameAndDatesMap.get('trxStartDates').put(regionObj.Range__c,regionObj.TRxStartDates__c);
+                    }
+                    if(!DateNameAndDatesMap.get('nrxStartDates').containsKey(regionObj.Range__c)){
+                        DateNameAndDatesMap.get('nrxStartDates').put(regionObj.Range__c,regionObj.NRxStartDates__c);
+                    }
+                    if(!DateNameAndDatesMap.get('opexStartDates').containsKey(regionObj.Range__c)){
+                        DateNameAndDatesMap.get('opexStartDates').put(regionObj.Range__c,regionObj.OpexStartDates__c);
+                    }
+                    if(!DateNameAndDatesMap.get('grossMarginsStartDates').containsKey(regionObj.Range__c)){
+                        DateNameAndDatesMap.get('grossMarginsStartDates').put(regionObj.Range__c,regionObj.GrossMarginStartDates__c);
+                    }
+                    if(!DateNameAndDatesMap.get('netProfitStartDates').containsKey(regionObj.Range__c)){
+                        DateNameAndDatesMap.get('netProfitStartDates').put(regionObj.Range__c,regionObj.NetProfitStartDates__c);
+                    }
+                }
+            }
+            for(MYBZ_District__c districtObj : [SELECT Name, Global_Id__c, Range__c, Product__r.Name, Region__r.Name, TRx__c, NRx__c, OPEX__c, Net_Profit__c, Gross_Margin__c FROM MYBZ_District__c WHERE Region__c IN: regionIds]){
+                if(!RegionNameAndDistrictMap.containsKey(districtObj.Region__r.Name)){
+                    Set<String> districtNames = new Set<String>();
+                    districtNames.add(districtObj.Name);
+                    RegionNameAndDistrictMap.put(districtObj.Region__r.Name, districtNames);
+                }
+                else{
+                    RegionNameAndDistrictMap.get(districtObj.Region__r.Name).add(districtObj.Name);
+                }
+                if(!DistrictNameAndDistrictListMap.containsKey(districtObj.Name)){
+                    Map<String, List<MYBZ_District__c>> MonthAndDistrictMap = new Map<String, List<MYBZ_District__c>>();
+                    List<MYBZ_District__c> tempDistrictList = new List<MYBZ_District__c>();
+                    tempDistrictList.add(districtObj);
                     
-                    //Appending to JSON string before adding children of region
-                    //sdata += '"children" : [';
-                    //Initializing count for states
-                    ycount = 0;
-                    //For each state
-                    for (MYBZ_District__c y: oState)
-                    {
-                        ycount++;
-                        system.debug('Name----'+y.name);
-                        //List to store all tiers of a specified state
-                        List < MYBZ_Territory__c > oTier = [select Name, Goal__c, Value__c, State__c, Product__r.Name,TRx_Units_1_Month__c,NRx_Units_1_Month__c,TRx_Units_3_Month__c,NRx_Units_3_Month__c,TRx_Units_6_Month__c,NRx_Units_6_Month__c from MYBZ_Territory__c where State__c = : y.id];
-                        if (oTier != null)
-                        {
-                            system.debug('JSON----'+gen);
-                            gen.writeStartObject(); 
-                            //sdata += '{';
-                            gen.writeStringField('name',y.Name);
-                            //sdata += '"name" : "' + y.name + '",';
-                            
-                            gen.writeFieldName('performance');
-                            gen.writeStartObject();
-                            gen.writeFieldName('oneMonthPerformance');
-                            gen.writeStartObject();
-                            gen.writeNumberField('opex',y.OPEX_1_Month__c);
-                            gen.writeNumberField('grossMargins',y.Gross_Margin_1_Month__c);
-                            gen.writeNumberField('netProfit',y.Net_Profit_1_month__c);
-                            gen.writeEndObject();
-                            
-                            gen.writeFieldName('threeMonthPerformance');
-                            gen.writeStartObject();
-                            gen.writeNumberField('opex',y.OPEX_3_Month__c);
-                            gen.writeNumberField('grossMargins',y.Gross_Margin_3_Month__c);
-                            gen.writeNumberField('netProfit',y.Net_Profit_3_months__c);
-                            gen.writeEndObject();
-                            
-                            gen.writeFieldName('sixMonthPerformance');
-                            gen.writeStartObject();
-                            gen.writeNumberField('opex',y.OPEX_6_Month__c);
-                            gen.writeNumberField('grossMargins',y.Gross_Margin_6_Month__c);
-                            gen.writeNumberField('netProfit',y.Net_Profit_6_months__c);
-                            gen.writeEndObject();
-                            gen.writeEndObject();
-                            
-                            //sdata += '"performance": { "oneMonthPerformance": { "opex" :' + y.OPEX_1_Month__c + ',';
-                            //sdata += '"grossMargins":' + y.Gross_Margin_1_Month__c + ',';
-                            //sdata += '"netProfit":' + y.Net_Profit_1_month__c + '},';
-                            //sdata += '"threeMonthPerformance": { "opex" :' + y.OPEX_3_Month__c + ',';
-                            //sdata += '"grossMargins":' + y.Gross_Margin_3_Month__c + ',';
-                            //sdata += '"netProfit":' + y.Net_Profit_3_months__c + '},';
-                            //sdata += '"sixMonthPerformance": { "opex" :' + y.OPEX_6_Month__c + ',';
-                            //sdata += '"grossMargins":' + y.Gross_Margin_6_Month__c + ',';
-                            //sdata += '"netProfit":' + y.Net_Profit_6_months__c + '}},';
-                            //System.debug('chck1'+sdata);
-                            //Appending to JSON string before adding children of state
-                            
-                            gen.writeFieldName('children');
+                    MonthAndDistrictMap.put(districtObj.Range__c, tempDistrictList);
+                    DistrictNameAndDistrictListMap.put(districtObj.Name, MonthAndDistrictMap);
+                }
+                else{
+                    if(DistrictNameAndDistrictListMap.get(districtObj.Name).containsKey(districtObj.Range__c)){
+                        DistrictNameAndDistrictListMap.get(districtObj.Name).get(districtObj.Range__c).add(districtObj);
+                    }
+                    else{
+                        List<MYBZ_District__c> tempDistrictList = new List<MYBZ_District__c>();
+                        tempDistrictList.add(districtObj);
+                        DistrictNameAndDistrictListMap.get(districtObj.Name).put(districtObj.Range__c, tempDistrictList);
+                    }
+                }
+                districtIds.add(districtObj.Id);
+            }
+            
+        }
+        if(!districtIds.isEmpty()){
+            for(MYBZ_Territory__c territoryObj : [SELECT Id, Name, Range__c, State__r.Name, Product__r.Name, TRx__c, NRx__c FROM MYBZ_Territory__c WHERE State__c IN:districtIds]){
+                if(!DistrictNameAndTerritoryMap.containsKey(territoryObj.State__r.Name)){
+                    Set<String> territoryNames = new Set<String>();
+                    territoryNames.add(territoryObj.Name);
+                    DistrictNameAndTerritoryMap.put(territoryObj.State__r.Name, territoryNames);
+                }
+                else{
+                    DistrictNameAndTerritoryMap.get(territoryObj.State__r.Name).add(territoryObj.Name);
+                }
+                if(!TerritoryNameAndTerritoryListMap.containsKey(territoryObj.Name)){
+                
+                    Map<String, List<MYBZ_Territory__c>> MonthAndTerritoryMap = new Map<String, List<MYBZ_Territory__c>>();
+                    List<MYBZ_Territory__c> tempTerritoryList = new List<MYBZ_Territory__c>();
+                    tempTerritoryList.add(territoryObj);
+                    
+                    MonthAndTerritoryMap.put(territoryObj.Range__c, tempTerritoryList);
+                    TerritoryNameAndTerritoryListMap.put(territoryObj.Name, MonthAndTerritoryMap);
+                }
+                else{
+                    if(TerritoryNameAndTerritoryListMap.get(territoryObj.Name).containsKey(territoryObj.Range__c)){
+                        TerritoryNameAndTerritoryListMap.get(territoryObj.Name).get(territoryObj.Range__c).add(territoryObj);
+                    }
+                    else{
+                        List<MYBZ_Territory__c> tempTerritoryList = new List<MYBZ_Territory__c>();
+                        tempTerritoryList.add(territoryObj);
+                        TerritoryNameAndTerritoryListMap.get(territoryObj.Name).put(territoryObj.Range__c, tempTerritoryList);
+                    }
+                }
+            }
+        }
+
+        if(!DateNameAndDatesMap.isEmpty() && !RegionNameAndRegionListMap.isEmpty() && !RegionNameAndDistrictMap.isEmpty() && !DistrictNameAndDistrictListMap.isEmpty() && !DistrictNameAndTerritoryMap.isEmpty() && !TerritoryNameAndTerritoryListMap.isEmpty())
+        {
+            gen = JSON.createGenerator(true);
+            gen.writeStartObject();  
+            gen.writeStringField('name',divisionObj.Name);
+            
+            for(String dateNames : DateNameAndDatesMap.keySet()){
+                gen.writeFieldName(dateNames);
+                gen.writeStartObject();
+                Map<String, DateTime> RangeAndValueMap = DateNameAndDatesMap.get(dateNames);
+                for(String range : RangeAndValueMap.keySet()){
+                    gen.writeDateTimeField(range+'StartDate',RangeAndValueMap.get(range));
+                }
+                gen.writeEndObject();
+            }
+            gen.writeFieldName('children');
+            gen.writeStartArray();   
+            for (String regionName : RegionNameAndRegionListMap.keySet())
+            {
+                gen.writeStartObject(); 
+                gen.writeStringField('name',regionName);
+                if(!RegionNameAndRegionListMap.isEmpty()){                    
+                    if(RegionNameAndRegionListMap.get(regionName) !=null){
+                        Map<String, List<MYBZ_Region__c>> regionsMap = RegionNameAndRegionListMap.get(regionName);
+                        for(String range : regionsMap.keySet()){
+                            gen.writeFieldName(range);
                             gen.writeStartArray();
-                            
-                            //sdata += '"children":[';
-                            //Initializing count for tiers
-                            zcount = 0;
-                            //For each tier
-                            mapProd.clear();
-                            for (MYBZ_Territory__c oTr: oTier)
-                            {
-                                if (!mapProd.containsKey(oTr.Name))
-                                {                        
-                                    List < MYBZ_Territory__c > listTer =  new  List < MYBZ_Territory__c > ();
-                                    listTer.add(oTr);
-                                    mapProd.put(oTr.name, listTer);                    
-                                }                    
-                                else
-                                {
-                                    mapProd.get(otr.Name).add(otr);                    
+                            for(MYBZ_Region__c tempRegionObj : regionsMap.get(range)){
+                                gen.writeStartObject();
+                                gen.writeStringField('name',tempRegionObj.Product__r.Name);
+                                gen.writeNumberField('trxValue',tempRegionObj.TRx__c);
+                                gen.writeNumberField('nrxValue',tempRegionObj.NRx__c);
+                                gen.writeNumberField('opex',tempRegionObj.OPEX__c);
+                                gen.writeNumberField('grossMargins',tempRegionObj.Gross_Margin__c);
+                                gen.writeNumberField('netProfit',tempRegionObj.Net_Profit__c);
+                                gen.writeEndObject();
+                            }
+                            gen.writeEndArray();
+                        }
+                    }
+                }
+                if(RegionNameAndDistrictMap.get(regionName) !=null){
+                    gen.writeFieldName('children');
+                    gen.writeStartArray();  
+                    for(String districtName : RegionNameAndDistrictMap.get(regionName)){
+                        gen.writeStartObject(); 
+                        gen.writeStringField('name',districtName);
+                        if(!DistrictNameAndDistrictListMap.isEmpty()){
+                            if(DistrictNameAndDistrictListMap.get(districtName) !=null){
+                                Map<String, List<MYBZ_District__c>> districtsMap = DistrictNameAndDistrictListMap.get(districtName);
+                                for(String range : districtsMap.keySet()){
+                                    gen.writeFieldName(range);
+                                    gen.writeStartArray();
+                                    for(MYBZ_District__c tempDistrictObj : districtsMap.get(range)){
+                                        gen.writeStartObject();
+                                        gen.writeStringField('name',tempDistrictObj.Product__r.Name);
+                                        gen.writeNumberField('trxValue',tempDistrictObj.TRx__c);
+                                        gen.writeNumberField('nrxValue',tempDistrictObj.NRx__c);
+                                        gen.writeNumberField('opex',tempDistrictObj.OPEX__c);
+                                        gen.writeNumberField('grossMargins',tempDistrictObj.Gross_Margin__c);
+                                        gen.writeNumberField('netProfit',tempDistrictObj.Net_Profit__c);
+                                        gen.writeEndObject();
+                                    }
+                                    gen.writeEndArray();
                                 }
                             }
-                            //System.debug('chck2'+sdata);
-                            //To determine if there are more tiers to parse
-                            if (zcount < mapProd.size())
-                            {
-
-                                if (!mapProd.isEmpty())
-                                {
-                                    for (String str: mapProd.keySet())
-                                    {
-                                        System.debug('--str'+str);
-                                        zcount++;
-                                        pcount = 0;
-                                        
-                                        gen.writeStartObject();
-                                        //sdata += '{';
-                                        
-                                        gen.writeStringField('name',str);
-                                        //sdata += '"name" : "' + str + '",';
-                                        if (mapProd.get(str) != null)
-                                        {
-                                            
-                                            System.debug('--mapProd'+mapProd.get(str));
-                                            for (integer i = pcount; i < 3; i++)
-                                            {
-                                                qcount = 0;
-                                                if (pcount == 0)
-                                                {
-                                                    gen.writeFieldName('oneMonthData');
-                                                    gen.writeStartArray();
-                                                    gen.writeStartObject();
-                                                    
-                                                    //sdata += '"oneMonthData": [{';
-                                                }
-                                                else if (pcount == 1)
-                                                {
-                                                    gen.writeFieldName('threeMonthData');
-                                                    gen.writeStartArray();
-                                                    gen.writeStartObject();
-                                                    
-                                                    
-                                                    //sdata += '"threeMonthData": [{';
-                                                }
-                                                else if (pcount == 2)
-                                                {
-                                                    gen.writeFieldName('sixMonthData');
-                                                    gen.writeStartArray();
-                                                    gen.writeStartObject();
-                                                    
-                                                    //sdata += '"sixMonthData": [{';
-                                                }
-                                            
-                                            System.debug('--mapProd'+mapProd.get(str));
-                                            for (MYBZ_Territory__c glbl: mapProd.get(str))
-                                                {
-                                                    if (qcount < mapProd.get(str).size() - 1)
-                                                    { 
-                                                        system.debug('Inside');
-                                                        if(pcount == 0){
-                                                            
-                                                            gen.writeStringField('name',glbl.Product__r.Name);
-                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_1_Month__c);
-                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_1_Month__c);
-                                                            gen.writeEndObject();
-                                                            
-                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            //sdata += '"trxValue":' + glbl.TRx_Units_1_Month__c + ',';
-                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_1_Month__c + '},';
-                                                            qcount++;
-                                                        }
-                                                        if(pcount == 1){
-                                                        
-                                                            gen.writeStringField('name',glbl.Product__r.Name);
-                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_3_Month__c);
-                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_3_Month__c);
-                                                            gen.writeEndObject();
-                                                            
-                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            //sdata += '"trxValue":' + glbl.TRx_Units_3_Month__c + ',';
-                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_3_Month__c + '},';
-                                                            qcount++;
-                                                        }
-                              
-                              
-                                                    }
-                                                    else
-                                                    {
-                                                        if (pcount == 2 && zcount < mapProd.size())
-                                                        {
-                                                            gen.writeStringField('name',glbl.Product__r.Name);
-                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_6_Month__c);
-                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_6_Month__c);
-                                                            gen.writeEndObject();
-                                                            gen.writeEndArray();
-                                                            gen.writeEndObject();
-                                                            
-                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            //sdata += '"trxValue":' + glbl.TRx_Units_6_Month__c + ',';
-                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_6_Month__c + '}]},';
-                                                            pcount++;
-                                                        }
-                                                        else if (pcount == 0 && zcount < mapProd.size())
-                                                        {
-                                                            gen.writeStringField('name',glbl.Product__r.Name);
-                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_1_Month__c);
-                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_1_Month__c);
-                                                            gen.writeEndObject();
-                                                            gen.writeEndArray();
-                                                            
-                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            //sdata += '"trxValue":' + glbl.TRx_Units_1_Month__c + ',';
-                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_1_Month__c + '}],';
-                                                            pcount++;
-                                                        }
-                                                        else if (pcount == 1 && zcount < mapProd.size())
-                                                        {
-                                                            gen.writeStringField('name',glbl.Product__r.Name);
-                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_3_Month__c);
-                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_3_Month__c);
-                                                            gen.writeEndObject();
-                                                            gen.writeEndArray();
-                                                            
-                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            //sdata += '"trxValue":' + glbl.TRx_Units_3_Month__c + ',';
-                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_3_Month__c + '}],';
-                                                            pcount++;
-                                                        }
-                                                        else if (pcount == 0 && zcount  == mapProd.size())
-                                                        {
-                                                            gen.writeStringField('name',glbl.Product__r.Name);
-                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_1_Month__c);
-                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_1_Month__c);
-                                                            gen.writeEndObject();
-                                                            gen.writeEndArray();
-                                                            
-                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            //sdata += '"trxValue":' + glbl.TRx_Units_1_Month__c + ',';
-                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_1_Month__c + '}],';
-                                                            pcount++;
-                                                        }
-                                                        else if (pcount == 1 && zcount == mapProd.size())
-                                                        {
-                                                            gen.writeStringField('name',glbl.Product__r.Name);
-                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_3_Month__c);
-                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_3_Month__c);
-                                                            gen.writeEndObject();
-                                                            gen.writeEndArray();
-                                                            
-                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            //sdata += '"trxValue":' + glbl.TRx_Units_3_Month__c + ',';
-                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_3_Month__c + '}],';
-                                                            pcount++;
-                                                        }
-                                                        /*else if (pcount != 2 && zcount == mapProd.size())
-                                                        {
-                                                            sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            sdata += '"trxValue":' + glbl.TRx_Units_6_Month__c + ',';
-                                                            sdata += '"nrxValue":' + glbl.NRx_Units_6_Month__c + '}],';
-                                                            pcount++;
-                                                        }*/
-                                                        else if (pcount == 2 && zcount == mapProd.size())
-                                                        {
-                                                            gen.writeStringField('name',glbl.Product__r.Name);
-                                                            gen.writeNumberField('trxValue',glbl.TRx_Units_6_Month__c);
-                                                            gen.writeNumberField('nrxValue',glbl.NRx_Units_6_Month__c);
-                                                            gen.writeEndObject();
-                                                            gen.writeEndArray();
-                                                            gen.writeEndObject();
-                                                            //sdata += '"name" :  "' + glbl.Product__r.Name + '",';
-                                                            //sdata += '"trxValue":' + glbl.TRx_Units_6_Month__c + ',';
-                                                            //sdata += '"nrxValue":' + glbl.NRx_Units_6_Month__c + '}]}';
-                                                            pcount++;
-                                                        }
-                                                    }
-    
-                                                    //System.debug('chck3'+sdata);
-                                                    // sdata+='"goal":'+ oTr.goal__c+',';
-                                                    //sdata+='"value":'+ oTr.value__c+'},'; 
-                                                }
-                                                //If the last tier is being parsed
-                                                /*  else
-                                                {
-                                                    sdata+='"name" : "'+ oTr.name+'",';
-                                                    sdata+='"goal":'+ oTr.goal__c+',';
-                                                    sdata+='"value":'+ oTr.value__c+'}';
-                                                }*/
+                        }
+                        if(DistrictNameAndTerritoryMap.get(districtName) !=null){
+                            gen.writeFieldName('children');
+                            gen.writeStartArray();
+                            for(String territoryName : DistrictNameAndTerritoryMap.get(districtName)){
+                                gen.writeStartObject(); 
+                                gen.writeStringField('name',territoryName);
+                                if(!TerritoryNameAndTerritoryListMap.isEmpty()){
+                                    if(TerritoryNameAndTerritoryListMap.get(territoryName) !=null){
+                                        Map<String, List<MYBZ_Territory__c>> territoryMap = TerritoryNameAndTerritoryListMap.get(territoryName);
+                                        for(String range : territoryMap.keySet()){
+                                            gen.writeFieldName(range);
+                                            gen.writeStartArray();
+                                            for(MYBZ_Territory__c tempTerritoryObj : territoryMap.get(range)){
+                                                gen.writeStartObject();
+                                                gen.writeStringField('name',tempTerritoryObj.Product__r.Name);
+                                                gen.writeNumberField('trxValue',tempTerritoryObj.TRx__c);
+                                                gen.writeNumberField('nrxValue',tempTerritoryObj.NRx__c);
+                                                gen.writeEndObject();
                                             }
+                                            gen.writeEndArray();
                                         }
                                     }
                                 }
+                                gen.writeEndObject();
                             }
-                            //System.debug('chck4'+sdata);
-                            //Appending to JSON string to mark end of tiers
                             gen.writeEndArray();
-                            //sdata += ']';
                         }
                         gen.writeEndObject();
                     }
-                    //system.debug('JSON--'+gen.getAsString());
                     gen.writeEndArray();
                 }
                 gen.writeEndObject();
             }
             gen.writeEndArray();
             gen.writeEndObject();
-            //sdata += ']}';
-            //system.debug('***Final' + sdata);
         }
+        
         String sdata = gen.getAsString();
+        System.debug('sdata'+sdata );
         Object obj = Json.deserializeUntyped(sdata);
         return obj;
     }
-    @RemoteAction  
-    global static Object mysampledata1(string abc) {
-        Integer UserId = 123804;
-        List<MYBZ_Trend__c> TrendsList = [Select Name,Month__c,Year__c,Product__c,Product__r.Name,Lilly_Product__c,TRx_Units__c,percentageChangeFromPreviousMonth__c,Global_ID__c from MYBZ_Trend__c where Global_ID__c=:UserId order by Year__c,Month__c asc];
-        //Set<Decimal> TrendsMonthsSet = new Set<Decimal>();
-        Set<Decimal> TrendsYearsSet = new Set<Decimal>();
-        List<Decimal> TempTrendsMonthsList = new List<Decimal>();
-        List<Decimal> TempTrendsYearsList = new List<Decimal>();
-        //List<Decimal> TrendsMonthsListWithoutDuplicates = new List<Decimal>();
-        List<Decimal> TrendsYearsListWithoutDuplicates = new List<Decimal>();
-        Map<Decimal,List<Decimal>> YearMonthWithoutDuplicateMap = new Map<Decimal,List<Decimal>>();
-        Map<Decimal,List<MYBZ_Trend__c>> MonthTrendMap = new Map<Decimal,List<MYBZ_Trend__c>>();
-        Map<Decimal, Map<Decimal,List<MYBZ_Trend__c>>> YearTrendMap = new Map<Decimal, Map<Decimal,List<MYBZ_Trend__c>>>();
-        for(MYBZ_Trend__c t : TrendsList)
-        {
-            TempTrendsMonthsList.add(t.Month__c);
-            TempTrendsYearsList.add(t.Year__c);
-        }
-        for(MYBZ_Trend__c t : TrendsList) {          
-            if (TrendsYearsSet.add(t.Year__c)) {
-            TrendsYearsListWithoutDuplicates.add(t.Year__c);
-            }
-        }
-        for(Decimal y : TrendsYearsListWithoutDuplicates)
-        {
-             List<Decimal> TrendsMonthsListWithoutDuplicatesByYear = new List<Decimal>();
-              Set<Decimal> TrendsMonthsSet = new Set<Decimal>();
-              for(MYBZ_Trend__c t : TrendsList) {
-             if (TrendsMonthsSet.add(t.Month__c)&&t.Year__c==y) {
-            TrendsMonthsListWithoutDuplicatesByYear .add(t.Month__c);
-            }
-           } 
-            YearMonthWithoutDuplicateMap.put(y,TrendsMonthsListWithoutDuplicatesByYear);
-        }
-       
-          for(Decimal year : TrendsYearsListWithoutDuplicates)
-          { 
-            List<Decimal> TrendsMonthsListWithoutDuplicatesByYearTest = YearMonthWithoutDuplicateMap.get(year);  
-            for (Decimal month : TrendsMonthsListWithoutDuplicatesByYearTest)
-            {
-            List<MYBZ_Trend__c> TrendsMonthsList = new List<MYBZ_Trend__c>();
-            for(MYBZ_Trend__c t : TrendsList)
-            {
-              if(t.Month__c == month && t.Year__c==year)
-              {
-                TrendsMonthsList.add(t);
-              }
-            }
-            MonthTrendMap.put(month,TrendsMonthsList);
-            }
-            YearTrendMap.put(year,MonthTrendMap);
-        }   
-        system.debug('3&&&&&&&' + MonthTrendMap);
-        system.debug('4&&&&&&&' + YearTrendMap);
-        //Initializing JSON string
-        string sdata='[';
-    Integer yearcount=0;    
-    for(Decimal year : TrendsYearsListWithoutDuplicates)
+    @RemoteAction 
+    global static Object Alignment()
     {
-        yearcount++;
-        Integer monthcount = 0;
-        Map<Decimal,List<MYBZ_Trend__c>> NewMonthTrendMap = new Map<Decimal,List<MYBZ_Trend__c>>();
-        List<Decimal> NewTrendsMonthsListWithoutDuplicatesByYearNew = YearMonthWithoutDuplicateMap.get(year);
-        NewMonthTrendMap=YearTrendMap.get(year);
-        for(Decimal month : NewTrendsMonthsListWithoutDuplicatesByYearNew)
-        {
-            monthcount++;
-            sdata+='{';
-            sdata+='"month":'+ month + ',';
-            integer test=1;
-            Integer trendscount = 0;
-            List<MYBZ_Trend__c> TrendsListByMonth = NewMonthTrendMap.get(month);
-            for(MYBZ_Trend__c trend:TrendsListByMonth)
-            {       
-                    if(test==1)
-                    {
-                        sdata+='"year":'+trend.Year__c + ',';
-                        sdata+='"products":';
-                        sdata+='[';
-                        test=0;
-                    }    
-                    trendscount++;
-                    //MYBZ_Product__c associatedproduct = [select Id,Name,Lilly_MYBZ_Product__c from MYBZ_Product__c where id=:trend.MYBZ_Product__c]
-                    sdata+='{';
-                    sdata+='"productName":';
-                    sdata+='"'+trend.Product__r.Name+'",';
-                    sdata+='"trx":';
-                    sdata+=trend.TRx_Units__c+',';
-                    sdata+='"percentageChangeFromPreviousMonth":';
-                    sdata+=trend.percentageChangeFromPreviousMonth__c+',';
-                   // sdata+='"percentageChangeFromPreviousThreeMonths":';
-                    //sdata+=trend.Percentage_Change_Previous_Three_Months__c+',';
-                    //sdata+='"percentageChangeFromPreviousSixMonths":';
-                    //sdata+=trend.Percentage_Change_Previous_Six_Months__c+',';
-                    sdata+='"lillyProduct":';
-                    sdata+=trend.Lilly_Product__c;
-                    sdata+='}';
-                    if(trendscount<TrendsListByMonth.size())
-                    {
-                        sdata+=',';
-                    }
-                    else
-                    {
-                        sdata+=']';
-                        sdata+='}';
-                    }  
-             }
-              if(monthcount<NewTrendsMonthsListWithoutDuplicatesByYearNew.size())
-                        {
-                            sdata+=',';
-                        }
-                        else
-                        {
-                            if(yearcount<TrendsYearsListWithoutDuplicates.size())
-                            {
-                            sdata+=',';
-                            }
-                            else
-                            {
-                           sdata+=']';
-                            }
-                        }
-             
-         }
-     }    
-        System.Debug('$$$$$' + sdata);
-        //Converting string to JSON object
-        Object obj=Json.deserializeUntyped(sdata);
-        return obj;
+        Id UserId = UserInfo.getUserId();
         
-    //Marks end of remote action    
-    }
-   @RemoteAction  
-  global static Object mysampledata2(string abc) {
-        List<MYBZ_Market_Share__c> MarketShareList = [Select Name,Month__c,Year__c,Product__c,TRx__c from MYBZ_Market_Share__c where Month__c<13 order by Month__c asc];
-        List<MYBZ_Product__c> ProductsList = [select id,Name from MYBZ_Product__c];
+        String GlobalId;
+        String Role;
         
-        //Initializing JSON string
-        string sdata='[';
-
-        integer test = 1;
-        integer products=0;
-        integer MarketShareCount=0;
-        integer productcount = ProductsList.size();
+        User userObj = [SELECT MYBZ_Role__c, Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
         
-        for(MYBZ_Market_Share__c mshare:MarketShareList)
-        {
-            MarketShareCount++;
-            if(test==1)
-            {
-                sdata+='{';
-                sdata+='"month":'+ mshare.Month__c + ',';
-                sdata+='"year":'+mshare.Year__c + ',';
-                sdata+='"products":';
-                sdata+='[';
-                MYBZ_product__c associatedproduct = [select Id,Name from MYBZ_product__c where id=:mshare.Product__c];
-                products++;
-                sdata+='{';
-                sdata+='"productName":';
-                sdata+='"'+associatedproduct.Name+'",';
-                sdata+='"trx":';
-                sdata+=mshare.TRx__c;
-                sdata+='},';
-                test=0;
+        Role = userObj.MYBZ_Role__c;
+        
+        GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+        
+        JSONGenerator gen;
+        gen = JSON.createGenerator(true);
+        if(Role == 'Sales Representative'){
+            List < MYBZ_Territory__c > salesRepTerritoryList = [SELECT Name, Global_Id__c, State__r.Name, State__r.Global_Id__c, Region_Name__c, Region_Global_ID__c FROM MYBZ_Territory__c WHERE Global_Id__c = :GlobalId LIMIT 1];
+            if(!salesRepTerritoryList.isEmpty()){
+                gen.writeStartArray();
+                gen.writeStartObject();
+                for(MYBZ_Territory__c territoryObj : salesRepTerritoryList){
+                    gen.writeStringField('name',territoryObj.Region_Name__c);
+                    gen.writeStringField('globalID',territoryObj.Region_Global_ID__c);
+                    gen.writeFieldName('children');
+                    gen.writeStartArray();
+                    gen.writeStartObject();
+                    gen.writeStringField('name',territoryObj.State__r.Name);
+                    gen.writeStringField('globalID',territoryObj.State__r.Global_Id__c);
+                    gen.writeFieldName('children');
+                    gen.writeStartArray();
+                    gen.writeStartObject();
+                    gen.writeStringField('name',territoryObj.Name);
+                    gen.writeStringField('globalID',territoryObj.Global_Id__c);
+                    gen.writeEndObject();
+                    gen.writeEndArray();
+                    gen.writeEndObject();
+                    gen.writeEndArray();
+                }
+                gen.writeEndObject();
+                gen.writeEndArray();
             }
-            else
+        }
+        if(Role == 'District Sales Manager'){
+            List <MYBZ_District__c> districtManagerList = [SELECT Id, Name, Global_Id__c, Region__r.Name, Region__r.Global_Id__c FROM MYBZ_District__c WHERE Global_Id__c =: GlobalId LIMIT 1];
+            Map<String, String> TerritoryNameAndGlobalIdMap = new Map<String, String>();
+            
+            if(!districtManagerList.isEmpty()){
+                Id districtId = districtManagerList[0].Id;
+                
+                for(MYBZ_Territory__c territoryObj : [SELECT Name, Global_Id__c FROM MYBZ_Territory__c WHERE State__c =:districtId]){
+                    if(!TerritoryNameAndGlobalIdMap.containsKey(territoryObj.Name)){
+                        TerritoryNameAndGlobalIdMap.put(territoryObj.Name, territoryObj.Global_Id__c);
+                    }
+                }
+            }
+            if(!districtManagerList.isEmpty() && !TerritoryNameAndGlobalIdMap.isEmpty()){
+                gen.writeStartArray();
+                gen.writeStartObject();
+                for(MYBZ_District__c districtObj : districtManagerList){
+                    gen.writeStringField('name',districtObj.Region__r.Name);
+                    gen.writeStringField('globalID',districtObj.Region__r.Global_Id__c);
+                    gen.writeFieldName('children');
+                    gen.writeStartArray();
+                    gen.writeStartObject();
+                    gen.writeStringField('name',districtObj.Name);
+                    gen.writeStringField('globalID',districtObj.Global_Id__c);
+                    gen.writeFieldName('children');
+                    gen.writeStartArray();
+                    if(!TerritoryNameAndGlobalIdMap.isEmpty()){
+                        for(String territoryName : TerritoryNameAndGlobalIdMap.keySet()){
+                            gen.writeStartObject();
+                            gen.writeStringField('name',territoryName);
+                            gen.writeStringField('globalID',TerritoryNameAndGlobalIdMap.get(territoryName));
+                            gen.writeEndObject();
+                        }
+                    }
+                    gen.writeEndArray();
+                    gen.writeEndObject();
+                    gen.writeEndArray();
+                }
+                gen.writeEndObject();
+                gen.writeEndArray();
+            }
+        }
+        if(Role == 'Major Marketing Manager'){
+            List <MYBZ_Region__c> regionalManagerList = [SELECT Id, Name, Global_Id__c FROM MYBZ_Region__c WHERE Global_Id__c =: GlobalId LIMIT 1];
+            Map<String, String> DistrictNameAndGlobalIdMap = new Map<String, String>();
+            Map<String, List<MYBZ_Territory__c>> DistrictNameAndTerritoryListMap = new Map<String, List<MYBZ_Territory__c>>();
+            
+            if(!regionalManagerList.isEmpty()){
+                Id regionId = regionalManagerList[0].Id;
+                
+                for(MYBZ_District__c districtObj : [SELECT Id, Name, Global_Id__c FROM MYBZ_District__c WHERE Region__c =:regionId]){
+                    if(!DistrictNameAndGlobalIdMap.containsKey(districtObj.Name)){
+                        DistrictNameAndGlobalIdMap.put(districtObj.Name, districtObj.Global_Id__c);
+                    }
+                }
+                if(!DistrictNameAndGlobalIdMap.isEmpty()){
+                    for(MYBZ_Territory__c territoryObj : [SELECT Id, Name, Global_Id__c, State__r.Name FROM MYBZ_Territory__c WHERE State__r.Name IN: DistrictNameAndGlobalIdMap.keySet()]){
+                        if(!DistrictNameAndTerritoryListMap.containsKey(territoryObj.State__r.Name)){
+                            List<MYBZ_Territory__c> territoryList = new List<MYBZ_Territory__c>();
+                            territoryList.add(territoryObj);
+                        }
+                        else{
+                            DistrictNameAndTerritoryListMap.get(territoryObj.State__r.Name).add(territoryObj);
+                        }
+                    }
+                }
+            }
+            if(!regionalManagerList.isEmpty() && !DistrictNameAndGlobalIdMap.isEmpty() && !DistrictNameAndTerritoryListMap.isEmpty()){
+                gen.writeStartArray();
+                gen.writeStartObject();
+                for(MYBZ_Region__c regionObj : regionalManagerList){
+                    gen.writeStringField('name',regionObj.Name);
+                    gen.writeStringField('globalID',regionObj.Global_Id__c);
+                }
+                gen.writeFieldName('children');
+                gen.writeStartArray();
+                for(String districtName : DistrictNameAndGlobalIdMap.keySet()){
+                    gen.writeStartObject();
+                    gen.writeStringField('name',districtName);
+                    gen.writeStringField('globalID',DistrictNameAndGlobalIdMap.get(districtName));
+                    if(DistrictNameAndTerritoryListMap.containsKey(districtName)){
+                        gen.writeFieldName('children');
+                        gen.writeStartArray();
+                        for(MYBZ_Territory__c territoryObj : DistrictNameAndTerritoryListMap.get(districtName)){
+                            gen.writeStartObject();
+                            gen.writeStringField('name',territoryObj.Name);
+                            gen.writeStringField('globalID',territoryObj.Global_Id__c);
+                            gen.writeEndObject();
+                        }
+                        gen.writeEndArray();
+                    }
+                    gen.writeEndObject();
+                }
+                gen.writeEndArray();
+                gen.writeEndObject();
+                gen.writeEndArray();
+            }
+        }
+        if(Role == 'Super User'){
+            Set<Id> regionIds = new Set<Id>();
+            Set<Id> districtIds = new Set<Id>();
+            MYBZ_IHS_Division__c divisionObj = [SELECT Id, Name FROM MYBZ_IHS_Division__c LIMIT 1];
+            Map<String, String> RegionNameAndGlobalIdMap = new Map<String, String>();
+            Map<String, Set<String>> RegionNameAndDistrictMap = new Map<String, Set<String>>();
+            Map<String, String> DistrictNameAndGlobalIdMap = new Map<String, String>();
+            Map<String, Set<String>> DistrictNameAndTerritoryMap = new Map<String, Set<String>>();
+            Map<String, String> TerritoryNameAndGlobalIdMap = new Map<String, String>();
+            
+            List <MYBZ_Region__c> regionList = [SELECT Id, Name, Global_Id__c FROM MYBZ_Region__c WHERE Parent__c = : divisionObj.id];
+            if(!regionList.isEmpty())
             {
-                MYBZ_product__c associatedproduct = [select Id,Name from MYBZ_product__c where id=:mshare.Product__c];
-                products++;
-                sdata+='{';
-                sdata+='"productName":';
-                sdata+='"'+associatedproduct.Name+'",';
-                sdata+='"trx":';
-                sdata+=mshare.TRx__c;
-                sdata+='}';
-                if(products<productcount)
+                for(MYBZ_Region__c regionObj : regionList){
+                    if(!RegionNameAndGlobalIdMap.containsKey(regionObj.Name)){
+                        RegionNameAndGlobalIdMap.put(regionObj.Name, regionObj.Global_Id__c);
+                    }
+                    regionIds.add(regionObj.Id);
+                }
+            }
+            for(MYBZ_District__c districtObj : [SELECT Id, Name, Global_Id__c, Region__r.Name FROM MYBZ_District__c WHERE Region__c IN: regionIds]){
+                districtIds.add(districtObj.Id);
+                if(!RegionNameAndDistrictMap.containsKey(districtObj.Region__r.Name)){
+                    Set<String> districtNames = new Set<String>();
+                    districtNames.add(districtObj.Name);
+                    RegionNameAndDistrictMap.put(districtObj.Region__r.Name, districtNames);
+                }
+                else{
+                    RegionNameAndDistrictMap.get(districtObj.Region__r.Name).add(districtObj.Name);
+                }
+                if(!DistrictNameAndGlobalIdMap.containsKey(districtObj.Name)){
+                    DistrictNameAndGlobalIdMap.put(districtObj.Name, districtObj.Global_Id__c);
+                }
+            }
+            for(MYBZ_Territory__c territoryObj : [SELECT Id, Name, Global_Id__c, State__r.Name FROM MYBZ_Territory__c WHERE State__c IN: districtIds]){
+                if(!DistrictNameAndTerritoryMap.containsKey(territoryObj.State__r.Name)){
+                    Set<String> territoryNames = new Set<String>();
+                    territoryNames.add(territoryObj.Name);
+                    DistrictNameAndTerritoryMap.put(territoryObj.State__r.Name, territoryNames);
+                }
+                else{
+                    DistrictNameAndTerritoryMap.get(territoryObj.State__r.Name).add(territoryObj.Name);
+                }
+                if(!TerritoryNameAndGlobalIdMap.containsKey(territoryObj.Name)){
+                    TerritoryNameAndGlobalIdMap.put(territoryObj.Name, territoryObj.Global_Id__c);
+                }
+            }
+            
+            if(!RegionNameAndGlobalIdMap.isEmpty() && !RegionNameAndDistrictMap.isEmpty() && !DistrictNameAndGlobalIdMap.isEmpty() && !DistrictNameAndTerritoryMap.isEmpty() && !TerritoryNameAndGlobalIdMap.isEmpty()){
+                gen.writeStartArray();
+                System.debug('Inside');
+                for(String regionName : RegionNameAndGlobalIdMap.keySet()){
+                    gen.writeStartObject();
+                    gen.writeStringField('name',regionName);
+                    String regionGlobalId = RegionNameAndGlobalIdMap.get(regionName);
+                    gen.writeStringField('globalID',regionGlobalId);
+                    
+                    if(RegionNameAndDistrictMap.containsKey(regionName)){
+                        gen.writeFieldName('children');
+                        gen.writeStartArray();
+                        
+                        for(String districtName : RegionNameAndDistrictMap.get(regionName)){
+                            gen.writeStartObject();
+                            gen.writeStringField('name',districtName);
+                            String districtGlobalId = DistrictNameAndGlobalIdMap.get(districtName);
+                            gen.writeStringField('globalID',districtGlobalId);
+                            if(DistrictNameAndTerritoryMap.containsKey(districtName)){
+                                gen.writeFieldName('children');
+                                gen.writeStartArray();
+                                for(String territoryName : DistrictNameAndTerritoryMap.get(districtName)){
+                                    gen.writeStartObject();
+                                    gen.writeStringField('name',territoryName);
+                                    String territoryGlobalId = TerritoryNameAndGlobalIdMap.get(territoryName);
+                                    if(territoryGlobalId == null || territoryGlobalId == '')
+                                        gen.writeNullField('globalID'); 
+                                    else
+                                        gen.writeStringField('globalID',territoryGlobalId);
+                                    gen.writeEndObject();
+                                }
+                                gen.writeEndArray();
+                            }
+                            gen.writeEndObject();
+                        }
+                        gen.writeEndArray();
+                    }
+                    gen.writeEndObject();
+                }
+                gen.writeEndArray();
+            }
+        }
+        String sdata = gen.getAsString();
+        System.debug('sdata'+sdata );
+        Object obj = Json.deserializeUntyped(sdata);
+        return obj;
+    }
+    
+    public static void ParamtersFunctionForTargetGoal(){
+        if(targetGoalDistrictName !=null && targetGoalDistrictName !=''){
+            TargetGoal();
+        }
+    }
+    
+    @RemoteAction 
+    global static Object TargetGoal()
+    {
+        Id UserId = UserInfo.getUserId();
+        
+        String GlobalId;
+        String Role;
+        
+        User userObj = [SELECT MYBZ_Role__c, Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
+        
+        Role = userObj.MYBZ_Role__c;
+        
+        GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+        
+        JSONGenerator gen;
+        List<MYBZ_Target_Goal__c> targetGoalList;
+        
+        Set<Decimal> targetGoalYear = new Set<Decimal>();
+        Map<Decimal, Set<Decimal>> YearAndMonthsMap = new Map<Decimal, Set<Decimal>>();
+        
+        Map<Decimal, Map<Decimal, List<MYBZ_Target_Goal__c>>> YearAndMonthTargetGoalMap = new Map<Decimal, Map<Decimal, List<MYBZ_Target_Goal__c>>>();
+        if(Role == 'District Sales Manager'){
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
+        }
+        else if(Role == 'Sales Representative'){
+            MYBZ_Territory__c territoryObj = [SELECT Id, State__r.Name FROM MYBZ_Territory__c WHERE Global_Id__c =:GlobalId LIMIT 1];
+            String associatedDistrictName = territoryObj.State__r.Name;
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:associatedDistrictName ORDER BY Month__c, Year__c ASC];
+        }
+        else if(Role == 'Major Marketing Manager' && targetGoalDistrictName !=null && targetGoalDistrictName !=''){
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:targetGoalDistrictName ORDER BY Month__c, Year__c ASC];
+        }
+        
+        if(!targetGoalList.isEmpty()){
+            for(MYBZ_Target_Goal__c targetGoalObj : targetGoalList){
+                targetGoalYear.add(targetGoalObj.Year__c);
+            }
+        }
+        if(!targetGoalYear.isEmpty()){
+            for(Decimal year : targetGoalYear){
+                for(MYBZ_Target_Goal__c targetGoalObj : targetGoalList){
+                    if(targetGoalObj.Year__c == year){
+                        if(!YearAndMonthsMap.containsKey(year)){
+                            Set<Decimal> MonthsSet = new Set<Decimal>();
+                            MonthsSet.add(targetGoalObj.Month__c);
+                            YearAndMonthsMap.put(year, MonthsSet);
+                        }
+                        else{
+                            YearAndMonthsMap.get(year).add(targetGoalObj.Month__c);
+                        }
+                    }
+                }
+            }
+        }
+        if(!targetGoalYear.isEmpty() && !YearAndMonthsMap.isEmpty()){
+            for(Decimal year : targetGoalYear){
+                Map<Decimal, List<MYBZ_Target_Goal__c>> MonthAndTargetGoalMap = new Map<Decimal, List<MYBZ_Target_Goal__c>>();
+                if(YearAndMonthsMap.containsKey(year)){
+                    for(Decimal month : YearAndMonthsMap.get(year)){
+                        List<MYBZ_Target_Goal__c> targetGoalMonthList = new List<MYBZ_Target_Goal__c>();
+                        for(MYBZ_Target_Goal__c targetGoalObj : targetGoalList){
+                            if(targetGoalObj.Month__c == month && targetGoalObj.Year__c == year){
+                                targetGoalMonthList.add(targetGoalObj);
+                            }
+                        }
+                        MonthAndTargetGoalMap.put(month, targetGoalMonthList);
+                    }
+                }
+                YearAndMonthTargetGoalMap.put(year, MonthAndTargetGoalMap);
+            }
+        }
+        if(!targetGoalYear.isEmpty() && !YearAndMonthTargetGoalMap.isEmpty()){
+            gen = JSON.createGenerator(true);
+            gen.writeStartArray();
+            for(Decimal year : targetGoalYear){
+                if(YearAndMonthTargetGoalMap.containsKey(year)){
+                    Map<Decimal, List<MYBZ_Target_Goal__c>> TempMonthAndTargetGoalMap = YearAndMonthTargetGoalMap.get(year);
+                    for(Decimal month : TempMonthAndTargetGoalMap.keySet()){
+                        gen.writeStartObject();
+                        gen.writeNumberField('month',month);
+                        gen.writeNumberField('year',year);
+                        if(TempMonthAndTargetGoalMap.get(month) !=null){
+                            gen.writeFieldName('goals');
+                            gen.writeStartArray();
+                            for(MYBZ_Target_Goal__c targetGoalObj : TempMonthAndTargetGoalMap.get(month)){
+                                gen.writeStartObject();
+                                gen.writeStringField('productName',targetGoalObj.Product__r.Name);
+                                gen.writeNumberField('goalSet',targetGoalObj.TRx_Goal__c);
+                                gen.writeNumberField('goalMet',targetGoalObj.TRx_Goal_Attainment__c);
+                                gen.writeEndObject();
+                            }
+                            gen.writeEndArray();
+                        }
+                        gen.writeEndObject();
+                    }
+                }
+            }
+            gen.writeEndArray();
+        }
+        String sdata = gen.getAsString();
+        System.debug('sdata----'+sdata);
+        Object obj = Json.deserializeUntyped(sdata);
+        return obj;
+    }
+    public static void ParamtersFunctionForProductTrends(){
+        if(productTrendRegionName !=null && productTrendRegionName !=''){
+            ProductTrends();
+        }
+        if(productTrendDistrictName !=null && productTrendDistrictName !=''){
+            ProductTrends();
+        }
+        if(productTrendTerritoryName !=null && productTrendTerritoryName !=''){
+            ProductTrends();
+        }
+    }
+    
+    
+    @RemoteAction 
+    global static Object ProductTrends()
+    {
+        Id UserId = UserInfo.getUserId();
+        
+        String GlobalId;
+        String Role;
+        
+        User userObj = [SELECT MYBZ_Role__c, Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
+        
+        Role = userObj.MYBZ_Role__c;
+        
+        GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+        
+        JSONGenerator gen;
+        List<MYBZ_Market_Share__c> productTrendsList;
+        
+        Set<Decimal> productTrendYear = new Set<Decimal>();
+        Map<Decimal, Set<Decimal>> YearAndMonthsMap = new Map<Decimal, Set<Decimal>>();
+        
+        Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>> YearAndMonthProductTrendMap = new Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>>();
+        
+        if((Role == 'Major Marketing Manager' || Role == 'District Sales Manager' || Role == 'Sales Representative') && (productTrendRegionName ==null || productTrendRegionName =='') && (productTrendDistrictName == null || productTrendDistrictName == '') && (productTrendTerritoryName == null || productTrendTerritoryName == '')){
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+        }
+        if(Role == 'Major Marketing Manager' && productTrendRegionName !=null && productTrendRegionName !=''){
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =:productTrendRegionName AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+        }
+        if((Role == 'Major Marketing Manager' || Role == 'District Sales Manager') && productTrendDistrictName !=null && productTrendDistrictName !=''){
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:productTrendDistrictName AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+        }
+        if(Role == 'District Sales Manager' && productTrendTerritoryName !=null && productTrendTerritoryName !=''){
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:productTrendTerritoryName AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+        }
+        system.debug('productTrendsList---'+productTrendsList);
+        if(!productTrendsList.isEmpty()){
+            for(MYBZ_Market_Share__c productTrendObj : productTrendsList){
+                productTrendYear.add(productTrendObj.Year__c);
+            }
+        }
+        if(!productTrendYear.isEmpty()){
+            for(Decimal year : productTrendYear){
+                for(MYBZ_Market_Share__c productTrendObj : productTrendsList){
+                    if(productTrendObj.Year__c == year){
+                        if(!YearAndMonthsMap.containsKey(year)){
+                            Set<Decimal> MonthsSet = new Set<Decimal>();
+                            MonthsSet.add(productTrendObj.Month__c);
+                            YearAndMonthsMap.put(year, MonthsSet);
+                        }
+                        else{
+                            YearAndMonthsMap.get(year).add(productTrendObj.Month__c);
+                        }
+                    }
+                }
+            }
+        }
+        if(!productTrendYear.isEmpty() && !YearAndMonthsMap.isEmpty()){
+            for(Decimal year : productTrendYear){
+                
+                Map<Decimal, List<MYBZ_Market_Share__c>> MonthAndProductTrendMap = new Map<Decimal, List<MYBZ_Market_Share__c>>();
+                if(YearAndMonthsMap.containsKey(year)){
+                    for(Decimal month : YearAndMonthsMap.get(year)){
+                        List<MYBZ_Market_Share__c> productTrendMonthList = new List<MYBZ_Market_Share__c>();
+                        for(MYBZ_Market_Share__c productTrendObj : productTrendsList){
+                            if(productTrendObj.Month__c == month && productTrendObj.Year__c == year){
+                                productTrendMonthList.add(productTrendObj);
+                            }
+                        }
+                        MonthAndProductTrendMap.put(month, productTrendMonthList);
+                    }
+                }
+                YearAndMonthProductTrendMap.put(year, MonthAndProductTrendMap);
+            }
+        }
+        system.debug('YearAndMonthProductTrendMap---'+YearAndMonthProductTrendMap);
+        if(!productTrendYear.isEmpty() && !YearAndMonthProductTrendMap.isEmpty()){
+            gen = JSON.createGenerator(true);
+            gen.writeStartArray();
+            for(Decimal year : productTrendYear){
+                if(YearAndMonthProductTrendMap.containsKey(year)){
+                    Map<Decimal, List<MYBZ_Market_Share__c>> TempMonthAndProductTrendMap = YearAndMonthProductTrendMap.get(year);
+                    for(Decimal month : TempMonthAndProductTrendMap.keySet()){
+                        gen.writeStartObject();
+                        gen.writeNumberField('month',month);
+                        gen.writeNumberField('year',year);
+                        if(TempMonthAndProductTrendMap.get(month) !=null){
+                            gen.writeFieldName('products');
+                            gen.writeStartArray();
+                            for(MYBZ_Market_Share__c productTrendObj : TempMonthAndProductTrendMap.get(month)){
+                                gen.writeStartObject();
+                                gen.writeStringField('productName',productTrendObj.Product__r.Name);
+                                gen.writeNumberField('trx',productTrendObj.TRx__c);
+                                gen.writeNumberField('percentageChangeFromPreviousMonth',productTrendObj.percentageChangeFromPreviousMonth__c);
+                                gen.writeBooleanField('lillyProduct',productTrendObj.lillyProduct__c);
+                                gen.writeEndObject();
+                            }
+                            gen.writeEndArray();
+                        }
+                        gen.writeEndObject();
+                    }
+                }
+            }
+            gen.writeEndArray();
+        }
+        String sdata = gen.getAsString();
+        System.debug('sdata---'+sdata);
+        Object obj = Json.deserializeUntyped(sdata);
+        return obj;
+    }
+    
+    public static void ParamtersFunctionForMarketShare(){
+        if(marketShareRegionName !=null && marketShareRegionName !=''){
+            MarketShare();
+        }
+        if(marketShareDistrictName !=null && marketShareDistrictName !=''){
+            MarketShare();
+        }
+        if(marketShareTerritoryName !=null && marketShareTerritoryName !=''){
+            MarketShare();
+        }
+    }
+    
+    
+    @RemoteAction 
+    global static Object MarketShare()
+    {
+        Id UserId = UserInfo.getUserId();
+        
+        String GlobalId;
+        String Role;
+        
+        User userObj = [SELECT MYBZ_Role__c, Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
+        
+        Role = userObj.MYBZ_Role__c;
+        
+        GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+        
+        JSONGenerator gen;
+        
+        Map<String, Set<Decimal>> MarketShareNameAndYearMap = new Map<String, Set<Decimal>>();
+        Map<String, Map<Decimal, Set<Decimal>>>MarketShareNameAndYearMonthMap = new Map<String, Map<Decimal, Set<Decimal>>>();
+        
+        
+        
+        Map<String, Map<Decimal, List<MYBZ_Market_Share__c>>> MarketShareNameAndMarketShareMap = new Map<String, Map<Decimal, List<MYBZ_Market_Share__c>>>();
+        
+        List<MYBZ_Market_Share__c> marketShareList;
+        if((Role == 'Major Marketing Manager' || Role == 'District Sales Manager' || Role == 'Sales Representative')  && (marketShareRegionName == null || marketShareRegionName == '') && (marketShareDistrictName == null || marketShareDistrictName == '') && (marketShareTerritoryName == null || marketShareTerritoryName == '')){
+            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
+        }
+        if(Role == 'Major Marketing Manager' && productTrendRegionName !=null && productTrendRegionName !=''){
+            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =:marketShareRegionName ORDER BY Month__c, Year__c ASC];
+        }
+        if((Role == 'Major Marketing Manager' || Role == 'District Sales Manager') && marketShareDistrictName !=null &&marketShareDistrictName !=''){
+            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:marketShareDistrictName ORDER BY Month__c, Year__c ASC];
+        }
+        if(Role == 'District Sales Manager' && marketShareTerritoryName !=null && marketShareTerritoryName !=''){
+            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:marketShareTerritoryName ORDER BY Month__c, Year__c ASC];
+        }
+        if(!marketShareList.isEmpty()){
+            for(MYBZ_Market_Share__c marketShareObj : marketShareList){
+                if(!MarketShareNameAndYearMap.containsKey(marketShareObj.Market__c)){
+                    Set<Decimal> YearSet = new Set<Decimal>();
+                    YearSet.add(marketShareObj.Year__c);
+                    MarketShareNameAndYearMap.put(marketShareObj.Market__c, YearSet);
+                }
+                else{
+                    MarketShareNameAndYearMap.get(marketShareObj.Market__c).add(marketShareObj.Year__c);
+                }
+            }
+        }
+        if(!MarketShareNameAndYearMap.isEmpty()){
+            for(String marketShareName : MarketShareNameAndYearMap.keySet()){
+                Map<Decimal, Set<Decimal>> YearAndMonthsMap = new Map<Decimal, Set<Decimal>>();
+                for(MYBZ_Market_Share__c marketShareObj : marketShareList){
+                    if(marketShareObj.Market__c == marketShareName){
+                        Set<Decimal> marketYears = MarketShareNameAndYearMap.get(marketShareName);
+                        for(Decimal Year : marketYears){
+                            if(marketShareObj.Year__c == Year){
+                                if(!YearAndMonthsMap.containsKey(Year)){
+                                    Set<Decimal> MonthsSet = new Set<Decimal>();
+                                    MonthsSet.add(marketShareObj.Month__c);
+                                    YearAndMonthsMap.put(year, MonthsSet);
+                                }
+                                else{
+                                    YearAndMonthsMap.get(year).add(marketShareObj.Month__c);
+                                }
+                            }
+                        }
+                    }
+                }
+                MarketShareNameAndYearMonthMap.put(marketShareName,YearAndMonthsMap);
+            }
+        }
+        if(!MarketShareNameAndYearMonthMap.isEmpty()){
+            for(String marketShareName : MarketShareNameAndYearMonthMap.keySet()){
+                Map<Decimal, Set<Decimal>> YearAndMonthsMap = MarketShareNameAndYearMonthMap.get(marketShareName);
+                List<MYBZ_Market_Share__c> marketList = new List<MYBZ_Market_Share__c>();
+                Map<Decimal, List<MYBZ_Market_Share__c>> YearAndMarketShareMap = new Map<Decimal, List<MYBZ_Market_Share__c>>();
+                for(Decimal year : YearAndMonthsMap.keySet()){
+                    Set<Decimal>MonthsSet = YearAndMonthsMap.get(year);
+                    for(Decimal month : MonthsSet){
+                        Map<Decimal, List<MYBZ_Market_Share__c>> MonthAndMarketMap = new Map<Decimal, List<MYBZ_Market_Share__c>>();
+                        for(MYBZ_Market_Share__c marketShareObj : marketShareList){
+                            if(marketShareObj.Month__c == month && marketShareObj.Year__c == year && marketShareObj.Market__c == marketShareName){
+                                marketList.add(marketShareObj);
+                            }
+                        }
+                    }
+                    YearAndMarketShareMap.put(year, marketList);
+                }
+                MarketShareNameAndMarketShareMap.put(marketShareName, YearAndMarketShareMap);
+            }
+        }
+        system.debug('MarketShareNameAndMarketShareMap---'+MarketShareNameAndMarketShareMap);
+        if(!MarketShareNameAndYearMonthMap.isEmpty() && !MarketShareNameAndMarketShareMap.isEmpty()){
+            gen = JSON.createGenerator(true);
+            gen.writeStartArray();
+            for(String marketShareName : MarketShareNameAndMarketShareMap.keySet()){
+                Map<Decimal, Set<Decimal>> YearAndMonthMap = MarketShareNameAndYearMonthMap.get(marketShareName);
+                gen.writeStartObject();
+                gen.writeStringField('market',marketShareName);
+                if(MarketShareNameAndMarketShareMap.get(marketShareName) !=null){
+                    Map<Decimal, List<MYBZ_Market_Share__c>> YearAndMarketMap = MarketShareNameAndMarketShareMap.get(marketShareName);
+                    gen.writeFieldName('data');
+                    gen.writeStartArray();
+                    for(Decimal Year : YearAndMarketMap.KeySet()){
+                        Set<Decimal>MonthsSet = YearAndMonthMap.get(Year);
+                        List<MYBZ_Market_Share__c> marketList =  YearAndMarketMap.get(Year);
+                        System.debug('marketList---'+marketList);
+                        for(Decimal Month : MonthsSet){
+                            gen.writeStartObject();
+                            gen.writeNumberField('month',Month);
+                            gen.writeNumberField('year',Year);
+                            if(!marketList.isEmpty()){
+                                gen.writeFieldName('products');
+                                gen.writeStartArray();
+                                for(MYBZ_Market_Share__c marketShareObj : marketList){
+                                    Decimal percentageChangeSinceLastMonth;
+                                    if(marketShareObj.Market__c == marketShareName && marketShareObj.Year__c == Year && marketShareObj.Month__c == Month){
+                                        gen.writeStartObject();
+                                        if(marketShareObj.TRx__c == 0 || marketShareObj.Previous_Month_TRx__c == 0)
+                                            percentageChangeSinceLastMonth = 0;
+                                        else
+                                            percentageChangeSinceLastMonth = ((marketShareObj.TRx__c - marketShareObj.Previous_Month_TRx__c) / marketShareObj.Previous_Month_TRx__c);
+                                        gen.writeStringField('productName',marketShareObj.Product__r.Name);
+                                        gen.writeBooleanField('lillyProduct',marketShareObj.lillyProduct__c);
+                                        gen.writeNumberField('percentageChangeSinceLastMonth',percentageChangeSinceLastMonth);
+                                        gen.writeNumberField('trx',marketShareObj.TRx__c);
+                                        gen.writeEndObject();
+                                    }
+                                    
+                                }
+                                gen.writeEndArray();
+                            }
+                            gen.writeEndObject();
+                        }
+                    }
+                    gen.writeEndArray();
+                }
+                gen.writeEndObject();
+            }
+            gen.writeEndArray();
+        }
+        String sdata = gen.getAsString();
+        System.debug('sdata---'+sdata);
+        Object obj = Json.deserializeUntyped(sdata);
+        return obj;
+    }
+    @RemoteAction 
+    global static Object TrendsPrescriber()
+    {
+        Id UserId = UserInfo.getUserId();
+        
+        String GlobalId;
+        String Role;
+        
+        User userObj = [SELECT MYBZ_Role__c, Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
+        
+        Role = userObj.MYBZ_Role__c;
+        
+        GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+        
+        List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+        JSONGenerator gen = JSON.createGenerator(true);
+        gen.writeStartArray();  
+        String Years='';
+        String Months;
+        String Products;
+        Integer productprescribercount;
+        Integer firstiteration=1;
+    
+        //Looping over Trend-Details
+        for(MYBZ_Product_Trend_Detail__c trenddetails : TrendsDetailsList)
+        {
+            if(!Years.contains(String.Valueof(trenddetails.Year__c)))
+            {
+                Years+=trenddetails.Year__c;
+                Months = '';
+            }
+            if(!Months.contains(String.Valueof(trenddetails.Month__c)))
+            {
+                 if(firstiteration==1)
                 {
-                        sdata+=',';
+                    gen.writeStartObject();
+                    firstiteration=0;
                 }
                 else
                 {
-                        sdata+=']';
-                        sdata+='}';
-                        test=1;
-                        products=0;
-                        if(MarketShareCount<MarketShareList.size())
-                        {
-                            sdata+=',';
-                        }
-                        else
-                        {
-                            sdata+=']';
-                        }
+                    gen.writeEndArray();
+                    gen.writeEndObject();
+                    gen.writeStartObject();
                 }
-                
+                Months+=trenddetails.Month__c;
+                Products='';
+                gen.writeNumberField('month',trenddetails.Month__c);
+                //sdata+='"month":'+ month + ',';
+                gen.writeNumberField('year',trenddetails.Year__c);
+                gen.writeFieldName('products');
+                gen.writeStartArray();      
             }
-        }        
-      
-          System.debug('****'+sdata);
-        //Converting string to JSON object
-        Object obj=Json.deserializeUntyped(sdata);
+            if(!Products.contains(trenddetails.IHS_Product__r.Name))
+            {
+                Products+=trenddetails.IHS_Product__r.Name;
+                gen.writeStartObject();
+                gen.writeStringField('product',trenddetails.IHS_Product__r.Name);
+                gen.writeFieldName('topFivePrescribers');
+                gen.writeStartArray();
+                productprescribercount=0;
+            }
+            if(productprescribercount<=5)
+            {
+                productprescribercount++;
+                gen.writeStartObject();
+                gen.writeStringField('prescriberFirstName',trenddetails.HCP_First_Name__c);
+                gen.writeStringField('prescriberLastName',trenddetails.HCP_Last_Name__c);
+                gen.writeNumberField('trx',trenddetails.TRx_Units__c);
+                gen.writeEndObject();
+                if(productprescribercount==5)
+                {
+                gen.writeEndArray();
+                gen.writeEndObject();
+                }
+            }
+            else
+            {
+                continue;
+            }
+                
+        }
+        gen.writeEndArray();  
+        String sdata = gen.getAsString();
+        sdata=sdata.replaceall('\n','');
+        System.Debug('%%%%' + sdata);
+        Object obj = Json.deserializeUntyped(sdata);
         return obj;
-        
-    //Marks end of remote action    
     }
-   
 }

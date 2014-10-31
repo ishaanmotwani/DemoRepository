@@ -8,40 +8,24 @@
         <value>Districts</value>
     </caseValues>
     <fields>
-        <label><!-- Gross Margin (1 Month) --></label>
-        <name>Gross_Margin_1_Month__c</name>
+        <label><!-- Global Id --></label>
+        <name>Global_Id__c</name>
     </fields>
     <fields>
-        <label><!-- Gross Margin (3 Month) --></label>
-        <name>Gross_Margin_3_Month__c</name>
+        <label><!-- Gross Margin --></label>
+        <name>Gross_Margin__c</name>
     </fields>
     <fields>
-        <label><!-- Gross Margin (6 Month) --></label>
-        <name>Gross_Margin_6_Month__c</name>
+        <label><!-- NRx --></label>
+        <name>NRx__c</name>
     </fields>
     <fields>
-        <label><!-- Net Profit(1 month) --></label>
-        <name>Net_Profit_1_month__c</name>
+        <label><!-- Net Profit --></label>
+        <name>Net_Profit__c</name>
     </fields>
     <fields>
-        <label><!-- Net Profit(3 months) --></label>
-        <name>Net_Profit_3_months__c</name>
-    </fields>
-    <fields>
-        <label><!-- Net Profit(6 months) --></label>
-        <name>Net_Profit_6_months__c</name>
-    </fields>
-    <fields>
-        <label><!-- OPEX (1 Month) --></label>
-        <name>OPEX_1_Month__c</name>
-    </fields>
-    <fields>
-        <label><!-- OPEX (3 Month) --></label>
-        <name>OPEX_3_Month__c</name>
-    </fields>
-    <fields>
-        <label><!-- OPEX (6 Month) --></label>
-        <name>OPEX_6_Month__c</name>
+        <label><!-- OPEX --></label>
+        <name>OPEX__c</name>
     </fields>
     <fields>
         <label><!-- Product --></label>
@@ -49,9 +33,29 @@
         <relationshipLabel><!-- Districts --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Range --></label>
+        <name>Range__c</name>
+        <picklistValues>
+            <masterLabel>oneMonthData</masterLabel>
+            <translation><!-- oneMonthData --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>sixMonthData</masterLabel>
+            <translation><!-- sixMonthData --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>threeMonthData</masterLabel>
+            <translation><!-- threeMonthData --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
         <label><!-- Region --></label>
         <name>Region__c</name>
         <relationshipLabel><!-- Districts --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- TRx --></label>
+        <name>TRx__c</name>
     </fields>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

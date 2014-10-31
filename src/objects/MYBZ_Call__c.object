@@ -9,52 +9,29 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Call_Planning__c</fullName>
-        <label>Call Planning</label>
-        <referenceTo>MYBZ_Call_Planning__c</referenceTo>
-        <relationshipLabel>Calls</relationshipLabel>
-        <relationshipName>Calls</relationshipName>
-        <type>Lookup</type>
-    </fields>
-    <fields>
         <fullName>Call_Type__c</fullName>
         <label>Call Type</label>
         <length>255</length>
         <type>Text</type>
     </fields>
     <fields>
-        <fullName>Date__c</fullName>
-        <label>Date</label>
-        <type>DateTime</type>
+        <fullName>First_Name__c</fullName>
+        <label>First Name</label>
+        <length>255</length>
+        <type>Text</type>
     </fields>
     <fields>
-        <fullName>Email__c</fullName>
-        <label>Email</label>
-        <type>Email</type>
+        <fullName>Global_ID__c</fullName>
+        <label>Global ID</label>
+        <precision>10</precision>
+        <scale>0</scale>
+        <type>Number</type>
     </fields>
     <fields>
-        <fullName>HCP__c</fullName>
-        <label>HCP</label>
-        <referenceTo>Account</referenceTo>
-        <relationshipLabel>Calls</relationshipLabel>
-        <relationshipName>Calls</relationshipName>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Product1__c</fullName>
-        <label>Product1</label>
-        <referenceTo>MYBZ_Product__c</referenceTo>
-        <relationshipLabel>Calls</relationshipLabel>
-        <relationshipName>Calls</relationshipName>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Product2__c</fullName>
-        <label>Product2</label>
-        <referenceTo>MYBZ_Product__c</referenceTo>
-        <relationshipLabel>Calls (Product2)</relationshipLabel>
-        <relationshipName>Calls1</relationshipName>
-        <type>Lookup</type>
+        <fullName>Last_Name__c</fullName>
+        <label>Last Name</label>
+        <length>255</length>
+        <type>Text</type>
     </fields>
     <fields>
         <fullName>Product_Position__c</fullName>
@@ -62,6 +39,14 @@
         <precision>2</precision>
         <scale>0</scale>
         <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Product__c</fullName>
+        <label>Product</label>
+        <referenceTo>MYBZ_Product__c</referenceTo>
+        <relationshipLabel>Calls</relationshipLabel>
+        <relationshipName>Calls</relationshipName>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Territory__c</fullName>

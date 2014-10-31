@@ -8,8 +8,13 @@
         <value>Market Shares</value>
     </caseValues>
     <fields>
-        <label><!-- Email --></label>
-        <name>Email__c</name>
+        <label><!-- District --></label>
+        <name>District__c</name>
+        <relationshipLabel><!-- Market Shares --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Global Id --></label>
+        <name>Global_Id__c</name>
     </fields>
     <fields>
         <label><!-- Market --></label>
@@ -33,8 +38,9 @@
         <relationshipLabel><!-- Market Shares --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- Record ID --></label>
-        <name>Record_ID__c</name>
+        <label><!-- Region --></label>
+        <name>Region__c</name>
+        <relationshipLabel><!-- Market Shares --></relationshipLabel>
     </fields>
     <fields>
         <label><!-- TRx --></label>
@@ -48,6 +54,14 @@
     <fields>
         <label><!-- Year --></label>
         <name>Year__c</name>
+    </fields>
+    <fields>
+        <label><!-- lillyProduct --></label>
+        <name>lillyProduct__c</name>
+    </fields>
+    <fields>
+        <label><!-- percentageChangeFromPreviousMonth --></label>
+        <name>percentageChangeFromPreviousMonth__c</name>
     </fields>
     <layouts>
         <layout>Market Share Layout</layout>

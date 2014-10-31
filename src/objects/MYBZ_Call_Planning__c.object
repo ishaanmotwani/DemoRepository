@@ -2,35 +2,22 @@
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <deploymentStatus>Deployed</deploymentStatus>
     <fields>
-        <fullName>Call__c</fullName>
-        <label>Call</label>
-        <referenceTo>MYBZ_Call__c</referenceTo>
-        <relationshipLabel>Call Plannings</relationshipLabel>
-        <relationshipName>Call_Plannings</relationshipName>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Date__c</fullName>
-        <label>Date</label>
-        <type>DateTime</type>
-    </fields>
-    <fields>
-        <fullName>Email__c</fullName>
-        <label>Email</label>
-        <type>Email</type>
-    </fields>
-    <fields>
         <fullName>End_Date__c</fullName>
         <label>End Date</label>
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>HCP__c</fullName>
-        <label>HCP</label>
-        <referenceTo>Account</referenceTo>
-        <relationshipLabel>Call Plannings</relationshipLabel>
-        <relationshipName>Call_Plannings</relationshipName>
-        <type>Lookup</type>
+        <fullName>First_Name__c</fullName>
+        <label>First Name</label>
+        <length>255</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Global_ID__c</fullName>
+        <label>Global ID</label>
+        <precision>10</precision>
+        <scale>0</scale>
+        <type>Number</type>
     </fields>
     <fields>
         <fullName>Last_Call_Date__c</fullName>
@@ -38,25 +25,10 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Percentage_Change_Past_Month__c</fullName>
-        <label>Percentage Change Past Month</label>
-        <precision>12</precision>
-        <scale>2</scale>
-        <type>Percent</type>
-    </fields>
-    <fields>
-        <fullName>Percentage_Change_Past_Six_Months__c</fullName>
-        <label>Percentage Change Past Six Months</label>
-        <precision>12</precision>
-        <scale>2</scale>
-        <type>Percent</type>
-    </fields>
-    <fields>
-        <fullName>Percentage_Change_Past_Three_Months__c</fullName>
-        <label>Percentage Change Past Three Months</label>
-        <precision>12</precision>
-        <scale>2</scale>
-        <type>Percent</type>
+        <fullName>Last_Name__c</fullName>
+        <label>Last Name</label>
+        <length>255</length>
+        <type>Text</type>
     </fields>
     <fields>
         <fullName>Previous_TRx_Units__c</fullName>
@@ -76,37 +48,22 @@
     <fields>
         <fullName>Range__c</fullName>
         <label>Range</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
-    </fields>
-    <fields>
-        <fullName>Sales_Rep__c</fullName>
-        <label>Sales Rep</label>
-        <referenceTo>User</referenceTo>
-        <relationshipName>Call_Plannings</relationshipName>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Scripts_Written_Past_Month__c</fullName>
-        <label>Scripts Written Past Month</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
-    </fields>
-    <fields>
-        <fullName>Scripts_Written_Past_Six_Months__c</fullName>
-        <label>Scripts Written Past Six Months</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
-    </fields>
-    <fields>
-        <fullName>Scripts_Written_Past_Three_Months__c</fullName>
-        <label>Scripts Written Past Three Months</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
+        <picklist>
+            <picklistValues>
+                <fullName>1M</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>3M</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>6M</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
     </fields>
     <fields>
         <fullName>Start_Date__c</fullName>
@@ -131,21 +88,9 @@
     <fields>
         <fullName>Tier__c</fullName>
         <label>Tier</label>
-        <length>10</length>
-        <type>Text</type>
-    </fields>
-    <fields>
-        <fullName>Type__c</fullName>
-        <label>Type</label>
-        <length>40</length>
-        <type>Text</type>
-    </fields>
-    <fields>
-        <fullName>Value__c</fullName>
-        <label>Value</label>
-        <precision>18</precision>
+        <precision>2</precision>
         <scale>0</scale>
-        <type>Percent</type>
+        <type>Number</type>
     </fields>
     <label>Call Planning</label>
     <listViews>

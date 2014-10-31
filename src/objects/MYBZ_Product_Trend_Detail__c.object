@@ -27,19 +27,18 @@
     <fields>
         <fullName>Global_ID__c</fullName>
         <label>Global ID</label>
-        <precision>10</precision>
-        <scale>0</scale>
-        <type>Number</type>
+        <length>8</length>
+        <type>Text</type>
     </fields>
     <fields>
         <fullName>HCP_First_Name__c</fullName>
-        <label>HCP First Name</label>
+        <label>First Name</label>
         <length>255</length>
         <type>Text</type>
     </fields>
     <fields>
         <fullName>HCP_Last_Name__c</fullName>
-        <label>HCP Last Name</label>
+        <label>Last Name</label>
         <length>255</length>
         <type>Text</type>
     </fields>
@@ -52,13 +51,6 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Lilly_Product__c</fullName>
-        <formula>IF(Owner__c=&apos;LILLY&apos;,true,false)</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Lilly Product</label>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>Month__c</fullName>
         <formula>MONTH( Start_Date__c )</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
@@ -66,12 +58,6 @@
         <precision>18</precision>
         <scale>0</scale>
         <type>Number</type>
-    </fields>
-    <fields>
-        <fullName>Owner__c</fullName>
-        <label>Owner</label>
-        <length>255</length>
-        <type>Text</type>
     </fields>
     <fields>
         <fullName>Range__c</fullName>

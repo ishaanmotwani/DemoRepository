@@ -2,14 +2,23 @@
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <deploymentStatus>Deployed</deploymentStatus>
     <fields>
-        <fullName>Email__c</fullName>
-        <label>Email</label>
-        <type>Email</type>
+        <fullName>District__c</fullName>
+        <label>District</label>
+        <referenceTo>MYBZ_District__c</referenceTo>
+        <relationshipLabel>Market Shares</relationshipLabel>
+        <relationshipName>Market_Shares</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Global_Id__c</fullName>
+        <label>Global Id</label>
+        <length>10</length>
+        <type>Text</type>
     </fields>
     <fields>
         <fullName>Market__c</fullName>
         <label>Market</label>
-        <length>10</length>
+        <length>20</length>
         <type>Text</type>
     </fields>
     <fields>
@@ -41,9 +50,12 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Record_ID__c</fullName>
-        <label>Record ID</label>
-        <type>AutoNumber</type>
+        <fullName>Region__c</fullName>
+        <label>Region</label>
+        <referenceTo>MYBZ_Region__c</referenceTo>
+        <relationshipLabel>Market Shares</relationshipLabel>
+        <relationshipName>Market_Shares</relationshipName>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>TRx__c</fullName>
@@ -67,9 +79,28 @@
         <scale>0</scale>
         <type>Number</type>
     </fields>
+    <fields>
+        <fullName>lillyProduct__c</fullName>
+        <formula>IF(Owner__c==&apos;LILLY&apos;, true, false)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>lillyProduct</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>percentageChangeFromPreviousMonth__c</fullName>
+        <formula>(TRx__c -  Previous_Month_TRx__c) /  Previous_Month_TRx__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>percentageChangeFromPreviousMonth</label>
+        <precision>18</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
     <label>Market Share</label>
     <listViews>
         <fullName>All</fullName>
+        <columns>Product__c</columns>
+        <columns>Market__c</columns>
+        <columns>NAME</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
