@@ -1,201 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionOverrides>
-        <actionName>Accept</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>CancelEdit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Clone</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Delete</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Edit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>List</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>New</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>SaveEdit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Tab</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <enableActivities>false</enableActivities>
-    <enableBulkApi>true</enableBulkApi>
-    <enableFeeds>false</enableFeeds>
-    <enableHistory>false</enableHistory>
-    <enableReports>false</enableReports>
-    <enableSharing>true</enableSharing>
-    <enableStreamingApi>true</enableStreamingApi>
     <fields>
         <fullName>District__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
         <label>District</label>
         <referenceTo>MYBZ_District__c</referenceTo>
         <relationshipLabel>Market Shares</relationshipLabel>
         <relationshipName>Market_Shares</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Global_Id__c</fullName>
-        <externalId>false</externalId>
         <label>Global Id</label>
         <length>10</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
         <type>Text</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Market__c</fullName>
-        <externalId>false</externalId>
         <label>Market</label>
         <length>20</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
         <type>Text</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Month__c</fullName>
-        <externalId>false</externalId>
         <label>Month</label>
         <precision>2</precision>
-        <required>false</required>
         <scale>0</scale>
-        <trackTrending>false</trackTrending>
         <type>Number</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Owner__c</fullName>
-        <externalId>false</externalId>
         <label>Owner</label>
         <length>30</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
         <type>Text</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Previous_Month_TRx__c</fullName>
-        <externalId>false</externalId>
         <label>Previous Month TRx</label>
         <precision>18</precision>
-        <required>false</required>
         <scale>0</scale>
-        <trackTrending>false</trackTrending>
         <type>Number</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Product__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
         <label>Product</label>
         <referenceTo>MYBZ_Product__c</referenceTo>
         <relationshipLabel>Market Shares</relationshipLabel>
         <relationshipName>Market_Shares</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Region__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
         <label>Region</label>
         <referenceTo>MYBZ_Region__c</referenceTo>
         <relationshipLabel>Market Shares</relationshipLabel>
         <relationshipName>Market_Shares</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>TRx__c</fullName>
-        <externalId>false</externalId>
         <label>TRx</label>
         <precision>18</precision>
-        <required>false</required>
         <scale>0</scale>
-        <trackTrending>false</trackTrending>
         <type>Number</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Territory__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
         <label>Territory</label>
         <referenceTo>MYBZ_Territory__c</referenceTo>
         <relationshipLabel>Market Shares</relationshipLabel>
         <relationshipName>Market_Shares</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Year__c</fullName>
-        <externalId>false</externalId>
         <label>Year</label>
         <precision>4</precision>
-        <required>false</required>
         <scale>0</scale>
-        <trackTrending>false</trackTrending>
         <type>Number</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>lillyProduct__c</fullName>
-        <externalId>false</externalId>
         <formula>IF(Owner__c==&apos;LILLY&apos;, true, false)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>lillyProduct</label>
-        <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>percentageChangeFromPreviousMonth__c</fullName>
-        <externalId>false</externalId>
         <formula>(TRx__c -  Previous_Month_TRx__c) /  Previous_Month_TRx__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>percentageChangeFromPreviousMonth</label>
         <precision>18</precision>
-        <required>false</required>
         <scale>2</scale>
-        <trackTrending>false</trackTrending>
         <type>Number</type>
-        <unique>false</unique>
     </fields>
     <label>Market Share</label>
     <listViews>
@@ -205,7 +103,6 @@
         <columns>NAME</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
-        <language>en_US</language>
     </listViews>
     <nameField>
         <label>Market Share Name</label>

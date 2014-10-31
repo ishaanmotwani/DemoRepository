@@ -27,23 +27,38 @@ global class MYBZ_RegionRollup_Controller
     global static String marketShareDistrictName {get;set;}
     global static String marketShareTerritoryName {get;set;}
     
-    global static Sobject datePassed{get;set;}
+   
+    global static String pickerRegionName{get;set;}
+    global static String pickerDistrictName{get;set;}
+    global static String pickerTerritoryName{get;set;}
+    
+    global static Id UserId;
+    global static String Role;
+    global static String GlobalId;
+       
     public static void test(){
-        system.debug('datePassed---'+datePassed);
+     
+    }
+    public static void TerritoryPicker(){
+        UserId = UserInfo.getUserId();
+        User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
+        Role = userObj.MYBZ_Role__c;
+
+        system.debug('Role---'+Role);
+        system.debug('pickerDistrictName--'+pickerDistrictName);
+        if(Role == 'Major Marketing Manager' && pickerDistrictName !=null && pickerDistrictName !='')
+            TargetGoal();
         
     }
     @RemoteAction 
     global static Object RegionRollup()
     {
-        JSONGenerator gen;
-        
-        Id UserId = UserInfo.getUserId();
-        
-        String GlobalId;
-        
-        User userObj = [SELECT Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
-        
+        UserId = UserInfo.getUserId();
+        User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
+        Role = userObj.MYBZ_Role__c;
         GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+        
+        JSONGenerator gen;
         
         MYBZ_IHS_Division__c divisionObj = [SELECT Name FROM MYBZ_IHS_Division__c LIMIT 1];
         
@@ -305,20 +320,14 @@ global class MYBZ_RegionRollup_Controller
     @RemoteAction 
     global static Object Alignment()
     {
-        Id UserId = UserInfo.getUserId();
-        
-        String GlobalId;
-        String Role;
-        
-        User userObj = [SELECT MYBZ_Role__c, Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
-        
+        UserId = UserInfo.getUserId();
+        User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
         Role = userObj.MYBZ_Role__c;
-        
         GlobalId = userObj.Prsnl_Nbr_GLBL__c;
         
         JSONGenerator gen;
         gen = JSON.createGenerator(true);
-        if(Role == 'Sales Representative'){
+        /*if(Role == 'Sales Representative'){
             List < MYBZ_Territory__c > salesRepTerritoryList = [SELECT Name, Global_Id__c, State__r.Name, State__r.Global_Id__c, Region_Name__c, Region_Global_ID__c FROM MYBZ_Territory__c WHERE Global_Id__c = :GlobalId LIMIT 1];
             if(!salesRepTerritoryList.isEmpty()){
                 gen.writeStartArray();
@@ -442,97 +451,97 @@ global class MYBZ_RegionRollup_Controller
                 gen.writeEndObject();
                 gen.writeEndArray();
             }
+        }*/
+        
+        Set<Id> regionIds = new Set<Id>();
+        Set<Id> districtIds = new Set<Id>();
+        MYBZ_IHS_Division__c divisionObj = [SELECT Id, Name FROM MYBZ_IHS_Division__c LIMIT 1];
+        Map<String, String> RegionNameAndGlobalIdMap = new Map<String, String>();
+        Map<String, Set<String>> RegionNameAndDistrictMap = new Map<String, Set<String>>();
+        Map<String, String> DistrictNameAndGlobalIdMap = new Map<String, String>();
+        Map<String, Set<String>> DistrictNameAndTerritoryMap = new Map<String, Set<String>>();
+        Map<String, String> TerritoryNameAndGlobalIdMap = new Map<String, String>();
+        
+        List <MYBZ_Region__c> regionList = [SELECT Id, Name, Global_Id__c FROM MYBZ_Region__c WHERE Parent__c = : divisionObj.id];
+        if(!regionList.isEmpty())
+        {
+            for(MYBZ_Region__c regionObj : regionList){
+                if(!RegionNameAndGlobalIdMap.containsKey(regionObj.Name)){
+                    RegionNameAndGlobalIdMap.put(regionObj.Name, regionObj.Global_Id__c);
+                }
+                regionIds.add(regionObj.Id);
+            }
         }
-        if(Role == 'Super User'){
-            Set<Id> regionIds = new Set<Id>();
-            Set<Id> districtIds = new Set<Id>();
-            MYBZ_IHS_Division__c divisionObj = [SELECT Id, Name FROM MYBZ_IHS_Division__c LIMIT 1];
-            Map<String, String> RegionNameAndGlobalIdMap = new Map<String, String>();
-            Map<String, Set<String>> RegionNameAndDistrictMap = new Map<String, Set<String>>();
-            Map<String, String> DistrictNameAndGlobalIdMap = new Map<String, String>();
-            Map<String, Set<String>> DistrictNameAndTerritoryMap = new Map<String, Set<String>>();
-            Map<String, String> TerritoryNameAndGlobalIdMap = new Map<String, String>();
+        for(MYBZ_District__c districtObj : [SELECT Id, Name, Global_Id__c, Region__r.Name FROM MYBZ_District__c WHERE Region__c IN: regionIds]){
+            districtIds.add(districtObj.Id);
+            if(!RegionNameAndDistrictMap.containsKey(districtObj.Region__r.Name)){
+                Set<String> districtNames = new Set<String>();
+                districtNames.add(districtObj.Name);
+                RegionNameAndDistrictMap.put(districtObj.Region__r.Name, districtNames);
+            }
+            else{
+                RegionNameAndDistrictMap.get(districtObj.Region__r.Name).add(districtObj.Name);
+            }
+            if(!DistrictNameAndGlobalIdMap.containsKey(districtObj.Name)){
+                DistrictNameAndGlobalIdMap.put(districtObj.Name, districtObj.Global_Id__c);
+            }
+        }
+        for(MYBZ_Territory__c territoryObj : [SELECT Id, Name, Global_Id__c, State__r.Name FROM MYBZ_Territory__c WHERE State__c IN: districtIds]){
+            if(!DistrictNameAndTerritoryMap.containsKey(territoryObj.State__r.Name)){
+                Set<String> territoryNames = new Set<String>();
+                territoryNames.add(territoryObj.Name);
+                DistrictNameAndTerritoryMap.put(territoryObj.State__r.Name, territoryNames);
+            }
+            else{
+                DistrictNameAndTerritoryMap.get(territoryObj.State__r.Name).add(territoryObj.Name);
+            }
+            if(!TerritoryNameAndGlobalIdMap.containsKey(territoryObj.Name)){
+                TerritoryNameAndGlobalIdMap.put(territoryObj.Name, territoryObj.Global_Id__c);
+            }
+        }
             
-            List <MYBZ_Region__c> regionList = [SELECT Id, Name, Global_Id__c FROM MYBZ_Region__c WHERE Parent__c = : divisionObj.id];
-            if(!regionList.isEmpty())
-            {
-                for(MYBZ_Region__c regionObj : regionList){
-                    if(!RegionNameAndGlobalIdMap.containsKey(regionObj.Name)){
-                        RegionNameAndGlobalIdMap.put(regionObj.Name, regionObj.Global_Id__c);
-                    }
-                    regionIds.add(regionObj.Id);
-                }
-            }
-            for(MYBZ_District__c districtObj : [SELECT Id, Name, Global_Id__c, Region__r.Name FROM MYBZ_District__c WHERE Region__c IN: regionIds]){
-                districtIds.add(districtObj.Id);
-                if(!RegionNameAndDistrictMap.containsKey(districtObj.Region__r.Name)){
-                    Set<String> districtNames = new Set<String>();
-                    districtNames.add(districtObj.Name);
-                    RegionNameAndDistrictMap.put(districtObj.Region__r.Name, districtNames);
-                }
-                else{
-                    RegionNameAndDistrictMap.get(districtObj.Region__r.Name).add(districtObj.Name);
-                }
-                if(!DistrictNameAndGlobalIdMap.containsKey(districtObj.Name)){
-                    DistrictNameAndGlobalIdMap.put(districtObj.Name, districtObj.Global_Id__c);
-                }
-            }
-            for(MYBZ_Territory__c territoryObj : [SELECT Id, Name, Global_Id__c, State__r.Name FROM MYBZ_Territory__c WHERE State__c IN: districtIds]){
-                if(!DistrictNameAndTerritoryMap.containsKey(territoryObj.State__r.Name)){
-                    Set<String> territoryNames = new Set<String>();
-                    territoryNames.add(territoryObj.Name);
-                    DistrictNameAndTerritoryMap.put(territoryObj.State__r.Name, territoryNames);
-                }
-                else{
-                    DistrictNameAndTerritoryMap.get(territoryObj.State__r.Name).add(territoryObj.Name);
-                }
-                if(!TerritoryNameAndGlobalIdMap.containsKey(territoryObj.Name)){
-                    TerritoryNameAndGlobalIdMap.put(territoryObj.Name, territoryObj.Global_Id__c);
-                }
-            }
-            
-            if(!RegionNameAndGlobalIdMap.isEmpty() && !RegionNameAndDistrictMap.isEmpty() && !DistrictNameAndGlobalIdMap.isEmpty() && !DistrictNameAndTerritoryMap.isEmpty() && !TerritoryNameAndGlobalIdMap.isEmpty()){
-                gen.writeStartArray();
-                System.debug('Inside');
-                for(String regionName : RegionNameAndGlobalIdMap.keySet()){
-                    gen.writeStartObject();
-                    gen.writeStringField('name',regionName);
-                    String regionGlobalId = RegionNameAndGlobalIdMap.get(regionName);
-                    gen.writeStringField('globalID',regionGlobalId);
+        if(!RegionNameAndGlobalIdMap.isEmpty() && !RegionNameAndDistrictMap.isEmpty() && !DistrictNameAndGlobalIdMap.isEmpty() && !DistrictNameAndTerritoryMap.isEmpty() && !TerritoryNameAndGlobalIdMap.isEmpty()){
+            gen.writeStartArray();
+            System.debug('Inside');
+            for(String regionName : RegionNameAndGlobalIdMap.keySet()){
+                gen.writeStartObject();
+                gen.writeStringField('name',regionName);
+                String regionGlobalId = RegionNameAndGlobalIdMap.get(regionName);
+                gen.writeStringField('globalID',regionGlobalId);
+                
+                if(RegionNameAndDistrictMap.containsKey(regionName)){
+                    gen.writeFieldName('children');
+                    gen.writeStartArray();
                     
-                    if(RegionNameAndDistrictMap.containsKey(regionName)){
-                        gen.writeFieldName('children');
-                        gen.writeStartArray();
-                        
-                        for(String districtName : RegionNameAndDistrictMap.get(regionName)){
-                            gen.writeStartObject();
-                            gen.writeStringField('name',districtName);
-                            String districtGlobalId = DistrictNameAndGlobalIdMap.get(districtName);
-                            gen.writeStringField('globalID',districtGlobalId);
-                            if(DistrictNameAndTerritoryMap.containsKey(districtName)){
-                                gen.writeFieldName('children');
-                                gen.writeStartArray();
-                                for(String territoryName : DistrictNameAndTerritoryMap.get(districtName)){
-                                    gen.writeStartObject();
-                                    gen.writeStringField('name',territoryName);
-                                    String territoryGlobalId = TerritoryNameAndGlobalIdMap.get(territoryName);
-                                    if(territoryGlobalId == null || territoryGlobalId == '')
-                                        gen.writeNullField('globalID'); 
-                                    else
-                                        gen.writeStringField('globalID',territoryGlobalId);
-                                    gen.writeEndObject();
-                                }
-                                gen.writeEndArray();
+                    for(String districtName : RegionNameAndDistrictMap.get(regionName)){
+                        gen.writeStartObject();
+                        gen.writeStringField('name',districtName);
+                        String districtGlobalId = DistrictNameAndGlobalIdMap.get(districtName);
+                        gen.writeStringField('globalID',districtGlobalId);
+                        if(DistrictNameAndTerritoryMap.containsKey(districtName)){
+                            gen.writeFieldName('children');
+                            gen.writeStartArray();
+                            for(String territoryName : DistrictNameAndTerritoryMap.get(districtName)){
+                                gen.writeStartObject();
+                                gen.writeStringField('name',territoryName);
+                                String territoryGlobalId = TerritoryNameAndGlobalIdMap.get(territoryName);
+                                if(territoryGlobalId == null || territoryGlobalId == '')
+                                    gen.writeNullField('globalID'); 
+                                else
+                                    gen.writeStringField('globalID',territoryGlobalId);
+                                gen.writeEndObject();
                             }
-                            gen.writeEndObject();
+                            gen.writeEndArray();
                         }
-                        gen.writeEndArray();
+                        gen.writeEndObject();
                     }
-                    gen.writeEndObject();
+                    gen.writeEndArray();
                 }
-                gen.writeEndArray();
+                gen.writeEndObject();
             }
+            gen.writeEndArray();
         }
+        
         String sdata = gen.getAsString();
         System.debug('sdata'+sdata );
         Object obj = Json.deserializeUntyped(sdata);
@@ -548,15 +557,9 @@ global class MYBZ_RegionRollup_Controller
     @RemoteAction 
     global static Object TargetGoal()
     {
-        Id UserId = UserInfo.getUserId();
-        
-        String GlobalId;
-        String Role;
-        
-        User userObj = [SELECT MYBZ_Role__c, Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
-        
+        UserId = UserInfo.getUserId();
+        User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
         Role = userObj.MYBZ_Role__c;
-        
         GlobalId = userObj.Prsnl_Nbr_GLBL__c;
         
         JSONGenerator gen;
@@ -566,16 +569,21 @@ global class MYBZ_RegionRollup_Controller
         Map<Decimal, Set<Decimal>> YearAndMonthsMap = new Map<Decimal, Set<Decimal>>();
         
         Map<Decimal, Map<Decimal, List<MYBZ_Target_Goal__c>>> YearAndMonthTargetGoalMap = new Map<Decimal, Map<Decimal, List<MYBZ_Target_Goal__c>>>();
-        if(Role == 'District Sales Manager'){
+        if((Role == 'District Sales Manager' || Role == 'Major Marketing Manager') && targetGoalDistrictName == '' && pickerDistrictName == ''){
             targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
         }
+        
         else if(Role == 'Sales Representative'){
+            System.Debug('xxxxxx'+Role);
             MYBZ_Territory__c territoryObj = [SELECT Id, State__r.Name FROM MYBZ_Territory__c WHERE Global_Id__c =:GlobalId LIMIT 1];
             String associatedDistrictName = territoryObj.State__r.Name;
             targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:associatedDistrictName ORDER BY Month__c, Year__c ASC];
         }
         else if(Role == 'Major Marketing Manager' && targetGoalDistrictName !=null && targetGoalDistrictName !=''){
             targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:targetGoalDistrictName ORDER BY Month__c, Year__c ASC];
+        }
+        else if(Role == 'Major Marketing Manager' && pickerDistrictName !=null && pickerDistrictName !=''){
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:pickerDistrictName AND Territory__c = null ORDER BY Month__c, Year__c ASC];
         }
         
         if(!targetGoalList.isEmpty()){
@@ -665,15 +673,10 @@ global class MYBZ_RegionRollup_Controller
     @RemoteAction 
     global static Object ProductTrends()
     {
-        Id UserId = UserInfo.getUserId();
-        
-        String GlobalId;
-        String Role;
-        
-        User userObj = [SELECT MYBZ_Role__c, Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
-        
+       
+        UserId = UserInfo.getUserId();
+        User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
         Role = userObj.MYBZ_Role__c;
-        
         GlobalId = userObj.Prsnl_Nbr_GLBL__c;
         
         JSONGenerator gen;
@@ -788,17 +791,12 @@ global class MYBZ_RegionRollup_Controller
     @RemoteAction 
     global static Object MarketShare()
     {
-        Id UserId = UserInfo.getUserId();
-        
-        String GlobalId;
-        String Role;
-        
-        User userObj = [SELECT MYBZ_Role__c, Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
-        
+        UserId = UserInfo.getUserId();
+        User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
         Role = userObj.MYBZ_Role__c;
-        
         GlobalId = userObj.Prsnl_Nbr_GLBL__c;
         
+       
         JSONGenerator gen;
         
         Map<String, Set<Decimal>> MarketShareNameAndYearMap = new Map<String, Set<Decimal>>();
@@ -934,15 +932,10 @@ global class MYBZ_RegionRollup_Controller
     @RemoteAction 
     global static Object TrendsPrescriber()
     {
-        Id UserId = UserInfo.getUserId();
         
-        String GlobalId;
-        String Role;
-        
-        User userObj = [SELECT MYBZ_Role__c, Prsnl_Nbr_GLBL__c FROM User WHERE Id =:UserId];
-        
+        UserId = UserInfo.getUserId();
+        User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
         Role = userObj.MYBZ_Role__c;
-        
         GlobalId = userObj.Prsnl_Nbr_GLBL__c;
         
         List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
