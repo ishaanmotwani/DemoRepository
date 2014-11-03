@@ -30,9 +30,9 @@
                     );
              }
              function getCallPlanningDataFromSalesforce(callback){
-              Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.callPlanning}',callback
-                    );
+            //  Visualforce.remoting.Manager.invokeAction(
+              //      '{!$RemoteAction.MYBZ_RegionRollup_Controller.callPlanning}',callback
+                //    );
              }
              function getTrendsPrescriberDataFromSalesforce(callback){
               Visualforce.remoting.Manager.invokeAction(
