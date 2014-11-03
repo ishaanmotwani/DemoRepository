@@ -74,5 +74,9 @@
         <members>MYBZ_Reps_and_Managers</members>
         <name>PermissionSet</name>
     </types>
+	<types>
+        <members>MyBusiness</members>
+        <name>CustomApplication</name>
+    </types>
     <version>31.0</version>
 </Package>
