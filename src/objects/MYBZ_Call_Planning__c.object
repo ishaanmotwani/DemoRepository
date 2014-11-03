@@ -15,9 +15,8 @@
     <fields>
         <fullName>Global_ID__c</fullName>
         <label>Global ID</label>
-        <precision>10</precision>
-        <scale>0</scale>
-        <type>Number</type>
+        <length>18</length>
+        <type>Text</type>
     </fields>
     <fields>
         <fullName>Last_Call_Date__c</fullName>
@@ -95,6 +94,9 @@
     <label>Call Planning</label>
     <listViews>
         <fullName>All</fullName>
+        <columns>OBJECT_ID</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Global_ID__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>

@@ -1,0 +1,174 @@
+<apex:page docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="MYBZ_RegionRollup_Controller">
+    <html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="lillyApp">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+        <meta name="apple-mobile-web-app-title" content="Eli Lilly Sales Tool" />
+        <title>Eli Lilly Sales Tool</title>
+         <script>
+        
+             var urlPath = "{!URLFOR($Resource.MYBZ_Lilly_141030, '')}";
+             window.RESOURCE_ROOT = urlPath.split('?')[0];
+             
+             $GLOBALID='{!GlobalId}';
+             $Role='{!Role}';
+             $uname='{!uname}';
+             if($Role=='Sales Representative')
+                 $userRole=0;
+                if($Role=='District Sales Manager')
+                 $userRole=1;
+                 
+                 if($Role=='Major Marketing Manager' || $Role=='Super user')
+                 $userRole=2;
+             //alert($uname);
+             //alert(Role);
+              
+             function getAlignmentDataFromSalesforce(callback){
+                  Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.Alignment}',callback
+                    );
+             }
+             function getCallPlanningDataFromSalesforce(callback){
+              Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.callPlanning}',callback
+                    );
+             }
+             function getTrendsPrescriberDataFromSalesforce(callback){
+              Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.TrendsPrescriber}',callback
+                    );
+             }
+             
+             function getMarketShareDataFromSalesforce(callback){
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.MarketShare}',callback
+                    );
+             }
+             function getGoalsDataFromSalesforce(callback){
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.TargetGoal}',callback
+                    );
+             }
+             
+             function getRegionRollupDataFromSalesforce(callback){ 
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.RegionRollup}',callback
+                    );        
+                }  
+                
+                function getTrendsDataFromSalesforce(callback){ 
+                     Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.ProductTrends}',callback
+                    );        
+                }  
+                
+                
+           </script>
+           
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_HideAddressBar,'')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/lillyApp.css')}"/> 
+        <!--This is problem area -->
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/component.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/la-buttons.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/la-call-planning.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/la-controls.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/la-dashboard.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/la-market-share.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/la-target-goals.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/la-trends.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/normalize.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030,'css/component.css')}"/>
+        <!-- End problem area -->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/jquery-1.11.1.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/bootstrap-3.1.1-dist/js/bootstrap.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/angular/angular.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/angular/angular-route.js')}"/>
+      <!-- <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/angular/angular-ui-router.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/angular/angular-resource.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/angular/angular-sanitize.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/angular/angular-animate.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/angular-bootstrap/ui-bootstrap-custom-tpls-0.10.0.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/modernizr/modernizr.input.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/modernizr.custom.25376.js')}"/>
+        
+    
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/local-storage/angular-local-storage.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/greensock/plugins/CSSPlugin.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/greensock/TweenLite.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/angular-ui/mask.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/greensock/TweenLite.min.js')}"/>
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/processing.min.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/typeahead/bloodhound.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/typeahead/typeahead.bundle.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'lib/typeahead/typeahead.jquery.min.js')}"/>
+       
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/PieChartStackC.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/PieChart.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/MarketShareChart.js')}"/>
+         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/TrendsChart.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/lillyApp.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/la-call-planning.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/la-controls.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/la-dashboard.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/la-market-share.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/la-navigation.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/la-region-rollup.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/la-target-goals.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/la-trends.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/placeholder-shim.js')}"/>
+
+     
+    </head>
+  <apex:form >
+          <apex:actionFunction action="{!test}" name="checkInput" rerender="">
+        <apex:param name="RegionParam" assignTo="{!regPassed}" value="" />
+        <apex:param name="DistrictParam" assignTo="{!disPassed}" value="" />
+        <apex:param name="TerParam" assignTo="{!terPassed}" value="" />
+    </apex:actionFunction>
+    </apex:form>
+    <body>
+        <div id="root-container" ng-controller="controlsAndDrawerCtrl">
+
+            <!-- Container for main view and controls view -->
+            <div id="perspective" class="perspective effect-moveleft">
+                
+                <div class="container">
+                    <div class="wrapper"><!-- wrapper needed for scroll -->
+                         <div ng-include="'{!URLFOR($Resource.MYBZ_Lilly_141030,'partials/controls.html')}'"></div>
+                                       <div class="loading-view">
+                            <div class="loading-text">Loading...</div>
+                        </div>
+
+                        <div class="main-view"> <!-- Contains current main view -->
+                            <div ng-view="true"></div>
+                        </div> <!-- /Main View -->
+                    </div> <!-- /Wrapper -->
+                </div> <!-- /Container -->
+
+                <!-- Container for dashboard/drawer -->
+                <nav class="outer-nav right vertical">
+                   <div ng-include="'{!URLFOR($Resource.MYBZ_Lilly_141030,'partials/dashboard.html')}'" id="dashboard"></div>
+                </nav>
+
+            </div> <!-- /Perspective -->
+
+            <!-- Controls Button -->
+            <img class="controls-view-toggle-indicator" src="'{!URLFOR($Resource.MYBZ_Lilly_141030,'/img/controls-closed.png')}'" ng-hide="navigationHidden == true || controlsButtonHidden == true"></img>
+            <button class="controls-view-toggle-button transparent" ng-click="centerButtonPressed()" ng-hide="navigationHidden == true || controlsButtonHidden == true"></button>
+
+            <!-- Hamburger -->
+            <button class="upper-right-corner transparent" id="showMenu">
+                <apex:image styleclass="upper-right-corner-image" url="{!URLFOR($Resource.MYBZ_Lilly_141030,'img/hamburger.png')}"/>
+            </button>
+
+        </div> <!-- End root-container -->
+
+       <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/classie.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030,'js/menu.js')}"/>
+    </body>
+    </html>
+</apex:page>

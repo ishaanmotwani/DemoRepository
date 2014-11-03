@@ -5,12 +5,13 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>MYBZ_Lilly141030</members>
         <members>MYBZ_RegionRollup</members>
         <name>ApexPage</name>
     </types>
     <types>
-        <members>User.MYBZ_Role__c</members>
-        <name>CustomField</name>
+        <members>MyBusiness</members>
+        <name>CustomApplication</name>
     </types>
     <types>
         <members>MYBZ_Call_Planning__c</members>
@@ -23,6 +24,7 @@
         <members>MYBZ_Region__c</members>
         <members>MYBZ_Target_Goal__c</members>
         <members>MYBZ_Territory__c</members>
+        <members>User</members>
         <name>CustomObject</name>
     </types>
     <types>
@@ -36,6 +38,7 @@
         <members>MYBZ_Region__c</members>
         <members>MYBZ_Target_Goal__c</members>
         <members>MYBZ_Territory__c</members>
+        <members>MyBusiness</members>
         <name>CustomTab</name>
     </types>
     <types>
@@ -53,6 +56,7 @@
     </types>
     <types>
         <members>MYBZ_HideAddressBar</members>
+        <members>MYBZ_Lilly_141030</members>
         <members>MYBZ_RegionRollup</members>
         <name>StaticResource</name>
     </types>

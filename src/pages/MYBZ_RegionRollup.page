@@ -1,4 +1,4 @@
-<apex:page docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="MYBZ_RegionRollup_Controller">
+<apex:page docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="MYBZ_RegionRollup_Controller_Graceful">
     <html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="lillyApp">
     <head>
         <meta charset="utf-8" />
@@ -11,39 +11,51 @@
              var urlPath = "{!URLFOR($Resource.MYBZ_RegionRollup, '')}";
              window.RESOURCE_ROOT = urlPath.split('?')[0];
              
-             
+             $GLOBALID='{!GlobalId}';
+             $Role='{!Role}';
+             $uname='{!uname}';
+             if($Role=='Sales Representative')
+                 $userRole=0;
+                if($Role=='District Sales Manager')
+                 $userRole=1;
+                 
+                 if($Role=='Major Marketing Manager' || $Role=='Super user')
+                 $userRole=2;
+             //alert($uname);
+             //alert(Role);
+              
              function getAlignmentDataFromSalesforce(callback){
                   Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.Alignment}',callback
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller_Graceful.Alignment}',callback
                     );
              }
-             function getCallPlanningDataFromSalesforce(callback){}
+             function getCallPlanningDataFromSalesforce(callback){
+             
+             }
              function getTrendsPrescriberDataFromSalesforce(callback){
-              Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.TrendsPrescriber}',callback
-                    );
+             
              }
              
              function getMarketShareDataFromSalesforce(callback){
                 Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.MarketShare}',callback
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller_Graceful.MarketShare}',callback
                     );
              }
              function getGoalsDataFromSalesforce(callback){
                 Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.TargetGoal}',callback
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller_Graceful.TargetGoal}',callback
                     );
              }
              
              function getRegionRollupDataFromSalesforce(callback){ 
                 Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.RegionRollup}',callback
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller_Graceful.RegionRollup}',callback
                     );        
                 }  
                 
                 function getTrendsDataFromSalesforce(callback){ 
                      Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_RegionRollup_Controller.ProductTrends}',callback
+                    '{!$RemoteAction.MYBZ_RegionRollup_Controller_Graceful.ProductTrends}',callback
                     );        
                 }  
                 
@@ -109,7 +121,9 @@
     </head>
   <apex:form >
           <apex:actionFunction action="{!test}" name="checkInput" rerender="">
-        <apex:param name="testParam" assignTo="{!datePassed}" value="" />
+        <apex:param name="RegionParam" assignTo="{!regPassed}" value="" />
+        <apex:param name="DistrictParam" assignTo="{!disPassed}" value="" />
+        <apex:param name="TerParam" assignTo="{!terPassed}" value="" />
     </apex:actionFunction>
     </apex:form>
     <body>

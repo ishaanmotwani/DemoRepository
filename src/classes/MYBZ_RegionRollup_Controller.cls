@@ -5,7 +5,7 @@
  *@ CreatedOn                                                     : 09-30-2014
  *@ Modification Log                                              :
  */
-global class MYBZ_RegionRollup_Controller
+global with sharing class MYBZ_RegionRollup_Controller
 {
   /* 
          * @Method Name                    :  mysampledata
@@ -33,24 +33,36 @@ global class MYBZ_RegionRollup_Controller
     global static String pickerTerritoryName{get;set;}
     
     global static Id UserId;
-    global static String Role;
-    global static String GlobalId;
-      
+    global static String Role{get;set;}
+    global static String GlobalId{get;set;}
+    global static String uname{get;set;}
+    global static String regPassed {get;set;}
+    global static String disPassed {get;set;}
+    global static String terPassed {get;set;}
+    
     global MYBZ_RegionRollup_Controller(){
+        UserId = UserInfo.getUserId();
+        User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
+        Role = userObj.MYBZ_Role__c;
+        GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+        uname=userObj.name;
         pickerDistrictName = '';
     }
     public static void test(){
-     
+    system.debug('regPassed--'+regPassed);
+    system.debug('disPassed--'+disPassed);
+    system.debug('terPassed--'+terPassed);
+    
     }
     public static void TerritoryPicker(){
+        
         UserId = UserInfo.getUserId();
         User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
         Role = userObj.MYBZ_Role__c;
-
         system.debug('Role---'+Role);
         system.debug('pickerDistrictName--'+pickerDistrictName);
-        if(Role == 'Major Marketing Manager' && pickerDistrictName !=null && pickerDistrictName !='')
-            TargetGoal();
+        if(Role == 'Major Marketing Manager' && pickerDistrictName !=null && pickerDistrictName !=''){}
+            //TargetGoal();
         
     }
     @RemoteAction 
@@ -316,7 +328,7 @@ global class MYBZ_RegionRollup_Controller
         }
         
         String sdata = gen.getAsString();
-        System.debug('sdata'+sdata );
+        System.debug('--sdata--RegionRollup'+sdata );
         Object obj = Json.deserializeUntyped(sdata);
         return obj;
     }
@@ -553,7 +565,7 @@ global class MYBZ_RegionRollup_Controller
     
     public static void ParamtersFunctionForTargetGoal(){
         if(targetGoalDistrictName !=null && targetGoalDistrictName !=''){
-            TargetGoal();
+            //TargetGoal();
         }
     }
     
@@ -575,22 +587,24 @@ global class MYBZ_RegionRollup_Controller
         system.debug('Role---'+Role);
         system.debug('targetGoalDistrictName--'+targetGoalDistrictName);
         system.debug('pickerDistrictName--'+pickerDistrictName);
+        system.debug('disPassed---'+disPassed);
         
-        if((Role == 'District Sales Manager' || Role == 'Major Marketing Manager') && targetGoalDistrictName == null && pickerDistrictName == null){
+        if((Role == 'District Sales Manager' || Role == 'Major Marketing Manager') && targetGoalDistrictName == null && disPassed == null){
             targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
         }
         else if(Role == 'Sales Representative'){
             MYBZ_Territory__c territoryObj = [SELECT Id, State__r.Name FROM MYBZ_Territory__c WHERE Global_Id__c =:GlobalId LIMIT 1];
             String associatedDistrictName = territoryObj.State__r.Name;
-            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:associatedDistrictName ORDER BY Month__c, Year__c ASC];
+            system.debug('associatedDistrictName--'+associatedDistrictName);
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:associatedDistrictName AND Territory__c = null ORDER BY Month__c, Year__c ASC];
         }
         else if(Role == 'Major Marketing Manager' && targetGoalDistrictName !=null && targetGoalDistrictName !=''){
             targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:targetGoalDistrictName ORDER BY Month__c, Year__c ASC];
         }
-        else if(Role == 'Major Marketing Manager' && pickerDistrictName !=null && pickerDistrictName !=''){
-            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:pickerDistrictName AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+        else if(Role == 'Major Marketing Manager' && disPassed !=null && disPassed !=''){
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:disPassed AND Territory__c = null ORDER BY Month__c, Year__c ASC];
         }
-        
+        system.debug('targetGoalList---'+targetGoalList);
         if(!targetGoalList.isEmpty()){
             for(MYBZ_Target_Goal__c targetGoalObj : targetGoalList){
                 targetGoalYear.add(targetGoalObj.Year__c);
@@ -683,7 +697,7 @@ global class MYBZ_RegionRollup_Controller
         User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
         Role = userObj.MYBZ_Role__c;
         GlobalId = userObj.Prsnl_Nbr_GLBL__c;
-        
+        system.debug('GlobalId--'+GlobalId);
         JSONGenerator gen;
         List<MYBZ_Market_Share__c> productTrendsList;
         
@@ -1017,4 +1031,390 @@ global class MYBZ_RegionRollup_Controller
         Object obj = Json.deserializeUntyped(sdata);
         return obj;
     }
+    @RemoteAction  
+  global static Object callPlanning() {       
+        
+     UserId = UserInfo.getUserId();
+     User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
+     Role = userObj.MYBZ_Role__c;
+     GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+     system.debug('GlobalId--'+GlobalId);
+    List<MYBZ_Call_Planning__c> CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
+    List<MYBZ_Call__c> CallsList = [select id,Name,Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.Name,Call_Type__c,Product_Position__c,Call_Date__c from MYBZ_Call__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Call_Date__c,Call_Type__c,Product_Position__c ];
+    Decimal percentageChangePastMonth = 0;
+    Decimal percentageChangePastThreeMonths = 0;
+    Decimal percentageChangePastSixMonths = 0;
+    Integer Dummy=0;
+    Integer newuserflag=1;
+    Integer firstuserflag=1;
+    Integer firstproduct=1;
+    Integer newproduct=1;
+    Integer firstCall=1;
+    Integer usercallcount=0;
+    String firstNameLastName='';
+    String CurrentProduct='';
+    String CurrentDate = '';
+    Integer newdate = 0;
+    Integer newtype=0;
+    String CurrentType = '';
+    Integer callsProductNumber = 1;
+    Integer callsFirstProduct = 1;
+    Integer InitialCallCount=0;
+    String CurrentCallsUser='';
+    String sdata='';
+    String CallUser='';
+    //Integer ProcessCallPlanning=1;
+    Integer CallsCount=0;
+    String TypesList='';
+    sdata+='[';
+    //JSONGenerator gen = JSON.createGenerator(true);
+    //gen.writeStartArray();  
+    for(Integer CallPlanningCount=0;CallPlanningCount<CallPlanningsList.size();CallPlanningCount++)
+    {
+        
+        if(!firstNameLastName.equals(CallPlanningsList[CallPlanningCount].First_Name__c+CallPlanningsList[CallPlanningCount].Last_Name__c))
+        {
+           newuserflag = 1;
+           CurrentDate = '';
+           CurrentType ='';
+           CurrentProduct='';
+           firstNameLastName=CallPlanningsList[CallPlanningCount].First_Name__c+CallPlanningsList[CallPlanningCount].Last_Name__c;
+           if(firstuserflag==1)
+           {
+            sdata+='{';
+            //gen.writeStartObject();
+            firstuserflag=0;
+           }
+           else
+           {
+            sdata+='},{';
+            //gen.writeEndObject();
+            //gen.writeStartObject();
+           }
+           sdata+='"firstName":"'+CallPlanningsList[CallPlanningCount].First_Name__c+'",';
+           sdata+='"lastName":"'+CallPlanningsList[CallPlanningCount].Last_Name__c+'",';
+           sdata+='"tier":"'+CallPlanningsList[CallPlanningCount].Tier__c+'",';
+           sdata+='"products":[';
+           //gen.writeStringField('firstName',CallPlanningsList[CallPlanningCount].First_Name__c);
+           //gen.writeStringField('lastName',CallPlanningsList[CallPlanningCount].Last_Name__c);
+           //gen.writeStringField('tier',String.ValueOf(CallPlanningsList[CallPlanningCount].Tier__c));
+           //gen.writeFieldName('products');
+           //gen.writeStartArray();
+            
+           firstproduct = 1;
+        }   
+        else
+        {
+        newuserflag=0;
+        }
+        
+        //PRODUCTS
+
+        if(!CurrentProduct.equals(CallPlanningsList[CallPlanningCount].Product__r.Name))
+        {
+            newproduct=1;
+            percentageChangePastMonth=0;
+            percentageChangePastThreeMonths=0;
+            percentageChangePastSixMonths=0;
+            
+            CurrentProduct = CallPlanningsList[CallPlanningCount].Product__r.Name;
+            if(firstproduct==1)
+            {
+                sdata+='{';
+                //gen.writeStartObject();
+                firstproduct=0;
+            }
+            else
+            {
+                sdata+='},{';
+                //gen.writeStartObject();
+                //gen.writeEndObject();
+            }
+        }
+        else
+        {
+            newproduct=0;
+        }
+        if(CallPlanningsList[CallPlanningCount].Range__c.Equals('1M'))
+        {
+                if((CallPlanningCount+1 == CallPlanningsList.size())||CallPlanningsList[CallPlanningCount+1].Range__c.Equals('3M'))
+                {
+                    sdata+='"name":"'+CallPlanningsList[CallPlanningCount].Product__r.Name+'",';
+                    sdata+='"scriptsWrittenPastMonth":'+CallPlanningsList[CallPlanningCount].TRx_Units__c+',';
+                    //gen.writeStringField('name',CallPlanningsList[CallPlanningCount].Product__r.Name);
+                    //gen.writeNumberField('scriptsWrittenPastMonth',CallPlanningsList[CallPlanningCount].TRx_Units__c);
+                    if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units__c!=0)
+                    {
+                    percentageChangePastMonth=((CallPlanningsList[CallPlanningCount].TRx_Units__c-CallPlanningsList[CallPlanningCount].Previous_TRx_Units__c)/CallPlanningsList[CallPlanningCount].Previous_TRx_Units__c)*100;
+                    percentageChangePastMonth=percentageChangePastMonth.SetScale(2,RoundingMode.CEILING);
+                    }
+                    else
+                    percentageChangePastMonth=0;
+                //continue;
+                }
+                else
+                {
+                    sdata+='"name":"'+CallPlanningsList[CallPlanningCount].Product__r.Name+'",';
+                    sdata+='"scriptsWrittenPastMonth":'+CallPlanningsList[CallPlanningCount].TRx_Units__c+',';
+                    sdata+='"scriptsWrittenPastThreeMonths":'+dummy+',';
+                    sdata+='"scriptsWrittenPastSixMonths":'+dummy+',';
+                    sdata+='"percentageChangePastMonth":'+percentageChangePastMonth+',';
+                    sdata+='"percentageChangePastThreeMonths":'+dummy+',';
+                    sdata+='"percentageChangePastSixMonths":'+dummy; 
+                    
+                    
+                }
+                
+        }
+        if(CallPlanningsList[CallPlanningCount].Range__c.Equals('3M'))
+        {
+                if((CallPlanningCount+1 == CallPlanningsList.size())||CallPlanningsList[CallPlanningCount+1].Range__c.Equals('6M'))
+                {
+                    sdata+='"scriptsWrittenPastThreeMonths":'+CallPlanningsList[CallPlanningCount].TRx_Units__c+',';
+                    //gen.writeNumberField('scriptsWrittenPastThreeMonths',CallPlanningsList[CallPlanningCount].TRx_Units__c);
+                    if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units__c!=0)
+                    {
+                    percentageChangePastThreeMonths=((CallPlanningsList[CallPlanningCount].TRx_Units__c-CallPlanningsList[CallPlanningCount].Previous_TRx_Units__c)/CallPlanningsList[CallPlanningCount].Previous_TRx_Units__c)*100;
+                    percentageChangePastThreeMonths=percentageChangePastThreeMonths.SetScale(2,RoundingMode.CEILING);
+                    }
+                    else
+                    percentageChangePastThreeMonths=0;
+                    //continue;
+               }
+               else
+               {
+                    sdata+='"scriptsWrittenPastThreeMonths":'+CallPlanningsList[CallPlanningCount].TRx_Units__c+',';
+                    sdata+='"scriptsWrittenPastSixMonths":'+dummy+',';
+                    sdata+='"percentageChangePastMonth":'+percentageChangePastMonth+',';
+                    sdata+='"percentageChangePastThreeMonths":'+percentageChangePastThreeMonths+',';
+                    sdata+='"percentageChangePastSixMonths":'+dummy; 
+               
+               }
+               
+                
+        }
+       if(CallPlanningsList[CallPlanningCount].Range__c.Equals('6M'))
+        {
+                //gen.writeNumberField('scriptsWrittenPastSixMonths',CallPlanningsList[CallPlanningCount].TRx_Units__c);
+                sdata+='"scriptsWrittenPastSixMonths":'+CallPlanningsList[CallPlanningCount].TRx_Units__c+',';
+                if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units__c!=0)
+                {
+                percentageChangePastSixMonths=((CallPlanningsList[CallPlanningCount].TRx_Units__c-CallPlanningsList[CallPlanningCount].Previous_TRx_Units__c)/CallPlanningsList[CallPlanningCount].Previous_TRx_Units__c)*100;
+                percentageChangePastSixMonths=percentageChangePastSixMonths.SetScale(2,RoundingMode.CEILING);
+                }
+                else
+                percentageChangePastThreeMonths=0;
+                sdata+='"percentageChangePastMonth":'+percentageChangePastMonth+',';
+                sdata+='"percentageChangePastThreeMonths":'+percentageChangePastThreeMonths+',';
+                sdata+='"percentageChangePastSixMonths":'+percentageChangePastSixMonths;
+                //gen.writeNumberField('percentageChangePastMonth',percentageChangePastMonth);
+                //gen.writeNumberField('percentageChangePastThreeMonths',percentageChangePastThreeMonths);
+                //gen.writeNumberField('percentageChangePastSixMonths',percentageChangePastSixMonths);
+            }
+            
+            
+       
+       if((CallPlanningCount+1 == CallPlanningsList.size() )||(!firstNameLastName.equals(CallPlanningsList[CallPlanningCount+1].First_Name__c+CallPlanningsList[CallPlanningCount+1].Last_Name__c)))
+        {
+                sdata+='}]';
+                InitialCallCount=CallsCount;
+                //System.Debug('######'+firstNameLastName+' '+CallsCount+' '+CallsList[CallsCount].First_Name__c+' '+CallPlanningsList[CallPlanningCount+1]);
+                if(!firstNameLastName.equals(CallsList[CallsCount].First_Name__c+CallsList[CallsCount].Last_Name__c))
+                {
+                    for(integer a=CallsCount;a<CallsList.Size();a++)
+                    {
+                        if(!firstNameLastName.equals(CallsList[CallsCount].First_Name__c+CallsList[CallsCount].Last_Name__c))
+                        {
+                            CallsCount++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    if(CallsCount==CallsList.size())
+                    {
+                        CallsCount=InitialCallCount;
+                    }
+                }
+                if(firstNameLastName.equals(CallsList[CallsCount].First_Name__c+CallsList[CallsCount].Last_Name__c))
+                {               
+                sdata+=',';
+                sdata+='"calls":[';
+                //gen.writeEndObject();
+                //gen.writeEndArray();
+                //gen.writeFieldName('calls');
+                //gen.writeStartArray();
+                firstCall=1;
+                usercallcount=0;
+                for(integer i = CallsCount; i<CallsList.Size(); i++)
+                {
+                    CallsCount = i;
+                    
+                    if(usercallcount==5)
+                    {
+                        sdata+= '}]';
+                        break;
+                    }
+                    
+                    usercallcount++;
+                    if(firstNameLastName.equals(CallsList[i].First_Name__c+CallsList[i].Last_Name__c))
+                    {
+                                               
+                        if( !CurrentDate.equals(CallsList[i].Call_Date__c.format('MM/dd/yyyy')) )
+                        {
+                            newdate = 1;
+                            CurrentDate = CallsList[i].Call_Date__c.format('MM/dd/yyyy');                           
+                        }
+                        else
+                        {
+                            newdate = 0;
+                        }
+                        
+                        if( !CurrentType.equals(CallsList[i].Call_Type__c))
+                        {
+                            newtype=1;
+                            CurrentType = CallsList[i].Call_Type__c;
+                        }
+                        else
+                        {
+                            newtype=0;
+                        }
+                        
+                        
+                        if( (newtype==1 || newdate ==1) && usercallcount<6)
+                        {
+                            callsProductNumber = 1;
+                            if(firstCall==1)
+                            {
+                                sdata+= '{';
+                                //gen.writeStartObject();
+                                firstCall=0;
+                            }
+                            else
+                            {
+                                sdata+= '},{';
+                                //gen.writeEndObject();
+                                //gen.writeStartObject();
+                            }
+                            
+                            sdata+='"date":';
+                            sdata+='"'+CallsList[i].Call_Date__c.format('MM/dd/yyyy')+'",';
+                            sdata+='"type":"';
+                            sdata+=CallsList[i].Call_Type__c+'"';
+                            
+                            //gen.writeStringField('date',CallsList[i].Call_Date__c.format('MM/dd/yyyy'));   
+                            //gen.writeStringField('type',CallsList[i].Call_Type__c);
+                        }
+                        else
+                        {
+                            
+                            callsProductNumber+=1;
+                            //if(callsProductNumber==2)
+                           
+                            
+                        }
+                        
+                        //Information       
+                        if(CallsList[i].Call_Type__c.equals('Sample Only'))
+                        {
+                            if(callsProductNumber==2)
+                            {
+                                if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
+                                {
+                                     sdata+=',';
+                                    sdata+='"product' + String.ValueOf(callsProductNumber) +'":';
+                                    sdata+='"'+CallsList[i].Product__r.Name+'"';
+                                    //sdata+='"'+CallsList[i].Product__r.Name+'"';
+                                    
+                                    //gen.writeFieldName('product');
+                                    //gen.writeString(String.ValueOf(callsProductNumber));
+                                    //gen.writeString(CallsList[i].Product__r.Name);
+                                    
+                                }
+                            }
+                            else
+                            {
+                                if((CallsList[i].Product__c!=NULL))
+                                {
+                                sdata+=',"product' + String.ValueOf(callsProductNumber) +'":';
+                                sdata+='"'+CallsList[i].Product__r.Name+'"';
+                                }
+                            //sdata+='"'+CallsList[i].Product__r.Name+'"';
+                            //gen.writeFieldName('product');
+                            //gen.writeString(String.ValueOf(callsProductNumber));
+                            //gen.writeString(CallsList[i].Product__r.Name);
+                            }
+                        }
+                        
+                        
+                        if((callsProductNumber<=2)&&(!CallsList[i].Call_Type__c.equals('Sample Only')))
+                        {
+                            if(callsProductNumber==2)
+                            {
+                                if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
+                                {
+                                     sdata+=',';
+                                    sdata+='"product' + String.ValueOf(callsProductNumber) +'":';
+                                    sdata+='"'+CallsList[i].Product__r.Name+'"';
+                                    //sdata+='"'+CallsList[i].Product__r.Name+'"';
+                                    
+                                    //gen.writeFieldName('product');
+                                    //gen.writeString(String.ValueOf(callsProductNumber));
+                                    //gen.writeString(CallsList[i].Product__r.Name);
+                                    
+                                }
+                            }
+                            else
+                            {
+                             if((CallsList[i].Product__c!=NULL)&&CallsList[i].Product_Position__c==1)
+                            {
+                            
+                            sdata+=',"product' + String.ValueOf(callsProductNumber) +'":';
+                            
+                            sdata+='"'+CallsList[i].Product__r.Name+'"';
+                            }
+                            //sdata+='"'+CallsList[i].Product__r.Name+'"';
+                            //gen.writeFieldName('product');
+                            //gen.writeString(String.ValueOf(callsProductNumber));
+                            //gen.writeString(CallsList[i].Product__r.Name);
+                            }
+                        }
+                        if((i+1 == CallsList.size() )||(!firstNameLastName.equals(CallsList[i+1].First_Name__c+CallsList[i+1].Last_Name__c)))
+                        {
+                            //closing all calls
+                            sdata+= '}]';
+                            //gen.writeEndObject();
+                            //gen.writeEndArray();
+                            if((i+1)!=CallsList.size())
+                            {
+                            CallsCount+=1;
+                            }
+                            break;
+                        }                       
+                    } // end of if same user    
+ 
+                    }// end of calls for
+                    
+                    
+                }
+                  
+                }// end of if next user is different
+            
+        
+        
+    } // end of user for
+
+    sdata+='}]';
+    //gen.writeEndObject();
+    //gen.writeEndArray();
+    //System.Debug('&&&'+sdata);
+    //sdata = gen.getAsString();
+    sdata=sdata.replaceall('\n','');
+    System.Debug('%%%%' + sdata);
+    Object obj=Json.deserializeUntyped(sdata);
+     return obj;
+    
+    
+ } 
 }

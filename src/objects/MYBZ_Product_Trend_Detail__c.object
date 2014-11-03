@@ -107,6 +107,10 @@
     <label>Product Trend Detail</label>
     <listViews>
         <fullName>All</fullName>
+        <columns>OBJECT_ID</columns>
+        <columns>Global_ID__c</columns>
+        <columns>Month__c</columns>
+        <columns>Year__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
