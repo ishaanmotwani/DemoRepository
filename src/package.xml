@@ -68,5 +68,11 @@
         <members>MYBZ_Territory__c</members>
         <name>Workflow</name>
     </types>
+	<types>
+        <members>MYBZ_Admin</members>
+        <members>MYBZ_Data_Load_User</members>
+        <members>MYBZ_Reps_and_Managers</members>
+        <name>PermissionSet</name>
+    </types>
     <version>31.0</version>
 </Package>
