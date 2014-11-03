@@ -6,12 +6,7 @@
     </types>
     <types>
         <members>MYBZ_Lilly141030</members>
-        <members>MYBZ_RegionRollup</members>
         <name>ApexPage</name>
-    </types>
-    <types>
-        <members>MyBusiness</members>
-        <name>CustomApplication</name>
     </types>
     <types>
         <members>MYBZ_Call_Planning__c</members>
