@@ -2,6 +2,7 @@
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <fields>
         <fullName>MYBZ_Role__c</fullName>
+        <externalId>false</externalId>
         <label>Role</label>
         <picklist>
             <picklistValues>
@@ -13,7 +14,7 @@
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>Major Marketing Manager</fullName>
+                <fullName>Major Market Manager</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
@@ -22,6 +23,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <trackFeedHistory>false</trackFeedHistory>
         <type>Picklist</type>
     </fields>
 </CustomObject>

@@ -3,11 +3,13 @@
     <types>
         <members>MYBZ_RegionRollup_Controller</members>
 		<members>MYBZ_RegionRollup_Controller_Dev_Update</members>
+		<members>MYBZ_RegionRollup_Controller_Dev_201404</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>MYBZ_Lilly141030</members>
 		<members>MYBZ_Lilly_141030_Dev_Update</members>
+		<members>MYBZ_Lilly_141030_Dev_201404</members>
         <name>ApexPage</name>
     </types>
     <types>
@@ -37,6 +39,10 @@
         <members>MYBZ_Territory__c</members>
         <members>MyBusiness</members>
         <name>CustomTab</name>
+    </types>
+	<types>
+        <members>User.MYBZ_Role__c</members>
+        <name>CustomField</name>
     </types>
     <types>
         <members>MYBZ_Call_Planning__c-Call Planning Layout</members>
