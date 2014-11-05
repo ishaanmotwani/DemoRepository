@@ -19,6 +19,14 @@
         <apexPage>MYBZ_Lilly_141030_Dev_201404</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+    <pageAccesses>
+        <apexPage>MYBZ_Lilly_141030_Dev_201404_Cloned</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <tabSettings>
+        <tab>MyBusiness</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <userPermissions>
         <enabled>true</enabled>
         <name>ApiEnabled</name>

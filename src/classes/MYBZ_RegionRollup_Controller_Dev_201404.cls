@@ -1520,6 +1520,7 @@ global with sharing class MYBZ_RegionRollup_Controller_Dev_201404
         String sdata;
         Object obj;
         
+       //List of all trend-details for a particular user
         List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
         JSONGenerator gen = JSON.createGenerator(true);
         gen.writeStartArray();  
@@ -1529,8 +1530,8 @@ global with sharing class MYBZ_RegionRollup_Controller_Dev_201404
         Integer productprescribercount;
         Integer firstiteration=1;
     
-        //Looping over Trend-Details
-        for(MYBZ_Product_Trend_Detail__c trenddetails : TrendsDetailsList)
+    //Looping over Trend-Details
+    for(MYBZ_Product_Trend_Detail__c trenddetails : TrendsDetailsList)
         {
             if(!Years.contains(String.Valueof(trenddetails.Year__c)))
             {
@@ -1565,31 +1566,31 @@ global with sharing class MYBZ_RegionRollup_Controller_Dev_201404
                 gen.writeStringField('product',trenddetails.IHS_Product__r.Name);
                 gen.writeFieldName('topFivePrescribers');
                 gen.writeStartArray();
-                productprescribercount=0;
+                productprescribercount=1;
             }
             if(productprescribercount<=5)
             {
-                productprescribercount++;
                 gen.writeStartObject();
                 gen.writeStringField('prescriberFirstName',trenddetails.HCP_First_Name__c);
                 gen.writeStringField('prescriberLastName',trenddetails.HCP_Last_Name__c);
                 gen.writeNumberField('trx',trenddetails.TRx_Units__c);
                 gen.writeEndObject();
+             
                 if(productprescribercount==5)
                 {
                 gen.writeEndArray();
                 gen.writeEndObject();
                 }
+                
+                productprescribercount++;
+                
             }
-            else
-            {
-                continue;
-            }  
-        }
-        gen.writeEndArray();  
-        sdata = gen.getAsString();
-        sdata=sdata.replaceall('\n','');
-        System.Debug('%%%%' + sdata);
+                            
+       }
+       gen.writeEndArray();  
+       sdata = gen.getAsString();
+       sdata=sdata.replaceall('\n','');
+       System.Debug('--TrendsPrescribers' + sdata);
         obj = Json.deserializeUntyped(sdata); 
         return obj;
     }
@@ -1606,6 +1607,7 @@ global with sharing class MYBZ_RegionRollup_Controller_Dev_201404
         String sdata;
         Object obj;
         
+       //List of all trend-details for a particular user
         List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
         JSONGenerator gen = JSON.createGenerator(true);
         gen.writeStartArray();  
@@ -1615,8 +1617,8 @@ global with sharing class MYBZ_RegionRollup_Controller_Dev_201404
         Integer productprescribercount;
         Integer firstiteration=1;
     
-        //Looping over Trend-Details
-        for(MYBZ_Product_Trend_Detail__c trenddetails : TrendsDetailsList)
+    //Looping over Trend-Details
+    for(MYBZ_Product_Trend_Detail__c trenddetails : TrendsDetailsList)
         {
             if(!Years.contains(String.Valueof(trenddetails.Year__c)))
             {
@@ -1651,32 +1653,32 @@ global with sharing class MYBZ_RegionRollup_Controller_Dev_201404
                 gen.writeStringField('product',trenddetails.IHS_Product__r.Name);
                 gen.writeFieldName('topFivePrescribers');
                 gen.writeStartArray();
-                productprescribercount=0;
+                productprescribercount=1;
             }
             if(productprescribercount<=5)
             {
-                productprescribercount++;
                 gen.writeStartObject();
                 gen.writeStringField('prescriberFirstName',trenddetails.HCP_First_Name__c);
                 gen.writeStringField('prescriberLastName',trenddetails.HCP_Last_Name__c);
                 gen.writeNumberField('trx',trenddetails.TRx_Units__c);
                 gen.writeEndObject();
+             
                 if(productprescribercount==5)
                 {
                 gen.writeEndArray();
                 gen.writeEndObject();
                 }
+                
+                productprescribercount++;
+                
             }
-            else
-            {
-                continue;
-            }
-        }
-        gen.writeEndArray();  
-        sdata = gen.getAsString();
-        sdata=sdata.replaceall('\n','');
-        System.Debug('%%%%' + sdata);
-        obj = Json.deserializeUntyped(sdata);   
+                            
+       }
+       gen.writeEndArray();  
+       sdata = gen.getAsString();
+       sdata=sdata.replaceall('\n','');
+       System.Debug('--TrendsPrescribers' + sdata);
+        obj = Json.deserializeUntyped(sdata); 
         return obj;
     }
     

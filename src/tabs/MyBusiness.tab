@@ -2,6 +2,6 @@
 <CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
     <label>MyBusiness</label>
     <mobileReady>false</mobileReady>
-    <motif>Custom3: Sun</motif>
-    <page>MYBZ_Lilly141030</page>
+    <motif>Custom36: Train</motif>
+    <page>MYBZ_Lilly_141030_Dev_201404_Cloned</page>
 </CustomTab>
