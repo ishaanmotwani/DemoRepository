@@ -810,6 +810,12 @@ global with sharing class MYBZ_RR_Controller_Dev_201404
             targetGoalList.clear();
             targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
         }
+        else if(Role == 'Super User' && district != null && district != ''){
+            targetGoalList.clear();
+            
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+        
+        }
         
         system.debug('targetGoalList---'+targetGoalList);
         if(!targetGoalList.isEmpty()){
@@ -924,6 +930,13 @@ global with sharing class MYBZ_RR_Controller_Dev_201404
             system.debug('associatedDistrictName--'+associatedDistrictName);
             targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:associatedDistrictName AND Territory__c = null ORDER BY Month__c, Year__c ASC];
         }
+        else if(Role == 'Super User'){
+            targetGoalList.clear();
+            MYBZ_District__c districtObj = [SELECT Id, Global_Id__c FROM MYBZ_District__c WHERE Global_Id__c !=null AND Global_Id__c !='' LIMIT 1];
+            
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:districtObj.Id AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+        
+        }
         system.debug('targetGoalList---'+targetGoalList);
         if(!targetGoalList.isEmpty()){
             for(MYBZ_Target_Goal__c targetGoalObj : targetGoalList){
@@ -1019,22 +1032,20 @@ global with sharing class MYBZ_RR_Controller_Dev_201404
         
         Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>> YearAndMonthProductTrendMap = new Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>>();
         
-        if((Role == 'Major Market Manager' || Role == 'District Sales Manager') && district !=null && district !=''){
+        if((Role == 'Major Market Manager' || Role == 'District Sales Manager' || Role == 'Super User') && district !=null && district !=''){
             productTrendsList.clear();
-            MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c WHERE State__r.Name =:district LIMIT 1];
-            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Territory__c =: territoryObj.Id AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }
-        if(Role == 'Major Market Manager' && region !=null && region !=''){
+        if((Role == 'Major Market Manager' || Role == 'Super User') && region !=null && region !=''){
             productTrendsList.clear();
-            MYBZ_District__c districtObj = [SELECT Id FROM MYBZ_District__c WHERE Region__r.Name =:region LIMIT 1];
-            
-            MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c WHERE State__c =: districtObj.Id LIMIT 1];
-            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE Territory__c =: territoryObj.Id AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+           
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }
-        if(Role == 'District Sales Manager' && territory !=null && territory !=''){
+        if((Role == 'District Sales Manager' || Role == 'Super User') && territory !=null && territory !=''){
             productTrendsList.clear();
             productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }
+        
         system.debug('productTrendsList---'+productTrendsList);
         if(!productTrendsList.isEmpty()){
             for(MYBZ_Market_Share__c productTrendObj : productTrendsList){
@@ -1143,7 +1154,13 @@ global with sharing class MYBZ_RR_Controller_Dev_201404
             productTrendsList.clear();
             productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }
-       
+        if(Role == 'Super User'){
+            productTrendsList.clear();
+            String territoryName = 'BAYSTATE MA IH Partner 125397';
+            MYBZ_Territory__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Territory__c WHERE Name =:territoryName LIMIT 1];
+            
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+        }
         system.debug('productTrendsList---'+productTrendsList);
         if(!productTrendsList.isEmpty()){
             for(MYBZ_Market_Share__c productTrendObj : productTrendsList){
@@ -1240,19 +1257,17 @@ global with sharing class MYBZ_RR_Controller_Dev_201404
         Map<String, Map<Decimal, List<MYBZ_Market_Share__c>>> MarketShareNameAndMarketShareMap = new Map<String, Map<Decimal, List<MYBZ_Market_Share__c>>>();
         
         List<MYBZ_Market_Share__c> marketShareList = new List<MYBZ_Market_Share__c>();
-        if((Role == 'Major Market Manager' || Role == 'District Sales Manager') && district !=null && district !=''){
+        if((Role == 'Major Market Manager' || Role == 'District Sales Manager' || Role == 'Super User') && district !=null && district !=''){
             marketShareList.clear();
-            MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c WHERE State__r.Name =:district LIMIT 1];
-            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Territory__c =: territoryObj.Id ORDER BY Month__c, Year__c ASC];
+           
+            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district ORDER BY Month__c, Year__c ASC];
         }
-        if(Role == 'Major Market Manager' && region !=null && region !=''){
+        if((Role == 'Major Market Manager' || Role == 'Super User') && region !=null && region !=''){
             marketShareList.clear();
-            MYBZ_District__c districtObj = [SELECT Id FROM MYBZ_District__c WHERE Region__r.Name =:region LIMIT 1];
             
-            MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c WHERE State__c =: districtObj.Id LIMIT 1];
-            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE Territory__c =: territoryObj.Id ORDER BY Month__c, Year__c ASC];
+            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region ORDER BY Month__c, Year__c ASC];
         }
-        if(Role == 'District Sales Manager' && territory !=null && territory !=''){
+        if((Role == 'District Sales Manager' || Role == 'Super User') && territory !=null && territory !=''){
             marketShareList.clear();
             marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory ORDER BY Month__c, Year__c ASC];
         }
@@ -1399,6 +1414,13 @@ global with sharing class MYBZ_RR_Controller_Dev_201404
             marketShareList.clear();
             marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
         }
+        if(Role == 'Super User'){
+            marketShareList.clear();
+            MYBZ_Territory__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Territory__c WHERE Global_Id__c !=null AND Global_Id__c !='' LIMIT 1];
+            
+            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id ORDER BY Month__c, Year__c ASC];
+        }
+            
         if(!marketShareList.isEmpty()){
             for(MYBZ_Market_Share__c marketShareObj : marketShareList){
                 if(!MarketShareNameAndYearMap.containsKey(marketShareObj.Market__c)){
@@ -1517,12 +1539,32 @@ global with sharing class MYBZ_RR_Controller_Dev_201404
         User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
         Role = userObj.MYBZ_Role__c;
         GlobalId = userObj.Prsnl_Nbr_GLBL__c;
-        
+        List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = new List<MYBZ_Product_Trend_Detail__c>();
         String sdata;
         Object obj;
         
-       //List of all trend-details for a particular user
-        List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+        if(Role == 'Sales Representative'){
+            TrendsDetailsList.clear();
+           //List of all trend-details for a particular user
+            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+        }
+        if(Role == 'District Sales Manager'){
+            TrendsDetailsList.clear();
+           //List of all trend-details for a particular user
+            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+        }
+        if(Role == 'Major Market Manager'){
+            TrendsDetailsList.clear();
+           //List of all trend-details for a particular user
+            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+        }
+        if(Role == 'Super User'){
+            TrendsDetailsList.clear();
+            String territoryName = 'BAYSTATE MA IH Partner 125397';
+            MYBZ_Territory__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Territory__c WHERE Name =:territoryName AND Range__c = 'oneMonthData' LIMIT 1];
+            
+            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Territory__c =:territoryObj.Id order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+        }
         JSONGenerator gen = JSON.createGenerator(true);
         gen.writeStartArray();  
         String Years='';
@@ -1607,9 +1649,20 @@ global with sharing class MYBZ_RR_Controller_Dev_201404
         
         String sdata;
         Object obj;
+        List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = new List<MYBZ_Product_Trend_Detail__c>();
         
-       //List of all trend-details for a particular user
-        List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+        if((Role == 'Major Market Manager' || Role == 'District Sales Manager' || Role == 'Super User') && district !=null && district !=''){
+            TrendsDetailsList.clear();
+            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where District__r.Name =:district order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+        }
+        if((Role == 'Major Market Manager' || Role == 'Super User') && region !=null && region !=''){
+            TrendsDetailsList.clear();
+            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Area__r.Name =:region order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+        }
+        if((Role == 'District Sales Manager' || Role == 'Super User') && territory !=null && territory !=''){
+            TrendsDetailsList.clear();
+            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where territory__r.Name =:territory order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+        }
         JSONGenerator gen = JSON.createGenerator(true);
         gen.writeStartArray();  
         String Years='';
@@ -1686,13 +1739,31 @@ global with sharing class MYBZ_RR_Controller_Dev_201404
      @RemoteAction  
   global static Object callPlanning(String region, String district, String territory){       
         
-    //String UserId = '2028493';
+
      UserId = UserInfo.getUserId();
      User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
      Role = userObj.MYBZ_Role__c;
      GlobalId = userObj.Prsnl_Nbr_GLBL__c;
-      GlobalId = '2003742';
-    List<MYBZ_Call_Planning__c> CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
+     List<MYBZ_Call_Planning__c> CallPlanningsList = new List<MYBZ_Call_Planning__c>();
+     
+    if(Role == 'Sales Representative'){
+        CallPlanningsList.clear();
+        
+        CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
+    }
+    if((Role == 'District Sales Manager' || Role == 'Super User') && territory != null && territory !=''){
+        CallPlanningsList.clear();
+        
+        CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Territory__r.Name=:territory order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
+    }
+    if(Role == 'Major Market Manager'){
+        
+        CallPlanningsList.clear();
+        MYBZ_Territory__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Territory__c WHERE Global_Id__c !=null AND Global_Id__c !='' LIMIT 1];
+        
+        CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Territory__c =:territoryObj.Id order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
+    }
+    
        if(CallPlanningsList.isempty())
     {
         return null;
@@ -2051,18 +2122,25 @@ global with sharing class MYBZ_RR_Controller_Dev_201404
      User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c FROM User WHERE Id =:UserId];
      Role = userObj.MYBZ_Role__c;
      GlobalId = userObj.Prsnl_Nbr_GLBL__c;
-    if(Role == 'Major Market Manager'){
-        GlobalId = '2003742';
-        CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
+    if(Role == 'Major Market Manager' || Role == 'Super User'){
+        CallPlanningsList.clear();
+        
+        MYBZ_Territory__c territoryObj = [SELECT Id, Name, Global_Id__c FROM MYBZ_Territory__c WHERE Global_Id__c !=null AND Global_Id__c !='' LIMIT 1];
+        
+        CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:territoryObj.Global_Id__c order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
     }
     if(Role == 'District Sales Manager'){
+        CallPlanningsList.clear();
+        
         MYBZ_District__c districtObj = [SELECT Id, Name FROM MYBZ_District__c WHERE Global_Id__c =:GlobalId LIMIT 1];
         
-        MYBZ_Territory__c territoryObj = [SELECT Id, Name, Global_Id__c FROM MYBZ_Territory__c WHERE State__c =:districtObj.Id LIMIT 1];
+        MYBZ_Territory__c territoryObj = [SELECT Id, Name, Global_Id__c FROM MYBZ_Territory__c WHERE State__c =:districtObj.Id AND Global_Id__c !=null AND Global_Id__c !='' LIMIT 1];
         
         CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:territoryObj.Global_Id__c order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
     }
     if(Role == 'Sales Representative'){
+        CallPlanningsList.clear();
+        
         CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
     }
     if(CallPlanningsList.isempty())
