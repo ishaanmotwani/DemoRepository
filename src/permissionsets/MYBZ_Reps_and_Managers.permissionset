@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
-        <apexClass>MYBZ_RegionRollup_Controller_Dev_201404</apexClass>
+        <apexClass>MYBZ_RR_Controller_Dev_201404</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -21,6 +21,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>MYBZ_Lilly_141030_Dev_201404_Cloned</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>MYBZ_Lilly_141030_Dev_201404_Cloned_New</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabSettings>

@@ -10,7 +10,7 @@
             var region = '';
             var district = '';
             var territory = '';
-             var urlPath = "{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update, '')}";
+             var urlPath = "{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New, '')}";
              window.RESOURCE_ROOT = urlPath.split('?')[0];
              
              $GLOBALID='{!GlobalId}';
@@ -23,7 +23,7 @@
                  
                  if($Role=='Major Market Manager')
                      $userRole=2;
-                 if($Role=='Super user')
+                 if($Role=='Super User')
                  $userRole=3;
              //alert($uname);
              //alert(Role);
@@ -180,59 +180,59 @@
            </script>
            
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_HideAddressBar,'')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/lillyApp.css')}"/> 
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/lillyApp.css')}"/> 
         <!--This is problem area -->
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/component.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/la-buttons.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/la-call-planning.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/la-controls.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/la-dashboard.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/la-market-share.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/la-target-goals.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/la-trends.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/normalize.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'css/component.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/component.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/la-buttons.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/la-call-planning.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/la-controls.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/la-dashboard.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/la-market-share.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/la-target-goals.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/la-trends.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/normalize.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'css/component.css')}"/>
         <!-- End problem area -->
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/jquery-1.11.1.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/bootstrap-3.1.1-dist/js/bootstrap.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/angular/angular.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/angular/angular-route.js')}"/>
-      <!-- <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/angular/angular-ui-router.js')}"/>-->
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/angular/angular-resource.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/angular/angular-sanitize.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/angular/angular-animate.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/angular-bootstrap/ui-bootstrap-custom-tpls-0.10.0.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/modernizr/modernizr.input.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/modernizr.custom.25376.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/jquery-1.11.1.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/bootstrap-3.1.1-dist/js/bootstrap.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/angular/angular.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/angular/angular-route.js')}"/>
+      <!-- <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/angular/angular-ui-router.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/angular/angular-resource.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/angular/angular-sanitize.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/angular/angular-animate.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/angular-bootstrap/ui-bootstrap-custom-tpls-0.10.0.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/modernizr/modernizr.input.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/modernizr.custom.25376.js')}"/>
         
     
         
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/local-storage/angular-local-storage.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/greensock/plugins/CSSPlugin.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/greensock/TweenLite.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/angular-ui/mask.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/greensock/TweenLite.min.js')}"/>
-        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/processing.min.js')}"/>-->
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/typeahead/bloodhound.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/typeahead/typeahead.bundle.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'lib/typeahead/typeahead.jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/local-storage/angular-local-storage.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/greensock/plugins/CSSPlugin.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/greensock/TweenLite.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/angular-ui/mask.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/greensock/TweenLite.min.js')}"/>
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/processing.min.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/typeahead/bloodhound.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/typeahead/typeahead.bundle.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'lib/typeahead/typeahead.jquery.min.js')}"/>
        
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/PieChartStackC.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/PieChart.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/MarketShareChart.js')}"/>
-         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/TrendsChart.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/lillyApp.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/PieChartStackC.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/PieChart.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/MarketShareChart.js')}"/>
+         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/TrendsChart.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/lillyApp.js')}"/>
         
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/la-call-planning.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/la-controls.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/la-dashboard.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/la-market-share.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/la-navigation.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/la-region-rollup.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/la-target-goals.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/la-trends.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/la-call-planning.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/la-controls.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/la-dashboard.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/la-market-share.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/la-navigation.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/la-region-rollup.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/la-target-goals.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/la-trends.js')}"/>
         
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/placeholder-shim.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/placeholder-shim.js')}"/>
 
      
     </head>
@@ -251,7 +251,7 @@
                 
                 <div class="container">
                     <div class="wrapper"><!-- wrapper needed for scroll -->
-                         <div ng-include="'{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'partials/controls.html')}'"></div>
+                         <div ng-include="'{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'partials/controls.html')}'"></div>
                                        <div class="loading-view">
                             <div class="loading-text">Loading...</div>
                         </div>
@@ -264,24 +264,24 @@
 
                 <!-- Container for dashboard/drawer -->
                 <nav class="outer-nav right vertical">
-                   <div ng-include="'{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'partials/dashboard.html')}'" id="dashboard"></div>
+                   <div ng-include="'{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'partials/dashboard.html')}'" id="dashboard"></div>
                 </nav>
 
             </div> <!-- /Perspective -->
 
             <!-- Controls Button -->
-            <img class="controls-view-toggle-indicator" src="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'/img/controls-closed.png')}" ng-hide="navigationHidden == true || controlsButtonHidden == true"></img>
+            <img class="controls-view-toggle-indicator" src="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'/img/controls-closed.png')}" ng-hide="navigationHidden == true || controlsButtonHidden == true"></img>
             <button class="controls-view-toggle-button transparent" ng-click="centerButtonPressed()" ng-hide="navigationHidden == true || controlsButtonHidden == true"></button>
 
             <!-- Hamburger -->
             <button class="upper-right-corner transparent" id="showMenu">
-                <apex:image styleclass="upper-right-corner-image" url="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'img/hamburger.png')}"/>
+                <apex:image styleclass="upper-right-corner-image" url="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'img/hamburger.png')}"/>
             </button>
 
         </div> <!-- End root-container -->
 
-       <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/classie.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update,'js/menu.js')}"/>
+       <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/classie.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Lilly_141030_Dev_Update_Cloned_New,'js/menu.js')}"/>
     </body>
     </html>
 </apex:page>

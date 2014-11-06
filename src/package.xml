@@ -4,6 +4,7 @@
         <members>MYBZ_RegionRollup_Controller</members>
 		<members>MYBZ_RegionRollup_Controller_Dev_Update</members>
 		<members>MYBZ_RegionRollup_Controller_Dev_201404</members>
+		<members>MYBZ_RR_Controller_Dev_201404</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -11,6 +12,7 @@
 		<members>MYBZ_Lilly_141030_Dev_Update</members>
 		<members>MYBZ_Lilly_141030_Dev_201404</members>
 		<members>MYBZ_Lilly_141030_Dev_201404_Cloned</members>
+		<members>MYBZ_Lilly_141030_Dev_201404_Cloned_New</members>
         <name>ApexPage</name>
     </types>
     <types>
@@ -64,6 +66,7 @@
         <members>MYBZ_RegionRollup</members>
 		<members>MYBZ_Lilly_141030_Dev_Update</members>
 		<members>MYBZ_Lilly_141030_Dev_Update_Cloned</members>
+		<members>MYBZ_Lilly_141030_Dev_Update_Cloned_New</members>
         <name>StaticResource</name>
     </types>
     <types>
