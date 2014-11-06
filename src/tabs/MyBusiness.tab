@@ -3,5 +3,5 @@
     <label>MyBusiness</label>
     <mobileReady>false</mobileReady>
     <motif>Custom36: Train</motif>
-    <page>MYBZ_Region_Rollup</page>
+    <page>MYBZ_Region_Rollup_Page</page>
 </CustomTab>

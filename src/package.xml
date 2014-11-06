@@ -16,6 +16,7 @@
 		<members>MYBZ_Lilly_141030_Dev_201404_Cloned</members>
 		<members>MYBZ_Lilly_141030_Dev_201404_Cloned_New</members>
 		<members>MYBZ_Region_Rollup</members>
+		<members>MYBZ_Region_Rollup_Page</members>
         <name>ApexPage</name>
     </types>
     <types>
@@ -71,6 +72,7 @@
 		<members>MYBZ_Lilly_141030_Dev_Update_Cloned</members>
 		<members>MYBZ_Lilly_141030_Dev_Update_Cloned_New</members>
 		<members>MYBZ_Region_Rollup</members>
+		<members>MYBZ_Region_Rollup_Resource</members>
         <name>StaticResource</name>
     </types>
     <types>

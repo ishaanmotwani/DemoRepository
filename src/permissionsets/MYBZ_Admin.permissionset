@@ -27,6 +27,10 @@
         <apexPage>MYBZ_Region_Rollup</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+    <pageAccesses>
+        <apexPage>MYBZ_Region_Rollup_Page</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <tabSettings>
         <tab>MyBusiness</tab>
         <visibility>Visible</visibility>
