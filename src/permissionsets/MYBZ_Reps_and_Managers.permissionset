@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
-        <apexClass>MYBZ_RR_Controller_Dev_201404</apexClass>
+        <apexClass>MYBZ_RegionRollup_Controller_Dev_Update</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MYBZ_Region_Rollup_Controller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MYBZ_RegionRollup_Controller_Dev_Update</apexClass>
-        <enabled>false</enabled>
+        <apexClass>Test_MYBZ_RegionRollup_Controller</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <description>Permission set for Sales Rep, DSM and MMM</description>
     <fieldPermissions>
@@ -16,15 +20,11 @@
     </fieldPermissions>
     <label>MYBZ Reps and Managers</label>
     <pageAccesses>
-        <apexPage>MYBZ_Lilly_141030_Dev_201404</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>MYBZ_Lilly_141030_Dev_201404_Cloned</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>MYBZ_Lilly_141030_Dev_201404_Cloned_New</apexPage>
+        <apexPage>MYBZ_Region_Rollup</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabSettings>
