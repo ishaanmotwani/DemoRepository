@@ -949,10 +949,11 @@ global with sharing class MYBZ_Region_Rollup_Controller
         }
         else if(Role == 'Sales Representative'){
             targetGoalList.clear();
-            MYBZ_Territory__c territoryObj = [SELECT Id, State__r.Name FROM MYBZ_Territory__c WHERE Global_Id__c =:GlobalId LIMIT 1];
-            String associatedDistrictName = territoryObj.State__r.Name;
-            system.debug('associatedDistrictName--'+associatedDistrictName);
-            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:associatedDistrictName AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+            //  MYBZ_Territory__c territoryObj = [SELECT Id, State__r.Name FROM MYBZ_Territory__c WHERE Global_Id__c =:GlobalId LIMIT 1];
+          //  String associatedDistrictName = territoryObj.State__r.Name;
+           // system.debug('associatedDistrictName--'+associatedDistrictName);
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
+            
         }
         else if(Role == 'Super User'){
             targetGoalList.clear();
