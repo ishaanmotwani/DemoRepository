@@ -7,12 +7,13 @@
         <meta name="apple-mobile-web-app-title" content="Eli Lilly Sales Tool" />
         <title>Eli Lilly Sales Tool</title>
          <script>
+            
             var region = '';
             var district = '';
             var territory = '';
              var urlPath = "{!URLFOR($Resource.MYBZ_Region_Rollup_Resource, '')}";
              window.RESOURCE_ROOT = urlPath.split('?')[0];
-             
+           //  alert(RESOURCE_ROOT);
              $GLOBALID='{!GlobalId}';
              $Role='{!Role}';
              $uname='{!uname}';
@@ -179,7 +180,59 @@
                 
            </script>
            
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_HideAddressBar,'')}"/>
+     
+
+     
+    </head>
+  <!--<apex:form >
+          <apex:actionFunction action="{!test}" name="checkInput" rerender="">
+        <apex:param name="RegionParam" assignTo="{!regPassed}" value="" />
+        <apex:param name="DistrictParam" assignTo="{!disPassed}" value="" />
+        <apex:param name="TerParam" assignTo="{!terPassed}" value="" />
+    </apex:actionFunction>
+    </apex:form>-->
+    <body>
+        <div id="root-container" ng-controller="controlsAndDrawerCtrl">
+
+            <!-- Container for main view and controls view -->
+            <div id="perspective" class="perspective effect-moveleft">
+                
+                <div class="container">
+                    <div class="wrapper"><!-- wrapper needed for scroll -->
+                         <div ng-include="'{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'partials/controls.html')}'"></div>
+                                       <div class="loading-view">
+                            <div class="loading-text">Loading...</div>
+                        </div>
+
+                        <div class="main-view"> <!-- Contains current main view -->
+                            <div ng-view="true"></div>
+                        </div> <!-- /Main View -->
+                    </div> <!-- /Wrapper -->
+                </div> <!-- /Container -->
+
+                <!-- Container for dashboard/drawer -->
+                <nav class="outer-nav right vertical">
+                   <div ng-include="'{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'partials/dashboard.html')}'" id="dashboard"></div>
+                </nav>
+
+            </div> <!-- /Perspective -->
+
+            <!-- Controls Button -->
+            <img class="controls-view-toggle-indicator" src="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'/img/controls-closed.png')}" ng-hide="navigationHidden == true || controlsButtonHidden == true"></img>
+            <button class="controls-view-toggle-button transparent" ng-click="centerButtonPressed()" ng-hide="navigationHidden == true || controlsButtonHidden == true"></button>
+
+            <!-- Hamburger -->
+            <button class="upper-right-corner transparent" id="showMenu">
+                <apex:image styleclass="upper-right-corner-image" url="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'img/hamburger.png')}"/>
+            </button>
+
+        </div> <!-- End root-container -->
+
+      
+        
+    </body>
+    
+       <apex:includeScript value="{!URLFOR($Resource.MYBZ_HideAddressBar,'')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/lillyApp.css')}"/> 
         <!--This is problem area -->
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/component.css')}"/>
@@ -233,55 +286,9 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/la-trends.js')}"/>
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/placeholder-shim.js')}"/>
-
-     
-    </head>
-  <!--<apex:form >
-          <apex:actionFunction action="{!test}" name="checkInput" rerender="">
-        <apex:param name="RegionParam" assignTo="{!regPassed}" value="" />
-        <apex:param name="DistrictParam" assignTo="{!disPassed}" value="" />
-        <apex:param name="TerParam" assignTo="{!terPassed}" value="" />
-    </apex:actionFunction>
-    </apex:form>-->
-    <body>
-        <div id="root-container" ng-controller="controlsAndDrawerCtrl">
-
-            <!-- Container for main view and controls view -->
-            <div id="perspective" class="perspective effect-moveleft">
-                
-                <div class="container">
-                    <div class="wrapper"><!-- wrapper needed for scroll -->
-                         <div ng-include="'{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'partials/controls.html')}'"></div>
-                                       <div class="loading-view">
-                            <div class="loading-text">Loading...</div>
-                        </div>
-
-                        <div class="main-view"> <!-- Contains current main view -->
-                            <div ng-view="true"></div>
-                        </div> <!-- /Main View -->
-                    </div> <!-- /Wrapper -->
-                </div> <!-- /Container -->
-
-                <!-- Container for dashboard/drawer -->
-                <nav class="outer-nav right vertical">
-                   <div ng-include="'{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'partials/dashboard.html')}'" id="dashboard"></div>
-                </nav>
-
-            </div> <!-- /Perspective -->
-
-            <!-- Controls Button -->
-            <img class="controls-view-toggle-indicator" src="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'/img/controls-closed.png')}" ng-hide="navigationHidden == true || controlsButtonHidden == true"></img>
-            <button class="controls-view-toggle-button transparent" ng-click="centerButtonPressed()" ng-hide="navigationHidden == true || controlsButtonHidden == true"></button>
-
-            <!-- Hamburger -->
-            <button class="upper-right-corner transparent" id="showMenu">
-                <apex:image styleclass="upper-right-corner-image" url="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'img/hamburger.png')}"/>
-            </button>
-
-        </div> <!-- End root-container -->
-
-       <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/classie.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/menu.js')}"/>
-    </body>
+        
+     <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/classie.js')}"/>
+     <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/menu.js')}"/>
     </html>
+    
 </apex:page>
