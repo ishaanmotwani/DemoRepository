@@ -1866,7 +1866,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
     {
         return null;
     }
-    List<MYBZ_Call__c> CallsList = [select id,Name,Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.Name,Call_Type__c,Product_Position__c,Call_Date__c from MYBZ_Call__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Call_Date__c,Call_Type__c,Product_Position__c ];
+    List<MYBZ_Call__c> CallsList = [select id,Name,Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.Name,Call_Type__c,Product_Position__c,Call_Date__c from MYBZ_Call__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Call_Date__c desc,Call_Type__c asc,Product_Position__c asc ];
     Decimal percentageChangePastMonth = 0;
     Decimal percentageChangePastThreeMonths = 0;
     Decimal percentageChangePastSixMonths = 0;
@@ -2141,10 +2141,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         {
                             if(callsProductNumber==2)
                             {
-                                if(CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
+                                if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
                                 {
                                     gen.writeStringField('product2',CallsList[i].Product__r.Name);
-                                    
+                                    usercallcount--;
                                 }
                             }
                             else
@@ -2161,10 +2161,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         {
                             if(callsProductNumber==2)
                             {
-                                if(CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
+                                if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
                                 {
                                     gen.writeStringField('product2',CallsList[i].Product__r.Name);
-                                    
+                                    usercallcount--;
                                 }
                             }
                             else
@@ -2255,7 +2255,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
     {
         return null;
     }
-    List<MYBZ_Call__c> CallsList = [select id,Name,Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.Name,Call_Type__c,Product_Position__c,Call_Date__c from MYBZ_Call__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Call_Date__c,Call_Type__c,Product_Position__c ];
+    List<MYBZ_Call__c> CallsList = [select id,Name,Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.Name,Call_Type__c,Product_Position__c,Call_Date__c from MYBZ_Call__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Call_Date__c desc,Call_Type__c asc,Product_Position__c asc];
     Decimal percentageChangePastMonth = 0;
     Decimal percentageChangePastThreeMonths = 0;
     Decimal percentageChangePastSixMonths = 0;
@@ -2530,9 +2530,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         {
                             if(callsProductNumber==2)
                             {
-                                if(CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
+                                if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
                                 {
                                     gen.writeStringField('product2',CallsList[i].Product__r.Name);
+                                    usercallcount--;
                                     
                                 }
                             }
@@ -2550,10 +2551,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         {
                             if(callsProductNumber==2)
                             {
-                                if(CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
+                                if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
                                 {
                                     gen.writeStringField('product2',CallsList[i].Product__r.Name);
-                                    
+                                    usercallcount--;
                                 }
                             }
                             else
