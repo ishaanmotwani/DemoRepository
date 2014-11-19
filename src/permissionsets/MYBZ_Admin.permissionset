@@ -666,10 +666,6 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>MYBZ_RegionRollup</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>MYBZ_Region_Rollup</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
