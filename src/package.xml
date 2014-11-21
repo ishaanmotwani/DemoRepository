@@ -49,6 +49,7 @@
     </types>
 	<types>
         <members>User.MYBZ_Role__c</members>
+		<members>User.Prsnl_Nbr_GLBL__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -62,6 +63,7 @@
         <members>MYBZ_Region__c-Region Layout</members>
         <members>MYBZ_Target_Goal__c-Target Goal Layout</members>
         <members>MYBZ_Territory__c-Tier Layout</members>
+		<members>User-User Layout</members>
         <name>Layout</name>
     </types>
     <types>
