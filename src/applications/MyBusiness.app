@@ -2,6 +2,7 @@
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <defaultLandingTab>standard-home</defaultLandingTab>
     <description>This application is to build screen prototypes using Salesforce1 mobile platform using HTML5 based UI</description>
+	<label>MyBusiness</label>
     <tab>MYBZ_Call_Planning__c</tab>
     <tab>MYBZ_Target_Goal__c</tab>
     <tab>MYBZ_Product__c</tab>
