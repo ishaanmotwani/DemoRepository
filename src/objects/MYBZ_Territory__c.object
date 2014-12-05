@@ -1,86 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
-    <fields>
-        <fullName>Global_Id__c</fullName>
-        <label>Global Id</label>
-        <length>12</length>
-        <type>Text</type>
-    </fields>
-    <fields>
-        <fullName>NRx__c</fullName>
-        <label>NRx</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
-    </fields>
-    <fields>
-        <fullName>Product__c</fullName>
-        <label>Product</label>
-        <referenceTo>MYBZ_Product__c</referenceTo>
-        <relationshipLabel>Territories</relationshipLabel>
-        <relationshipName>Territories</relationshipName>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Range__c</fullName>
-        <label>Range</label>
-        <picklist>
-            <picklistValues>
-                <fullName>oneMonthData</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>threeMonthData</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>sixMonthData</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
-        <type>Picklist</type>
-    </fields>
-    <fields>
-        <fullName>Region_Global_ID__c</fullName>
-        <formula>State__r.Region__r.Global_Id__c</formula>
-        <label>Region Global ID</label>
-        <type>Text</type>
-    </fields>
-    <fields>
-        <fullName>Region_Name__c</fullName>
-        <formula>State__r.Region__r.Name</formula>
-        <label>Region Name</label>
-        <type>Text</type>
-    </fields>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
     <fields>
         <fullName>State__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
         <label>State</label>
         <referenceTo>MYBZ_District__c</referenceTo>
         <relationshipName>Tier</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
         <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Trx__c</fullName>
-        <label>Trx</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
     </fields>
     <label>Territory</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
-        <columns>Global_Id__c</columns>
         <columns>OBJECT_ID</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
+        <language>en_US</language>
     </listViews>
     <nameField>
         <label>Name</label>
+        <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Territories</pluralLabel>

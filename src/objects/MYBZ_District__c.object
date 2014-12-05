@@ -1,83 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
-    <fields>
-        <fullName>Global_Id__c</fullName>
-        <label>Global Id</label>
-        <length>18</length>
-        <type>Text</type>
-    </fields>
-    <fields>
-        <fullName>Gross_Margin__c</fullName>
-        <label>Gross Margin</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
-    </fields>
-    <fields>
-        <fullName>NRx__c</fullName>
-        <label>NRx</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
-    </fields>
-    <fields>
-        <fullName>Net_Profit__c</fullName>
-        <label>Net Profit</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
-    </fields>
-    <fields>
-        <fullName>OPEX__c</fullName>
-        <label>OPEX</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
-    </fields>
-    <fields>
-        <fullName>Product__c</fullName>
-        <label>Product</label>
-        <referenceTo>MYBZ_Product__c</referenceTo>
-        <relationshipLabel>Districts</relationshipLabel>
-        <relationshipName>Districts</relationshipName>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Range__c</fullName>
-        <label>Range</label>
-        <picklist>
-            <picklistValues>
-                <fullName>oneMonthData</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>threeMonthData</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>sixMonthData</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
-        <type>Picklist</type>
-    </fields>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
     <fields>
         <fullName>Region__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
         <label>Region</label>
         <referenceTo>MYBZ_Region__c</referenceTo>
         <relationshipName>State</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
         <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>TRx__c</fullName>
-        <label>TRx</label>
-        <precision>18</precision>
-        <scale>0</scale>
-        <type>Number</type>
     </fields>
     <label>District</label>
     <listViews>
@@ -85,16 +71,19 @@
         <columns>OBJECT_ID</columns>
         <columns>NAME</columns>
         <columns>Region__c</columns>
-        <columns>Range__c</columns>
-        <columns>Product__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
+        <language>en_US</language>
     </listViews>
     <nameField>
         <label>Name</label>
+        <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Districts</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts>
+        <lookupDialogsAdditionalFields xsi:nil="true"/>
+        <lookupDialogsAdditionalFields xsi:nil="true"/>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
 </CustomObject>

@@ -79,7 +79,12 @@
                 <field>MYBZ_Role__c</field>
             </layoutItems>
         </layoutColumns>
-        <layoutColumns/>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>MYBZ_Reporting_ID__c</field>
+            </layoutItems>
+        </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <relatedObjects>UserRoleId</relatedObjects>

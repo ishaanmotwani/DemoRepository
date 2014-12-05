@@ -5,18 +5,55 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>MYBZ_RegionRollup_Controller</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MYBZ_RegionRollup_Controller_Dev_Update</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MYBZ_Region_Rollup_Controller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <description>Permission set for Data Load User</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.Call_Planning__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.Physician_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.Previous_TRx_Units_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.Previous_TRx_Units_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.Previous_TRx_Units_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.TRx_Units_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.TRx_Units_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.TRx_Units_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_Call_Planning__c.End_Date__c</field>
@@ -41,6 +78,11 @@
         <editable>true</editable>
         <field>MYBZ_Call_Planning__c.Last_Name__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Call_Planning__c.Physician_ID__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -83,6 +125,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Call__c.Call_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_Call__c.Call_Type__c</field>
         <readable>true</readable>
@@ -103,6 +150,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Call__c.Physician_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_Call__c.Product_Position__c</field>
         <readable>true</readable>
@@ -119,47 +171,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_District__c.Global_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_District__c.Gross_Margin__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_District__c.NRx__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_District__c.Net_Profit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_District__c.OPEX__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_District__c.Product__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_District__c.Range__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>MYBZ_District__c.Region__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_District__c.TRx__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -218,6 +230,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Market_Share__c.DDD_Dollars__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Market_Share__c.DDD_Units__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_Market_Share__c.District__c</field>
         <readable>true</readable>
@@ -241,6 +263,16 @@
         <editable>true</editable>
         <field>MYBZ_Market_Share__c.Owner__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Market_Share__c.Previous_DDD_Dollars__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Market_Share__c.Previous_DDD_Units__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -323,6 +355,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Physician_Id__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_Product_Trend_Detail__c.Range__c</field>
         <readable>true</readable>
@@ -349,132 +386,222 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.Call_Planning__c</field>
+        <field>MYBZ_Region_Rollup__c.Alignment_Level__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.Lilly_Product__c</field>
+        <field>MYBZ_Region_Rollup__c.DDD_Dollars_1M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.Market_Share__c</field>
+        <field>MYBZ_Region_Rollup__c.DDD_Dollars_3M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.Percentage_Change_Past_Month__c</field>
+        <field>MYBZ_Region_Rollup__c.DDD_Dollars_6M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.Percentage_Change_Past_Six_Months__c</field>
+        <field>MYBZ_Region_Rollup__c.DDD_Dollars_Start_Date_1M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.Percentage_Change_Past_Three_Months__c</field>
+        <field>MYBZ_Region_Rollup__c.DDD_Dollars_Start_Date_3M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.Scripts_Written_Past_Month__c</field>
+        <field>MYBZ_Region_Rollup__c.DDD_Dollars_Start_Date_6M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.Scripts_Written_Past_Three_Months__c</field>
+        <field>MYBZ_Region_Rollup__c.District__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.Scripts_written_past_one_year__c</field>
+        <field>MYBZ_Region_Rollup__c.Global_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.Scripts_written_past_six_months__c</field>
+        <field>MYBZ_Region_Rollup__c.Gross_Margin_1M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Product__c.TRx_Units__c</field>
+        <field>MYBZ_Region_Rollup__c.Gross_Margin_3M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Region__c.Global_Id__c</field>
+        <field>MYBZ_Region_Rollup__c.Gross_Margin_6M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Region__c.GrossMarginStartDates__c</field>
+        <field>MYBZ_Region_Rollup__c.Gross_Margin_Start_Date_1M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Region__c.Gross_Margin__c</field>
+        <field>MYBZ_Region_Rollup__c.Gross_Margin_Start_Date_3M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Region__c.NRxStartDates__c</field>
+        <field>MYBZ_Region_Rollup__c.Gross_Margin_Start_Date_6M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Region__c.NRx__c</field>
+        <field>MYBZ_Region_Rollup__c.NRx_1M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Region__c.NetProfitStartDates__c</field>
+        <field>MYBZ_Region_Rollup__c.NRx_3M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Region__c.Net_Profit__c</field>
+        <field>MYBZ_Region_Rollup__c.NRx_6M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Region__c.OPEX__c</field>
+        <field>MYBZ_Region_Rollup__c.NRx_Start_Date_1M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Region__c.OpexStartDates__c</field>
+        <field>MYBZ_Region_Rollup__c.NRx_Start_Date_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.NRx_Start_Date_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Profit_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Profit_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Profit_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Profit_Start_Date_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Profit_Start_Date_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Profit_Start_Date_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.OPEX_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.OPEX_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.OPEX_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.OPEX_Start_Date_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.OPEX_Start_Date_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.OPEX_Start_Date_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.Region__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.TRx_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.TRx_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.TRx_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.TRx_Start_Date_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.TRx_Start_Date_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.TRx_Start_Date_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.Territory__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Region_Rollup__c.User__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_Region__c.Parent__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Region__c.Product__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Region__c.Range__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Region__c.Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Region__c.TRxStartDates__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Region__c.TRx__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -519,42 +646,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Territory__c.Global_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Territory__c.NRx__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Territory__c.Product__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Territory__c.Range__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>MYBZ_Territory__c.Region_Global_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>MYBZ_Territory__c.Region_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>MYBZ_Territory__c.State__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Territory__c.Trx__c</field>
+        <field>User.MYBZ_Reporting_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -562,12 +659,16 @@
         <field>User.MYBZ_Role__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>User.Prsnl_Nbr_GLBL__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <label>MYBZ Data Load User</label>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>MYBZ_CallPlanningProductJunction__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -637,6 +738,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
+        <object>MYBZ_Region_Rollup__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>MYBZ_Region__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
@@ -659,25 +769,13 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <pageAccesses>
-        <apexPage>MYBZ_Lilly141030</apexPage>
+        <apexPage>MYBZ_Regional_Rollup_Page_Rel2</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
-    <pageAccesses>
-        <apexPage>MYBZ_Lilly_141030_Dev_201404_Cloned</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>MYBZ_Lilly_141030_Dev_Update</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>MYBZ_Region_Rollup</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>MYBZ_Region_Rollup_Page</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
+    <tabSettings>
+        <tab>MYBZ_Business</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <tabSettings>
         <tab>MYBZ_Call_Planning__c</tab>
         <visibility>Available</visibility>
@@ -707,6 +805,10 @@
         <visibility>Available</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>MYBZ_Region_Rollup__c</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>MYBZ_Region__c</tab>
         <visibility>Available</visibility>
     </tabSettings>
@@ -717,10 +819,6 @@
     <tabSettings>
         <tab>MYBZ_Territory__c</tab>
         <visibility>Available</visibility>
-    </tabSettings>
-	<tabSettings>
-        <tab>MyBusiness</tab>
-        <visibility>Visible</visibility>
     </tabSettings>
     <userPermissions>
         <enabled>true</enabled>

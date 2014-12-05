@@ -12,5 +12,7 @@
     <tab>MYBZ_Territory__c</tab>
     <tab>MYBZ_Region__c</tab>
     <tab>MYBZ_Product_Trend_Detail__c</tab>
-    <tab>MyBusiness</tab>
+    <tab>Google_Analytic_Report__c</tab>
+    <tab>MYBZ_Region_Rollup__c</tab>
+    <tab>MYBZ_Business</tab>
 </CustomApplication>
