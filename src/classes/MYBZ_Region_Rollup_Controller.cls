@@ -178,57 +178,57 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     }
                 }
                 else if(str == 'netProfitStartDates'){
-                    if(regionList[0].OPEX_Start_Date_1M__c != null){
+                    if(regionList[0].Net_Profit_Start_Date_1M__c != null){
                         gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].Net_Profit_Start_Date_1M__c);
                     }
-                    if(regionList[0].OPEX_Start_Date_3M__c != null){
+                    if(regionList[0].Net_Profit_Start_Date_3M__c != null){
                         gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].Net_Profit_Start_Date_3M__c);
                     }
-                    if(regionList[0].OPEX_Start_Date_6M__c != null){
+                    if(regionList[0].Net_Profit_Start_Date_6M__c != null){
                         gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].Net_Profit_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'grossMarginsStartDates'){
-                    if(regionList[0].OPEX_Start_Date_1M__c != null){
+                    if(regionList[0].Gross_Margin_Start_Date_1M__c != null){
                         gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].Gross_Margin_Start_Date_1M__c);
                     }
-                    if(regionList[0].OPEX_Start_Date_3M__c != null){
+                    if(regionList[0].Gross_Margin_Start_Date_3M__c != null){
                         gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].Gross_Margin_Start_Date_3M__c);
                     }
-                    if(regionList[0].OPEX_Start_Date_6M__c != null){
+                    if(regionList[0].Gross_Margin_Start_Date_6M__c != null){
                         gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].Gross_Margin_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'trxStartDates'){
-                    if(regionList[0].OPEX_Start_Date_1M__c != null){
+                    if(regionList[0].TRx_Start_Date_1M__c != null){
                         gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].TRx_Start_Date_1M__c);
                     }
-                    if(regionList[0].OPEX_Start_Date_3M__c != null){
+                    if(regionList[0].TRx_Start_Date_3M__c != null){
                         gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].TRx_Start_Date_3M__c);
                     }
-                    if(regionList[0].OPEX_Start_Date_6M__c != null){
+                    if(regionList[0].TRx_Start_Date_6M__c != null){
                         gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].TRx_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'nrxStartDates'){
-                    if(regionList[0].OPEX_Start_Date_1M__c != null){
+                    if(regionList[0].NRx_Start_Date_1M__c != null){
                         gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].NRx_Start_Date_1M__c);
                     }
-                    if(regionList[0].OPEX_Start_Date_3M__c != null){
+                    if(regionList[0].NRx_Start_Date_3M__c != null){
                         gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].NRx_Start_Date_3M__c);
                     }
-                    if(regionList[0].OPEX_Start_Date_6M__c != null){
+                    if(regionList[0].NRx_Start_Date_6M__c != null){
                         gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].NRx_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'dddStartDates'){
-                    if(regionList[0].OPEX_Start_Date_1M__c != null){
+                    if(regionList[0].DDD_Dollars_Start_Date_1M__c != null){
                         gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].DDD_Dollars_Start_Date_1M__c);
                     }
-                    if(regionList[0].OPEX_Start_Date_3M__c != null){
+                    if(regionList[0].DDD_Dollars_Start_Date_3M__c != null){
                         gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].DDD_Dollars_Start_Date_3M__c);
                     }
-                    if(regionList[0].OPEX_Start_Date_6M__c != null){
+                    if(regionList[0].DDD_Dollars_Start_Date_6M__c != null){
                         gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].DDD_Dollars_Start_Date_6M__c);
                     }
                 }
