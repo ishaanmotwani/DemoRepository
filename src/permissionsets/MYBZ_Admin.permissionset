@@ -8,6 +8,10 @@
         <apexClass>MYBZ_Region_Rollup_Controller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MYBZ_RegionRollup_Controller</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Permission set for myBusiness Admin</description>
     <fieldPermissions>
         <editable>true</editable>

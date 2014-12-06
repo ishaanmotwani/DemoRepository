@@ -28,7 +28,7 @@
                  $userRole=3;
                  
                  if($Role=='Account Manager')
-                     $userRole=4;
+                     $userRole=1;
              //alert($uname);
              //alert(Role);
               
@@ -47,7 +47,7 @@
                         district = geography.district;
                     if(geography.territory !=null && geography.territory !='')
                         territory = geography.territory;
-                    alert('geography--'+geography.region);
+                   // alert('geography--'+geography.region);
                     Visualforce.remoting.Manager.invokeAction(
                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller.Alignment}',region, district, territory, callback
                     ); 

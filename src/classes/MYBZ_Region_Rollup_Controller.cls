@@ -263,7 +263,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         gen.writeNullField('dddDollars');
                                     gen.writeEndObject();
                                 }
-                                if(str == 'threeMonthsData'){
+                                if(str == 'threeMonthData'){
                                     gen.writeStartObject();
                                     gen.writeStringField('name',tempRegionObj.Product__r.Name);
                                     gen.writeNumberField('trxValue',tempRegionObj.TRx_3M__c);
@@ -277,7 +277,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         gen.writeNullField('dddDollars');
                                     gen.writeEndObject();
                                 }
-                                if(str == 'sixMonthsData'){
+                                if(str == 'sixMonthData'){
                                     gen.writeStartObject();
                                     gen.writeStringField('name',tempRegionObj.Product__r.Name);
                                     gen.writeNumberField('trxValue',tempRegionObj.TRx_6M__c);
@@ -326,7 +326,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                 gen.writeNullField('dddDollars');
                                              gen.writeEndObject();
                                         }
-                                        if(str == 'threeMonthsData'){
+                                        if(str == 'threeMonthData'){
                                             gen.writeStartObject();
                                             gen.writeStringField('name',tempdistObj.Product__r.Name);
                                             gen.writeNumberField('trxValue',tempdistObj.TRx_3M__c);
@@ -340,7 +340,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                 gen.writeNullField('dddDollars');
                                             gen.writeEndObject();
                                         }
-                                        if(str == 'sixMonthsData'){
+                                        if(str == 'sixMonthData'){
                                             gen.writeStartObject();
                                             gen.writeStringField('name',tempdistObj.Product__r.Name);
                                             gen.writeNumberField('trxValue',tempdistObj.TRx_6M__c);
@@ -385,7 +385,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                         gen.writeNullField('dddDollars');
                                                     gen.writeEndObject();
                                                 }
-                                                if(str == 'threeMonthsData'){
+                                                if(str == 'threeMonthData'){
                                                     gen.writeStartObject();
                                                     gen.writeStringField('name',tempTerrtObj.Product__r.Name);
                                                     gen.writeNumberField('trxValue',tempTerrtObj.TRx_3M__c);
@@ -396,7 +396,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                         gen.writeNullField('dddDollars');
                                                     gen.writeEndObject();
                                                 }
-                                                if(str == 'sixMonthsData'){
+                                                if(str == 'sixMonthData'){
                                                     gen.writeStartObject();
                                                     gen.writeStringField('name',tempTerrtObj.Product__r.Name);
                                                     gen.writeNumberField('trxValue',tempTerrtObj.TRx_6M__c);
@@ -659,7 +659,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         gen.writeNullField('dddDollars');
                                     gen.writeEndObject();
                                 }
-                                if(str == 'threeMonthsData'){
+                                if(str == 'threeMonthData'){
                                     gen.writeStartObject();
                                     gen.writeStringField('name',tempRegionObj.Product__r.Name);
                                     gen.writeNumberField('trxValue',tempRegionObj.TRx_3M__c);
@@ -673,7 +673,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         gen.writeNullField('dddDollars');
                                     gen.writeEndObject();
                                 }
-                                if(str == 'sixMonthsData'){
+                                if(str == 'sixMonthData'){
                                     gen.writeStartObject();
                                     gen.writeStringField('name',tempRegionObj.Product__r.Name);
                                     gen.writeNumberField('trxValue',tempRegionObj.TRx_6M__c);
@@ -722,7 +722,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                 gen.writeNullField('dddDollars');
                                              gen.writeEndObject();
                                         }
-                                        if(str == 'threeMonthsData'){
+                                        if(str == 'threeMonthData'){
                                             gen.writeStartObject();
                                             gen.writeStringField('name',tempdistObj.Product__r.Name);
                                             gen.writeNumberField('trxValue',tempdistObj.TRx_3M__c);
@@ -736,7 +736,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                 gen.writeNullField('dddDollars');
                                             gen.writeEndObject();
                                         }
-                                        if(str == 'sixMonthsData'){
+                                        if(str == 'sixMonthData'){
                                             gen.writeStartObject();
                                             gen.writeStringField('name',tempdistObj.Product__r.Name);
                                             gen.writeNumberField('trxValue',tempdistObj.TRx_6M__c);
@@ -781,7 +781,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                         gen.writeNullField('dddDollars');
                                                     gen.writeEndObject();
                                                 }
-                                                if(str == 'threeMonthsData'){
+                                                if(str == 'threeMonthData'){
                                                     gen.writeStartObject();
                                                     gen.writeStringField('name',tempTerrtObj.Product__r.Name);
                                                     gen.writeNumberField('trxValue',tempTerrtObj.TRx_3M__c);
@@ -792,7 +792,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                         gen.writeNullField('dddDollars');
                                                     gen.writeEndObject();
                                                 }
-                                                if(str == 'sixMonthsData'){
+                                                if(str == 'sixMonthData'){
                                                     gen.writeStartObject();
                                                     gen.writeStringField('name',tempTerrtObj.Product__r.Name);
                                                     gen.writeNumberField('trxValue',tempTerrtObj.TRx_6M__c);
@@ -1731,7 +1731,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             gen.writeStartArray();
                             for(MYBZ_Market_Share__c productTrendObj : TempMonthAndProductTrendMap.get(month)){
                                 
-                                system.debug('productTrendObj--'+productTrendObj);
+                                system.debug('productTrendObj--'+productTrendObj.Product__r.Name);
                                 if(!productTrendObj.Product__r.Name.Equals('EFFIENT'))
                                 {
                                     gen.writeStartObject();
@@ -2374,7 +2374,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         gen.writeStartArray();  
         String Years='';
         String Months;
-        String Products;
+        String Products='';
         Integer productprescribercount;
         Integer firstiteration=1;
     
@@ -2425,9 +2425,9 @@ global with sharing class MYBZ_Region_Rollup_Controller
                } 
                 if(trenddetails.IHS_Product__r.Name!=null)
                 {
-                if(!Products.contains(trenddetails.IHS_Product__r.Name))
+                if(!Products.equals(trenddetails.IHS_Product__r.Name))
                     {
-                    Products+=trenddetails.IHS_Product__r.Name;
+                    Products=trenddetails.IHS_Product__r.Name;
                     gen.writeStartObject();
                     if(trenddetails.IHS_Product__r.Name!=null)
                     gen.writeStringField('product',trenddetails.IHS_Product__r.Name);
@@ -2525,7 +2525,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         gen.writeStartArray();  
         String Years='';
         String Months;
-        String Products;
+        String Products='';
         Integer productprescribercount;
         Integer firstiteration=1;
     
@@ -2559,9 +2559,9 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     gen.writeFieldName('products');
                     gen.writeStartArray();      
                 }
-                if(!Products.contains(trenddetails.IHS_Product__r.Name))
+                if(!Products.equals(trenddetails.IHS_Product__r.Name))
                 {
-                    Products+=trenddetails.IHS_Product__r.Name;
+                    Products=trenddetails.IHS_Product__r.Name;
                     gen.writeStartObject();
                     gen.writeStringField('product',trenddetails.IHS_Product__r.Name);
                     gen.writeFieldName('topFivePrescribers');
@@ -2868,7 +2868,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         //If the current call record does not correspond to the current call planning record, go to the next call record. If end of the calls list is reached, restore the callscount.
         
-        if(!PhysicianID.equals(CallsList[CallsCount].Physician_ID__c))
+        if(CallsCount<CallsList.Size()&&(!PhysicianID.equals(CallsList[CallsCount].Physician_ID__c)))
                 {
                     for(integer a=CallsCount;a<CallsList.Size();a++)
                     {
@@ -2889,7 +2889,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         //If the current call record corresponds to the current call planning record, write the required JSON fields.
         
-        if(PhysicianID.equals(CallsList[CallsCount].Physician_ID__c))
+        if(CallsCount<CallsList.Size()&&(PhysicianID.equals(CallsList[CallsCount].Physician_ID__c)))
                 {               
                 gen.writeFieldName(System.Label.MYBZ_Calls);
                 gen.writeStartArray();
@@ -3059,11 +3059,16 @@ global with sharing class MYBZ_Region_Rollup_Controller
         //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:territoryObj.Global_Id__c order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
     }
     if(Role == 'District Sales Manager' || Role == System.Label.MYBZ_AccountManager ){
+        system.debug('*****entered District Sales Manager ');
         CallPlanningsList.clear();
         
         MYBZ_Region_Rollup__c districtObj = [SELECT Id, District__c FROM MYBZ_Region_Rollup__c WHERE Global_Id__c =:GlobalId LIMIT 1];
+        system.debug('******districtObj' + districtObj);
+        system.debug('******GlobalId' + GlobalId);
         
-        MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Name, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE District__c =:districtObj.Id AND Global_Id__c !=null AND Global_Id__c !='' LIMIT 1];
+        
+        MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Name, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE District__c =:districtObj.District__c AND Global_Id__c !=null AND Global_Id__c !='' LIMIT 1];
+        
         CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
         //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:territoryObj.Global_Id__c order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
         
@@ -3303,7 +3308,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         //If the current call record does not correspond to the current call planning record, go to the next call record. If end of the calls list is reached, restore the callscount.
         
-        if(!PhysicianID.equals(CallsList[CallsCount].Physician_ID__c))
+        if(CallsCount<CallsList.Size()&&(!PhysicianID.equals(CallsList[CallsCount].Physician_ID__c)))
                 {
                     for(integer a=CallsCount;a<CallsList.Size();a++)
                     {
@@ -3324,7 +3329,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         //If the current call record corresponds to the current call planning record, write the required JSON fields.
         
-        if(PhysicianID.equals(CallsList[CallsCount].Physician_ID__c))
+        if(CallsCount<CallsList.Size()&&(PhysicianID.equals(CallsList[CallsCount].Physician_ID__c)))
                 {               
                 gen.writeFieldName(System.Label.MYBZ_Calls);
                 gen.writeStartArray();

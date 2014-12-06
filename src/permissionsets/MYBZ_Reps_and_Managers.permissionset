@@ -8,6 +8,10 @@
         <apexClass>MYBZ_Region_Rollup_Controller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MYBZ_RegionRollup_Controller</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
     <description>Permission set for Sales Rep, DSM and MMM</description>
     <fieldPermissions>
         <editable>false</editable>
