@@ -262,6 +262,12 @@
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/la-trends.css')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/normalize.css')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/component.css')}"/>
+        
+        <!-- <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/bootstrap-combobox.css')}"/> -->
+        <!-- <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/bootstrap.min.css')}"/> -->
+
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/acute.select/acute.select.css')}"/>
+        
         <!-- End problem area -->
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/jquery-1.11.1.min.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/bootstrap-3.1.1-dist/js/bootstrap.js')}"/>
@@ -282,11 +288,15 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/greensock/TweenLite.min.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/angular-ui/mask.min.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/greensock/TweenLite.min.js')}"/>
-        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/processing.min.js')}"/>-->
+
+        <!-- <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/processing.min.js')}"/>-->
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/typeahead/bloodhound.min.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/typeahead/typeahead.bundle.min.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/typeahead/typeahead.jquery.min.js')}"/>
-       
+               
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/acute.select/acute.select.js')}"/>
+        <!-- <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/acute.select/AcuteTest.js')}"/> -->
+
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/PieChartStackC.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/PieChart.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/MarketShareChart.js')}"/>
