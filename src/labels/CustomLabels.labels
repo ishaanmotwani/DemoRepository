@@ -29,6 +29,13 @@
         <value>MM/dd/yyyy</value>
     </labels>
     <labels>
+        <fullName>MYBZ_District</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_District</shortDescription>
+        <value>District</value>
+    </labels>
+    <labels>
         <fullName>MYBZ_DistrictSalesManager</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -36,11 +43,25 @@
         <value>District Sales Manager</value>
     </labels>
     <labels>
+        <fullName>MYBZ_EFFIENT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_EFFIENT</shortDescription>
+        <value>EFFIENT</value>
+    </labels>
+    <labels>
         <fullName>MYBZ_FirstName</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>firstName</shortDescription>
         <value>firstName</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_LILLY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_LILLY</shortDescription>
+        <value>LILLY</value>
     </labels>
     <labels>
         <fullName>MYBZ_LastName</fullName>
@@ -102,8 +123,15 @@
         <fullName>MYBZ_Products</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>products</shortDescription>
+        <shortDescription>MYBZ_Products</shortDescription>
         <value>products</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_Region</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_Region</shortDescription>
+        <value>Region</value>
     </labels>
     <labels>
         <fullName>MYBZ_SalesRepresentative</fullName>
@@ -148,6 +176,13 @@
         <value>Super User</value>
     </labels>
     <labels>
+        <fullName>MYBZ_Territory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_Territory</shortDescription>
+        <value>Territory</value>
+    </labels>
+    <labels>
         <fullName>MYBZ_Tier</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -160,5 +195,208 @@
         <protected>false</protected>
         <shortDescription>MYBZ_Type</shortDescription>
         <value>type</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_Year</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_Year</shortDescription>
+        <value>year</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_children</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_children</shortDescription>
+        <value>children</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_data</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_data</shortDescription>
+        <value>data</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_dddDollars</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_dddDollars</shortDescription>
+        <value>dddDollars</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_dddUnits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_dddUnits</shortDescription>
+        <value>dddUnits</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_globalID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_globalID</shortDescription>
+        <value>globalID</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_goalMet</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_goalMet</shortDescription>
+        <value>goalMet</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_goalSet</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_goalSet</shortDescription>
+        <value>goalSet</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_goals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_goals</shortDescription>
+        <value>goals</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_grossMargins</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_grossMargins</shortDescription>
+        <value>grossMargins</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_lillyProduct</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_lillyProduct</shortDescription>
+        <value>lillyProduct</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_market</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_market</shortDescription>
+        <value>market</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_month</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_month</shortDescription>
+        <value>month</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_netProfit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_netProfit</shortDescription>
+        <value>netProfit</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_nrxValue</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_nrxValue</shortDescription>
+        <value>nrxValue</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_oneMonthDataStartDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_oneMonthDataStartDate</shortDescription>
+        <value>oneMonthDataStartDate</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_opex</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_opex</shortDescription>
+        <value>opex</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_percentageChangeFromPreviousMonthDDDDollars</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_percentageChangeFromPreviousMonthDDDDollars</shortDescription>
+        <value>percentageChangeFromPreviousMonthDDDDollars</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_percentageChangeFromPreviousMonthDDDUnits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_percentageChangeFromPreviousMonthDDDUnits</shortDescription>
+        <value>percentageChangeFromPreviousMonthDDDUnits</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_percentageChangeFromPreviousMonthTRx</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_percentageChangeFromPreviousMonthTRx</shortDescription>
+        <value>percentageChangeFromPreviousMonthTRx</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_prescriberFirstName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_prescriberFirstName</shortDescription>
+        <value>prescriberFirstName</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_prescriberLastName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_prescriberLastName</shortDescription>
+        <value>prescriberLastName</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_product</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_product</shortDescription>
+        <value>product</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_productName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_productName</shortDescription>
+        <value>productName</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_sixMonthDataStartDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_sixMonthDataStartDate</shortDescription>
+        <value>sixMonthDataStartDate</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_threeMonthDataStartDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_threeMonthDataStartDate</shortDescription>
+        <value>threeMonthDataStartDate</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_topFivePrescribers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_topFivePrescribers</shortDescription>
+        <value>topFivePrescribers</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_trx</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_trx</shortDescription>
+        <value>trx</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_trxValue</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_trxValue</shortDescription>
+        <value>trxValue</value>
     </labels>
 </CustomLabels>

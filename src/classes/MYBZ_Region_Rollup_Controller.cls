@@ -65,13 +65,13 @@ global with sharing class MYBZ_Region_Rollup_Controller
         Map<String, Map<String,MYBZ_Region_Rollup__c>> mapTerritoryNameAndTerritory = new  Map<String, Map<String,MYBZ_Region_Rollup__c>>();
         
         for(MYBZ_Region_Rollup__c regRoll : [SELECT Region__r.Name, District__r.Name, Territory__r.Name, Gross_Margin_1M__c, Gross_Margin_3M__c, Gross_Margin_6M__c, Gross_Margin_Start_Date_1M__c, Gross_Margin_Start_Date_3M__c, Gross_Margin_Start_Date_6M__c, Net_Profit_1M__c, Net_Profit_3M__c, Net_Profit_6M__c, Net_Profit_Start_Date_1M__c, Net_Profit_Start_Date_3M__c, Net_Profit_Start_Date_6M__c, NRx_1M__c, NRx_3M__c, NRx_6M__c, NRx_Start_Date_1M__c, NRx_Start_Date_3M__c, NRx_Start_Date_6M__c, OPEX_1M__c, OPEX_3M__c, OPEX_6M__c, OPEX_Start_Date_1M__c, OPEX_Start_Date_3M__c, OPEX_Start_Date_6M__c, TRx_1M__c, TRx_3M__c, TRx_6M__c, TRx_Start_Date_1M__c, TRx_Start_Date_3M__c, TRx_Start_Date_6M__c, DDD_Dollars_1M__c, DDD_Dollars_3M__c, DDD_Dollars_6M__c, DDD_Dollars_Start_Date_1M__c, DDD_Dollars_Start_Date_3M__c, DDD_Dollars_Start_Date_6M__c, Global_Id__c, Region__r.Parent__c, Product__r.Name, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Region__r.Parent__c =: divisionObj.id AND Product__c!=null]){
-            if(regRoll.Alignment_Level__c == 'Region'){
+            if(regRoll.Alignment_Level__c == System.Label.MYBZ_Region){
                 regionList.add(regRoll);
             }
-            if(regRoll.Alignment_Level__c == 'District'){
+            if(regRoll.Alignment_Level__c == System.Label.MYBZ_District){
                 districtList.add(regRoll);
             }
-            if(regRoll.Alignment_Level__c == 'Territory'){
+            if(regRoll.Alignment_Level__c == System.Label.MYBZ_Territory){
                 territoryList.add(regRoll);
             }
         }
@@ -161,86 +161,86 @@ global with sharing class MYBZ_Region_Rollup_Controller
             
             gen = JSON.createGenerator(true);
             gen.writeStartObject();  
-            gen.writeStringField('name',divisionObj.Name);
+            gen.writeStringField(System.Label.MYBZ_Name,divisionObj.Name);
             
             for(String str : metricDates){
                 gen.writeFieldName(str);
                 gen.writeStartObject();
                 if(str == 'opexStartDates'){
                     if(regionList[0].OPEX_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].OPEX_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].OPEX_Start_Date_1M__c);
                     }
                     if(regionList[0].OPEX_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].OPEX_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].OPEX_Start_Date_3M__c);
                     }
                     if(regionList[0].OPEX_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].OPEX_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].OPEX_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'netProfitStartDates'){
                     if(regionList[0].Net_Profit_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].Net_Profit_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].Net_Profit_Start_Date_1M__c);
                     }
                     if(regionList[0].Net_Profit_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].Net_Profit_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].Net_Profit_Start_Date_3M__c);
                     }
                     if(regionList[0].Net_Profit_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].Net_Profit_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].Net_Profit_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'grossMarginsStartDates'){
                     if(regionList[0].Gross_Margin_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].Gross_Margin_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].Gross_Margin_Start_Date_1M__c);
                     }
                     if(regionList[0].Gross_Margin_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].Gross_Margin_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].Gross_Margin_Start_Date_3M__c);
                     }
                     if(regionList[0].Gross_Margin_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].Gross_Margin_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].Gross_Margin_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'trxStartDates'){
                     if(regionList[0].TRx_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].TRx_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].TRx_Start_Date_1M__c);
                     }
                     if(regionList[0].TRx_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].TRx_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].TRx_Start_Date_3M__c);
                     }
                     if(regionList[0].TRx_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].TRx_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].TRx_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'nrxStartDates'){
                     if(regionList[0].NRx_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].NRx_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].NRx_Start_Date_1M__c);
                     }
                     if(regionList[0].NRx_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].NRx_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].NRx_Start_Date_3M__c);
                     }
                     if(regionList[0].NRx_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].NRx_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].NRx_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'dddStartDates'){
                     if(regionList[0].DDD_Dollars_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].DDD_Dollars_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].DDD_Dollars_Start_Date_1M__c);
                     }
                     if(regionList[0].DDD_Dollars_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].DDD_Dollars_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].DDD_Dollars_Start_Date_3M__c);
                     }
                     if(regionList[0].DDD_Dollars_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].DDD_Dollars_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].DDD_Dollars_Start_Date_6M__c);
                     }
                 }
                 gen.writeEndObject();
             }
             if(!mapRegionNameAndRegion.isEmpty()){
-                gen.writeFieldName('children');
+                gen.writeFieldName(System.Label.MYBZ_children);
                 gen.writeStartArray();
                 for(String regionName : mapRegionNameAndRegion.keySet())
                 {
                     gen.writeStartObject(); 
-                    gen.writeStringField('name',regionName);
+                    gen.writeStringField(System.Label.MYBZ_Name,regionName);
                     if(!mapRegionNameAndRegion.get(regionName).isEmpty())
                     {
                         Map<String,MYBZ_Region_Rollup__c> regionsMap = mapRegionNameAndRegion.get(regionName);
@@ -251,44 +251,44 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                 MYBZ_Region_Rollup__c tempRegionObj = regionsMap.get(eachProduct);
                                 if(str == 'oneMonthData'){
                                     gen.writeStartObject();
-                                    gen.writeStringField('name',tempRegionObj.Product__r.Name);
-                                    gen.writeNumberField('trxValue',tempRegionObj.TRx_1M__c);
-                                    gen.writeNumberField('nrxValue',tempRegionObj.NRx_1M__c);
-                                    gen.writeNumberField('opex',tempRegionObj.OPEX_1M__c);
-                                    gen.writeNumberField('grossMargins',tempRegionObj.Gross_Margin_1M__c);
-                                    gen.writeNumberField('netProfit',tempRegionObj.Net_Profit_1M__c);
+                                    gen.writeStringField(System.Label.MYBZ_Name,tempRegionObj.Product__r.Name);
+                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempRegionObj.TRx_1M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_1M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_1M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_1M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_netProfit,tempRegionObj.Net_Profit_1M__c);
                                     if(tempRegionObj.DDD_Dollars_1M__c !=null)
-                                        gen.writeNumberField('dddDollars',tempRegionObj.DDD_Dollars_1M__c);
+                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempRegionObj.DDD_Dollars_1M__c);
                                     else
-                                        gen.writeNullField('dddDollars');
+                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                     gen.writeEndObject();
                                 }
                                 if(str == 'threeMonthData'){
                                     gen.writeStartObject();
-                                    gen.writeStringField('name',tempRegionObj.Product__r.Name);
-                                    gen.writeNumberField('trxValue',tempRegionObj.TRx_3M__c);
-                                    gen.writeNumberField('nrxValue',tempRegionObj.NRx_3M__c);
-                                    gen.writeNumberField('opex',tempRegionObj.OPEX_3M__c);
-                                    gen.writeNumberField('grossMargins',tempRegionObj.Gross_Margin_3M__c);
-                                    gen.writeNumberField('netProfit',tempRegionObj.Net_Profit_3M__c);
+                                    gen.writeStringField(System.Label.MYBZ_Name,tempRegionObj.Product__r.Name);
+                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempRegionObj.TRx_3M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_3M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_3M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_3M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_netProfit,tempRegionObj.Net_Profit_3M__c);
                                     if(tempRegionObj.DDD_Dollars_3M__c !=null)
-                                        gen.writeNumberField('dddDollars',tempRegionObj.DDD_Dollars_3M__c);
+                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempRegionObj.DDD_Dollars_3M__c);
                                     else
-                                        gen.writeNullField('dddDollars');
+                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                     gen.writeEndObject();
                                 }
                                 if(str == 'sixMonthData'){
                                     gen.writeStartObject();
-                                    gen.writeStringField('name',tempRegionObj.Product__r.Name);
-                                    gen.writeNumberField('trxValue',tempRegionObj.TRx_6M__c);
-                                    gen.writeNumberField('nrxValue',tempRegionObj.NRx_6M__c);
-                                    gen.writeNumberField('opex',tempRegionObj.OPEX_6M__c);
-                                    gen.writeNumberField('grossMargins',tempRegionObj.Gross_Margin_6M__c);
-                                    gen.writeNumberField('netProfit',tempRegionObj.Net_Profit_6M__c);
+                                    gen.writeStringField(System.Label.MYBZ_Name,tempRegionObj.Product__r.Name);
+                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempRegionObj.TRx_6M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_6M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_6M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_6M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_netProfit,tempRegionObj.Net_Profit_6M__c);
                                     if(tempRegionObj.DDD_Dollars_6M__c !=null)
-                                        gen.writeNumberField('dddDollars',tempRegionObj.DDD_Dollars_6M__c);
+                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempRegionObj.DDD_Dollars_6M__c);
                                     else
-                                        gen.writeNullField('dddDollars');
+                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                     gen.writeEndObject();
                                 }
                             }
@@ -297,12 +297,12 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     }
                 
                     if(!mapRegionNameAndDistrictName.get(regionName).isEmpty()){
-                        gen.writeFieldName('children');
+                        gen.writeFieldName(System.Label.MYBZ_children);
                         gen.writeStartArray();
                         for(String distName : mapRegionNameAndDistrictName.get(regionName))
                         {
                             gen.writeStartObject(); 
-                            gen.writeStringField('name',distName);
+                            gen.writeStringField(System.Label.MYBZ_Name,distName);
                             system.debug('distName--'+distName);
                             if(!mapDistrictNameAndDistrict.get(distName).isEmpty())
                             {
@@ -314,44 +314,44 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         MYBZ_Region_Rollup__c tempdistObj = distMap.get(eachProduct);
                                         if(str == 'oneMonthData'){
                                             gen.writeStartObject();
-                                            gen.writeStringField('name',tempdistObj.Product__r.Name);
-                                            gen.writeNumberField('trxValue',tempdistObj.TRx_1M__c);
-                                            gen.writeNumberField('nrxValue',tempdistObj.NRx_1M__c);
-                                            gen.writeNumberField('opex',tempdistObj.OPEX_1M__c);
-                                            gen.writeNumberField('grossMargins',tempdistObj.Gross_Margin_1M__c);
-                                            gen.writeNumberField('netProfit',tempdistObj.Net_Profit_1M__c);
+                                            gen.writeStringField(System.Label.MYBZ_Name,tempdistObj.Product__r.Name);
+                                            gen.writeNumberField(System.Label.MYBZ_trxValue,tempdistObj.TRx_1M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_1M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_1M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_1M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_netProfit,tempdistObj.Net_Profit_1M__c);
                                             if(tempdistObj.DDD_Dollars_1M__c !=null)
-                                                gen.writeNumberField('dddDollars',tempdistObj.DDD_Dollars_1M__c);
+                                                gen.writeNumberField(System.Label.MYBZ_dddDollars,tempdistObj.DDD_Dollars_1M__c);
                                             else
-                                                gen.writeNullField('dddDollars');
+                                                gen.writeNullField(System.Label.MYBZ_dddDollars);
                                              gen.writeEndObject();
                                         }
                                         if(str == 'threeMonthData'){
                                             gen.writeStartObject();
-                                            gen.writeStringField('name',tempdistObj.Product__r.Name);
-                                            gen.writeNumberField('trxValue',tempdistObj.TRx_3M__c);
-                                            gen.writeNumberField('nrxValue',tempdistObj.NRx_3M__c);
-                                            gen.writeNumberField('opex',tempdistObj.OPEX_3M__c);
-                                            gen.writeNumberField('grossMargins',tempdistObj.Gross_Margin_3M__c);
-                                            gen.writeNumberField('netProfit',tempdistObj.Net_Profit_3M__c);
+                                            gen.writeStringField(System.Label.MYBZ_Name,tempdistObj.Product__r.Name);
+                                            gen.writeNumberField(System.Label.MYBZ_trxValue,tempdistObj.TRx_3M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_3M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_3M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_3M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_netProfit,tempdistObj.Net_Profit_3M__c);
                                             if(tempdistObj.DDD_Dollars_3M__c !=null)
-                                                gen.writeNumberField('dddDollars',tempdistObj.DDD_Dollars_3M__c);
+                                                gen.writeNumberField(System.Label.MYBZ_dddDollars,tempdistObj.DDD_Dollars_3M__c);
                                             else
-                                                gen.writeNullField('dddDollars');
+                                                gen.writeNullField(System.Label.MYBZ_dddDollars);
                                             gen.writeEndObject();
                                         }
                                         if(str == 'sixMonthData'){
                                             gen.writeStartObject();
-                                            gen.writeStringField('name',tempdistObj.Product__r.Name);
-                                            gen.writeNumberField('trxValue',tempdistObj.TRx_6M__c);
-                                            gen.writeNumberField('nrxValue',tempdistObj.NRx_6M__c);
-                                            gen.writeNumberField('opex',tempdistObj.OPEX_6M__c);
-                                            gen.writeNumberField('grossMargins',tempdistObj.Gross_Margin_6M__c);
-                                            gen.writeNumberField('netProfit',tempdistObj.Net_Profit_6M__c);
+                                            gen.writeStringField(System.Label.MYBZ_Name,tempdistObj.Product__r.Name);
+                                            gen.writeNumberField(System.Label.MYBZ_trxValue,tempdistObj.TRx_6M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_6M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_6M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_6M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_netProfit,tempdistObj.Net_Profit_6M__c);
                                             if(tempdistObj.DDD_Dollars_6M__c !=null)
-                                                gen.writeNumberField('dddDollars',tempdistObj.DDD_Dollars_6M__c);
+                                                gen.writeNumberField(System.Label.MYBZ_dddDollars,tempdistObj.DDD_Dollars_6M__c);
                                             else
-                                                gen.writeNullField('dddDollars');
+                                                gen.writeNullField(System.Label.MYBZ_dddDollars);
                                             gen.writeEndObject();
                                         }
                                     }
@@ -359,12 +359,12 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                 }
                             }
                             if(!mapDistrictNameAndTerritoryName.get(distName).isEmpty()){
-                                gen.writeFieldName('children');
+                                gen.writeFieldName(System.Label.MYBZ_children);
                                 gen.writeStartArray();
                                 for(String terrName : mapDistrictNameAndTerritoryName.get(distName))
                                 {
                                     gen.writeStartObject(); 
-                                    gen.writeStringField('name',terrName);
+                                    gen.writeStringField(System.Label.MYBZ_Name,terrName);
                             
                                     if(!mapTerritoryNameAndTerritory.get(terrName).isEmpty())
                                     {
@@ -376,35 +376,35 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                 MYBZ_Region_Rollup__c tempTerrtObj = terrMap.get(eachProduct);
                                                 if(str == 'oneMonthData'){
                                                     gen.writeStartObject();
-                                                    gen.writeStringField('name',tempTerrtObj.Product__r.Name);
-                                                    gen.writeNumberField('trxValue',tempTerrtObj.TRx_1M__c);
-                                                    gen.writeNumberField('nrxValue',tempTerrtObj.NRx_1M__c);
+                                                    gen.writeStringField(System.Label.MYBZ_Name,tempTerrtObj.Product__r.Name);
+                                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempTerrtObj.TRx_1M__c);
+                                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_1M__c);
                                                     if(tempTerrtObj.DDD_Dollars_1M__c !=null)
-                                                        gen.writeNumberField('dddDollars',tempTerrtObj.DDD_Dollars_1M__c);
+                                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempTerrtObj.DDD_Dollars_1M__c);
                                                     else
-                                                        gen.writeNullField('dddDollars');
+                                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                                     gen.writeEndObject();
                                                 }
                                                 if(str == 'threeMonthData'){
                                                     gen.writeStartObject();
-                                                    gen.writeStringField('name',tempTerrtObj.Product__r.Name);
-                                                    gen.writeNumberField('trxValue',tempTerrtObj.TRx_3M__c);
-                                                    gen.writeNumberField('nrxValue',tempTerrtObj.NRx_3M__c);
+                                                    gen.writeStringField(System.Label.MYBZ_Name,tempTerrtObj.Product__r.Name);
+                                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempTerrtObj.TRx_3M__c);
+                                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_3M__c);
                                                     if(tempTerrtObj.DDD_Dollars_3M__c !=null)
-                                                        gen.writeNumberField('dddDollars',tempTerrtObj.DDD_Dollars_3M__c);
+                                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempTerrtObj.DDD_Dollars_3M__c);
                                                     else
-                                                        gen.writeNullField('dddDollars');
+                                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                                     gen.writeEndObject();
                                                 }
                                                 if(str == 'sixMonthData'){
                                                     gen.writeStartObject();
-                                                    gen.writeStringField('name',tempTerrtObj.Product__r.Name);
-                                                    gen.writeNumberField('trxValue',tempTerrtObj.TRx_6M__c);
-                                                    gen.writeNumberField('nrxValue',tempTerrtObj.NRx_6M__c);
+                                                    gen.writeStringField(System.Label.MYBZ_Name,tempTerrtObj.Product__r.Name);
+                                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempTerrtObj.TRx_6M__c);
+                                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_6M__c);
                                                     if(tempTerrtObj.DDD_Dollars_6M__c !=null)
-                                                        gen.writeNumberField('dddDollars',tempTerrtObj.DDD_Dollars_6M__c);
+                                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempTerrtObj.DDD_Dollars_6M__c);
                                                     else
-                                                        gen.writeNullField('dddDollars');
+                                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                                     gen.writeEndObject();
                                                 }
                                             }
@@ -461,13 +461,13 @@ global with sharing class MYBZ_Region_Rollup_Controller
         Map<String, Map<String,MYBZ_Region_Rollup__c>> mapTerritoryNameAndTerritory = new  Map<String, Map<String,MYBZ_Region_Rollup__c>>();
         
         for(MYBZ_Region_Rollup__c regRoll : [SELECT Region__r.Name, District__r.Name, Territory__r.Name, Gross_Margin_1M__c, Gross_Margin_3M__c, Gross_Margin_6M__c, Gross_Margin_Start_Date_1M__c, Gross_Margin_Start_Date_3M__c, Gross_Margin_Start_Date_6M__c, Net_Profit_1M__c, Net_Profit_3M__c, Net_Profit_6M__c, Net_Profit_Start_Date_1M__c, Net_Profit_Start_Date_3M__c, Net_Profit_Start_Date_6M__c, NRx_1M__c, NRx_3M__c, NRx_6M__c, NRx_Start_Date_1M__c, NRx_Start_Date_3M__c, NRx_Start_Date_6M__c, OPEX_1M__c, OPEX_3M__c, OPEX_6M__c, OPEX_Start_Date_1M__c, OPEX_Start_Date_3M__c, OPEX_Start_Date_6M__c, TRx_1M__c, TRx_3M__c, TRx_6M__c, TRx_Start_Date_1M__c, TRx_Start_Date_3M__c, TRx_Start_Date_6M__c, DDD_Dollars_1M__c, DDD_Dollars_3M__c, DDD_Dollars_6M__c, DDD_Dollars_Start_Date_1M__c, DDD_Dollars_Start_Date_3M__c, DDD_Dollars_Start_Date_6M__c, Global_Id__c, Region__r.Parent__c, Product__r.Name, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Region__r.Parent__c =: divisionObj.id AND Product__c!=null]){
-            if(regRoll.Alignment_Level__c == 'Region'){
+            if(regRoll.Alignment_Level__c == System.Label.MYBZ_Region){
                 regionList.add(regRoll);
             }
-            if(regRoll.Alignment_Level__c == 'District'){
+            if(regRoll.Alignment_Level__c == System.Label.MYBZ_District){
                 districtList.add(regRoll);
             }
-            if(regRoll.Alignment_Level__c == 'Territory'){
+            if(regRoll.Alignment_Level__c == System.Label.MYBZ_Territory){
                 territoryList.add(regRoll);
             }
         }
@@ -557,86 +557,86 @@ global with sharing class MYBZ_Region_Rollup_Controller
             
             gen = JSON.createGenerator(true);
             gen.writeStartObject();  
-            gen.writeStringField('name',divisionObj.Name);
+            gen.writeStringField(System.Label.MYBZ_Name,divisionObj.Name);
             
             for(String str : metricDates){
                 gen.writeFieldName(str);
                 gen.writeStartObject();
                 if(str == 'opexStartDates'){
                     if(regionList[0].OPEX_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].OPEX_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].OPEX_Start_Date_1M__c);
                     }
                     if(regionList[0].OPEX_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].OPEX_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].OPEX_Start_Date_3M__c);
                     }
                     if(regionList[0].OPEX_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].OPEX_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].OPEX_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'netProfitStartDates'){
                     if(regionList[0].Net_Profit_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].Net_Profit_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].Net_Profit_Start_Date_1M__c);
                     }
                     if(regionList[0].Net_Profit_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].Net_Profit_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].Net_Profit_Start_Date_3M__c);
                     }
                     if(regionList[0].Net_Profit_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].Net_Profit_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].Net_Profit_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'grossMarginsStartDates'){
                     if(regionList[0].Gross_Margin_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].Gross_Margin_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].Gross_Margin_Start_Date_1M__c);
                     }
                     if(regionList[0].Gross_Margin_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].Gross_Margin_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].Gross_Margin_Start_Date_3M__c);
                     }
                     if(regionList[0].Gross_Margin_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].Gross_Margin_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].Gross_Margin_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'trxStartDates'){
                     if(regionList[0].TRx_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].TRx_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].TRx_Start_Date_1M__c);
                     }
                     if(regionList[0].TRx_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].TRx_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].TRx_Start_Date_3M__c);
                     }
                     if(regionList[0].TRx_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].TRx_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].TRx_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'nrxStartDates'){
                     if(regionList[0].NRx_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].NRx_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].NRx_Start_Date_1M__c);
                     }
                     if(regionList[0].NRx_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].NRx_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].NRx_Start_Date_3M__c);
                     }
                     if(regionList[0].NRx_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].NRx_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].NRx_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'dddStartDates'){
                     if(regionList[0].DDD_Dollars_Start_Date_1M__c != null){
-                        gen.writeDateTimeField('oneMonthDataStartDate',regionList[0].DDD_Dollars_Start_Date_1M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].DDD_Dollars_Start_Date_1M__c);
                     }
                     if(regionList[0].DDD_Dollars_Start_Date_3M__c != null){
-                        gen.writeDateTimeField('threeMonthDataStartDate',regionList[0].DDD_Dollars_Start_Date_3M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].DDD_Dollars_Start_Date_3M__c);
                     }
                     if(regionList[0].DDD_Dollars_Start_Date_6M__c != null){
-                        gen.writeDateTimeField('sixMonthDataStartDate',regionList[0].DDD_Dollars_Start_Date_6M__c);
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].DDD_Dollars_Start_Date_6M__c);
                     }
                 }
                 gen.writeEndObject();
             }
             if(!mapRegionNameAndRegion.isEmpty()){
-                gen.writeFieldName('children');
+                gen.writeFieldName(System.Label.MYBZ_children);
                 gen.writeStartArray();
                 for(String regionName : mapRegionNameAndRegion.keySet())
                 {
                     gen.writeStartObject(); 
-                    gen.writeStringField('name',regionName);
+                    gen.writeStringField(System.Label.MYBZ_Name,regionName);
                     if(!mapRegionNameAndRegion.get(regionName).isEmpty())
                     {
                         Map<String,MYBZ_Region_Rollup__c> regionsMap = mapRegionNameAndRegion.get(regionName);
@@ -647,44 +647,44 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                 MYBZ_Region_Rollup__c tempRegionObj = regionsMap.get(eachProduct);
                                 if(str == 'oneMonthData'){
                                     gen.writeStartObject();
-                                    gen.writeStringField('name',tempRegionObj.Product__r.Name);
-                                    gen.writeNumberField('trxValue',tempRegionObj.TRx_1M__c);
-                                    gen.writeNumberField('nrxValue',tempRegionObj.NRx_1M__c);
-                                    gen.writeNumberField('opex',tempRegionObj.OPEX_1M__c);
-                                    gen.writeNumberField('grossMargins',tempRegionObj.Gross_Margin_1M__c);
-                                    gen.writeNumberField('netProfit',tempRegionObj.Net_Profit_1M__c);
+                                    gen.writeStringField(System.Label.MYBZ_Name,tempRegionObj.Product__r.Name);
+                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempRegionObj.TRx_1M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_1M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_1M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_1M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_netProfit,tempRegionObj.Net_Profit_1M__c);
                                     if(tempRegionObj.DDD_Dollars_1M__c !=null)
-                                        gen.writeNumberField('dddDollars',tempRegionObj.DDD_Dollars_1M__c);
+                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempRegionObj.DDD_Dollars_1M__c);
                                     else
-                                        gen.writeNullField('dddDollars');
+                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                     gen.writeEndObject();
                                 }
                                 if(str == 'threeMonthData'){
                                     gen.writeStartObject();
-                                    gen.writeStringField('name',tempRegionObj.Product__r.Name);
-                                    gen.writeNumberField('trxValue',tempRegionObj.TRx_3M__c);
-                                    gen.writeNumberField('nrxValue',tempRegionObj.NRx_3M__c);
-                                    gen.writeNumberField('opex',tempRegionObj.OPEX_3M__c);
-                                    gen.writeNumberField('grossMargins',tempRegionObj.Gross_Margin_3M__c);
-                                    gen.writeNumberField('netProfit',tempRegionObj.Net_Profit_3M__c);
+                                    gen.writeStringField(System.Label.MYBZ_Name,tempRegionObj.Product__r.Name);
+                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempRegionObj.TRx_3M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_3M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_3M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_3M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_netProfit,tempRegionObj.Net_Profit_3M__c);
                                     if(tempRegionObj.DDD_Dollars_3M__c !=null)
-                                        gen.writeNumberField('dddDollars',tempRegionObj.DDD_Dollars_3M__c);
+                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempRegionObj.DDD_Dollars_3M__c);
                                     else
-                                        gen.writeNullField('dddDollars');
+                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                     gen.writeEndObject();
                                 }
                                 if(str == 'sixMonthData'){
                                     gen.writeStartObject();
-                                    gen.writeStringField('name',tempRegionObj.Product__r.Name);
-                                    gen.writeNumberField('trxValue',tempRegionObj.TRx_6M__c);
-                                    gen.writeNumberField('nrxValue',tempRegionObj.NRx_6M__c);
-                                    gen.writeNumberField('opex',tempRegionObj.OPEX_6M__c);
-                                    gen.writeNumberField('grossMargins',tempRegionObj.Gross_Margin_6M__c);
-                                    gen.writeNumberField('netProfit',tempRegionObj.Net_Profit_6M__c);
+                                    gen.writeStringField(System.Label.MYBZ_Name,tempRegionObj.Product__r.Name);
+                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempRegionObj.TRx_6M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_6M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_6M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_6M__c);
+                                    gen.writeNumberField(System.Label.MYBZ_netProfit,tempRegionObj.Net_Profit_6M__c);
                                     if(tempRegionObj.DDD_Dollars_6M__c !=null)
-                                        gen.writeNumberField('dddDollars',tempRegionObj.DDD_Dollars_6M__c);
+                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempRegionObj.DDD_Dollars_6M__c);
                                     else
-                                        gen.writeNullField('dddDollars');
+                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                     gen.writeEndObject();
                                 }
                             }
@@ -693,12 +693,12 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     }
                 
                     if(!mapRegionNameAndDistrictName.get(regionName).isEmpty()){
-                        gen.writeFieldName('children');
+                        gen.writeFieldName(System.Label.MYBZ_children);
                         gen.writeStartArray();
                         for(String distName : mapRegionNameAndDistrictName.get(regionName))
                         {
                             gen.writeStartObject(); 
-                            gen.writeStringField('name',distName);
+                            gen.writeStringField(System.Label.MYBZ_Name,distName);
                             system.debug('distName--'+distName);
                             if(!mapDistrictNameAndDistrict.get(distName).isEmpty())
                             {
@@ -710,44 +710,44 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         MYBZ_Region_Rollup__c tempdistObj = distMap.get(eachProduct);
                                         if(str == 'oneMonthData'){
                                             gen.writeStartObject();
-                                            gen.writeStringField('name',tempdistObj.Product__r.Name);
-                                            gen.writeNumberField('trxValue',tempdistObj.TRx_1M__c);
-                                            gen.writeNumberField('nrxValue',tempdistObj.NRx_1M__c);
-                                            gen.writeNumberField('opex',tempdistObj.OPEX_1M__c);
-                                            gen.writeNumberField('grossMargins',tempdistObj.Gross_Margin_1M__c);
-                                            gen.writeNumberField('netProfit',tempdistObj.Net_Profit_1M__c);
+                                            gen.writeStringField(System.Label.MYBZ_Name,tempdistObj.Product__r.Name);
+                                            gen.writeNumberField(System.Label.MYBZ_trxValue,tempdistObj.TRx_1M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_1M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_1M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_1M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_netProfit,tempdistObj.Net_Profit_1M__c);
                                             if(tempdistObj.DDD_Dollars_1M__c !=null)
-                                                gen.writeNumberField('dddDollars',tempdistObj.DDD_Dollars_1M__c);
+                                                gen.writeNumberField(System.Label.MYBZ_dddDollars,tempdistObj.DDD_Dollars_1M__c);
                                             else
-                                                gen.writeNullField('dddDollars');
+                                                gen.writeNullField(System.Label.MYBZ_dddDollars);
                                              gen.writeEndObject();
                                         }
                                         if(str == 'threeMonthData'){
                                             gen.writeStartObject();
-                                            gen.writeStringField('name',tempdistObj.Product__r.Name);
-                                            gen.writeNumberField('trxValue',tempdistObj.TRx_3M__c);
-                                            gen.writeNumberField('nrxValue',tempdistObj.NRx_3M__c);
-                                            gen.writeNumberField('opex',tempdistObj.OPEX_3M__c);
-                                            gen.writeNumberField('grossMargins',tempdistObj.Gross_Margin_3M__c);
-                                            gen.writeNumberField('netProfit',tempdistObj.Net_Profit_3M__c);
+                                            gen.writeStringField(System.Label.MYBZ_Name,tempdistObj.Product__r.Name);
+                                            gen.writeNumberField(System.Label.MYBZ_trxValue,tempdistObj.TRx_3M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_3M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_3M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_3M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_netProfit,tempdistObj.Net_Profit_3M__c);
                                             if(tempdistObj.DDD_Dollars_3M__c !=null)
-                                                gen.writeNumberField('dddDollars',tempdistObj.DDD_Dollars_3M__c);
+                                                gen.writeNumberField(System.Label.MYBZ_dddDollars,tempdistObj.DDD_Dollars_3M__c);
                                             else
-                                                gen.writeNullField('dddDollars');
+                                                gen.writeNullField(System.Label.MYBZ_dddDollars);
                                             gen.writeEndObject();
                                         }
                                         if(str == 'sixMonthData'){
                                             gen.writeStartObject();
-                                            gen.writeStringField('name',tempdistObj.Product__r.Name);
-                                            gen.writeNumberField('trxValue',tempdistObj.TRx_6M__c);
-                                            gen.writeNumberField('nrxValue',tempdistObj.NRx_6M__c);
-                                            gen.writeNumberField('opex',tempdistObj.OPEX_6M__c);
-                                            gen.writeNumberField('grossMargins',tempdistObj.Gross_Margin_6M__c);
-                                            gen.writeNumberField('netProfit',tempdistObj.Net_Profit_6M__c);
+                                            gen.writeStringField(System.Label.MYBZ_Name,tempdistObj.Product__r.Name);
+                                            gen.writeNumberField(System.Label.MYBZ_trxValue,tempdistObj.TRx_6M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_6M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_6M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_6M__c);
+                                            gen.writeNumberField(System.Label.MYBZ_netProfit,tempdistObj.Net_Profit_6M__c);
                                             if(tempdistObj.DDD_Dollars_6M__c !=null)
-                                                gen.writeNumberField('dddDollars',tempdistObj.DDD_Dollars_6M__c);
+                                                gen.writeNumberField(System.Label.MYBZ_dddDollars,tempdistObj.DDD_Dollars_6M__c);
                                             else
-                                                gen.writeNullField('dddDollars');
+                                                gen.writeNullField(System.Label.MYBZ_dddDollars);
                                             gen.writeEndObject();
                                         }
                                     }
@@ -755,12 +755,12 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                 }
                             }
                             if(!mapDistrictNameAndTerritoryName.get(distName).isEmpty()){
-                                gen.writeFieldName('children');
+                                gen.writeFieldName(System.Label.MYBZ_children);
                                 gen.writeStartArray();
                                 for(String terrName : mapDistrictNameAndTerritoryName.get(distName))
                                 {
                                     gen.writeStartObject(); 
-                                    gen.writeStringField('name',terrName);
+                                    gen.writeStringField(System.Label.MYBZ_Name,terrName);
                             
                                     if(!mapTerritoryNameAndTerritory.get(terrName).isEmpty())
                                     {
@@ -772,35 +772,35 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                 MYBZ_Region_Rollup__c tempTerrtObj = terrMap.get(eachProduct);
                                                 if(str == 'oneMonthData'){
                                                     gen.writeStartObject();
-                                                    gen.writeStringField('name',tempTerrtObj.Product__r.Name);
-                                                    gen.writeNumberField('trxValue',tempTerrtObj.TRx_1M__c);
-                                                    gen.writeNumberField('nrxValue',tempTerrtObj.NRx_1M__c);
+                                                    gen.writeStringField(System.Label.MYBZ_Name,tempTerrtObj.Product__r.Name);
+                                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempTerrtObj.TRx_1M__c);
+                                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_1M__c);
                                                     if(tempTerrtObj.DDD_Dollars_1M__c !=null)
-                                                        gen.writeNumberField('dddDollars',tempTerrtObj.DDD_Dollars_1M__c);
+                                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempTerrtObj.DDD_Dollars_1M__c);
                                                     else
-                                                        gen.writeNullField('dddDollars');
+                                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                                     gen.writeEndObject();
                                                 }
                                                 if(str == 'threeMonthData'){
                                                     gen.writeStartObject();
-                                                    gen.writeStringField('name',tempTerrtObj.Product__r.Name);
-                                                    gen.writeNumberField('trxValue',tempTerrtObj.TRx_3M__c);
-                                                    gen.writeNumberField('nrxValue',tempTerrtObj.NRx_3M__c);
+                                                    gen.writeStringField(System.Label.MYBZ_Name,tempTerrtObj.Product__r.Name);
+                                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempTerrtObj.TRx_3M__c);
+                                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_3M__c);
                                                     if(tempTerrtObj.DDD_Dollars_3M__c !=null)
-                                                        gen.writeNumberField('dddDollars',tempTerrtObj.DDD_Dollars_3M__c);
+                                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempTerrtObj.DDD_Dollars_3M__c);
                                                     else
-                                                        gen.writeNullField('dddDollars');
+                                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                                     gen.writeEndObject();
                                                 }
                                                 if(str == 'sixMonthData'){
                                                     gen.writeStartObject();
-                                                    gen.writeStringField('name',tempTerrtObj.Product__r.Name);
-                                                    gen.writeNumberField('trxValue',tempTerrtObj.TRx_6M__c);
-                                                    gen.writeNumberField('nrxValue',tempTerrtObj.NRx_6M__c);
+                                                    gen.writeStringField(System.Label.MYBZ_Name,tempTerrtObj.Product__r.Name);
+                                                    gen.writeNumberField(System.Label.MYBZ_trxValue,tempTerrtObj.TRx_6M__c);
+                                                    gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_6M__c);
                                                     if(tempTerrtObj.DDD_Dollars_6M__c !=null)
-                                                        gen.writeNumberField('dddDollars',tempTerrtObj.DDD_Dollars_6M__c);
+                                                        gen.writeNumberField(System.Label.MYBZ_dddDollars,tempTerrtObj.DDD_Dollars_6M__c);
                                                     else
-                                                        gen.writeNullField('dddDollars');
+                                                        gen.writeNullField(System.Label.MYBZ_dddDollars);
                                                     gen.writeEndObject();
                                                 }
                                             }
@@ -850,7 +850,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         Map<String, Set<String>> DistrictNameAndTerritoryMap = new Map<String, Set<String>>();
         Map<String, String> TerritoryNameAndGlobalIdMap = new Map<String, String>();
         
-        List <MYBZ_Region_Rollup__c> regionList = [SELECT Id, Region__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = 'Region'];
+        List <MYBZ_Region_Rollup__c> regionList = [SELECT Id, Region__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Region];
         if(!regionList.isEmpty())
         {
             for(MYBZ_Region_Rollup__c regionObj : regionList){
@@ -860,7 +860,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
             }
         }
         
-        List <MYBZ_Region_Rollup__c> districtList = [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = 'District'];
+        List <MYBZ_Region_Rollup__c> districtList = [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_District];
         
         if(!districtList.isEmpty()){
             for(MYBZ_Region_Rollup__c districtObj : districtList){
@@ -878,7 +878,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
             }
         }
         
-        List <MYBZ_Region_Rollup__c> territoryList = [SELECT Id, Territory__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = 'Territory'];
+        List <MYBZ_Region_Rollup__c> territoryList = [SELECT Id, Territory__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory];
         
         if(!territoryList.isEmpty()){
             for(MYBZ_Region_Rollup__c territoryObj : territoryList){
@@ -900,30 +900,30 @@ global with sharing class MYBZ_Region_Rollup_Controller
             System.debug('Inside');
             for(String regionName : RegionNameAndGlobalIdMap.keySet()){
                 gen.writeStartObject();
-                gen.writeStringField('name',regionName);
+                gen.writeStringField(System.Label.MYBZ_Name,regionName);
                 String regionGlobalId = RegionNameAndGlobalIdMap.get(regionName);
-                gen.writeStringField('globalID',regionGlobalId);
+                gen.writeStringField(System.Label.MYBZ_globalID,regionGlobalId);
                 
                 if(RegionNameAndDistrictMap.containsKey(regionName)){
-                    gen.writeFieldName('children');
+                    gen.writeFieldName(System.Label.MYBZ_children);
                     gen.writeStartArray();
                     
                     for(String districtName : RegionNameAndDistrictMap.get(regionName)){
                         gen.writeStartObject();
-                        gen.writeStringField('name',districtName);
+                        gen.writeStringField(System.Label.MYBZ_Name,districtName);
                         String districtGlobalId = DistrictNameAndGlobalIdMap.get(districtName);
-                        gen.writeStringField('globalID',districtGlobalId);
+                        gen.writeStringField(System.Label.MYBZ_globalID,districtGlobalId);
                         if(DistrictNameAndTerritoryMap.containsKey(districtName)){
-                            gen.writeFieldName('children');
+                            gen.writeFieldName(System.Label.MYBZ_children);
                             gen.writeStartArray();
                             for(String territoryName : DistrictNameAndTerritoryMap.get(districtName)){
                                 gen.writeStartObject();
-                                gen.writeStringField('name',territoryName);
+                                gen.writeStringField(System.Label.MYBZ_Name,territoryName);
                                 String territoryGlobalId = TerritoryNameAndGlobalIdMap.get(territoryName);
                                 if(territoryGlobalId == null || territoryGlobalId == '')
-                                    gen.writeNullField('globalID'); 
+                                    gen.writeNullField(System.Label.MYBZ_globalID); 
                                 else
-                                    gen.writeStringField('globalID',territoryGlobalId);
+                                    gen.writeStringField(System.Label.MYBZ_globalID,territoryGlobalId);
                                 gen.writeEndObject();
                             }
                             gen.writeEndArray();
@@ -973,7 +973,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         Map<String, Set<String>> DistrictNameAndTerritoryMap = new Map<String, Set<String>>();
         Map<String, String> TerritoryNameAndGlobalIdMap = new Map<String, String>();
         
-        List <MYBZ_Region_Rollup__c> regionList = [SELECT Id, Region__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = 'Region'];
+        List <MYBZ_Region_Rollup__c> regionList = [SELECT Id, Region__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Region];
         if(!regionList.isEmpty())
         {
             for(MYBZ_Region_Rollup__c regionObj : regionList){
@@ -983,7 +983,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
             }
         }
         
-        List <MYBZ_Region_Rollup__c> districtList = [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = 'District'];
+        List <MYBZ_Region_Rollup__c> districtList = [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_District];
         
         if(!districtList.isEmpty()){
             for(MYBZ_Region_Rollup__c districtObj : districtList){
@@ -1001,7 +1001,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
             }
         }
         
-        List <MYBZ_Region_Rollup__c> territoryList = [SELECT Id, Territory__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = 'Territory'];
+        List <MYBZ_Region_Rollup__c> territoryList = [SELECT Id, Territory__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory];
         
         if(!territoryList.isEmpty()){
             for(MYBZ_Region_Rollup__c territoryObj : territoryList){
@@ -1023,30 +1023,30 @@ global with sharing class MYBZ_Region_Rollup_Controller
             System.debug('Inside');
             for(String regionName : RegionNameAndGlobalIdMap.keySet()){
                 gen.writeStartObject();
-                gen.writeStringField('name',regionName);
+                gen.writeStringField(System.Label.MYBZ_Name,regionName);
                 String regionGlobalId = RegionNameAndGlobalIdMap.get(regionName);
-                gen.writeStringField('globalID',regionGlobalId);
+                gen.writeStringField(System.Label.MYBZ_globalID,regionGlobalId);
                 
                 if(RegionNameAndDistrictMap.containsKey(regionName)){
-                    gen.writeFieldName('children');
+                    gen.writeFieldName(System.Label.MYBZ_children);
                     gen.writeStartArray();
                     
                     for(String districtName : RegionNameAndDistrictMap.get(regionName)){
                         gen.writeStartObject();
-                        gen.writeStringField('name',districtName);
+                        gen.writeStringField(System.Label.MYBZ_Name,districtName);
                         String districtGlobalId = DistrictNameAndGlobalIdMap.get(districtName);
-                        gen.writeStringField('globalID',districtGlobalId);
+                        gen.writeStringField(System.Label.MYBZ_globalID,districtGlobalId);
                         if(DistrictNameAndTerritoryMap.containsKey(districtName)){
-                            gen.writeFieldName('children');
+                            gen.writeFieldName(System.Label.MYBZ_children);
                             gen.writeStartArray();
                             for(String territoryName : DistrictNameAndTerritoryMap.get(districtName)){
                                 gen.writeStartObject();
-                                gen.writeStringField('name',territoryName);
+                                gen.writeStringField(System.Label.MYBZ_Name,territoryName);
                                 String territoryGlobalId = TerritoryNameAndGlobalIdMap.get(territoryName);
                                 if(territoryGlobalId == null || territoryGlobalId == '')
-                                    gen.writeNullField('globalID'); 
+                                    gen.writeNullField(System.Label.MYBZ_globalID); 
                                 else
-                                    gen.writeStringField('globalID',territoryGlobalId);
+                                    gen.writeStringField(System.Label.MYBZ_globalID,territoryGlobalId);
                                 gen.writeEndObject();
                             }
                             gen.writeEndArray();
@@ -1169,16 +1169,16 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     Map<Decimal, List<MYBZ_Target_Goal__c>> TempMonthAndTargetGoalMap = YearAndMonthTargetGoalMap.get(year);
                     for(Decimal month : TempMonthAndTargetGoalMap.keySet()){
                         gen.writeStartObject();
-                        gen.writeNumberField('month',month);
-                        gen.writeNumberField('year',year);
+                        gen.writeNumberField(System.Label.MYBZ_month,month);
+                        gen.writeNumberField(System.Label.MYBZ_Year,year);
                         if(TempMonthAndTargetGoalMap.get(month) !=null){
-                            gen.writeFieldName('goals');
+                            gen.writeFieldName(System.Label.MYBZ_goals);
                             gen.writeStartArray();
                             for(MYBZ_Target_Goal__c targetGoalObj : TempMonthAndTargetGoalMap.get(month)){
                                 gen.writeStartObject();
-                                gen.writeStringField('productName',targetGoalObj.Product__r.Name);
-                                gen.writeNumberField('goalSet',targetGoalObj.TRx_Goal__c);
-                                gen.writeNumberField('goalMet',targetGoalObj.TRx_Goal_Attainment__c);
+                                gen.writeStringField(System.Label.MYBZ_productName,targetGoalObj.Product__r.Name);
+                                gen.writeNumberField(System.Label.MYBZ_goalSet,targetGoalObj.TRx_Goal__c);
+                                gen.writeNumberField(System.Label.MYBZ_goalMet,targetGoalObj.TRx_Goal_Attainment__c);
                                 gen.writeEndObject();
                             }
                             gen.writeEndArray();
@@ -1298,16 +1298,16 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     Map<Decimal, List<MYBZ_Target_Goal__c>> TempMonthAndTargetGoalMap = YearAndMonthTargetGoalMap.get(year);
                     for(Decimal month : TempMonthAndTargetGoalMap.keySet()){
                         gen.writeStartObject();
-                        gen.writeNumberField('month',month);
-                        gen.writeNumberField('year',year);
+                        gen.writeNumberField(System.Label.MYBZ_month,month);
+                        gen.writeNumberField(System.Label.MYBZ_Year,year);
                         if(TempMonthAndTargetGoalMap.get(month) !=null){
-                            gen.writeFieldName('goals');
+                            gen.writeFieldName(System.Label.MYBZ_goals);
                             gen.writeStartArray();
                             for(MYBZ_Target_Goal__c targetGoalObj : TempMonthAndTargetGoalMap.get(month)){
                                 gen.writeStartObject();
-                                gen.writeStringField('productName',targetGoalObj.Product__r.Name);
-                                gen.writeNumberField('goalSet',targetGoalObj.TRx_Goal__c);
-                                gen.writeNumberField('goalMet',targetGoalObj.TRx_Goal_Attainment__c);
+                                gen.writeStringField(System.Label.MYBZ_productName,targetGoalObj.Product__r.Name);
+                                gen.writeNumberField(System.Label.MYBZ_goalSet,targetGoalObj.TRx_Goal__c);
+                                gen.writeNumberField(System.Label.MYBZ_goalMet,targetGoalObj.TRx_Goal_Attainment__c);
                                 gen.writeEndObject();
                             }
                             gen.writeEndArray();
@@ -1374,18 +1374,18 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>> YearAndMonthProductTrendMap = new Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>>();
         
-        if((Role == 'Major Market Manager' || Role == 'District Sales Manager' || Role == System.Label.MYBZ_AccountManager || Role == 'Super User') && district !=null && district !=''){
+        if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager || Role == System.Label.MYBZ_SuperUser) && district !=null && district !=''){
             productTrendsList.clear();
-            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Territory__c = null AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }
-        if((Role == 'Major Market Manager' || Role == 'Super User') && region !=null && region !=''){
+        if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !='' && (district == null || district == '')){
             productTrendsList.clear();
            
-            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }
-        if((Role == 'District Sales Manager' || Role == System.Label.MYBZ_AccountManager  || Role == 'Super User') && territory !=null && territory !=''){
+        if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory !=null && territory !=''){
             productTrendsList.clear();
-            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }
         
         system.debug('productTrendsList---'+productTrendsList);
@@ -1438,30 +1438,30 @@ global with sharing class MYBZ_Region_Rollup_Controller
                           for(Decimal month : TempMonthAndProductTrendMap.keySet()){
                         EffientFlag=0;
                         gen.writeStartObject();
-                        gen.writeNumberField('month',month);
-                        gen.writeNumberField('year',year);
+                        gen.writeNumberField(System.Label.MYBZ_month,month);
+                        gen.writeNumberField(System.Label.MYBZ_Year,year);
                         if(TempMonthAndProductTrendMap.get(month) !=null){
-                            gen.writeFieldName('products');
+                            gen.writeFieldName(System.Label.MYBZ_Products);
                             gen.writeStartArray();
                             for(MYBZ_Market_Share__c productTrendObj : TempMonthAndProductTrendMap.get(month)){
                             
-                                if(!productTrendObj.Product__r.Name.Equals('EFFIENT'))
+                                if(!productTrendObj.Product__r.Name.Equals(System.Label.MYBZ_EFFIENT))
                                 {
                                     gen.writeStartObject();
-                                    gen.writeStringField('productName',productTrendObj.Product__r.Name);
+                                    gen.writeStringField(System.Label.MYBZ_productName,productTrendObj.Product__r.Name);
                                     if(productTrendObj.TRx__c!=null)
-                                    gen.writeNumberField('trx',productTrendObj.TRx__c);
+                                    gen.writeNumberField(System.Label.MYBZ_trx,productTrendObj.TRx__c);
                                     else
-                                    gen.writeNullField('trx');
+                                    gen.writeNullField(System.Label.MYBZ_trx);
       
                                      if(productTrendObj.DDD_Dollars__c!=null)
-                                     gen.writeNumberField('dddDollars',productTrendObj.DDD_Dollars__c);
+                                     gen.writeNumberField(System.Label.MYBZ_dddDollars,productTrendObj.DDD_Dollars__c);
                                      else
-                                     gen.writeNullField('dddDollars');
+                                     gen.writeNullField(System.Label.MYBZ_dddDollars);
                                      if(productTrendObj.DDD_Units__c!=null)
-                                     gen.writeNumberField('dddUnits',productTrendObj.DDD_Units__c);
+                                     gen.writeNumberField(System.Label.MYBZ_dddUnits,productTrendObj.DDD_Units__c);
                                      else
-                                     gen.writeNullField('dddUnits');
+                                     gen.writeNullField(System.Label.MYBZ_dddUnits);
                                     if(productTrendObj.Previous_Month_TRx__c!=null)
                                         {
                                         if(productTrendObj.Previous_Month_TRx__c!=0)
@@ -1473,10 +1473,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                             {
                                         PercentageChangeTRx=0;
                                             }
-                                        gen.writeNumberField('percentageChangeFromPreviousMonthTRx',PercentageChangeTRx);  
+                                        gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx,PercentageChangeTRx);  
                                         }
                                     else
-                                    gen.writeNullField('percentageChangeFromPreviousMonthTRx');
+                                    gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx);
                                     
                                      if(productTrendObj.Previous_DDD_Dollars__c!=null)
                                     {
@@ -1489,10 +1489,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         {
                                         PercentageChangeDDDDollars=0;
                                         }
-                                        gen.writeNumberField('percentageChangeFromPreviousMonthDDDDollars',PercentageChangeDDDDollars); 
+                                        gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars,PercentageChangeDDDDollars); 
                                     }
                                     else
-                                    gen.writeNullField('percentageChangeFromPreviousMonthDDDDollars');
+                                    gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars);
                                     
                                     if(productTrendObj.Previous_DDD_Units__c!=null)
                                     {
@@ -1505,13 +1505,13 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         {
                                         PercentageChangeDDDUnits=0;
                                         }
-                                        gen.writeNumberField('percentageChangeFromPreviousMonthDDDUnits',PercentageChangeDDDUnits);   
+                                        gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits,PercentageChangeDDDUnits);   
                                     }
                                     else
-                                    gen.writeNullField('percentageChangeFromPreviousMonthDDDUnits'); 
+                                    gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits); 
                                 
                                 //gen.writeNumberField('percentageChangeFromPreviousMonth',productTrendObj.percentageChangeFromPreviousMonth__c);
-                                gen.writeBooleanField('lillyProduct',productTrendObj.lillyProduct__c);
+                                gen.writeBooleanField(System.Label.MYBZ_lillyProduct,productTrendObj.lillyProduct__c);
                                 gen.writeEndObject();
                             }
                             else
@@ -1568,32 +1568,32 @@ global with sharing class MYBZ_Region_Rollup_Controller
                           if(EffientFlag==1)
                           {
                              gen.writeStartObject();
-                             gen.writeStringField('productName','EFFIENT');
+                             gen.writeStringField(System.Label.MYBZ_productName,System.Label.MYBZ_EFFIENT);
                              if(EffientTrx!=null)
-                             gen.writeNumberField('trx',EffientTrx);
+                             gen.writeNumberField(System.Label.MYBZ_trx,EffientTrx);
                              else
-                             gen.writeNullField('trx');
+                             gen.writeNullField(System.Label.MYBZ_trx);
                              if(EffientDollars!=null)
-                             gen.writeNumberField('dddDollars',EffientDollars);
+                             gen.writeNumberField(System.Label.MYBZ_dddDollars,EffientDollars);
                              else
-                             gen.writeNullField('dddDollars');
+                             gen.writeNullField(System.Label.MYBZ_dddDollars);
                              if(EffientUnits!=null)
-                             gen.writeNumberField('dddUnits',EffientUnits);
+                             gen.writeNumberField(System.Label.MYBZ_dddUnits,EffientUnits);
                              else
-                             gen.writeNullField('dddUnits');
+                             gen.writeNullField(System.Label.MYBZ_dddUnits);
                              if(PercentageChangeTRx!=null)
-                             gen.writeNumberField('percentageChangeFromPreviousMonthTRx',PercentageChangeTRx);
+                             gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx,PercentageChangeTRx);
                              else
-                             gen.writeNullField('percentageChangeFromPreviousMonthTRx'); 
+                             gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx); 
                              if(PercentageChangeDDDDollars!=null)
-                             gen.writeNumberField('percentageChangeFromPreviousMonthDDDDollars',PercentageChangeDDDDollars); 
+                             gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars,PercentageChangeDDDDollars); 
                              else
-                             gen.writeNullField('percentageChangeFromPreviousMonthDDDDollars');
+                             gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars);
                              if(PercentageChangeDDDUnits!=null)
-                             gen.writeNumberField('percentageChangeFromPreviousMonthDDDUnits',PercentageChangeDDDUnits);
+                             gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits,PercentageChangeDDDUnits);
                              else
-                             gen.writeNullField('percentageChangeFromPreviousMonthDDDUnits');
-                             gen.writeBooleanField('lillyProduct',true);
+                             gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits);
+                             gen.writeBooleanField(System.Label.MYBZ_lillyProduct,true);
                              gen.writeEndObject();
                              EffientFlag=0;
                           }
@@ -1655,24 +1655,24 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>> YearAndMonthProductTrendMap = new Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>>();
         
-        if(Role == 'Sales Representative'){
+        if(Role == System.Label.MYBZ_SalesRepresentative){
             productTrendsList.clear();
-            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC, Market__c];
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC, Market__c];
         }
-        if(Role == 'District Sales Manager' || Role == System.Label.MYBZ_AccountManager ){
+        if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ){
             productTrendsList.clear();
-            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }
-        if(Role == 'Major Market Manager'){
+        if(Role == System.Label.MYBZ_MajorMarketManager){
             productTrendsList.clear();
-            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }
-        if(Role == 'Super User'){
+        if(Role == System.Label.MYBZ_SuperUser){
             productTrendsList.clear();
             
             MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c LIMIT 1];
             
-            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id AND Owner__c = 'LILLY' AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+            productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }
         system.debug('productTrendsList---'+productTrendsList);
         if(!productTrendsList.isEmpty()){
@@ -1724,31 +1724,31 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     for(Decimal month : TempMonthAndProductTrendMap.keySet()){
                         EffientFlag=0;
                         gen.writeStartObject();
-                        gen.writeNumberField('month',month);
-                        gen.writeNumberField('year',year);
+                        gen.writeNumberField(System.Label.MYBZ_month,month);
+                        gen.writeNumberField(System.Label.MYBZ_Year,year);
                         if(TempMonthAndProductTrendMap.get(month) !=null){
-                            gen.writeFieldName('products');
+                            gen.writeFieldName(System.Label.MYBZ_Products);
                             gen.writeStartArray();
                             for(MYBZ_Market_Share__c productTrendObj : TempMonthAndProductTrendMap.get(month)){
                                 
                                 system.debug('productTrendObj--'+productTrendObj.Product__r.Name);
-                                if(!productTrendObj.Product__r.Name.Equals('EFFIENT'))
+                                if(!productTrendObj.Product__r.Name.Equals(System.Label.MYBZ_EFFIENT))
                                 {
                                     gen.writeStartObject();
-                                    gen.writeStringField('productName',productTrendObj.Product__r.Name);
+                                    gen.writeStringField(System.Label.MYBZ_productName,productTrendObj.Product__r.Name);
                                     if(productTrendObj.TRx__c!=null)
-                                    gen.writeNumberField('trx',productTrendObj.TRx__c);
+                                    gen.writeNumberField(System.Label.MYBZ_trx,productTrendObj.TRx__c);
                                     else
-                                    gen.writeNullField('trx');
+                                    gen.writeNullField(System.Label.MYBZ_trx);
       
                                      if(productTrendObj.DDD_Dollars__c!=null)
-                                     gen.writeNumberField('dddDollars',productTrendObj.DDD_Dollars__c);
+                                     gen.writeNumberField(System.Label.MYBZ_dddDollars,productTrendObj.DDD_Dollars__c);
                                      else
-                                     gen.writeNullField('dddDollars');
+                                     gen.writeNullField(System.Label.MYBZ_dddDollars);
                                      if(productTrendObj.DDD_Units__c!=null)
-                                     gen.writeNumberField('dddUnits',productTrendObj.DDD_Units__c);
+                                     gen.writeNumberField(System.Label.MYBZ_dddUnits,productTrendObj.DDD_Units__c);
                                      else
-                                     gen.writeNullField('dddUnits');
+                                     gen.writeNullField(System.Label.MYBZ_dddUnits);
                                     if(productTrendObj.Previous_Month_TRx__c!=null)
                                         {
                                         if(productTrendObj.Previous_Month_TRx__c!=0)
@@ -1760,10 +1760,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                             {
                                         PercentageChangeTRx=0;
                                             }
-                                        gen.writeNumberField('percentageChangeFromPreviousMonthTRx',PercentageChangeTRx);  
+                                        gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx,PercentageChangeTRx);  
                                         }
                                     else
-                                    gen.writeNullField('percentageChangeFromPreviousMonthTRx');
+                                    gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx);
                                     
                                      if(productTrendObj.Previous_DDD_Dollars__c!=null)
                                     {
@@ -1776,10 +1776,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         {
                                         PercentageChangeDDDDollars=0;
                                         }
-                                        gen.writeNumberField('percentageChangeFromPreviousMonthDDDDollars',PercentageChangeDDDDollars); 
+                                        gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars,PercentageChangeDDDDollars); 
                                     }
                                     else
-                                    gen.writeNullField('percentageChangeFromPreviousMonthDDDDollars');
+                                    gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars);
                                     
                                     if(productTrendObj.Previous_DDD_Units__c!=null)
                                     {
@@ -1792,13 +1792,13 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         {
                                         PercentageChangeDDDUnits=0;
                                         }
-                                        gen.writeNumberField('percentageChangeFromPreviousMonthDDDUnits',PercentageChangeDDDUnits);   
+                                        gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits,PercentageChangeDDDUnits);   
                                     }
                                     else
-                                    gen.writeNullField('percentageChangeFromPreviousMonthDDDUnits'); 
+                                    gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits); 
                                 
                                 //gen.writeNumberField('percentageChangeFromPreviousMonth',productTrendObj.percentageChangeFromPreviousMonth__c);
-                                gen.writeBooleanField('lillyProduct',productTrendObj.lillyProduct__c);
+                                gen.writeBooleanField(System.Label.MYBZ_lillyProduct,productTrendObj.lillyProduct__c);
                                 gen.writeEndObject();
                             }
                             else
@@ -1855,32 +1855,32 @@ global with sharing class MYBZ_Region_Rollup_Controller
                           if(EffientFlag==1)
                           {
                              gen.writeStartObject();
-                             gen.writeStringField('productName','EFFIENT');
+                             gen.writeStringField(System.Label.MYBZ_productName,System.Label.MYBZ_EFFIENT);
                              if(EffientTrx!=null)
-                             gen.writeNumberField('trx',EffientTrx);
+                             gen.writeNumberField(System.Label.MYBZ_trx,EffientTrx);
                              else
-                             gen.writeNullField('trx');
+                             gen.writeNullField(System.Label.MYBZ_trx);
                              if(EffientDollars!=null)
-                             gen.writeNumberField('dddDollars',EffientDollars);
+                             gen.writeNumberField(System.Label.MYBZ_dddDollars,EffientDollars);
                              else
-                             gen.writeNullField('dddDollars');
+                             gen.writeNullField(System.Label.MYBZ_dddDollars);
                              if(EffientUnits!=null)
-                             gen.writeNumberField('dddUnits',EffientUnits);
+                             gen.writeNumberField(System.Label.MYBZ_dddUnits,EffientUnits);
                              else
-                             gen.writeNullField('dddUnits');
+                             gen.writeNullField(System.Label.MYBZ_dddUnits);
                              if(PercentageChangeTRx!=null)
-                             gen.writeNumberField('percentageChangeFromPreviousMonthTRx',PercentageChangeTRx);
+                             gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx,PercentageChangeTRx);
                              else
-                             gen.writeNullField('percentageChangeFromPreviousMonthTRx'); 
+                             gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx); 
                              if(PercentageChangeDDDDollars!=null)
-                             gen.writeNumberField('percentageChangeFromPreviousMonthDDDDollars',PercentageChangeDDDDollars); 
+                             gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars,PercentageChangeDDDDollars); 
                              else
-                             gen.writeNullField('percentageChangeFromPreviousMonthDDDDollars');
+                             gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars);
                              if(PercentageChangeDDDUnits!=null)
-                             gen.writeNumberField('percentageChangeFromPreviousMonthDDDUnits',PercentageChangeDDDUnits);
+                             gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits,PercentageChangeDDDUnits);
                              else
-                             gen.writeNullField('percentageChangeFromPreviousMonthDDDUnits');
-                             gen.writeBooleanField('lillyProduct',true);
+                             gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits);
+                             gen.writeBooleanField(System.Label.MYBZ_lillyProduct,true);
                              gen.writeEndObject();
                              EffientFlag=0;
                           }
@@ -1933,17 +1933,17 @@ global with sharing class MYBZ_Region_Rollup_Controller
         Map<String, Map<Decimal, List<MYBZ_Market_Share__c>>> MarketShareNameAndMarketShareMap = new Map<String, Map<Decimal, List<MYBZ_Market_Share__c>>>();
         
         List<MYBZ_Market_Share__c> marketShareList = new List<MYBZ_Market_Share__c>();
-        if((Role == 'Major Market Manager' || Role == 'District Sales Manager' || Role == System.Label.MYBZ_AccountManager  || Role == 'Super User') && district !=null && district !=''){
+        if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && district !=null && district !=''){
             marketShareList.clear();
            
-            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district ORDER BY Month__c, Year__c ASC];
+            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
         }
-        if((Role == 'Major Market Manager' || Role == 'Super User') && region !=null && region !=''){
+        if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !='' && (district == null || district == '')){
             marketShareList.clear();
             
-            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region ORDER BY Month__c, Year__c ASC];
+            marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null ORDER BY Month__c, Year__c ASC];
         }
-        if((Role == 'District Sales Manager' || Role == System.Label.MYBZ_AccountManager  || Role == 'Super User') && territory !=null && territory !=''){
+        if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory !=null && territory !=''){
             marketShareList.clear();
             marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory ORDER BY Month__c, Year__c ASC];
         }
@@ -2009,10 +2009,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
             for(String marketShareName : MarketShareNameAndMarketShareMap.keySet()){
                 Map<Decimal, Set<Decimal>> YearAndMonthMap = MarketShareNameAndYearMonthMap.get(marketShareName);
                 gen.writeStartObject();
-                gen.writeStringField('market',marketShareName);
+                gen.writeStringField(System.Label.MYBZ_market,marketShareName);
                 if(MarketShareNameAndMarketShareMap.get(marketShareName) !=null){
                     Map<Decimal, List<MYBZ_Market_Share__c>> YearAndMarketMap = MarketShareNameAndMarketShareMap.get(marketShareName);
-                    gen.writeFieldName('data');
+                    gen.writeFieldName(System.Label.MYBZ_data);
                     gen.writeStartArray();
                     for(Decimal Year : YearAndMarketMap.KeySet()){
                         Set<Decimal>MonthsSet = YearAndMonthMap.get(Year);
@@ -2020,43 +2020,43 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         System.debug('marketList---'+marketList);
                         for(Decimal Month : MonthsSet){
                             gen.writeStartObject();
-                            gen.writeNumberField('month',Month);
-                            gen.writeNumberField('year',Year);
+                            gen.writeNumberField(System.Label.MYBZ_month,Month);
+                            gen.writeNumberField(System.Label.MYBZ_Year,Year);
                             if(!marketList.isEmpty()){
-                                gen.writeFieldName('products');
+                                gen.writeFieldName(System.Label.MYBZ_Products);
                                 gen.writeStartArray();
                                 for(MYBZ_Market_Share__c marketShareObj : marketList){
                                     Decimal percentageChangeSinceLastMonth;
                                     if(marketShareObj.Market__c == marketShareName && marketShareObj.Year__c == Year && marketShareObj.Month__c == Month){
                                         gen.writeStartObject();
                                         if(marketShareObj.TRx__c !=null)
-                                        gen.writeNumberField('trx',marketShareObj.TRx__c);
+                                        gen.writeNumberField(System.Label.MYBZ_trx,marketShareObj.TRx__c);
                                         else
-                                        gen.writeNullField('trx');
+                                        gen.writeNullField(System.Label.MYBZ_trx);
                                         if(marketShareObj.Previous_Month_TRx__c!=null){
                                             if(marketShareObj.Previous_Month_TRx__c !=0){
-                                                //gen.writeNumberField('trx',marketShareObj.TRx__c);
+                                                //gen.writeNumberField(System.Label.MYBZ_trx,marketShareObj.TRx__c);
                                                 percentageChangeSinceLastMonth = ((marketShareObj.TRx__c - marketShareObj.Previous_Month_TRx__c) / marketShareObj.Previous_Month_TRx__c);
                                                 percentageChangeSinceLastMonth = percentageChangeSinceLastMonth.SetScale(2,RoundingMode.CEILING);
                                             }
                                             else{
                                                 percentageChangeSinceLastMonth = 0;
                                                 }
-                                                gen.writeNumberField('percentageChangeFromPreviousMonthTRx',percentageChangeSinceLastMonth);
+                                                gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx,percentageChangeSinceLastMonth);
                                         }
                                         else
-                                        gen.writeNullField('percentageChangeFromPreviousMonthTRx');
-                                        gen.writeStringField('productName',marketShareObj.Product__r.Name);
-                                        gen.writeBooleanField('lillyProduct',marketShareObj.lillyProduct__c);
+                                        gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx);
+                                        gen.writeStringField(System.Label.MYBZ_productName,marketShareObj.Product__r.Name);
+                                        gen.writeBooleanField(System.Label.MYBZ_lillyProduct,marketShareObj.lillyProduct__c);
                                         if(marketShareObj.DDD_Dollars__c!=null)
-                                            gen.writeNumberField('dddDollars',marketShareObj.DDD_Dollars__c);
+                                            gen.writeNumberField(System.Label.MYBZ_dddDollars,marketShareObj.DDD_Dollars__c);
                                         else
-                                            gen.writeNullField('dddDollars');
+                                            gen.writeNullField(System.Label.MYBZ_dddDollars);
                                             
                                         if(marketShareObj.DDD_Units__c!=null)
-                                            gen.writeNumberField('dddUnits',marketShareObj.DDD_Units__c);
+                                            gen.writeNumberField(System.Label.MYBZ_dddUnits,marketShareObj.DDD_Units__c);
                                         else
-                                            gen.writeNullField('dddUnits');
+                                            gen.writeNullField(System.Label.MYBZ_dddUnits);
                                             Decimal PercentageChangeDDDDollars;
                                         if(marketShareObj.Previous_DDD_Dollars__c!=null)
                                         {
@@ -2069,10 +2069,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                             {
                                                 PercentageChangeDDDDollars=0;
                                             }
-                                        gen.writeNumberField('percentageChangeFromPreviousMonthDDDDollars',PercentageChangeDDDDollars); 
+                                        gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars,PercentageChangeDDDDollars); 
                                         }
                                     else
-                                        gen.writeNullField('percentageChangeFromPreviousMonthDDDDollars');
+                                        gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars);
                                     Decimal PercentageChangeDDDUnits;
                                     if(marketShareObj.Previous_DDD_Units__c!=null)
                                     {
@@ -2085,10 +2085,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         {
                                             PercentageChangeDDDUnits=0;
                                         }
-                                        gen.writeNumberField('percentageChangeFromPreviousMonthDDDUnits',PercentageChangeDDDUnits);   
+                                        gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits,PercentageChangeDDDUnits);   
                                     }
                                     else
-                                    gen.writeNullField('percentageChangeFromPreviousMonthDDDUnits');
+                                    gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits);
                                     
                                        gen.writeEndObject();
                                         
@@ -2144,19 +2144,19 @@ global with sharing class MYBZ_Region_Rollup_Controller
         Map<String, Map<Decimal, List<MYBZ_Market_Share__c>>> MarketShareNameAndMarketShareMap = new Map<String, Map<Decimal, List<MYBZ_Market_Share__c>>>();
         
         List<MYBZ_Market_Share__c> marketShareList = new List<MYBZ_Market_Share__c>();
-         if(Role == 'Sales Representative'){
+         if(Role == System.Label.MYBZ_SalesRepresentative){
             marketShareList.clear();
             marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
         }
-        if(Role == 'District Sales Manager' || Role == System.Label.MYBZ_AccountManager ){
+        if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ){
             marketShareList.clear();
             marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
         }
-        if(Role == 'Major Market Manager'){
+        if(Role == System.Label.MYBZ_MajorMarketManager){
             marketShareList.clear();
             marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
         }
-        if(Role == 'Super User'){
+        if(Role == System.Label.MYBZ_SuperUser){
             marketShareList.clear();
             MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c LIMIT 1];
             
@@ -2225,10 +2225,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
             for(String marketShareName : MarketShareNameAndMarketShareMap.keySet()){
                 Map<Decimal, Set<Decimal>> YearAndMonthMap = MarketShareNameAndYearMonthMap.get(marketShareName);
                 gen.writeStartObject();
-                gen.writeStringField('market',marketShareName);
+                gen.writeStringField(System.Label.MYBZ_market,marketShareName);
                 if(MarketShareNameAndMarketShareMap.get(marketShareName) !=null){
                     Map<Decimal, List<MYBZ_Market_Share__c>> YearAndMarketMap = MarketShareNameAndMarketShareMap.get(marketShareName);
-                    gen.writeFieldName('data');
+                    gen.writeFieldName(System.Label.MYBZ_data);
                     gen.writeStartArray();
                     for(Decimal Year : YearAndMarketMap.KeySet()){
                         Set<Decimal>MonthsSet = YearAndMonthMap.get(Year);
@@ -2236,43 +2236,43 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         System.debug('marketList---'+marketList);
                         for(Decimal Month : MonthsSet){
                             gen.writeStartObject();
-                            gen.writeNumberField('month',Month);
-                            gen.writeNumberField('year',Year);
+                            gen.writeNumberField(System.Label.MYBZ_month,Month);
+                            gen.writeNumberField(System.Label.MYBZ_Year,Year);
                             if(!marketList.isEmpty()){
-                                gen.writeFieldName('products');
+                                gen.writeFieldName(System.Label.MYBZ_Products);
                                 gen.writeStartArray();
                                 for(MYBZ_Market_Share__c marketShareObj : marketList){
                                     Decimal percentageChangeSinceLastMonth;
                                     if(marketShareObj.Market__c == marketShareName && marketShareObj.Year__c == Year && marketShareObj.Month__c == Month){
                                         gen.writeStartObject();
                                         if(marketShareObj.TRx__c !=null)
-                                        gen.writeNumberField('trx',marketShareObj.TRx__c);
+                                        gen.writeNumberField(System.Label.MYBZ_trx,marketShareObj.TRx__c);
                                         else
-                                        gen.writeNullField('trx');
+                                        gen.writeNullField(System.Label.MYBZ_trx);
                                         if(marketShareObj.Previous_Month_TRx__c!=null){
                                             if(marketShareObj.Previous_Month_TRx__c !=0){
-                                                //gen.writeNumberField('trx',marketShareObj.TRx__c);
+                                                //gen.writeNumberField(System.Label.MYBZ_trx,marketShareObj.TRx__c);
                                                 percentageChangeSinceLastMonth = ((marketShareObj.TRx__c - marketShareObj.Previous_Month_TRx__c) / marketShareObj.Previous_Month_TRx__c);
                                                 percentageChangeSinceLastMonth = percentageChangeSinceLastMonth.SetScale(2,RoundingMode.CEILING);
                                             }
                                             else{
                                                 percentageChangeSinceLastMonth = 0;
                                                 }
-                                                gen.writeNumberField('percentageChangeFromPreviousMonthTRx',percentageChangeSinceLastMonth);
+                                                gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx,percentageChangeSinceLastMonth);
                                         }
                                         else
-                                        gen.writeNullField('percentageChangeFromPreviousMonthTRx');
-                                        gen.writeStringField('productName',marketShareObj.Product__r.Name);
-                                        gen.writeBooleanField('lillyProduct',marketShareObj.lillyProduct__c);
+                                        gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx);
+                                        gen.writeStringField(System.Label.MYBZ_productName,marketShareObj.Product__r.Name);
+                                        gen.writeBooleanField(System.Label.MYBZ_lillyProduct,marketShareObj.lillyProduct__c);
                                         if(marketShareObj.DDD_Dollars__c!=null)
-                                            gen.writeNumberField('dddDollars',marketShareObj.DDD_Dollars__c);
+                                            gen.writeNumberField(System.Label.MYBZ_dddDollars,marketShareObj.DDD_Dollars__c);
                                         else
-                                            gen.writeNullField('dddDollars');
+                                            gen.writeNullField(System.Label.MYBZ_dddDollars);
                                             
                                         if(marketShareObj.DDD_Units__c!=null)
-                                            gen.writeNumberField('dddUnits',marketShareObj.DDD_Units__c);
+                                            gen.writeNumberField(System.Label.MYBZ_dddUnits,marketShareObj.DDD_Units__c);
                                         else
-                                            gen.writeNullField('dddUnits');
+                                            gen.writeNullField(System.Label.MYBZ_dddUnits);
                                             Decimal PercentageChangeDDDDollars;
                                         if(marketShareObj.Previous_DDD_Dollars__c!=null)
                                         {
@@ -2285,10 +2285,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                             {
                                                 PercentageChangeDDDDollars=0;
                                             }
-                                        gen.writeNumberField('percentageChangeFromPreviousMonthDDDDollars',PercentageChangeDDDDollars); 
+                                        gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars,PercentageChangeDDDDollars); 
                                         }
                                     else
-                                        gen.writeNullField('percentageChangeFromPreviousMonthDDDDollars');
+                                        gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars);
                                     Decimal PercentageChangeDDDUnits;
                                     if(marketShareObj.Previous_DDD_Units__c!=null)
                                     {
@@ -2301,10 +2301,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         {
                                             PercentageChangeDDDUnits=0;
                                         }
-                                        gen.writeNumberField('percentageChangeFromPreviousMonthDDDUnits',PercentageChangeDDDUnits);   
+                                        gen.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits,PercentageChangeDDDUnits);   
                                     }
                                     else
-                                    gen.writeNullField('percentageChangeFromPreviousMonthDDDUnits');
+                                    gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits);
                                     
                                        gen.writeEndObject();
                                         
@@ -2411,15 +2411,15 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     Products='';
                     
                     if(trenddetails.Month__c!=null)
-                    gen.writeNumberField('month',trenddetails.Month__c);
+                    gen.writeNumberField(System.Label.MYBZ_month,trenddetails.Month__c);
                     else
-                    gen.writeNullField('month');
+                    gen.writeNullField(System.Label.MYBZ_month);
                     //sdata+='"month":'+ month + ',';
                     if(trenddetails.Year__c!=null)
-                    gen.writeNumberField('year',trenddetails.Year__c);
+                    gen.writeNumberField(System.Label.MYBZ_Year,trenddetails.Year__c);
                     else
-                    gen.writeNullField('year');
-                    gen.writeFieldName('products');
+                    gen.writeNullField(System.Label.MYBZ_Year);
+                    gen.writeFieldName(System.Label.MYBZ_Products);
                     gen.writeStartArray();      
                 }
                } 
@@ -2430,10 +2430,10 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     Products=trenddetails.IHS_Product__r.Name;
                     gen.writeStartObject();
                     if(trenddetails.IHS_Product__r.Name!=null)
-                    gen.writeStringField('product',trenddetails.IHS_Product__r.Name);
+                    gen.writeStringField(System.Label.MYBZ_product,trenddetails.IHS_Product__r.Name);
                     else
-                    gen.writeNullField('product');
-                    gen.writeFieldName('topFivePrescribers');
+                    gen.writeNullField(System.Label.MYBZ_product);
+                    gen.writeFieldName(System.Label.MYBZ_topFivePrescribers);
                     gen.writeStartArray();
                     productprescribercount=1;
                     }
@@ -2442,17 +2442,17 @@ global with sharing class MYBZ_Region_Rollup_Controller
                 {
                     gen.writeStartObject();
                     if(trenddetails.HCP_First_Name__c!=null)
-                    gen.writeStringField('prescriberFirstName',trenddetails.HCP_First_Name__c);
+                    gen.writeStringField(System.Label.MYBZ_prescriberFirstName,trenddetails.HCP_First_Name__c);
                     else
-                    gen.writeNullField('prescriberFirstName');
+                    gen.writeNullField(System.Label.MYBZ_prescriberFirstName);
                     if(trenddetails.HCP_Last_Name__c!=null)
-                    gen.writeStringField('prescriberLastName',trenddetails.HCP_Last_Name__c);
+                    gen.writeStringField(System.Label.MYBZ_prescriberLastName,trenddetails.HCP_Last_Name__c);
                     else
-                    gen.writeNullField('prescriberLastName');
+                    gen.writeNullField(System.Label.MYBZ_prescriberLastName);
                     if(trenddetails.TRx_Units__c!=null)
-                    gen.writeNumberField('trx',trenddetails.TRx_Units__c);
+                    gen.writeNumberField(System.Label.MYBZ_trx,trenddetails.TRx_Units__c);
                     else
-                    gen.writeNullField('trx');
+                    gen.writeNullField(System.Label.MYBZ_trx);
                     gen.writeEndObject();
                  
                     if(productprescribercount==5)
@@ -2507,11 +2507,11 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         if((Role == System.Label.MYBZ_MajorMarketManager || (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) || Role == System.Label.MYBZ_SuperUser) && district !=null && district !=''){
             TrendsDetailsList.clear();
-            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where District__r.Name =:district order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where District__r.Name =:district AND Territory__c = null order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
         }
-        if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !=''){
+        if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !='' && (district ==null || district =='')){
             TrendsDetailsList.clear();
-            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Area__r.Name =:region order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Area__r.Name =:region AND District__c = null order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
         }
         if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager || Role == System.Label.MYBZ_SuperUser) && territory !=null && territory !=''){
             TrendsDetailsList.clear();
@@ -2553,27 +2553,27 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     }
                     Months+=trenddetails.Month__c;
                     Products='';
-                    gen.writeNumberField('month',trenddetails.Month__c);
+                    gen.writeNumberField(System.Label.MYBZ_month,trenddetails.Month__c);
                     //sdata+='"month":'+ month + ',';
-                    gen.writeNumberField('year',trenddetails.Year__c);
-                    gen.writeFieldName('products');
+                    gen.writeNumberField(System.Label.MYBZ_Year,trenddetails.Year__c);
+                    gen.writeFieldName(System.Label.MYBZ_Products);
                     gen.writeStartArray();      
                 }
                 if(!Products.equals(trenddetails.IHS_Product__r.Name))
                 {
                     Products=trenddetails.IHS_Product__r.Name;
                     gen.writeStartObject();
-                    gen.writeStringField('product',trenddetails.IHS_Product__r.Name);
-                    gen.writeFieldName('topFivePrescribers');
+                    gen.writeStringField(System.Label.MYBZ_product,trenddetails.IHS_Product__r.Name);
+                    gen.writeFieldName(System.Label.MYBZ_topFivePrescribers);
                     gen.writeStartArray();
                     productprescribercount=1;
                 }
                 if(productprescribercount<=5)
                 {
                     gen.writeStartObject();
-                    gen.writeStringField('prescriberFirstName',trenddetails.HCP_First_Name__c);
-                    gen.writeStringField('prescriberLastName',trenddetails.HCP_Last_Name__c);
-                    gen.writeNumberField('trx',trenddetails.TRx_Units__c);
+                    gen.writeStringField(System.Label.MYBZ_prescriberFirstName,trenddetails.HCP_First_Name__c);
+                    gen.writeStringField(System.Label.MYBZ_prescriberLastName,trenddetails.HCP_Last_Name__c);
+                    gen.writeNumberField(System.Label.MYBZ_trx,trenddetails.TRx_Units__c);
                     gen.writeEndObject();
                  
                     if(productprescribercount==5)
@@ -2625,26 +2625,33 @@ global with sharing class MYBZ_Region_Rollup_Controller
      //List<MYBZ_Call__c> CallsList = new List<MYBZ_Call__c>();
     List<MYBZ_CallPlanningProductJunction__c> CallPlanningsList = new List<MYBZ_CallPlanningProductJunction__c>();
     List<MYBZ_Call__c> CallsList = new List<MYBZ_Call__c>();
-    if(Role == 'Sales Representative'){
+    if(Role == System.Label.MYBZ_SalesRepresentative){
         CallPlanningsList.clear();
         
         CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId order by Call_Planning__r.Physician_ID__c,Product__r.Name];
         CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name from MYBZ_Call__c where Global_ID__c=:GlobalId order by Physician_ID__c,Call_Date__c desc,Product_Position__c asc ];
         
+        
     }
-    if((Role == 'District Sales Manager' || Role == System.Label.MYBZ_AccountManager  || Role == 'Super User') && territory != null && territory !=''){
+    if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory != null && territory !=''){
         CallPlanningsList.clear();
         
         //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c,Territory__c,Territory__r.Name from MYBZ_Call_Planning__c where Territory__r.Name=:territory order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
         CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.Territory__r.Name, Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Territory__r.Name=:territory order by Call_Planning__r.Physician_ID__c,Product__r.Name];
+        for(MYBZ_CallPlanningProductJunction__c c: CallPlanningsList)
+            System.debug('Products-----'+c.Product__r.Name);
+            
         //CallsList = [select id,Name,Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.Name,Call_Type__c,Product_Position__c,Call_Date__c,Territory__c,Territory__r.Name from MYBZ_Call__c where Territory__r.Name=:territory order by First_Name__c,Last_Name__c,Call_Date__c desc,Call_Type__c asc,Product_Position__c asc ];
         CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name,Territory__c,Territory__r.Name from MYBZ_Call__c where Territory__r.Name=:territory order by Physician_ID__c,Call_Date__c desc,Product_Position__c asc ];
+        
+        for(MYBZ_Call__c c: CallsList)
+            System.debug('Products-----'+c.Product__r.Name);
     }
-    if(Role == 'Major Market Manager'){
+    if(Role == System.Label.MYBZ_MajorMarketManager){
         
         CallPlanningsList.clear();
         
-        MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = 'Territory' LIMIT 1];
+        MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory LIMIT 1];
         //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c =:territoryObj.Global_Id__c order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
         CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
     }
@@ -3051,14 +3058,14 @@ global with sharing class MYBZ_Region_Rollup_Controller
      List<MYBZ_CallPlanningProductJunction__c> CallPlanningsList = new List<MYBZ_CallPlanningProductJunction__c>();
      List<MYBZ_Call__c> CallsList = new List<MYBZ_Call__c>();
      
-    if(Role == 'Major Market Manager' || Role == 'Super User'){
+    if(Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser){
         CallPlanningsList.clear();
         
-        MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = 'Territory' LIMIT 1];
+        MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory LIMIT 1];
         CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
         //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:territoryObj.Global_Id__c order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
     }
-    if(Role == 'District Sales Manager' || Role == System.Label.MYBZ_AccountManager ){
+    if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ){
         system.debug('*****entered District Sales Manager ');
         CallPlanningsList.clear();
         
@@ -3073,7 +3080,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:territoryObj.Global_Id__c order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
         
     }
-    if(Role == 'Sales Representative'){
+    if(Role == System.Label.MYBZ_SalesRepresentative){
         CallPlanningsList.clear();
         CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId order by Call_Planning__r.Physician_ID__c,Product__r.Name];
         //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
