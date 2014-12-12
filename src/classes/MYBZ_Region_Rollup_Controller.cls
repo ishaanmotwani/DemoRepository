@@ -1,7 +1,7 @@
 /*
  *@ Class Name                                                    : MYBZ_RegionRollup_Controller
  *@ Description                                                   : Class for retrieving salesforce data in the form of a string and returning as a JSON object via a remote action.
- *@ CreatedBy                                                     : Gaurav Suri
+ *@ CreatedBy                                                     : Neelam Dalwani
  *@ CreatedOn                                                     : 09-30-2014
  *@ Modification Log                                              :
  */
@@ -157,7 +157,12 @@ global with sharing class MYBZ_Region_Rollup_Controller
         system.debug('mapDistrictNameAndTerritoryName--'+mapDistrictNameAndTerritoryName);
         system.debug('mapTerritoryNameAndTerritory--'+mapTerritoryNameAndTerritory);
         if(!regionList.isEmpty()){
-            firstRegionName = regionList[0].Region__r.Name;
+           for(MYBZ_Region_Rollup__c regionObj : regionList){
+                if(regionObj.Product__r.Name == System.Label.MYBZ_EFFIENT){
+                    firstRegionName = regionObj.Region__r.Name;
+                    break;
+                }
+            }
             
             gen = JSON.createGenerator(true);
             gen.writeStartObject();  
@@ -553,7 +558,12 @@ global with sharing class MYBZ_Region_Rollup_Controller
         system.debug('mapDistrictNameAndTerritoryName--'+mapDistrictNameAndTerritoryName);
         system.debug('mapTerritoryNameAndTerritory--'+mapTerritoryNameAndTerritory);
         if(!regionList.isEmpty()){
-            firstRegionName = regionList[0].Region__r.Name;
+            for(MYBZ_Region_Rollup__c regionObj : regionList){
+                if(regionObj.Product__r.Name == System.Label.MYBZ_EFFIENT){
+                    firstRegionName = regionObj.Region__r.Name;
+                    break;
+                }
+            }
             
             gen = JSON.createGenerator(true);
             gen.writeStartObject();  
@@ -2496,11 +2506,6 @@ global with sharing class MYBZ_Region_Rollup_Controller
         GlobalId=userObj.MYBZ_Reporting_ID__c;
         else
         GlobalId = userObj.Prsnl_Nbr_GLBL__c;
-        
-        System.debug('****region'+region);
-        System.debug('****district'+district);
-        System.debug('****territory'+territory);
-        
         String sdata;
         Object obj;
         List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = new List<MYBZ_Product_Trend_Detail__c>();
@@ -2529,15 +2534,22 @@ global with sharing class MYBZ_Region_Rollup_Controller
         Integer productprescribercount;
         Integer firstiteration=1;
     
-    //Looping over Trend-Details
-    if(TrendsDetailsList != null && TrendsDetailsList.size() > 0){
+         //Looping over Trend-Details
+        if(TrendsDetailsList != null && TrendsDetailsList.size() > 0){
         for(MYBZ_Product_Trend_Detail__c trenddetails : TrendsDetailsList)
             {
+                if(trenddetails.Year__c==null||trenddetails.Month__c==null)
+                continue;
+               if(trenddetails.Year__c!=null)
+               {
                 if(!Years.contains(String.Valueof(trenddetails.Year__c)))
                 {
                     Years+=trenddetails.Year__c;
                     Months = '';
                 }
+               }
+               if(trenddetails.Month__c!=null)
+               {
                 if(!Months.contains(String.Valueof(trenddetails.Month__c)))
                 {
                      if(firstiteration==1)
@@ -2553,27 +2565,50 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     }
                     Months+=trenddetails.Month__c;
                     Products='';
+                    
+                    if(trenddetails.Month__c!=null)
                     gen.writeNumberField(System.Label.MYBZ_month,trenddetails.Month__c);
+                    else
+                    gen.writeNullField(System.Label.MYBZ_month);
                     //sdata+='"month":'+ month + ',';
+                    if(trenddetails.Year__c!=null)
                     gen.writeNumberField(System.Label.MYBZ_Year,trenddetails.Year__c);
+                    else
+                    gen.writeNullField(System.Label.MYBZ_Year);
                     gen.writeFieldName(System.Label.MYBZ_Products);
                     gen.writeStartArray();      
                 }
-                if(!Products.equals(trenddetails.IHS_Product__r.Name))
+               } 
+                if(trenddetails.IHS_Product__r.Name!=null)
                 {
+                if(!Products.equals(trenddetails.IHS_Product__r.Name))
+                    {
                     Products=trenddetails.IHS_Product__r.Name;
                     gen.writeStartObject();
+                    if(trenddetails.IHS_Product__r.Name!=null)
                     gen.writeStringField(System.Label.MYBZ_product,trenddetails.IHS_Product__r.Name);
+                    else
+                    gen.writeNullField(System.Label.MYBZ_product);
                     gen.writeFieldName(System.Label.MYBZ_topFivePrescribers);
                     gen.writeStartArray();
                     productprescribercount=1;
+                    }
                 }
                 if(productprescribercount<=5)
                 {
                     gen.writeStartObject();
+                    if(trenddetails.HCP_First_Name__c!=null)
                     gen.writeStringField(System.Label.MYBZ_prescriberFirstName,trenddetails.HCP_First_Name__c);
+                    else
+                    gen.writeNullField(System.Label.MYBZ_prescriberFirstName);
+                    if(trenddetails.HCP_Last_Name__c!=null)
                     gen.writeStringField(System.Label.MYBZ_prescriberLastName,trenddetails.HCP_Last_Name__c);
+                    else
+                    gen.writeNullField(System.Label.MYBZ_prescriberLastName);
+                    if(trenddetails.TRx_Units__c!=null)
                     gen.writeNumberField(System.Label.MYBZ_trx,trenddetails.TRx_Units__c);
+                    else
+                    gen.writeNullField(System.Label.MYBZ_trx);
                     gen.writeEndObject();
                  
                     if(productprescribercount==5)
@@ -2609,11 +2644,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
     
      @RemoteAction  
   global static Object callPlanning(String region, String district, String territory){       
-        
-        System.debug('****region'+region);
-        System.debug('****district'+district);
-        System.debug('****territory'+territory);
-        
+     
      UserId = UserInfo.getUserId();
      User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
      Role = userObj.MYBZ_Role__c;
@@ -2621,39 +2652,22 @@ global with sharing class MYBZ_Region_Rollup_Controller
      GlobalId=userObj.MYBZ_Reporting_ID__c;
      else
      GlobalId = userObj.Prsnl_Nbr_GLBL__c;
-     //List<MYBZ_Call_Planning__c> CallPlanningsList = new List<MYBZ_Call_Planning__c>();
-     //List<MYBZ_Call__c> CallsList = new List<MYBZ_Call__c>();
-    List<MYBZ_CallPlanningProductJunction__c> CallPlanningsList = new List<MYBZ_CallPlanningProductJunction__c>();
-    List<MYBZ_Call__c> CallsList = new List<MYBZ_Call__c>();
-    if(Role == System.Label.MYBZ_SalesRepresentative){
+     List<MYBZ_CallPlanningProductJunction__c> CallPlanningsList = new List<MYBZ_CallPlanningProductJunction__c>();
+     List<MYBZ_Call__c> CallsList = new List<MYBZ_Call__c>();
+     if(Role == System.Label.MYBZ_SalesRepresentative){
         CallPlanningsList.clear();
-        
-        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId order by Call_Planning__r.Physician_ID__c,Product__r.Name];
+        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId order by Call_Planning__r.Physician_ID__c,Product__r.Name];
         CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name from MYBZ_Call__c where Global_ID__c=:GlobalId order by Physician_ID__c,Call_Date__c desc,Product_Position__c asc ];
-        
-        
     }
     if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory != null && territory !=''){
         CallPlanningsList.clear();
-        
-        //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c,Territory__c,Territory__r.Name from MYBZ_Call_Planning__c where Territory__r.Name=:territory order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
-        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.Territory__r.Name, Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Territory__r.Name=:territory order by Call_Planning__r.Physician_ID__c,Product__r.Name];
-        for(MYBZ_CallPlanningProductJunction__c c: CallPlanningsList)
-            System.debug('Products-----'+c.Product__r.Name);
-            
-        //CallsList = [select id,Name,Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.Name,Call_Type__c,Product_Position__c,Call_Date__c,Territory__c,Territory__r.Name from MYBZ_Call__c where Territory__r.Name=:territory order by First_Name__c,Last_Name__c,Call_Date__c desc,Call_Type__c asc,Product_Position__c asc ];
+        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.Territory__r.Name, Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c,Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Territory__r.Name=:territory order by Call_Planning__r.Physician_ID__c,Product__r.Name];
         CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name,Territory__c,Territory__r.Name from MYBZ_Call__c where Territory__r.Name=:territory order by Physician_ID__c,Call_Date__c desc,Product_Position__c asc ];
-        
-        for(MYBZ_Call__c c: CallsList)
-            System.debug('Products-----'+c.Product__r.Name);
-    }
+        }
     if(Role == System.Label.MYBZ_MajorMarketManager){
-        
         CallPlanningsList.clear();
-        
         MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory LIMIT 1];
-        //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c =:territoryObj.Global_Id__c order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
-        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
+        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
     }
     
        if(CallPlanningsList.isempty())
@@ -2716,8 +2730,25 @@ global with sharing class MYBZ_Region_Rollup_Controller
     //Returns a new JSON generator.
     JSONGenerator gen = JSON.createGenerator(true);
     
-    //Writes the starting marker of a JSON array.
-    gen.writeStartArray();  
+    
+    
+    //Writes the starting marker of a JSON Object.
+    gen.writeStartObject();  
+    if(CallPlanningsList[0].Call_Planning__r.Start_Date_1M__c!=null)
+    gen.writeStringField('startDate1Month',CallPlanningsList[0].Call_Planning__r.Start_Date_1M__c.format(System.Label.MYBZ_DateFormat));
+    else
+    gen.writeNullField('startDate1Month');
+    if(CallPlanningsList[0].Call_Planning__r.Start_Date_3M__c!=null)
+    gen.writeStringField('startDate3Month',CallPlanningsList[0].Call_Planning__r.Start_Date_3M__c.format(System.Label.MYBZ_DateFormat));
+    else
+    gen.writeNullField('startDate3Month');
+    if(CallPlanningsList[0].Call_Planning__r.Start_Date_6M__c!=null)
+    gen.writeStringField('startDate6Month',CallPlanningsList[0].Call_Planning__r.Start_Date_6M__c.format(System.Label.MYBZ_DateFormat));
+    else
+    gen.writeNullField('startDate6Month');
+    gen.writeFieldName('data');    
+    
+    gen.writeStartArray();
     
     //Loop to iterate over all call planning records.
     for(Integer CallPlanningCount=0;CallPlanningCount<CallPlanningsList.size();CallPlanningCount++)
@@ -2747,60 +2778,86 @@ global with sharing class MYBZ_Region_Rollup_Controller
            }
            else
            {
-            
             gen.writeEndObject();
             gen.writeStartObject();
            }
            
            //Write the necessary JSON fields
            
+          if(CallPlanningsList[CallPlanningCount].Call_Planning__r.First_Name__c!=null)
            gen.writeStringField(System.Label.MYBZ_FirstName,CallPlanningsList[CallPlanningCount].Call_Planning__r.First_Name__c);
+           else
+           gen.writeNullField(System.Label.MYBZ_FirstName);
+           if(CallPlanningsList[CallPlanningCount].Call_Planning__r.Last_Name__c!=null)
            gen.writeStringField(System.Label.MYBZ_LastName,CallPlanningsList[CallPlanningCount].Call_Planning__r.Last_Name__c);
+           else
+           gen.writeNullField(System.Label.MYBZ_LastName);
+           if(CallPlanningsList[CallPlanningCount].Call_Planning__r.Tier__c!=null)
            gen.writeStringField(System.Label.MYBZ_Tier,String.ValueOf(CallPlanningsList[CallPlanningCount].Call_Planning__r.Tier__c));
+           else
+           gen.writeNullField(System.Label.MYBZ_Tier);
            gen.writeFieldName(System.Label.MYBZ_Products);
            gen.writeStartArray();
            
            firstproduct = 1;
         }   
-        //else
-        //{
-        //newuserflag=0;
-        //}
-        
+                
         //PRODUCTS
         //To check if a new product has been encountered for the current physician
-        
-        if(!CurrentProduct.equals(CallPlanningsList[CallPlanningCount].Product__r.Name))
+                
+        if(CallPlanningsList[CallPlanningCount].Product__c!=null)
         {
-            newproduct=1;
-            percentageChangePastMonth=0;
-            percentageChangePastThreeMonths=0;
-            percentageChangePastSixMonths=0;
-            
-            CurrentProduct = CallPlanningsList[CallPlanningCount].Product__r.Name;
-            
-            //Determines if the product has been encountered for the first time for the current physician
-            
-            if(firstproduct==1)
+            if(!CurrentProduct.equals(CallPlanningsList[CallPlanningCount].Product__r.Name))
             {
+                newproduct=1;
+                percentageChangePastMonth=0;
+                percentageChangePastThreeMonths=0;
+                percentageChangePastSixMonths=0;
+                CurrentProduct = CallPlanningsList[CallPlanningCount].Product__r.Name;
+            
+                //Determines if the product has been encountered for the first time for the current physician
+            
+                if(firstproduct==1)
+                {
                 gen.writeStartObject();
                 firstproduct=0;
+                }
+                else
+                {
+                gen.writeEndObject();
+                gen.writeStartObject();
+                }
             }
             else
             {
-                gen.writeEndObject();
-                gen.writeStartObject();
+                newproduct=0;
             }
         }
-        
         else
         {
-            newproduct=0;
+          newproduct=1;
+          percentageChangePastMonth=0;
+          percentageChangePastThreeMonths=0;
+          percentageChangePastSixMonths=0;
+          CurrentProduct =''; 
+          if(firstproduct==1)
+          {
+            gen.writeStartObject();
+            firstproduct=0;
+          }
+          else
+          {
+            gen.writeEndObject();
+            gen.writeStartObject();
+          }     
         }
         
         if(newproduct==1)
         {
+          if(CallPlanningsList[CallPlanningCount].Product__r.Name!=null)
           gen.writeStringField(System.Label.MYBZ_Name,CallPlanningsList[CallPlanningCount].Product__r.Name);
+          else
+          gen.writeNullField(System.Label.MYBZ_Name);
         }
         
         //Adding TRx values to the JSON if they are not null.
@@ -2865,7 +2922,6 @@ global with sharing class MYBZ_Region_Rollup_Controller
         }
         else
         gen.writeNullField(System.Label.MYBZ_PercentageChangePastSixMonths);           
-      
         if((CallPlanningCount+1 == CallPlanningsList.size() )||(!PhysicianID.equals(CallPlanningsList[CallPlanningCount+1].Call_Planning__r.Physician_ID__c)))
         {
         gen.writeEndObject();
@@ -2946,9 +3002,14 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             }
                             
                             //Write the required JSON fields for the new call encountered.
-                            
+                            if(CallsList[i].Call_Date__c!=null)
                             gen.writeStringField(System.Label.MYBZ_Date,CallsList[i].Call_Date__c.format(System.Label.MYBZ_DateFormat));   
+                            else
+                            gen.writeNullField(System.Label.MYBZ_Date);
+                            if(CallsList[i].Call_Type__c!=null)
                             gen.writeStringField(System.Label.MYBZ_Type,CallsList[i].Call_Type__c);
+                            else
+                            gen.writeNullField(System.Label.MYBZ_Type);
                         }
                         else
                         {
@@ -2982,7 +3043,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             
                             if(callsProductNumber==2)
                             {
-                                system.debug('---In the loop'+CallsList[i].Product__r.Name+CallsList[i].Product_Position__c);
+                                
                                 if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
                                 {
                                     gen.writeStringField(System.Label.MYBZ_Product2,CallsList[i].Product__r.Name);
@@ -2991,7 +3052,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             }
                             else
                             {
-                               system.debug('---In the inner loop'+CallsList[i].Product__r.Name+CallsList[i].Product_Position__c);
+                               
                              if((CallsList[i].Product__c!=NULL)&&CallsList[i].Product_Position__c==1)
                                 {
                                  gen.writeStringField(System.Label.MYBZ_Product1,CallsList[i].Product__r.Name);
@@ -3017,7 +3078,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     
                 }
                   
-               }
+              } //end of if next user is different
             
         
         
@@ -3026,6 +3087,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
 
     gen.writeEndObject();
     gen.writeEndArray();
+    gen.writeEndObject();
     sdata = gen.getAsString();
     sdata=sdata.replaceall('\n','');
     System.Debug('-sdata' + sdata);
@@ -3047,7 +3109,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
   @RemoteAction  
   global static Object callPlanning1(){       
         
-    //List<MYBZ_Call_Planning__c> CallPlanningsList = new List<MYBZ_Call_Planning__c>();
+    
      UserId = UserInfo.getUserId();
      User userObj = [SELECT Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
      Role = userObj.MYBZ_Role__c;
@@ -3062,34 +3124,28 @@ global with sharing class MYBZ_Region_Rollup_Controller
         CallPlanningsList.clear();
         
         MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory LIMIT 1];
-        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
+        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c,Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
         //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:territoryObj.Global_Id__c order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
     }
     if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ){
-        system.debug('*****entered District Sales Manager ');
+        
         CallPlanningsList.clear();
         
         MYBZ_Region_Rollup__c districtObj = [SELECT Id, District__c FROM MYBZ_Region_Rollup__c WHERE Global_Id__c =:GlobalId LIMIT 1];
-        system.debug('******districtObj' + districtObj);
-        system.debug('******GlobalId' + GlobalId);
-        
-        
         MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Name, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE District__c =:districtObj.District__c AND Global_Id__c !=null AND Global_Id__c !='' LIMIT 1];
-        
-        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
-        //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:territoryObj.Global_Id__c order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
+        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
         
     }
     if(Role == System.Label.MYBZ_SalesRepresentative){
         CallPlanningsList.clear();
-        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId order by Call_Planning__r.Physician_ID__c,Product__r.Name];
-        //CallPlanningsList = [Select Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.name,Tier__c,TRx_Units__c,Previous_TRx_Units__c,Range__c from MYBZ_Call_Planning__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Product__r.Name,Range__c ];
+        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId order by Call_Planning__r.Physician_ID__c,Product__r.Name];
+        
     }
     if(CallPlanningsList.isempty())
     {
         return null;
     }
-    //List<MYBZ_Call__c> CallsList = [select id,Name,Global_ID__c,First_Name__c,Last_Name__c,Product__c,Product__r.Name,Call_Type__c,Product_Position__c,Call_Date__c from MYBZ_Call__c where Global_ID__c=:GlobalId order by First_Name__c,Last_Name__c,Call_Date__c desc,Call_Type__c asc,Product_Position__c asc];
+    
     CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name from MYBZ_Call__c where Global_ID__c=:GlobalId order by Physician_ID__c,Call_Date__c desc,Product_Position__c asc ];
     
         //Initialization of variables
@@ -3147,8 +3203,25 @@ global with sharing class MYBZ_Region_Rollup_Controller
     //Returns a new JSON generator.
     JSONGenerator gen = JSON.createGenerator(true);
     
-    //Writes the starting marker of a JSON array.
-    gen.writeStartArray();  
+    
+    
+    //Writes the starting marker of a JSON Object.
+    gen.writeStartObject();  
+    if(CallPlanningsList[0].Call_Planning__r.Start_Date_1M__c!=null)
+    gen.writeStringField('startDate1Month',CallPlanningsList[0].Call_Planning__r.Start_Date_1M__c.format(System.Label.MYBZ_DateFormat));
+    else
+    gen.writeNullField('startDate1Month');
+    if(CallPlanningsList[0].Call_Planning__r.Start_Date_3M__c!=null)
+    gen.writeStringField('startDate3Month',CallPlanningsList[0].Call_Planning__r.Start_Date_3M__c.format(System.Label.MYBZ_DateFormat));
+    else
+    gen.writeNullField('startDate3Month');
+    if(CallPlanningsList[0].Call_Planning__r.Start_Date_6M__c!=null)
+    gen.writeStringField('startDate6Month',CallPlanningsList[0].Call_Planning__r.Start_Date_6M__c.format(System.Label.MYBZ_DateFormat));
+    else
+    gen.writeNullField('startDate6Month');
+    gen.writeFieldName('data');    
+    
+    gen.writeStartArray();
     
     //Loop to iterate over all call planning records.
     for(Integer CallPlanningCount=0;CallPlanningCount<CallPlanningsList.size();CallPlanningCount++)
@@ -3178,69 +3251,86 @@ global with sharing class MYBZ_Region_Rollup_Controller
            }
            else
            {
-            try{
             gen.writeEndObject();
             gen.writeStartObject();
-            }
-            catch(exception e)
-            {
-              system.debug('caught');
-                sdata = gen.getAsString();
-    sdata=sdata.replaceall('\n','');
-    System.Debug('-sdata' + sdata);
-    gen.writeEndArray();
-            }
            }
            
            //Write the necessary JSON fields
            
+          if(CallPlanningsList[CallPlanningCount].Call_Planning__r.First_Name__c!=null)
            gen.writeStringField(System.Label.MYBZ_FirstName,CallPlanningsList[CallPlanningCount].Call_Planning__r.First_Name__c);
+           else
+           gen.writeNullField(System.Label.MYBZ_FirstName);
+           if(CallPlanningsList[CallPlanningCount].Call_Planning__r.Last_Name__c!=null)
            gen.writeStringField(System.Label.MYBZ_LastName,CallPlanningsList[CallPlanningCount].Call_Planning__r.Last_Name__c);
+           else
+           gen.writeNullField(System.Label.MYBZ_LastName);
+           if(CallPlanningsList[CallPlanningCount].Call_Planning__r.Tier__c!=null)
            gen.writeStringField(System.Label.MYBZ_Tier,String.ValueOf(CallPlanningsList[CallPlanningCount].Call_Planning__r.Tier__c));
+           else
+           gen.writeNullField(System.Label.MYBZ_Tier);
            gen.writeFieldName(System.Label.MYBZ_Products);
            gen.writeStartArray();
            
            firstproduct = 1;
         }   
-        //else
-        //{
-        //newuserflag=0;
-        //}
-        
+                
         //PRODUCTS
         //To check if a new product has been encountered for the current physician
-        
-        if(!CurrentProduct.equals(CallPlanningsList[CallPlanningCount].Product__r.Name))
+                
+        if(CallPlanningsList[CallPlanningCount].Product__c!=null)
         {
-            newproduct=1;
-            percentageChangePastMonth=0;
-            percentageChangePastThreeMonths=0;
-            percentageChangePastSixMonths=0;
-            
-            CurrentProduct = CallPlanningsList[CallPlanningCount].Product__r.Name;
-            
-            //Determines if the product has been encountered for the first time for the current physician
-            
-            if(firstproduct==1)
+            if(!CurrentProduct.equals(CallPlanningsList[CallPlanningCount].Product__r.Name))
             {
+                newproduct=1;
+                percentageChangePastMonth=0;
+                percentageChangePastThreeMonths=0;
+                percentageChangePastSixMonths=0;
+                CurrentProduct = CallPlanningsList[CallPlanningCount].Product__r.Name;
+            
+                //Determines if the product has been encountered for the first time for the current physician
+            
+                if(firstproduct==1)
+                {
                 gen.writeStartObject();
                 firstproduct=0;
+                }
+                else
+                {
+                gen.writeEndObject();
+                gen.writeStartObject();
+                }
             }
             else
             {
-                gen.writeEndObject();
-                gen.writeStartObject();
+                newproduct=0;
             }
         }
-        
         else
         {
-            newproduct=0;
+          newproduct=1;
+          percentageChangePastMonth=0;
+          percentageChangePastThreeMonths=0;
+          percentageChangePastSixMonths=0;
+          CurrentProduct =''; 
+          if(firstproduct==1)
+          {
+            gen.writeStartObject();
+            firstproduct=0;
+          }
+          else
+          {
+            gen.writeEndObject();
+            gen.writeStartObject();
+          }     
         }
         
         if(newproduct==1)
         {
+          if(CallPlanningsList[CallPlanningCount].Product__r.Name!=null)
           gen.writeStringField(System.Label.MYBZ_Name,CallPlanningsList[CallPlanningCount].Product__r.Name);
+          else
+          gen.writeNullField(System.Label.MYBZ_Name);
         }
         
         //Adding TRx values to the JSON if they are not null.
@@ -3305,7 +3395,6 @@ global with sharing class MYBZ_Region_Rollup_Controller
         }
         else
         gen.writeNullField(System.Label.MYBZ_PercentageChangePastSixMonths);           
-      
         if((CallPlanningCount+1 == CallPlanningsList.size() )||(!PhysicianID.equals(CallPlanningsList[CallPlanningCount+1].Call_Planning__r.Physician_ID__c)))
         {
         gen.writeEndObject();
@@ -3386,9 +3475,14 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             }
                             
                             //Write the required JSON fields for the new call encountered.
-                            
+                            if(CallsList[i].Call_Date__c!=null)
                             gen.writeStringField(System.Label.MYBZ_Date,CallsList[i].Call_Date__c.format(System.Label.MYBZ_DateFormat));   
+                            else
+                            gen.writeNullField(System.Label.MYBZ_Date);
+                            if(CallsList[i].Call_Type__c!=null)
                             gen.writeStringField(System.Label.MYBZ_Type,CallsList[i].Call_Type__c);
+                            else
+                            gen.writeNullField(System.Label.MYBZ_Type);
                         }
                         else
                         {
@@ -3422,7 +3516,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             
                             if(callsProductNumber==2)
                             {
-                                system.debug('---In the loop'+CallsList[i].Product__r.Name+CallsList[i].Product_Position__c);
+                                
                                 if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
                                 {
                                     gen.writeStringField(System.Label.MYBZ_Product2,CallsList[i].Product__r.Name);
@@ -3431,7 +3525,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             }
                             else
                             {
-                               system.debug('---In the inner loop'+CallsList[i].Product__r.Name+CallsList[i].Product_Position__c);
+                               
                              if((CallsList[i].Product__c!=NULL)&&CallsList[i].Product_Position__c==1)
                                 {
                                  gen.writeStringField(System.Label.MYBZ_Product1,CallsList[i].Product__r.Name);
@@ -3466,6 +3560,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
 
     gen.writeEndObject();
     gen.writeEndArray();
+    gen.writeEndObject();
     sdata = gen.getAsString();
     sdata=sdata.replaceall('\n','');
     System.Debug('-sdata' + sdata);

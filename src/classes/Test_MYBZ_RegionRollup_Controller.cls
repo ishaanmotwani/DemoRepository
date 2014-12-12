@@ -143,7 +143,7 @@ public class Test_MYBZ_RegionRollup_Controller{
        //CallPlanning.Last_Call_Date__c=System.Now(); 
         CallPlanning.Last_Name__c='LastName'; 
         //CallPlanning.Previous_TRx_Units__c=2; 
-        CallPlanning.Product__c=IHSProduct.ID; 
+        //CallPlanning.Product__c=IHSProduct.ID; 
         //CallPlanning.Range__c='1M'; 
         //CallPlanning.Start_Date__c=System.Today(); 
         CallPlanning.Territory__c=Territory.ID; 
@@ -161,7 +161,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         //CallPlanning1.Last_Call_Date__c=System.Now(); 
         CallPlanning1.Last_Name__c='LastName'; 
         //CallPlanning1.Previous_TRx_Units__c=2; 
-        CallPlanning1.Product__c=IHSProduct.ID; 
+        //CallPlanning1.Product__c=IHSProduct.ID; 
         //CallPlanning1.Range__c='3M'; 
         //CallPlanning1.Start_Date__c=System.Today(); 
         CallPlanning1.Territory__c=Territory.ID; 
@@ -179,7 +179,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         //CallPlanning2.Last_Call_Date__c=System.Now(); 
         CallPlanning2.Last_Name__c='LastName'; 
         //CallPlanning2.Previous_TRx_Units__c=2; 
-        CallPlanning2.Product__c=IHSProduct.ID; 
+        //CallPlanning2.Product__c=IHSProduct.ID; 
         //CallPlanning2.Range__c='6M'; 
         //CallPlanning2.Start_Date__c=System.Today(); 
         CallPlanning2.Territory__c=Territory.ID; 
@@ -197,7 +197,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         //CallPlanning3.Last_Call_Date__c=System.Now(); 
         CallPlanning3.Last_Name__c='LastName'; 
         //CallPlanning3.Previous_TRx_Units__c=2; 
-        CallPlanning3.Product__c=IHSProduct.ID; 
+        //CallPlanning3.Product__c=IHSProduct.ID; 
         //CallPlanning3.Range__c='1M'; 
         //CallPlanning3.Start_Date__c=System.Today(); 
         CallPlanning3.Territory__c=Territory.ID; 
@@ -215,7 +215,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         //CallPlanning4.Last_Call_Date__c=System.Now(); 
         CallPlanning4.Last_Name__c='LastName'; 
         //CallPlanning4.Previous_TRx_Units__c=2; 
-        CallPlanning4.Product__c=IHSProduct.ID; 
+        //CallPlanning4.Product__c=IHSProduct.ID; 
         //CallPlanning4.Range__c='3M'; 
         //CallPlanning4.Start_Date__c=System.Today(); 
         CallPlanning4.Territory__c=Territory.ID; 
@@ -233,7 +233,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         //CallPlanning5.Last_Call_Date__c=System.Now(); 
         CallPlanning5.Last_Name__c='LastName'; 
         //CallPlanning5.Previous_TRx_Units__c=2; 
-        CallPlanning5.Product__c=IHSProduct2.ID; 
+        //CallPlanning5.Product__c=IHSProduct2.ID; 
         //CallPlanning5.Range__c='1M'; 
         //CallPlanning5.Start_Date__c=System.Today(); 
         CallPlanning5.Territory__c=Territory.ID; 

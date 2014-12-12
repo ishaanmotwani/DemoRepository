@@ -60,22 +60,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Call_Planning__c.End_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>MYBZ_Call_Planning__c.First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_Call_Planning__c.Global_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Call_Planning__c.Last_Call_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -90,27 +80,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Call_Planning__c.Previous_TRx_Units__c</field>
+        <field>MYBZ_Call_Planning__c.Start_Date_1M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Call_Planning__c.Product__c</field>
+        <field>MYBZ_Call_Planning__c.Start_Date_3M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Call_Planning__c.Range__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Call_Planning__c.Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_Call_Planning__c.TRx_Units__c</field>
+        <field>MYBZ_Call_Planning__c.Start_Date_6M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -176,61 +156,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_District__c.Region__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.Alignment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.Area__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.District__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.End_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.Metric__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.Product_Ref__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.Range__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.Territory__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.User_Ref__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>MYBZ_IHS_Division__c.Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

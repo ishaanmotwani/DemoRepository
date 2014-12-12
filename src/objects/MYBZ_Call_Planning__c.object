@@ -54,14 +54,6 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
-        <fullName>End_Date__c</fullName>
-        <externalId>false</externalId>
-        <label>End Date</label>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Date</type>
-    </fields>
-    <fields>
         <fullName>First_Name__c</fullName>
         <externalId>false</externalId>
         <label>First Name</label>
@@ -80,14 +72,6 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Last_Call_Date__c</fullName>
-        <externalId>false</externalId>
-        <label>Last Call Date</label>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>DateTime</type>
     </fields>
     <fields>
         <fullName>Last_Name__c</fullName>
@@ -110,68 +94,28 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Previous_TRx_Units__c</fullName>
+        <fullName>Start_Date_1M__c</fullName>
         <externalId>false</externalId>
-        <label>Previous TRx Units</label>
-        <precision>12</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Product__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Product</label>
-        <referenceTo>MYBZ_Product__c</referenceTo>
-        <relationshipLabel>Call Plannings</relationshipLabel>
-        <relationshipName>Call_Plannings</relationshipName>
+        <label>Start Date 1M</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>Lookup</type>
+        <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Range__c</fullName>
+        <fullName>Start_Date_3M__c</fullName>
         <externalId>false</externalId>
-        <label>Range</label>
-        <picklist>
-            <picklistValues>
-                <fullName>1M</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>3M</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>6M</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
-    </fields>
-    <fields>
-        <fullName>Start_Date__c</fullName>
-        <externalId>false</externalId>
-        <label>Start Date</label>
+        <label>Start Date 3M</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>Date</type>
+        <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>TRx_Units__c</fullName>
+        <fullName>Start_Date_6M__c</fullName>
         <externalId>false</externalId>
-        <label>TRx Units</label>
-        <precision>12</precision>
+        <label>Start Date 6M</label>
         <required>false</required>
-        <scale>2</scale>
         <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
+        <type>DateTime</type>
     </fields>
     <fields>
         <fullName>Territory__c</fullName>
