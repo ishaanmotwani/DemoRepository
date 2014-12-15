@@ -13,6 +13,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
     global static Id UserId;
     global static String Role{get;set;}
     global static String GlobalId{get;set;}
+    global static String datetimeStamp{get;set;}
     global static String uname{get;set;}
   
     global MYBZ_Region_Rollup_Controller(){
@@ -2880,7 +2881,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c!=null)
         {
-          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c!=0)
+          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c!=0&&CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c!=-1)
           {
           percentageChangePastMonth=((CallPlanningsList[CallPlanningCount].TRx_Units_1M__c-CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c)/CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c)*100;
           percentageChangePastMonth=percentageChangePastMonth.SetScale(2,RoundingMode.CEILING);
@@ -2896,7 +2897,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c!=null)
         {
-          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c!=0)
+          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c!=0&&CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c!=-1)
           {
           percentageChangePastThreeMonths=((CallPlanningsList[CallPlanningCount].TRx_Units_3M__c-CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c)/CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c)*100;
           percentageChangePastThreeMonths=percentageChangePastThreeMonths.SetScale(2,RoundingMode.CEILING);
@@ -2912,7 +2913,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c!=null)
         {
-          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c!=0)
+          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c!=0&&CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c!=-1)
           {
           percentageChangePastSixMonths=((CallPlanningsList[CallPlanningCount].TRx_Units_6M__c-CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c)/CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c)*100;
           percentageChangePastSixMonths=percentageChangePastSixMonths.SetScale(2,RoundingMode.CEILING);
@@ -3025,11 +3026,14 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         {
                             if(callsProductNumber==2)
                             {
-                                if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
-                                {
+                            	usercallcount--;
+                            	if(CallsList[i-1].Product__c!=NULL)
+                            	{
+                                	if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
+                                	{
                                     gen.writeStringField(System.Label.MYBZ_Product2,CallsList[i].Product__r.Name);
-                                    usercallcount--;
-                                }
+                                	}
+                            	}	
                             }
                             else
                             {
@@ -3046,12 +3050,14 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             
                             if(callsProductNumber==2)
                             {
-                                
-                                if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
-                                {
+                                usercallcount--;
+                                if(CallsList[i-1].Product__c!=NULL)
+                            	{
+                                	if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
+                                	{
                                     gen.writeStringField(System.Label.MYBZ_Product2,CallsList[i].Product__r.Name);
-                                    usercallcount--;
-                                }
+                                	}
+                            	}	
                             }
                             else
                             {
@@ -3353,7 +3359,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c!=null)
         {
-          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c!=0)
+          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c!=0&&CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c!=-1)
           {
           percentageChangePastMonth=((CallPlanningsList[CallPlanningCount].TRx_Units_1M__c-CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c)/CallPlanningsList[CallPlanningCount].Previous_TRx_Units_1M__c)*100;
           percentageChangePastMonth=percentageChangePastMonth.SetScale(2,RoundingMode.CEILING);
@@ -3369,7 +3375,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c!=null)
         {
-          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c!=0)
+          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c!=0&&CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c!=-1)
           {
           percentageChangePastThreeMonths=((CallPlanningsList[CallPlanningCount].TRx_Units_3M__c-CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c)/CallPlanningsList[CallPlanningCount].Previous_TRx_Units_3M__c)*100;
           percentageChangePastThreeMonths=percentageChangePastThreeMonths.SetScale(2,RoundingMode.CEILING);
@@ -3385,7 +3391,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c!=null)
         {
-          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c!=0)
+          if(CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c!=0&&CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c!=-1)
           {
           percentageChangePastSixMonths=((CallPlanningsList[CallPlanningCount].TRx_Units_6M__c-CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c)/CallPlanningsList[CallPlanningCount].Previous_TRx_Units_6M__c)*100;
           percentageChangePastSixMonths=percentageChangePastSixMonths.SetScale(2,RoundingMode.CEILING);
@@ -3498,11 +3504,14 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         {
                             if(callsProductNumber==2)
                             {
-                                if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
+                            	usercallcount--;
+                            	if(CallsList[i-1].Product__c!=NULL)
                                 {
+                                	if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
+                                	{
                                     gen.writeStringField(System.Label.MYBZ_Product2,CallsList[i].Product__r.Name);
-                                    usercallcount--;
-                                }
+                                	}
+                                }	
                             }
                             else
                             {
@@ -3519,11 +3528,13 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             
                             if(callsProductNumber==2)
                             {
-                                
-                                if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
+                                usercallcount--;
+                                if(CallsList[i-1].Product__c!=NULL)
                                 {
+                                	if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
+                                	{
                                     gen.writeStringField(System.Label.MYBZ_Product2,CallsList[i].Product__r.Name);
-                                    usercallcount--;
+                                	}
                                 }
                             }
                             else
