@@ -10,12 +10,28 @@
 global with sharing class MYBZ_Region_Rollup_Controller
 {
 
+    
+
     global static Id UserId;
     global static String Role{get;set;}
     global static String GlobalId{get;set;}
     global static String datetimeStamp{get;set;}
     global static String uname{get;set;}
-  
+     global static String Page{get;set;}
+  /*
+   public void countUsageMetrics()
+    {
+        system.debug('datetimeStamp-----'+datetimeStamp);
+        system.debug('Page-----'+Page);
+        MYBZ_Usage_Metric_Report__c g=new MYBZ_Usage_Metric_Report__c();
+        g.DateTimeStamp__c=datetimeStamp;
+        g.Global_Id__c=GlobalId;
+        g.Page__c=Page;
+        insert g;
+        
+    }
+    */
+    
     global MYBZ_Region_Rollup_Controller(){
         UserId = UserInfo.getUserId();
         User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
@@ -1132,9 +1148,16 @@ global with sharing class MYBZ_Region_Rollup_Controller
         if(Role == System.Label.MYBZ_SuperUser && district != null && district != ''){
             targetGoalList.clear();
             
-            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
         
         }
+        
+        if(Role == System.Label.MYBZ_SuperUser && territory != null && territory != ''){
+            targetGoalList.clear();
+            targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Territory__r.Name =: territory ORDER BY Month__c, Year__c ASC ];
+        
+        }
+        
         
         system.debug('targetGoalList---'+targetGoalList);
         if(!targetGoalList.isEmpty()){
@@ -1685,6 +1708,8 @@ global with sharing class MYBZ_Region_Rollup_Controller
             productTrendsList.clear();
             
             MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c LIMIT 1];
+            
+            System.debug('+++++'+territoryObj);
             
             productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
         }

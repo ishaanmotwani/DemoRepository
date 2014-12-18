@@ -15,6 +15,7 @@
              window.RESOURCE_ROOT = urlPath.split('?')[0];
            //  alert(RESOURCE_ROOT);
              $GLOBALID='{!GlobalId}';
+            
              $Role='{!Role}';
              $uname='{!uname}';
              if($Role=='Sales Representative')
@@ -216,7 +217,7 @@
      
     </head>
   <!--<apex:form >
-          <apex:actionFunction action="{!test}" name="checkInput" rerender="">
+          <apex:actionFunction action="{!countUsageMetrics}" name="checkInput" rerender="">
         <apex:param name="RegionParam" assignTo="{!regPassed}" value="" />
         <apex:param name="DistrictParam" assignTo="{!disPassed}" value="" />
         <apex:param name="TerParam" assignTo="{!terPassed}" value="" />
@@ -267,7 +268,8 @@
     </body>
     
        <apex:includeScript value="{!URLFOR($Resource.MYBZ_HideAddressBar,'')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/lillyApp.css')}"/> 
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/lillyApp.css')}"/>
+        
         <!--This is problem area -->
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/component.css')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/la-buttons.css')}"/>
@@ -279,41 +281,26 @@
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/la-trends.css')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/normalize.css')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/component.css')}"/>
-
-        <!-- Chosen: combo box library -->
-        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/chosen.css')}"/>
-                
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'css/chosen.css')}"/>                
         <!-- End problem area -->
-
-
+        
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/jquery-1.11.1.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/bootstrap-3.1.1-dist/js/bootstrap.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/angular/angular.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/angular/angular-route.js')}"/>
-      <!-- <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/angular/angular-ui-router.js')}"/>-->
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/angular/angular-resource.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/angular/angular-sanitize.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/angular/angular-animate.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/angular-bootstrap/ui-bootstrap-custom-tpls-0.10.0.min.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/modernizr/modernizr.input.min.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/modernizr.custom.25376.js')}"/>
-               
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/local-storage/angular-local-storage.min.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/greensock/plugins/CSSPlugin.min.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/greensock/TweenLite.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/angular-ui/mask.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/greensock/TweenLite.min.js')}"/>
-
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/typeahead/bloodhound.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/typeahead/typeahead.bundle.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/typeahead/typeahead.jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/classie.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/placeholder-shim.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/chosen/chosen.jquery.min.js')}"/>
                
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/PieChartStackC.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/PieChart.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/MarketShareChart.js')}"/>
-         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/TrendsChart.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/TrendsChart.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/lillyApp.js')}"/>
-        
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-call-planning.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-controls.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-dashboard.js')}"/>
@@ -322,14 +309,7 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-region-rollup.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-target-goals.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-trends.js')}"/>
-        
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/placeholder-shim.js')}"/>
-        
-        <!-- Chosen: combo box library -->
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'lib/chosen/chosen.jquery.min.js')}"/>
        
-     <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/classie.js')}"/>
-     <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/menu.js')}"/>
     </html>
     
 </apex:page>
