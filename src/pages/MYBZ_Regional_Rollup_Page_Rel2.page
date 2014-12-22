@@ -219,8 +219,8 @@
     <apex:form >
           <apex:actionFunction action="{!countUsageMetrics}" name="checkInput1" rerender="">
         <apex:param name="datetimeStamp" assignTo="{!datetimeStamp}" value="" />
-        <apex:param name="GlobalId" assignTo="{!GlobalId}" value="" />
         <apex:param name="Page" assignTo="{!Page}" value="" />
+        <apex:param name="GlobalId" assignTo="{!GlobalId}" value="" />
     </apex:actionFunction>
     </apex:form>
     <body>
