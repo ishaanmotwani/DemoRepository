@@ -30,6 +30,7 @@
         <members>MYBZ_Region_Rollup__c</members>
         <members>MYBZ_Target_Goal__c</members>
         <members>MYBZ_Territory__c</members>
+		<members>MYBZ_Usage_Metric_Report__c</members>
         <name>CustomObject</name>
     </types>
     <types>
@@ -45,6 +46,7 @@
         <members>MYBZ_Target_Goal__c</members>
         <members>MYBZ_Territory__c</members>
 		<members>MYBZ_Business</members>
+		<members>MYBZ_Usage_Metric_Report__c</members>
         <name>CustomTab</name>
     </types>
     <types>
@@ -61,6 +63,7 @@
         <members>MYBZ_Target_Goal__c-Target Goal Layout</members>
         <members>MYBZ_Territory__c-Tier Layout</members>
         <members>User-User Layout</members>
+		<members>MYBZ_Usage_Metric_Report__c-Usage Metrics Report Layout</members>
         <name>Layout</name>
     </types>
     <types>

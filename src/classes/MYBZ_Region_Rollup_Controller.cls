@@ -18,7 +18,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
     global static String datetimeStamp{get;set;}
     global static String uname{get;set;}
      global static String Page{get;set;}
-  /*
+  
    public void countUsageMetrics()
     {
         system.debug('datetimeStamp-----'+datetimeStamp);
@@ -30,7 +30,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         insert g;
         
     }
-    */
+    
     
     global MYBZ_Region_Rollup_Controller(){
         UserId = UserInfo.getUserId();
@@ -3051,14 +3051,16 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         {
                             if(callsProductNumber==2)
                             {
-                            	usercallcount--;
-                            	if(CallsList[i-1].Product__c!=NULL)
-                            	{
-                                	if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
-                                	{
+                                usercallcount--;
+                                if(CallsList[i-1].Product__c!=NULL)
+                                {
+                                    if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
+                                    {
                                     gen.writeStringField(System.Label.MYBZ_Product2,CallsList[i].Product__r.Name);
-                                	}
-                            	}	
+                                    }
+                                }   
+
+
                             }
                             else
                             {
@@ -3076,13 +3078,16 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             if(callsProductNumber==2)
                             {
                                 usercallcount--;
+
                                 if(CallsList[i-1].Product__c!=NULL)
-                            	{
-                                	if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
-                                	{
+                                {
+                                    if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
+                                    {
                                     gen.writeStringField(System.Label.MYBZ_Product2,CallsList[i].Product__r.Name);
-                                	}
-                            	}	
+                                    }
+                                }   
+
+
                             }
                             else
                             {
@@ -3529,14 +3534,16 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         {
                             if(callsProductNumber==2)
                             {
-                            	usercallcount--;
-                            	if(CallsList[i-1].Product__c!=NULL)
+                                usercallcount--;
+                                if(CallsList[i-1].Product__c!=NULL)
                                 {
-                                	if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
-                                	{
+                                    if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
+                                    {
                                     gen.writeStringField(System.Label.MYBZ_Product2,CallsList[i].Product__r.Name);
-                                	}
-                                }	
+                                    }
+                                }   
+
+
                             }
                             else
                             {
@@ -3554,12 +3561,14 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             if(callsProductNumber==2)
                             {
                                 usercallcount--;
+
                                 if(CallsList[i-1].Product__c!=NULL)
                                 {
-                                	if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
-                                	{
+                                    if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL)&&(CallsList[i].Product_Position__c==2))
+                                    {
                                     gen.writeStringField(System.Label.MYBZ_Product2,CallsList[i].Product__r.Name);
-                                	}
+                                    }
+
                                 }
                             }
                             else

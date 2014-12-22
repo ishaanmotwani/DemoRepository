@@ -378,6 +378,8 @@ public class Test_MYBZ_RegionRollup_Controller{
         MYBZ_Region_Rollup_Controller.UserId=Userinfo.getuserID();
         MYBZ_Region_Rollup_Controller.GlobalId='xxxxx';
         
+        TestController.countUsageMetrics();
+        
         MYBZ_Region_Rollup_Controller.RegionRollup(Region.Name,District.Name,Territory.Name);
         MYBZ_Region_Rollup_Controller.RegionRollup1();
         MYBZ_Region_Rollup_Controller.Alignment1();

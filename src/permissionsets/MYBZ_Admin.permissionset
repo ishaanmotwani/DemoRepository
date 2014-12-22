@@ -580,6 +580,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>MYBZ_Usage_Metric_Report__c.DateTimeStamp__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Usage_Metric_Report__c.Global_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Usage_Metric_Report__c.Page__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Usage_Metric_Report__c.Role__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>User.MYBZ_Reporting_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -697,6 +717,15 @@
         <object>MYBZ_Territory__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>MYBZ_Usage_Metric_Report__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
     <pageAccesses>
         <apexPage>MYBZ_Regional_Rollup_Page_Rel2</apexPage>
         <enabled>true</enabled>
@@ -747,6 +776,10 @@
     </tabSettings>
     <tabSettings>
         <tab>MYBZ_Territory__c</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>MYBZ_Usage_Metric_Report__c</tab>
         <visibility>Available</visibility>
     </tabSettings>
     <userPermissions>
