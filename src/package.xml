@@ -72,6 +72,15 @@
         <members>MYBZ_Reps_and_Managers</members>
         <name>PermissionSet</name>
     </types>
+	<types>
+        <members>MYBZ_Reporting_Users</members>
+        <name>Group</name>
+    </types>
+	<types>
+        <members>MYBZ_Reports</members>
+        <members>MYBZ_Reports/Usage_Metric_Report</members>
+        <name>Report</name>
+    </types>
     <types>
         <members>MYBZ_HideAddressBar</members>
         <members>MYBZ_Region_Rollup</members>
