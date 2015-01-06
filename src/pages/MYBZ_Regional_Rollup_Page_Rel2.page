@@ -304,6 +304,8 @@
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/charts/charts.js')}"/>
         
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/net/vFRemotingService.js')}"/>
+        
         <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/PieChartStackC.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/PieChart.js')}"/>-->
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/charts/pieChartStack.js')}"/>
