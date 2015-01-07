@@ -330,6 +330,10 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/header/header.js')}"/>
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-call-planning.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/call-planning/callPlanning.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/call-planning/callPlanningBus.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/call-planning/callPlanningCustomers.js')}"/>
+        
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-controls.js')}"/>
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-dashboard.js')}"/>
