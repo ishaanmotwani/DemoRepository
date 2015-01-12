@@ -335,6 +335,12 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/call-planning/callPlanningBus.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/call-planning/callPlanningCustomers.js')}"/>
         
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-controls.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/controls/controls.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/controls/selectedProductService.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/controls/territoryPickerDirective.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/controls/territorySelectDirective.js')}"/>
+        
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/market-share/marketShare.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/market-share/calanderSorter.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/market-share/marketShareCalculator.js')}"/>
@@ -342,9 +348,9 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/market-share/marketShareChartCanvas.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/market-share/marketShareController.js')}"/>
         
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/target-goals/targetGoalsController.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/region-rollup/regionRollupSubHeader.js')}"/>
         
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-controls.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/target-goals/targetGoalsController.js')}"/>
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/la-dashboard.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource_Rel2,'js/dashboard/dashboard.js')}"/>

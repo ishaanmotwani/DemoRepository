@@ -15,7 +15,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         User runAsUser = new User(alias = 'Admin', email='appAdmin@testorg.com',
             emailencodingkey='UTF-8', lastname='Testing', languagelocalekey='en_US',
             localesidkey='en_US', profileid = pfl.Id,  country='United States', CommunityNickname = 'u1'+Math.random()*100 ,
-            timezonesidkey='America/Los_Angeles', username='appAdmin@gso_org.com'+Math.random()*100 , MYBZ_Role__c=Role,Mercury_External_Id_MERC__c=Role, Prsnl_Nbr_GLBL__c='xxxxx');
+            timezonesidkey='America/Los_Angeles', username='appAdmin@gso_org.com'+Math.random()*100 , MYBZ_Role__c=Role, Prsnl_Nbr_GLBL__c='xxxxx',MYBZ_Reporting_ID__c='xxxxx');
         
         Insert runAsUser;
         Return runAsUser;
@@ -254,8 +254,55 @@ public class Test_MYBZ_RegionRollup_Controller{
         Call.Territory__c=Territory.ID;
         Call.Name='Test';
         Call.Physician_ID__c = 'ppp';
+        Call.Call_ID__c='A101';
         Insert Call;
         system.assert(Call.id!=null);
+        
+        MYBZ_Call__c Call1 = New MYBZ_Call__c();
+        Call1.Call_Date__c=System.Now();
+        Call1.Call_Type__c='Test';
+        Call1.First_Name__c='FirstName';
+        Call1.Last_Name__c='LastName';
+        Call1.Product__c=IHSProduct2.ID; 
+        Call1.Global_ID__c='xxxxx';
+        Call1.Product_Position__c=2;
+        Call1.Territory__c=Territory.ID;
+        Call1.Name='Test';
+        Call1.Physician_ID__c = 'ppp';
+        Call1.Call_ID__c='A101';
+        Insert Call1;
+        system.assert(Call1.id!=null);
+        
+         MYBZ_Call__c Call2 = New MYBZ_Call__c();
+        Call2.Call_Date__c=System.Now();
+        Call2.Call_Type__c=System.Label.MYBZ_SampleOnly;
+        Call2.First_Name__c='FirstName';
+        Call2.Last_Name__c='LastName';
+        Call2.Product__c=IHSProduct.ID; 
+        Call2.Global_ID__c='xxxxx';
+        Call2.Product_Position__c=1;
+        Call2.Territory__c=Territory.ID;
+        Call2.Name='Test';
+        Call2.Physician_ID__c = 'ppp';
+        Call2.Call_ID__c='A102';
+        Insert Call2;
+        system.assert(Call2.id!=null);
+        
+        MYBZ_Call__c Call3 = New MYBZ_Call__c();
+        Call3.Call_Date__c=System.Now();
+        Call3.Call_Type__c=System.Label.MYBZ_SampleOnly;
+        Call3.First_Name__c='FirstName';
+        Call3.Last_Name__c='LastName';
+        Call3.Product__c=IHSProduct2.ID; 
+        Call3.Global_ID__c='xxxxx';
+        Call3.Product_Position__c=2;
+        Call3.Territory__c=Territory.ID;
+        Call3.Name='Test';
+        Call3.Physician_ID__c = 'ppp';
+        Call3.Call_ID__c='A102';
+        Insert Call3;
+        system.assert(Call3.id!=null);
+        
         
         MYBZ_CallPlanningProductJunction__c  callPlanJunction1 = new MYBZ_CallPlanningProductJunction__c();
         callPlanJunction1.Call_Planning__c = CallPlanning1.id;
@@ -270,7 +317,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         insert callPlanJunction1;
         system.assert(callPlanJunction1.id!=null);
         
-        MYBZ_CallPlanningProductJunction__c  callPlanJunction2 = new MYBZ_CallPlanningProductJunction__c();
+        /*MYBZ_CallPlanningProductJunction__c  callPlanJunction2 = new MYBZ_CallPlanningProductJunction__c();
         callPlanJunction2.Call_Planning__c = CallPlanning2.id;
         callPlanJunction2.Product__c = IHSProduct.id;
         callPlanJunction2.Physician_ID__c ='ppp';
@@ -320,12 +367,27 @@ public class Test_MYBZ_RegionRollup_Controller{
         callPlanJunction5.TRx_Units_6M__c = 1;
         callPlanJunction5.Previous_TRx_Units_6M__c = 1;
         insert callPlanJunction5;
-        system.assert(callPlanJunction5.id!=null);
+        system.assert(callPlanJunction5.id!=null);*/
+        
+         MYBZ_CallPlanningProductJunction__c  callPlanJunction6 = new MYBZ_CallPlanningProductJunction__c();
+        callPlanJunction6.Call_Planning__c = CallPlanning5.id;
+        callPlanJunction6.Physician_ID__c ='qqq';
+        callPlanJunction6.TRx_Units_1M__c = 1;
+        callPlanJunction6.Previous_TRx_Units_1M__c = 1;
+        callPlanJunction6.TRx_Units_3M__c = 1;
+        callPlanJunction6.Previous_TRx_Units_3M__c = 1;
+        callPlanJunction6.TRx_Units_6M__c = 1;
+        callPlanJunction6.Previous_TRx_Units_6M__c = 1;
+        insert callPlanJunction6;
+        system.assert(callPlanJunction6.id!=null);
         
         List<MYBZ_Region_Rollup__c> regionRollUp = new List<MYBZ_Region_Rollup__c>();
         List<string> alignments = new List<String>{'Region', 'District', 'Territory'};
         for(integer i=0; i< 3; i++){
           MYBZ_Region_Rollup__c eachRegionRollup = new MYBZ_Region_Rollup__c();
+          MYBZ_Region_Rollup__c eachRegionRollup1 = new MYBZ_Region_Rollup__c();
+          //eachRegionRollup1 = eachRegionRollup;
+          
           eachRegionRollup.Alignment_Level__c = alignments.get(i);
           eachRegionRollup.Region__c = Region.id;
           eachRegionRollup.District__c = District.id;
@@ -371,6 +433,32 @@ public class Test_MYBZ_RegionRollup_Controller{
           eachRegionRollup.Global_ID__c = 'xxxxx';
           
           regionRollUp.add(eachRegionRollup);
+          eachRegionRollup1.Alignment_Level__c = alignments.get(i);
+          eachRegionRollup1.Region__c = Region.id;
+          eachRegionRollup1.District__c = District.id;
+          eachRegionRollup1.Product__c = IHSProduct2.ID;
+          eachRegionRollup1.Territory__c = Territory.id;
+          eachRegionRollup1.TRx_1M__c = 1;
+          eachRegionRollup1.TRx_3M__c = 1;
+          eachRegionRollup1.TRx_6M__c = 1;
+          eachRegionRollup1.NRx_1M__c = 1;
+          eachRegionRollup1.NRx_3M__c = 1;
+          eachRegionRollup1.NRx_6M__c = 1;
+          eachRegionRollup1.OPEX_1M__c = 1;
+          eachRegionRollup1.OPEX_3M__c = 1;
+          eachRegionRollup1.OPEX_6M__c = 1;
+          eachRegionRollup1.Gross_Margin_1M__c = 1;
+          eachRegionRollup1.Gross_Margin_3M__c = 1;
+          eachRegionRollup1.Gross_Margin_6M__c = 1;
+          eachRegionRollup1.Net_Profit_1M__c = 1;
+          eachRegionRollup1.Net_Profit_3M__c = 1;
+          eachRegionRollup1.Net_Profit_6M__c = 1;
+          eachRegionRollup1.DDD_Dollars_1M__c = null;
+          eachRegionRollup1.DDD_Dollars_3M__c = null;
+          eachRegionRollup1.DDD_Dollars_6M__c = null;
+          eachRegionRollup1.Global_ID__c = 'xxxxx';
+          regionRollUp.add(eachRegionRollup1);
+          
         }
         insert regionRollUp;
         
@@ -382,6 +470,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         
         MYBZ_Region_Rollup_Controller.RegionRollup(Region.Name,District.Name,Territory.Name);
         MYBZ_Region_Rollup_Controller.RegionRollup1();
+        
         MYBZ_Region_Rollup_Controller.Alignment1();
         MYBZ_Region_Rollup_Controller.Alignment(Region.Name,District.Name,Territory.Name);
     
@@ -401,7 +490,7 @@ public class Test_MYBZ_RegionRollup_Controller{
     }
     
     
-    /*static testMethod void SalesRepAlignment() {
+    static testMethod void SalesRepAlignment() {
         User runAsUser = createUser('Sales Representative');             
         System.runas(runAsUser){ 
             CallingMethods(); 
@@ -414,12 +503,19 @@ public class Test_MYBZ_RegionRollup_Controller{
         System.runas(runAsUser){ 
             System.debug('Calling here 123');     
             CallingMethods();     
-            System.Debug('ssssssssssss'+runAsUser.Mercury_External_Id_MERC__c);
+            System.Debug('ssssssssssss'+runAsUser.MYBZ_Role__c);
         }
-    } */
+    } 
     
     static testMethod void DisManAlignment() {
         User runAsUser = createUser('District Sales Manager');             
+        System.runas(runAsUser){ 
+            CallingMethods(); 
+        }
+    }
+    
+    static testMethod void AccountManager() {
+        User runAsUser = createUser('Account Manager');             
         System.runas(runAsUser){ 
             CallingMethods(); 
         }
