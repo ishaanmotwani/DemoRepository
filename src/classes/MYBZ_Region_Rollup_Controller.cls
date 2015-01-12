@@ -2199,6 +2199,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
             marketShareList.clear();
             MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c LIMIT 1];
             
+            System.debug('territoryObj'+territoryObj);
             marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id ORDER BY Month__c, Year__c ASC];
         }
             
@@ -2686,12 +2687,12 @@ global with sharing class MYBZ_Region_Rollup_Controller
      if(Role == System.Label.MYBZ_SalesRepresentative){
         CallPlanningsList.clear();
         CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId order by Call_Planning__r.Physician_ID__c,Product__r.Name];
-        CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name from MYBZ_Call__c where Global_ID__c=:GlobalId order by Physician_ID__c,Call_Date__c desc,Product_Position__c asc ];
+        CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name from MYBZ_Call__c where Global_ID__c=:GlobalId order by Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];
     }
     if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory != null && territory !=''){
         CallPlanningsList.clear();
         CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.Territory__r.Name, Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c,Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Territory__r.Name=:territory order by Call_Planning__r.Physician_ID__c,Product__r.Name];
-        CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name,Territory__c,Territory__r.Name from MYBZ_Call__c where Territory__r.Name=:territory order by Physician_ID__c,Call_Date__c desc,Product_Position__c asc ];
+        CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name,Territory__c,Territory__r.Name from MYBZ_Call__c where Territory__r.Name=:territory order by Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];
         }
     if(Role == System.Label.MYBZ_MajorMarketManager){
         CallPlanningsList.clear();
@@ -3185,7 +3186,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         return null;
     }
     
-    CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name from MYBZ_Call__c where Global_ID__c=:GlobalId order by Physician_ID__c,Call_Date__c desc,Product_Position__c asc ];
+    CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name from MYBZ_Call__c where Global_ID__c=:GlobalId order by Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];
     
         //Initialization of variables
     
