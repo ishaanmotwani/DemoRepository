@@ -6,7 +6,7 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>MYBZ_Regional_Rollup_Page_Rel2</members>
+        <members>MYBZ_Regional_Rollup_Page</members>
         <name>ApexPage</name>
     </types>
     <types>
@@ -83,10 +83,9 @@
     </types>
     <types>
         <members>MYBZ_HideAddressBar</members>
-        <members>MYBZ_Region_Rollup</members>
+        
         <members>MYBZ_Region_Rollup_Resource</members>
-        <members>MYBZ_Region_Rollup_Resource_Rel2</members>
-		<members>MYBZ_Region_Rollup_Resource_Rel2_Cloned</members>
+        
         <name>StaticResource</name>
     </types>
     <types>
