@@ -727,7 +727,7 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <pageAccesses>
-        <apexPage>MYBZ_Regional_Rollup_Page_Rel2</apexPage>
+        <apexPage>MYBZ_Region_Rollup_Page</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabSettings>
