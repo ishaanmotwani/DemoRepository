@@ -14,10 +14,10 @@
              var urlPath = "{!URLFOR($Resource.MYBZ_Region_Rollup_Resource, '')}";
              window.RESOURCE_ROOT = urlPath.split('?')[0];
            //  alert(RESOURCE_ROOT);
-             $GLOBALID='{!JSENCODE(GlobalId)}';
+             $GLOBALID='{!GlobalId}';
             
-             $Role='{!JSENCODE(Role)}';
-             $uname='{!JSENCODE(uname)}';
+             $Role='{!Role}';
+             $uname='{!uname}';
              if($Role=='Sales Representative')
                  $userRole=0;
                 if($Role=='District Sales Manager')
@@ -309,7 +309,6 @@
         
         <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/PieChartStackC.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/PieChart.js')}"/>-->
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/pieChartTree.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/pieChartStack.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/pieChart.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/chartCanvas.js')}"/>
@@ -331,10 +330,8 @@
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/header/header.js')}"/>
         
-        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/la-call-planning.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/la-call-planning.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/call-planning/callPlanning.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/call-planning/callPlanningController.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/call-planning/callPlanningDirectives.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/call-planning/callPlanningBus.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/call-planning/callPlanningCustomers.js')}"/>
         
