@@ -324,6 +324,7 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/ui/controlsArrow.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/ui/hamburgerButton.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/ui/spriteSpinner.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/ui/lillyLogo.js')}"/>
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/utils.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/lillyApp.js')}"/>
@@ -355,6 +356,7 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/region-rollup/regionRollupSubHeader.js')}"/>
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/target-goals/targetGoalsController.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/target-goals/goalAttainment.js')}"/>
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/la-dashboard.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/dashboard/dashboard.js')}"/>
