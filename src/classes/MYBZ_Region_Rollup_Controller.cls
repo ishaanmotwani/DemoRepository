@@ -2661,6 +2661,8 @@ global with sharing class MYBZ_Region_Rollup_Controller
             String Products='';
             Integer productprescribercount;
             Integer firstiteration=1;
+			Integer firstproductIteration = 1;
+			Integer prescriberflag=1;
             
             //Looping over Trend-Details
             if(TrendsDetailsList != null && TrendsDetailsList.size() > 0){
@@ -2688,6 +2690,13 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             }
                             else
                             {
+								if(productprescribercount!=6)
+								{
+									gen.writeEndArray();
+									gen.writeEndObject();
+									productprescribercount=1;
+									prescriberflag=0;
+								}
                                 gen.writeEndArray();
                                 gen.writeEndObject();
                                 gen.writeStartObject();
@@ -2719,6 +2728,13 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     {
                         if(!Products.equals(trenddetails.IHS_Product__r.Name))
                         {
+						   if(productprescribercount!=6&&(prescriberflag==1)&&(firstproductIteration!=1))
+								{
+									gen.writeEndArray();
+									gen.writeEndObject();
+									
+								}
+							firstproductIteration=0;	
                             Products=trenddetails.IHS_Product__r.Name;
                             gen.writeStartObject();
                             if(trenddetails.IHS_Product__r.Name!=null){
@@ -2851,7 +2867,8 @@ global with sharing class MYBZ_Region_Rollup_Controller
             String Products='';
             Integer productprescribercount;
             Integer firstiteration=1;
-            
+            Integer prescriberflag=1;
+			Integer firstproductIteration=1;
             //Looping over Trend-Details
             if(TrendsDetailsList != null && TrendsDetailsList.size() > 0){
                 for(MYBZ_Product_Trend_Detail__c trenddetails : TrendsDetailsList)
@@ -2878,6 +2895,13 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             }
                             else
                             {
+								if(productprescribercount!=6)
+								{
+									gen.writeEndArray();
+									gen.writeEndObject();
+									productprescribercount=1;
+									prescriberflag=0;
+								}
                                 gen.writeEndArray();
                                 gen.writeEndObject();
                                 gen.writeStartObject();
@@ -2909,6 +2933,12 @@ global with sharing class MYBZ_Region_Rollup_Controller
                     {
                         if(!Products.equals(trenddetails.IHS_Product__r.Name))
                         {
+							if(productprescribercount!=6&&(prescriberflag==1)&&(firstproductIteration!=1))
+								{
+									gen.writeEndArray();
+									gen.writeEndObject();									
+								}
+							firstproductIteration=0;	
                             Products=trenddetails.IHS_Product__r.Name;
                             gen.writeStartObject();
                             if(trenddetails.IHS_Product__r.Name!=null){
