@@ -16,7 +16,7 @@ public class Test_MYBZ_RegionRollup_Controller{
     * @Param                          :      
     */
     static User createUser(String Role){
-        Profile pfl = [select id from profile where name='System Administrator'];
+        Profile pfl = [select id from profile where name='GSO Basic User_Platform'];
         //Declaring the User
         User runAsUser = new User(alias = 'Admin', email='appAdmin@testorg.com',
             emailencodingkey='UTF-8', lastname='Testing', languagelocalekey='en_US',
