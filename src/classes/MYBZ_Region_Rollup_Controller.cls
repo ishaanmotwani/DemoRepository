@@ -307,21 +307,21 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.NRx_1M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_1M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.OPEX_1M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_1M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_opex);
-                                        }	
+                                        }   
                                         if(tempRegionObj.Gross_Margin_1M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_1M__c);
                                         }
@@ -360,21 +360,21 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.NRx_3M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_3M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.OPEX_3M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_3M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_opex);
-                                        }	
+                                        }   
                                         if(tempRegionObj.Gross_Margin_3M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_3M__c);
                                         }
@@ -413,21 +413,21 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.NRx_6M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_6M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.OPEX_6M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_6M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_opex);
-                                        }	
+                                        }   
                                         if(tempRegionObj.Gross_Margin_6M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_6M__c);
                                         }
@@ -487,21 +487,21 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.NRx_1M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_1M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.OPEX_1M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_1M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_opex);
-                                                }			
+                                                }           
                                                 if(tempdistObj.Gross_Margin_1M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_1M__c);
                                                 }
@@ -540,21 +540,21 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.NRx_3M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_3M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.OPEX_3M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_3M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_opex);
-                                                }	
+                                                }   
                                                 if(tempdistObj.Gross_Margin_3M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_3M__c);
                                                 }
@@ -593,21 +593,21 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.NRx_6M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_6M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.OPEX_6M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_6M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_opex);
-                                                }	
+                                                }   
                                                 if(tempdistObj.Gross_Margin_6M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_6M__c);
                                                 }
@@ -666,7 +666,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                         else
                                                         {
                                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                        }	
+                                                        }   
                                                         if(tempTerrtObj.NRx_1M__c!=null){
                                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_1M__c);
                                                         }
@@ -698,7 +698,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                         else
                                                         {
                                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                        }	
+                                                        }   
                                                         if(tempTerrtObj.NRx_3M__c!=null){
                                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_3M__c);
                                                         }
@@ -730,7 +730,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                                         else
                                                         {
                                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                        }	
+                                                        }   
                                                         if(tempTerrtObj.NRx_6M__c!=null){
                                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_6M__c);
                                                         }
@@ -1019,21 +1019,21 @@ Territory - The territory selected via a territory picker.
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.NRx_1M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_1M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.OPEX_1M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_1M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_opex);
-                                        }	
+                                        }   
                                         if(tempRegionObj.Gross_Margin_1M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_1M__c);
                                         }
@@ -1072,21 +1072,21 @@ Territory - The territory selected via a territory picker.
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.NRx_3M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_3M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.OPEX_3M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_3M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_opex);
-                                        }	
+                                        }   
                                         if(tempRegionObj.Gross_Margin_3M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_3M__c);
                                         }
@@ -1125,21 +1125,21 @@ Territory - The territory selected via a territory picker.
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.NRx_6M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempRegionObj.NRx_6M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                        }	
+                                        }   
                                         if(tempRegionObj.OPEX_6M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_opex,tempRegionObj.OPEX_6M__c);
                                         }
                                         else
                                         {
                                             gen.writeNullField(System.Label.MYBZ_opex);
-                                        }	
+                                        }   
                                         if(tempRegionObj.Gross_Margin_6M__c!=null){
                                             gen.writeNumberField(System.Label.MYBZ_grossMargins,tempRegionObj.Gross_Margin_6M__c);
                                         }
@@ -1199,21 +1199,21 @@ Territory - The territory selected via a territory picker.
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.NRx_1M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_1M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.OPEX_1M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_1M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_opex);
-                                                }			
+                                                }           
                                                 if(tempdistObj.Gross_Margin_1M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_1M__c);
                                                 }
@@ -1252,21 +1252,21 @@ Territory - The territory selected via a territory picker.
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.NRx_3M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_3M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.OPEX_3M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_3M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_opex);
-                                                }	
+                                                }   
                                                 if(tempdistObj.Gross_Margin_3M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_3M__c);
                                                 }
@@ -1305,21 +1305,21 @@ Territory - The territory selected via a territory picker.
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.NRx_6M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_nrxValue,tempdistObj.NRx_6M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_nrxValue);
-                                                }	
+                                                }   
                                                 if(tempdistObj.OPEX_6M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_opex,tempdistObj.OPEX_6M__c);
                                                 }
                                                 else
                                                 {
                                                     gen.writeNullField(System.Label.MYBZ_opex);
-                                                }	
+                                                }   
                                                 if(tempdistObj.Gross_Margin_6M__c!=null){
                                                     gen.writeNumberField(System.Label.MYBZ_grossMargins,tempdistObj.Gross_Margin_6M__c);
                                                 }
@@ -1378,7 +1378,7 @@ Territory - The territory selected via a territory picker.
                                                         else
                                                         {
                                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                        }	
+                                                        }   
                                                         if(tempTerrtObj.NRx_1M__c!=null){
                                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_1M__c);
                                                         }
@@ -1410,7 +1410,7 @@ Territory - The territory selected via a territory picker.
                                                         else
                                                         {
                                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                        }	
+                                                        }   
                                                         if(tempTerrtObj.NRx_3M__c!=null){
                                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_3M__c);
                                                         }
@@ -1442,7 +1442,7 @@ Territory - The territory selected via a territory picker.
                                                         else
                                                         {
                                                             gen.writeNullField(System.Label.MYBZ_trxValue);
-                                                        }	
+                                                        }   
                                                         if(tempTerrtObj.NRx_6M__c!=null){
                                                             gen.writeNumberField(System.Label.MYBZ_nrxValue,tempTerrtObj.NRx_6M__c);
                                                         }
@@ -2716,16 +2716,16 @@ Territory - The territory selected via a territory picker.
             if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && district !=null && district !=''){
                 marketShareList.clear();
                 
-                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
             }
             if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !='' && (district == null || district == '')){
                 marketShareList.clear();
                 
-                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null ORDER BY Month__c, Year__c ASC];
+                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null ORDER BY Month__c, Year__c ASC];
             }
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory !=null && territory !=''){
                 marketShareList.clear();
-                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory ORDER BY Month__c, Year__c ASC];
+                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory ORDER BY Month__c, Year__c ASC];
             }
             if(!marketShareList.isEmpty()){
                 for(MYBZ_Market_Share__c marketShareObj : marketShareList){
@@ -2828,13 +2828,13 @@ Territory - The territory selected via a territory picker.
                                                 gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx);
                                             gen.writeStringField(System.Label.MYBZ_productName,marketShareObj.Product__r.Name);
                                             gen.writeBooleanField(System.Label.MYBZ_lillyProduct,marketShareObj.lillyProduct__c);
-                                            if(marketShareObj.DDD_Dollars__c!=null){
+                                            /*if(marketShareObj.DDD_Dollars__c!=null){
                                                 gen.writeNumberField(System.Label.MYBZ_dddDollars,marketShareObj.DDD_Dollars__c);
                                             }
                                             else
                                             {    
                                                 gen.writeNullField(System.Label.MYBZ_dddDollars);
-                                            }
+                                            }*/
                                             if(marketShareObj.DDD_Units__c!=null){
                                                 gen.writeNumberField(System.Label.MYBZ_dddUnits,marketShareObj.DDD_Units__c);
                                             }
@@ -2842,7 +2842,7 @@ Territory - The territory selected via a territory picker.
                                             {    
                                                 gen.writeNullField(System.Label.MYBZ_dddUnits);
                                             }
-                                            Decimal PercentageChangeDDDDollars;
+                                            /*Decimal PercentageChangeDDDDollars;
                                             if(marketShareObj.Previous_DDD_Dollars__c!=null)
                                             {
                                                 if(marketShareObj.Previous_DDD_Dollars__c!=0)
@@ -2858,6 +2858,7 @@ Territory - The territory selected via a territory picker.
                                             }
                                             else
                                                 gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars);
+                                            */
                                             Decimal PercentageChangeDDDUnits;
                                             if(marketShareObj.Previous_DDD_Units__c!=null)
                                             {
@@ -2947,20 +2948,20 @@ Territory - The territory selected via a territory picker.
             List<MYBZ_Market_Share__c> marketShareList = new List<MYBZ_Market_Share__c>();
             if(Role == System.Label.MYBZ_SalesRepresentative){
                 marketShareList.clear();
-                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
+                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
             }
             if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ){
                 marketShareList.clear();
-                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
+                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
             }
             if(Role == System.Label.MYBZ_MajorMarketManager){
                 marketShareList.clear();
-                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
+                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
             }
             if(Role == System.Label.MYBZ_SuperUser){
                 marketShareList.clear();
                 MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c LIMIT 1];
-                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id ORDER BY Month__c, Year__c ASC];
+                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id ORDER BY Month__c, Year__c ASC];
             }
             
             if(!marketShareList.isEmpty()){
@@ -3064,13 +3065,13 @@ Territory - The territory selected via a territory picker.
                                                 gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx);
                                             gen.writeStringField(System.Label.MYBZ_productName,marketShareObj.Product__r.Name);
                                             gen.writeBooleanField(System.Label.MYBZ_lillyProduct,marketShareObj.lillyProduct__c);
-                                            if(marketShareObj.DDD_Dollars__c!=null){
+                                            /*if(marketShareObj.DDD_Dollars__c!=null){
                                                 gen.writeNumberField(System.Label.MYBZ_dddDollars,marketShareObj.DDD_Dollars__c);
                                             }
                                             else
                                             {    
                                                 gen.writeNullField(System.Label.MYBZ_dddDollars);
-                                            }
+                                            }*/
                                             if(marketShareObj.DDD_Units__c!=null){
                                                 gen.writeNumberField(System.Label.MYBZ_dddUnits,marketShareObj.DDD_Units__c);
                                             }
@@ -3078,7 +3079,7 @@ Territory - The territory selected via a territory picker.
                                             {    
                                                 gen.writeNullField(System.Label.MYBZ_dddUnits);
                                             }
-                                            Decimal PercentageChangeDDDDollars;
+                                            /*Decimal PercentageChangeDDDDollars;
                                             if(marketShareObj.Previous_DDD_Dollars__c!=null)
                                             {
                                                 if(marketShareObj.Previous_DDD_Dollars__c!=0)
@@ -3094,6 +3095,7 @@ Territory - The territory selected via a territory picker.
                                             }
                                             else
                                                 gen.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars);
+                                            */
                                             Decimal PercentageChangeDDDUnits;
                                             if(marketShareObj.Previous_DDD_Units__c!=null)
                                             {
