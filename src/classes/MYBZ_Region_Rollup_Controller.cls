@@ -1668,7 +1668,7 @@ Territory - The territory selected via a territory picker.
                     }
                 }
             }
-            List <MYBZ_Region_Rollup__c> districtList = [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_District];
+            List <MYBZ_Region_Rollup__c> districtList = [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_District AND Global_Id__c!=''];
             if(!districtList.isEmpty()){
                 for(MYBZ_Region_Rollup__c districtObj : districtList){
                     if(!RegionNameAndDistrictMap.containsKey(districtObj.Region__r.Name)){
