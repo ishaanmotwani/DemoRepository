@@ -470,7 +470,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
         Set<Id> regionIds = new Set<Id>();
         Set<Id> districtIds = new Set<Id>();
-        MYBZ_Region_Rollup__c firstRegionName;
+        String firstRegionName;
         
         List<String> rangeData = new List<String>{'oneMonthData','threeMonthData','sixMonthData'};
         List<String> metricDates = new List<String>{'opexStartDates','netProfitStartDates','grossMarginsStartDates','trxStartDates','nrxStartDates','dddStartDates'};
@@ -580,7 +580,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         if(!regionList.isEmpty()){
             for(MYBZ_Region_Rollup__c regionObj : regionList){
                 if(regionObj.Product__r.Name == System.Label.MYBZ_EFFIENT){
-                    firstRegionName = regionObj;
+                    firstRegionName = regionObj.Region__r.Name;
                     break;
                 }
             }
@@ -593,69 +593,69 @@ global with sharing class MYBZ_Region_Rollup_Controller
                 gen.writeFieldName(str);
                 gen.writeStartObject();
                 if(str == 'opexStartDates'){
-                    if(firstRegionName.OPEX_Start_Date_1M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,firstRegionName.OPEX_Start_Date_1M__c);
+                    if(regionList[0].OPEX_Start_Date_1M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].OPEX_Start_Date_1M__c);
                     }
-                    if(firstRegionName.OPEX_Start_Date_3M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,firstRegionName.OPEX_Start_Date_3M__c);
+                    if(regionList[0].OPEX_Start_Date_3M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].OPEX_Start_Date_3M__c);
                     }
-                    if(firstRegionName.OPEX_Start_Date_6M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,firstRegionName.OPEX_Start_Date_6M__c);
+                    if(regionList[0].OPEX_Start_Date_6M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].OPEX_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'netProfitStartDates'){
-                    if(firstRegionName.Net_Profit_Start_Date_1M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,firstRegionName.Net_Profit_Start_Date_1M__c);
+                    if(regionList[0].Net_Profit_Start_Date_1M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].Net_Profit_Start_Date_1M__c);
                     }
-                    if(firstRegionName.Net_Profit_Start_Date_3M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,firstRegionName.Net_Profit_Start_Date_3M__c);
+                    if(regionList[0].Net_Profit_Start_Date_3M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].Net_Profit_Start_Date_3M__c);
                     }
-                    if(firstRegionName.Net_Profit_Start_Date_6M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,firstRegionName.Net_Profit_Start_Date_6M__c);
+                    if(regionList[0].Net_Profit_Start_Date_6M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].Net_Profit_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'grossMarginsStartDates'){
-                    if(firstRegionName.Gross_Margin_Start_Date_1M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,firstRegionName.Gross_Margin_Start_Date_1M__c);
+                    if(regionList[0].Gross_Margin_Start_Date_1M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].Gross_Margin_Start_Date_1M__c);
                     }
-                    if(firstRegionName.Gross_Margin_Start_Date_3M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,firstRegionName.Gross_Margin_Start_Date_3M__c);
+                    if(regionList[0].Gross_Margin_Start_Date_3M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].Gross_Margin_Start_Date_3M__c);
                     }
-                    if(firstRegionName.Gross_Margin_Start_Date_6M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,firstRegionName.Gross_Margin_Start_Date_6M__c);
+                    if(regionList[0].Gross_Margin_Start_Date_6M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].Gross_Margin_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'trxStartDates'){
-                    if(firstRegionName.TRx_Start_Date_1M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,firstRegionName.TRx_Start_Date_1M__c);
+                    if(regionList[0].TRx_Start_Date_1M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].TRx_Start_Date_1M__c);
                     }
-                    if(firstRegionName.TRx_Start_Date_3M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,firstRegionName.TRx_Start_Date_3M__c);
+                    if(regionList[0].TRx_Start_Date_3M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].TRx_Start_Date_3M__c);
                     }
-                    if(firstRegionName.TRx_Start_Date_6M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,firstRegionName.TRx_Start_Date_6M__c);
+                    if(regionList[0].TRx_Start_Date_6M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].TRx_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'nrxStartDates'){
-                    if(firstRegionName.NRx_Start_Date_1M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,firstRegionName.NRx_Start_Date_1M__c);
+                    if(regionList[0].NRx_Start_Date_1M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].NRx_Start_Date_1M__c);
                     }
-                    if(firstRegionName.NRx_Start_Date_3M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,firstRegionName.NRx_Start_Date_3M__c);
+                    if(regionList[0].NRx_Start_Date_3M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].NRx_Start_Date_3M__c);
                     }
-                    if(firstRegionName.NRx_Start_Date_6M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,firstRegionName.NRx_Start_Date_6M__c);
+                    if(regionList[0].NRx_Start_Date_6M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].NRx_Start_Date_6M__c);
                     }
                 }
                 else if(str == 'dddStartDates'){
-                    if(firstRegionName.DDD_Dollars_Start_Date_1M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,firstRegionName.DDD_Dollars_Start_Date_1M__c);
+                    if(regionList[0].DDD_Dollars_Start_Date_1M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_oneMonthDataStartDate,regionList[0].DDD_Dollars_Start_Date_1M__c);
                     }
-                    if(firstRegionName.DDD_Dollars_Start_Date_3M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,firstRegionName.DDD_Dollars_Start_Date_3M__c);
+                    if(regionList[0].DDD_Dollars_Start_Date_3M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_threeMonthDataStartDate,regionList[0].DDD_Dollars_Start_Date_3M__c);
                     }
-                    if(firstRegionName.DDD_Dollars_Start_Date_6M__c != null){
-                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,firstRegionName.DDD_Dollars_Start_Date_6M__c);
+                    if(regionList[0].DDD_Dollars_Start_Date_6M__c != null){
+                        gen.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,regionList[0].DDD_Dollars_Start_Date_6M__c);
                     }
                 }
                 gen.writeEndObject();
