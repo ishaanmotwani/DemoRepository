@@ -337,6 +337,7 @@
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/core/color.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/core/colorManager.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/core/point.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/core/product.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/core/user.js')}"/>
         
