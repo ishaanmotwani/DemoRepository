@@ -1,5 +1,5 @@
 /*
-*@ Class Name                                                    : MYBZ_RegionRollup_Controller_Old
+*@ Class Name                                                    : MYBZ_RegionRollup_Controller
 *@ Description                                                   : Class for retrieving salesforce data in the form of a string and returning as a JSON object via a remote action.
 *@ CreatedBy                                                     : Neelam Dalwani
 *@ CreatedOn                                                     : 09-30-2014
