@@ -36,7 +36,7 @@
              function getAlignmentDataFromSalesforce(geography, callback){
                 if(geography == null || geography == ''){
                   Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller.Alignment}',callback
+                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller.alignment}',callback
                     );
                 }
              }
@@ -65,7 +65,7 @@
              function getTrendsPrescriberDataFromSalesforce(geography,callback){
                if(geography == null || geography == ''){
                     Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller.TrendsPrescriber}',callback
+                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller.trendsPrescriber}',callback
                     );
                 }
                 else
@@ -80,7 +80,7 @@
                     if(geography.territory !=null && geography.territory !='')
                         territory = geography.territory;
                    Visualforce.remoting.Manager.invokeAction(
-                   '{!$RemoteAction.MYBZ_Region_Rollup_Controller.TrendsPrescriberUsingPicker}',region, district, territory,callback
+                   '{!$RemoteAction.MYBZ_Region_Rollup_Controller.trendsPrescriberUsingPicker}',region, district, territory,callback
                    );
                 }
              }
@@ -88,7 +88,7 @@
              function getMarketShareDataFromSalesforce(geography, callback){
                 if(geography == null || geography == ''){
                     Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller.MarketShare}',callback
+                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller.marketShare}',callback
                     );
                 }
                 else
@@ -106,14 +106,14 @@
                         territory = geography.territory;
                          //alert('territory --'+territory );
                    Visualforce.remoting.Manager.invokeAction(
-                   '{!$RemoteAction.MYBZ_Region_Rollup_Controller.MarketShareUsingPicker}',region, district, territory,callback
+                   '{!$RemoteAction.MYBZ_Region_Rollup_Controller.marketShareUsingPicker}',region, district, territory,callback
                    );
                 }
              }
              function getGoalsDataFromSalesforce(geography, callback){
                 if(geography == null || geography == ''){
                     Visualforce.remoting.Manager.invokeAction(
-                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller.TargetGoal}',callback
+                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller.targetGoal}',callback
                     );
                 }
                 else
@@ -129,7 +129,7 @@
                         territory = geography.territory;
                         
                   Visualforce.remoting.Manager.invokeAction(
-                  '{!$RemoteAction.MYBZ_Region_Rollup_Controller.TargetGoalUsingPicker}',region, district, territory,callback
+                  '{!$RemoteAction.MYBZ_Region_Rollup_Controller.targetGoalUsingPicker}',region, district, territory,callback
                    );
                 }
              }
@@ -137,7 +137,7 @@
              function getRegionRollupDataFromSalesforce(geography,callback){
                 if(geography == null || geography == ''){
                     Visualforce.remoting.Manager.invokeAction(
-                        '{!$RemoteAction.MYBZ_Region_Rollup_Controller.RegionRollup}',callback
+                        '{!$RemoteAction.MYBZ_Region_Rollup_Controller.regionRollup}',callback
                         ); 
                  }
                 }  
@@ -145,7 +145,7 @@
                 function getTrendsDataFromSalesforce(geography, callback){
                     if(geography == null || geography == ''){
                         Visualforce.remoting.Manager.invokeAction(
-                        '{!$RemoteAction.MYBZ_Region_Rollup_Controller.ProductTrends}', callback
+                        '{!$RemoteAction.MYBZ_Region_Rollup_Controller.productTrends}', callback
                         );
                     }
                     else
@@ -161,7 +161,7 @@
                             territory = geography.territory;
                         
                        Visualforce.remoting.Manager.invokeAction(
-                       '{!$RemoteAction.MYBZ_Region_Rollup_Controller.ProductTrendsUsingPicker}',region, district, territory,callback
+                       '{!$RemoteAction.MYBZ_Region_Rollup_Controller.productTrendsUsingPicker}',region, district, territory,callback
                        );
                     }
                 }  
