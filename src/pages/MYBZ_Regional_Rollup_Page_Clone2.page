@@ -1,0 +1,372 @@
+<apex:page docType="html-5.0" showHeader="false" sidebar="true" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="MYBZ_Region_Rollup_Controller1" >
+    <html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="lillyApp">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+        <meta name="apple-mobile-web-app-title" content="Eli Lilly Sales Tool" />
+        <title>Eli Lilly Sales Tool</title>
+        <script>
+            
+            var region = '';
+            var district = '';
+            var territory = '';
+             var urlPath = "{!URLFOR($Resource.MYBZ_Region_Rollup_Resource, '')}";
+             window.RESOURCE_ROOT = urlPath.split('?')[0];
+           //  alert(RESOURCE_ROOT);
+             $GLOBALID='{!JSENCODE(GlobalId)}';
+            
+             $Role='{!JSENCODE(Role)}';
+             $uname='{!JSENCODE(uname)}';
+             if($Role=='Sales Representative')
+                 $userRole=0;
+                if($Role=='District Sales Manager')
+                 $userRole=1;
+                 
+                 if($Role=='Major Market Manager')
+                     $userRole=2;
+                 if($Role=='Super User')
+                 $userRole=3;
+                 
+                 if($Role=='Account Manager')
+                     $userRole=1;
+             //alert($uname);
+             //alert(Role);
+              
+             function getAlignmentDataFromSalesforce(geography, callback){
+                if(geography == null || geography == ''){
+                  Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.alignment}',callback
+                    );
+                }
+             }
+             function getCallPlanningDataFromSalesforce(geography,callback){
+              if(geography == null || geography == ''){
+                    Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.callPlanning}',callback
+                    );
+                }
+                else
+                {
+                    region = '';
+                    district = '';
+                    territory = '';
+                    if(geography.region !=null && geography.region !='')
+                        region = geography.region;
+                    if(geography.district !=null && geography.district !='')
+                        district = geography.district;
+                    if(geography.territory !=null && geography.territory !='')
+                        territory = geography.territory;
+                    Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.callPlanningUsingPicker}',region, district, territory,callback
+                   );
+                }
+             }
+             function getTrendsPrescriberDataFromSalesforce(geography,callback){
+               if(geography == null || geography == ''){
+                    Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.trendsPrescriber}',callback
+                    );
+                }
+                else
+                {
+                    region = '';
+                    district = '';
+                    territory = '';
+                    if(geography.region !=null && geography.region !='')
+                        region = geography.region;
+                    if(geography.district !=null && geography.district !='')
+                        district = geography.district;
+                    if(geography.territory !=null && geography.territory !='')
+                        territory = geography.territory;
+                   Visualforce.remoting.Manager.invokeAction(
+                   '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.trendsPrescriberUsingPicker}',region, district, territory,callback
+                   );
+                }
+             }
+             
+             function getMarketShareDataFromSalesforce(geography, callback){
+                if(geography == null || geography == ''){
+                    Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.marketShare}',callback
+                    );
+                }
+                else
+                {
+                    region = '';
+                    district = '';
+                    territory = '';
+                    if(geography.region !=null && geography.region !='')
+                        region = geography.region;
+                     //   alert('region--'+region);
+                    if(geography.district !=null && geography.district !='')
+                        district = geography.district;
+                       //  alert('district --'+district );
+                    if(geography.territory !=null && geography.territory !='')
+                        territory = geography.territory;
+                         //alert('territory --'+territory );
+                   Visualforce.remoting.Manager.invokeAction(
+                   '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.marketShareUsingPicker}',region, district, territory,callback
+                   );
+                }
+             }
+             function getGoalsDataFromSalesforce(geography, callback){
+                if(geography == null || geography == ''){
+                    Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.targetGoal}',callback
+                    );
+                }
+                else
+                {
+                    region = '';
+                    district = '';
+                    territory = '';
+                    if(geography.region !=null && geography.region !='')
+                        region = geography.region;
+                    if(geography.district !=null && geography.district !='')
+                        district = geography.district;
+                    if(geography.territory !=null && geography.territory !='')
+                        territory = geography.territory;
+                        
+                  Visualforce.remoting.Manager.invokeAction(
+                  '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.targetGoalUsingPicker}',region, district, territory,callback
+                   );
+                }
+             }
+             
+             function getRegionRollupDataFromSalesforce(geography,callback){
+                if(geography == null || geography == ''){
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.regionRollup}',callback
+                        ); 
+                 }
+                }  
+                
+                function getTrendsDataFromSalesforce(geography, callback){
+                    if(geography == null || geography == ''){
+                        Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.productTrends}', callback
+                        );
+                    }
+                    else
+                    {
+                        region = '';
+                        district = '';
+                        territory = '';
+                        if(geography.region !=null && geography.region !='')
+                            region = geography.region;
+                        if(geography.district !=null && geography.district !='')
+                            district = geography.district;
+                        if(geography.territory !=null && geography.territory !='')
+                            territory = geography.territory;
+                        
+                       Visualforce.remoting.Manager.invokeAction(
+                       '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.productTrendsUsingPicker}',region, district, territory,callback
+                       );
+                    }
+                }  
+                
+                
+           </script>
+         
+
+     
+    </head>
+    <apex:form >
+          <apex:actionFunction action="{!countUsageMetrics}" name="checkInput1" rerender="">
+        <apex:param name="datetimeStamp" assignTo="{!datetimeStamp}" value="" />
+        <apex:param name="Page" assignTo="{!Page}" value="" />
+        <apex:param name="GlobalId" assignTo="{!GlobalId}" value="" />
+    </apex:actionFunction>
+    </apex:form>
+    <body>
+        <div id="root-container" ng-controller="BaseController as base">
+
+            <!-- Black background for dashboard -->
+            <div style="
+                position: fixed;
+                background-color: black;
+                width: 100%;
+                height: 100%;
+            "></div>
+
+                <!-- Container for dashboard/drawer -->
+                <nav class="outer-nav right vertical">
+                   <div ng-include="'{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'partials/dashboard.html')}'" id="dashboard"></div>
+                </nav>
+                
+            <!-- Container for main view and controls view -->
+            <div id="perspective" class="perspective effect-moveleft">
+                
+                <div class="container">
+                    <div class="wrapper"><!-- wrapper needed for scroll -->
+                        <div class="lilly-logo"><img class="lilly-logo-img" src="" /></div>
+                        <div ng-include="'{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'partials/controls.html')}'"></div>
+                        <div class="main-view"> <!-- Contains current main view -->
+                            <div ng-view='true'></div>
+                        </div> <!-- /Main View -->
+                    </div> <!-- /Wrapper -->
+                </div> <!-- /Container -->
+
+            </div> <!-- /Perspective -->
+
+            <!-- Controls Button -->
+            <img class="controls-view-toggle-indicator" src="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'/img/controls-closed.png')}" ng-hide="navigationHidden == true || controlsButtonHidden == true"></img>
+            <button class="controls-view-toggle-button transparent" ng-click="base.centerButtonPressed()" ng-hide="navigationHidden == true || controlsButtonHidden == true"></button>
+
+            <!-- Hamburger -->
+            <button class="upper-right-corner transparent" id="showMenu">
+                <apex:image styleclass="upper-right-corner-image" url="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'img/hamburger.png')}"/>
+            </button>
+            
+            <!-- Spinner -->
+            <div class="spinner-wrap">
+                <div class="sprite-spinner">
+                  <img src="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'img/spinner.png')}" alt=""/>
+                </div>
+            </div>
+
+        </div> <!-- End root-container -->
+
+      
+        
+    </body>
+    
+       <apex:includeScript value="{!URLFOR($Resource.MYBZ_HideAddressBar,'')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/lillyApp.css')}"/>
+        
+        <!--This is problem area -->
+        <!--<apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/component.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/la-buttons.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/la-call-planning.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/la-controls.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/la-dashboard.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/la-market-share.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/la-target-goals.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/la-trends.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/la-region-rollup.css')}"/>-->
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/normalize.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/component.css')}"/>
+        <!--<apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/chosen.css')}"/>-->
+        <!-- End problem area -->
+        
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/jquery/jquery-1.11.1.min.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/jquery/dist/jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/angular/angular.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/angular-route/angular-route.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/modernizr/modernizr.input.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/modernizr/modernizr.custom.25376.js')}"/>
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/local-storage/angular-local-storage.min.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/angular-local-storage/dist/angular-local-storage.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/greensock/plugins/CSSPlugin.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/greensock/TweenLite.min.js')}"/>
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/classie.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/placeholder-shim.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/chosen/chosen.jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/bowser/bowser.min.js')}"/>
+               
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/events/events.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/events/eventDispatcher.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/events/scopeEventManager.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/events/loadingManager.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/charts.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/net/vFRemotingService.js')}"/>
+        
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/PieChartStackC.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/PieChart.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/pieChartTree.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/pieChartStack.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/pieChart.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/chartCanvas.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/colorConverter.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/levelState.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/rootLevelState.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/animator.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/pieChartLevelManager.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/radii.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/charts/stepCounter.js')}"/>
+        
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/MarketShareChart.js')}"/>-->
+
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/ui/controlsArrow.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/ui/hamburgerButton.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/ui/spriteSpinner.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/ui/lillyLogo.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/utils.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/lillyApp.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/lillyAppKickstarter.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/lillyAppServices.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/routes.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/usageMetrics.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/core/color.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/core/colorManager.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/core/point.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/core/product.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/core/user.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/device/device.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/header/header.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/header/marketShareSubHeader.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/header/regionRollupSubHeader.js')}"/>
+        
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/la-call-planning.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/call-planning/callPlanning.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/call-planning/callPlanningController.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/call-planning/callPlanningDirectives.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/call-planning/callPlanningBus.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/call-planning/callPlanningCustomers.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/controls.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/metricFilter.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/metricManager.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/monthManager.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/productManager.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/reportManager.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/controlsController.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/selectedProductService.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/territoryPickerDirective.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/territorySelectDirective.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShare.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/calanderSorter.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareCalculator.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/MarketShareChart.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareChartCanvas.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareController.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareDataManager.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/region-rollup/regionRollup.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/region-rollup/regionRollupController.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/target-goals/targetGoalsController.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/target-goals/targetGoalsDirectives.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/target-goals/goalAttainment.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/target-goals/goalsPopoverDirective.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/trends/trends.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/trends/trendsController.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/trends/trendsChart.js')}"/>
+        
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/la-dashboard.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/dashboard/dashboard.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/dashboard/dashboardController.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/dashboard/dashboardDirectives.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/dashboard/dashboardNavigator.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/dashboard/somTrendDirective.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/dashboard/dashboardSomTrendsService.js')}"/>
+        
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/navigation/navigationService.js')}"/>
+        
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/la-market-share.js')}"/>-->
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/baseController.js')}"/>
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/la-region-rollup.js')}"/>-->
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/la-target-goals.js')}"/>-->
+       
+    </html>
+    
+</apex:page>
