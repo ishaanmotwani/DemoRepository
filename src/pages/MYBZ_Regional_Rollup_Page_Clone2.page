@@ -34,11 +34,12 @@
              //alert(Role);
               
              function getAlignmentDataFromSalesforce(geography, callback){
-                if(geography == null || geography == ''){
+               
                   Visualforce.remoting.Manager.invokeAction(
                     '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.alignment}',callback
                     );
-                }
+                
+                
              }
              function getCallPlanningDataFromSalesforce(geography,callback){
               if(geography == null || geography == ''){
@@ -135,11 +136,11 @@
              }
              
              function getRegionRollupDataFromSalesforce(geography,callback){
-                if(geography == null || geography == ''){
+               
                     Visualforce.remoting.Manager.invokeAction(
                         '{!$RemoteAction.MYBZ_Region_Rollup_Controller1.regionRollup}',callback
                         ); 
-                 }
+                 
                 }  
                 
                 function getTrendsDataFromSalesforce(geography, callback){

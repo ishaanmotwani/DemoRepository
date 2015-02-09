@@ -29,6 +29,7 @@ public class Test_MYBZ_RegionRollup_Controller{
     static MYBZ_Region__c Region = New MYBZ_Region__c();
     static MYBZ_District__c District = New MYBZ_District__c();
     static MYBZ_Territory__c Territory = New MYBZ_Territory__c();
+    static MYBZ_Territory__c Territory2 = New MYBZ_Territory__c();
     static Object Obj;
     
     /*
@@ -71,6 +72,11 @@ public class Test_MYBZ_RegionRollup_Controller{
         Insert Territory;
         system.assert(Territory.id!=null);
         
+        Territory2.Name='TestTerritory2';
+        Territory2.State__c = District.id;
+        Insert Territory2;
+        system.assert(Territory2.id!=null);
+        
         MYBZ_Market_Share__c MarketShare = New MYBZ_Market_Share__c();
         MarketShare.Name='TestMarket';
         MarketShare.Global_Id__c='xxxxx';
@@ -108,6 +114,20 @@ public class Test_MYBZ_RegionRollup_Controller{
         MarketShare1.Year__c=2015;
         Insert MarketShare1;
         system.assert(MarketShare1.id!=null);
+        
+        MYBZ_Market_Share__c MarketShare2 = New MYBZ_Market_Share__c();
+        MarketShare2.Name='TestMarket';
+        MarketShare2.Global_Id__c='yyyyy';
+        MarketShare2.Market__c='test';
+        MarketShare2.Month__c=1;
+        MarketShare2.Owner__c='COMPETITOR';
+        MarketShare2.Previous_Month_TRx__c=1;
+        MarketShare2.Product__c=IHSProduct2.ID;
+        MarketShare2.Region__c=Region.ID;
+        MarketShare2.Territory__c=Territory2.ID;
+        MarketShare2.Year__c=2015;
+        Insert MarketShare2;
+        system.assert(MarketShare2.id!=null);       
         
         MYBZ_Target_Goal__c TargetGoal = New MYBZ_Target_Goal__c();
         TargetGoal.Name='TestTargetGoal';
@@ -149,6 +169,31 @@ public class Test_MYBZ_RegionRollup_Controller{
         PTD.TRx_Units__c=1;
         Insert PTD;
         system.assert(PTD.id!=null);
+        
+        MYBZ_Product_Trend_Detail__c PTD2 = New MYBZ_Product_Trend_Detail__c();
+        PTD2.Area__c=Region.ID;
+        PTD2.District__c=District.ID;
+        PTD2.End_Date__c=Date.ValueOf('2015-02-21')+30;
+        PTD2.Global_ID__c='xxxxx';
+        PTD.IHS_Product__c=IHSProduct.ID;
+        PTD2.Range__c='6M';
+        PTD2.Start_Date__c=Date.ValueOf('2015-02-21');
+        PTD2.Territory__c=Territory.ID;
+        PTD2.TRx_Units__c=5;
+        Insert PTD2;
+        system.assert(PTD2.id!=null);
+        
+        MYBZ_Product_Trend_Detail__c PTD3 = New MYBZ_Product_Trend_Detail__c();
+        PTD3.Area__c=Region.ID;
+        PTD3.District__c=District.ID;
+        PTD3.HCP_First_Name__c='Test';
+        PTD3.Global_ID__c='xxxxx';
+        PTD3.IHS_Product__c=IHSProduct.ID;
+        PTD3.HCP_Last_Name__c='Test';
+        PTD3.Range__c='6M';
+        PTD3.Territory__c=Territory.ID;
+        Insert PTD3;
+        system.assert(PTD3.id!=null);
         
         MYBZ_Call_Planning__c CallPlanning = New MYBZ_Call_Planning__c();
         CallPlanning.Name='Test';         
@@ -216,6 +261,17 @@ public class Test_MYBZ_RegionRollup_Controller{
         Insert CallPlanning5;  
         system.assert(CallPlanning5.id!=null);
     
+        MYBZ_Call_Planning__c CallPlanning6 = New MYBZ_Call_Planning__c();
+        CallPlanning6.Name='Test';        
+        CallPlanning6.Global_ID__c='yyyyy';               
+        CallPlanning6.Territory__c=Territory2.ID;        
+        CallPlanning6.Physician_ID__c = 'ppp';
+        CallPlanning6.Start_Date_1M__c = DateTime.valueOfGMT('2015-01-21 00:00:00');
+        CallPlanning6.Start_Date_3M__c = DateTime.valueOfGMT('2015-01-21 00:00:00');
+        CallPlanning6.Start_Date_6M__c = DateTime.valueOfGMT('2015-01-21 00:00:00');
+        Insert CallPlanning6;
+        system.assert(CallPlanning6.id!=null);
+        
         MYBZ_Call__c Call = New MYBZ_Call__c();
         Call.Call_Date__c=null;
         Call.Call_Type__c='Test';
@@ -276,6 +332,17 @@ public class Test_MYBZ_RegionRollup_Controller{
         Insert Call3;
         system.assert(Call3.id!=null);
         
+        MYBZ_Call__c Call4 = New MYBZ_Call__c();
+        Call4.Call_Date__c=DateTime.valueOfGMT('2015-01-21 00:00:00');
+        Call4.Product__c=IHSProduct2.ID; 
+        Call4.Global_ID__c='yyyyy';
+        Call4.Product_Position__c=2;
+        Call4.Territory__c=Territory2.ID;
+        Call4.Name='Test';
+        Call4.Physician_ID__c = 'ppp';
+        Call4.Call_ID__c='A103';
+        Insert Call4;
+        system.assert(Call4.id!=null);  
         
         MYBZ_CallPlanningProductJunction__c  callPlanJunction1 = new MYBZ_CallPlanningProductJunction__c();
         callPlanJunction1.Call_Planning__c = CallPlanning1.id;
@@ -303,12 +370,18 @@ public class Test_MYBZ_RegionRollup_Controller{
         insert callPlanJunction6;
         system.assert(callPlanJunction6.id!=null);
         
+        MYBZ_CallPlanningProductJunction__c  callPlanJunction7 = new MYBZ_CallPlanningProductJunction__c();
+        callPlanJunction7.Call_Planning__c = CallPlanning6.id;
+        callPlanJunction7.Physician_ID__c ='qqq';
+        insert callPlanJunction7;
+        system.assert(callPlanJunction7.id!=null);
+        
         List<MYBZ_Region_Rollup__c> regionRollUp = new List<MYBZ_Region_Rollup__c>();
         List<string> alignments = new List<String>{'Region', 'District', 'Territory'};
         for(integer i=0; i< 3; i++){
           MYBZ_Region_Rollup__c eachRegionRollup = new MYBZ_Region_Rollup__c();
           MYBZ_Region_Rollup__c eachRegionRollup1 = new MYBZ_Region_Rollup__c();
-          
+          MYBZ_Region_Rollup__c eachRegionRollup2 = new MYBZ_Region_Rollup__c();
           
           eachRegionRollup.Alignment_Level__c = alignments.get(i);
           eachRegionRollup.Region__c = Region.id;
@@ -381,6 +454,17 @@ public class Test_MYBZ_RegionRollup_Controller{
           eachRegionRollup1.Global_ID__c = 'xxxxx';
           regionRollUp.add(eachRegionRollup1);
           
+          eachRegionRollup2.Alignment_Level__c = alignments.get(i);
+          eachRegionRollup2.Region__c = Region.id;
+          eachRegionRollup2.District__c = District.id;
+          eachRegionRollup2.Product__c = IHSProduct2.ID;
+          eachRegionRollup2.Territory__c = Territory2.id;
+          eachRegionRollup2.DDD_Dollars_1M__c = 1;
+          eachRegionRollup2.DDD_Dollars_3M__c = 1;
+          eachRegionRollup2.DDD_Dollars_6M__c = 1;
+          eachRegionRollup2.Global_ID__c = 'yyyyy';
+          regionRollUp.add(eachRegionRollup2);
+          
         }
         insert regionRollUp;
         
@@ -391,17 +475,7 @@ public class Test_MYBZ_RegionRollup_Controller{
        }
     
        
-        /*
-        * @Method Name                    :  testRegionRollup
-        * @Description                    :  method to call Region Roll up report  using Territory picker                                                                   
-        * @Return Type                    :  Returns JSON Object for Region Roll up
-        * @Param                          :      
-        */
-        static Object testRegionRollup(){
-             Test_MYBZ_RegionRollup_Controller.insertTestData();
-             Obj=MYBZ_Region_Rollup_Controller.RegionRollup(Region.Name,District.Name,Territory.Name);
-             return Obj;
-        }
+        
         
         /*
         * @Method Name                    :  testRegionRollup1
@@ -410,20 +484,11 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testRegionRollup1(){
-             Obj=MYBZ_Region_Rollup_Controller.RegionRollup1(); 
+             Obj=MYBZ_Region_Rollup_Controller.RegionRollup(); 
              return obj;        
         }
         
-        /*
-        * @Method Name                    :  testAlignment1
-        * @Description                    :  method to generate Alignment information without using Territory picker                                                                   
-        * @Return Type                    :  Returns JSON Object for Alignment
-        * @Param                          :      
-        */
-        static Object testAlignment1(){
-             Obj=MYBZ_Region_Rollup_Controller.Alignment1();
-             return Obj;
-        }
+       
         
         /*
         * @Method Name                    :  testAlignment
@@ -432,7 +497,8 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testAlignment(){
-            Obj=MYBZ_Region_Rollup_Controller.Alignment(Region.Name,District.Name,Territory.Name);
+            insertTestData();
+            Obj=MYBZ_Region_Rollup_Controller.Alignment();
             return Obj;
         }
         
@@ -443,7 +509,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testTargetGoal(){
-            Obj=MYBZ_Region_Rollup_Controller.TargetGoal(Region.Name,District.Name,Territory.Name);
+            Obj=MYBZ_Region_Rollup_Controller.TargetGoalUsingPicker(Region.Name,District.Name,Territory.Name);
             return Obj;
         }
         
@@ -454,7 +520,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testTargetGoal1(){
-            Obj=MYBZ_Region_Rollup_Controller.TargetGoal1(); 
+            Obj=MYBZ_Region_Rollup_Controller.TargetGoal(); 
             return Obj;        
         }
         
@@ -465,7 +531,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testProductTrends(){       
-            Obj=MYBZ_Region_Rollup_Controller.ProductTrends(Region.Name,District.Name,Territory.Name);
+            Obj=MYBZ_Region_Rollup_Controller.ProductTrendsUsingPicker(Region.Name,District.Name,Territory.Name);
             return Obj;
         }
         
@@ -476,7 +542,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testProductTrends1(){
-            Obj=MYBZ_Region_Rollup_Controller.ProductTrends1();
+            Obj=MYBZ_Region_Rollup_Controller.ProductTrends();
             return Obj;        
         }
         
@@ -487,7 +553,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testMarketShare(){
-            Obj = MYBZ_Region_Rollup_Controller.MarketShare(Region.Name,District.Name,Territory.Name);  
+            Obj = MYBZ_Region_Rollup_Controller.MarketShareUsingPicker(Region.Name,District.Name,Territory.Name);  
             return Obj;
         }
         
@@ -498,7 +564,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testMarketShare1(){
-            Obj = MYBZ_Region_Rollup_Controller.MarketShare1();
+            Obj = MYBZ_Region_Rollup_Controller.MarketShare();
             return Obj;
         }
         
@@ -509,7 +575,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testTrendsPrescriber1(){
-            Obj = MYBZ_Region_Rollup_Controller.TrendsPrescriber1();                     
+            Obj = MYBZ_Region_Rollup_Controller.TrendsPrescriber();                     
             return Obj;
         }
         
@@ -520,7 +586,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testTrendsPrescriber(){
-            Obj = MYBZ_Region_Rollup_Controller.TrendsPrescriber(Region.Name,District.Name,Territory.Name);                     
+            Obj = MYBZ_Region_Rollup_Controller.TrendsPrescriberUsingPicker(Region.Name,District.Name,Territory.Name);                     
             return Obj;
         }
         
@@ -531,7 +597,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */        
         static Object testcallPlanning(){
-            Obj=MYBZ_Region_Rollup_Controller.callPlanning(Region.Name,District.Name,Territory.Name);
+            Obj=MYBZ_Region_Rollup_Controller.callPlanningUsingPicker(Region.Name,District.Name,Territory.Name);
             return Obj;
         }
         
@@ -542,7 +608,7 @@ public class Test_MYBZ_RegionRollup_Controller{
         * @Param                          :      
         */
         static Object testcallPlanning1(){
-            Obj= MYBZ_Region_Rollup_Controller.callPlanning1();            
+            Obj= MYBZ_Region_Rollup_Controller.callPlanning();            
             return Obj;
         }
         
@@ -560,28 +626,31 @@ public class Test_MYBZ_RegionRollup_Controller{
         User runAsUser = createUser('Sales Representative');             
         System.runas(runAsUser){ 
             // Asserting the JSONs generated from querying records for each report after selection done using Territory picker
-            Obj=testRegionRollup();
-            System.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ] }'),obj);  
             Obj=testAlignment();
-            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ] } ]'),obj);  
+            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory2", "globalID" : "yyyyy" }, { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ]} ]'),obj);  
             Obj=testcallPlanning(); 
             system.assertEquals(JSON.deserializeUntyped('{  "startDate1Month" : null,  "startDate3Month" : null,  "startDate6Month" : null,  "data" : [ {    "firstName" : "FirstName",    "lastName" : "LastName",    "tier" : "1",    "products" : [ {      "name" : null,      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    }, {      "name" : "EFFIENT",      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    } ],    "calls" : [ {      "date" : null,      "type" : "Test",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    }, {      "date" : null,      "type" : "Sample Only",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    } ]  } ]}'),Obj);
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();           
-            System.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ] }'),obj);  
-            Obj=testAlignment1();
-            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ] } ]'),obj);  
+            system.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory2", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ] }, { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ]}'),Obj);
             Obj=testTargetGoal1();
             system.assertEquals(JSON.deserializeUntyped('[ { "month" : 1, "year" : 2015, "goals" : [ { "productName" : "EFFIENT", "goalSet" : 2, "goalMet" : 2 }, { "productName" : "EFFIENT", "goalSet" : 2, "goalMet" : 2 } ] } ]'),Obj);
             Obj=testTrendsPrescriber1();
-            system.assertEquals(JSON.deserializeUntyped('[ {  "month" : 1,  "year" : 2015,  "products" : [ {    "product" : "EFFIENT",    "topFivePrescribers" : [ {      "prescriberFirstName" : "Test",      "prescriberLastName" : "Test",      "trx" : 1.00    } ]  } ]} ]'), Obj);
+            system.assertEquals(JSON.deserializeUntyped('[ {  "month" : 1,  "year" : 2015,  "products" : [ {    "product" : "EFFIENT",    "topFivePrescribers" : [ {      "prescriberFirstName" : "Test",      "prescriberLastName" : "Test",      "trx" : 1.00    } ]  } ]}, {  "month" : 2,  "year" : 2015,  "products" : [ {    "prescriberFirstName" : null,    "prescriberLastName" : null,    "trx" : 5.00  } ]} ]'), Obj);
             Obj=testProductTrends1();            
             system.assertEquals(JSON.deserializeUntyped('[ {   "month" : 1,   "year" : 2015,   "products" : [ {     "productName" : "TestProduct2",     "trx" : 1,     "dddDollars" : 1.00,     "dddUnits" : 1.00,     "percentageChangeFromPreviousMonthTRx" : 0.00,     "percentageChangeFromPreviousMonthDDDDollars" : 0.00,     "percentageChangeFromPreviousMonthDDDUnits" : 0.00,     "lillyProduct" : true   }, {     "productName" : "EFFIENT",     "trx" : 1,     "dddDollars" : 1.00,     "dddUnits" : 1.00,     "percentageChangeFromPreviousMonthTRx" : 0.00,     "percentageChangeFromPreviousMonthDDDDollars" : 0.00,     "percentageChangeFromPreviousMonthDDDUnits" : 0.00,     "lillyProduct" : true   } ] } ]'),Obj);
             Obj=testcallPlanning1(); 
             system.assertEquals(JSON.deserializeUntyped('{  "startDate1Month" : null,  "startDate3Month" : null,  "startDate6Month" : null,  "data" : [ {    "firstName" : "FirstName",    "lastName" : "LastName",    "tier" : "1",    "products" : [ {      "name" : null,      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    }, {      "name" : "EFFIENT",      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    } ],    "calls" : [ {      "date" : null,      "type" : "Test",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    }, {      "date" : null,      "type" : "Sample Only",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    } ]  } ]}'),Obj);
             Obj=testMarketShare1();
-            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
+            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true,  "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true,"dddUnits" : 1.00,  "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
+            
+            runAsUser.Prsnl_Nbr_GLBL__c='yyyyy';
+            update runAsUser;
+            Obj=testcallPlanning1(); 
+            Obj=testRegionRollup1();
+            Obj=testProductTrends1();  
+            Obj=testMarketShare1();
         }
     }
     
@@ -597,32 +666,28 @@ public class Test_MYBZ_RegionRollup_Controller{
         
         System.runas(runAsUser){ 
             // Asserting the JSONs generated from querying records for each report after selection done using Territory picker
-            Obj=testRegionRollup();
-            System.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ] }'),obj);  
             Obj=testAlignment();            
-            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ] } ]'),obj);  
+            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory2", "globalID" : "yyyyy" }, { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ]} ]'),obj);
             Obj=testTargetGoal();            
             System.assertEquals(JSON.deserializeUntyped('[ { "month" : 1, "year" : 2015, "goals" : [ { "productName" : "EFFIENT", "goalSet" : 2, "goalMet" : 2 } ] } ]'),obj);  
             Obj=testProductTrends();
-            Obj=testcallPlanning(); 
-            system.assertEquals(JSON.deserializeUntyped('{  "startDate1Month" : null,  "startDate3Month" : null,  "startDate6Month" : null,  "data" : [ {    "firstName" : "FirstName",    "lastName" : "LastName",    "tier" : "1",    "products" : [ {      "name" : null,      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    }, {      "name" : "EFFIENT",      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    } ]  } ]}'),Obj);
+            Obj=testcallPlanning();
+            System.assertEquals(JSON.deserializeUntyped('{  "startDate1Month" : null,  "startDate3Month" : null,  "startDate6Month" : null,  "data" : [ {    "firstName" : "FirstName",    "lastName" : "LastName",    "tier" : "1",    "products" : [ {      "name" : null,      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    }, {      "name" : "EFFIENT",      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    } ]  } ]}'),obj);  
             Obj=testMarketShare(); 
             
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
-            System.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ] }'),obj);  
-            Obj=testAlignment1();
-            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ] } ]'),obj);  
+            system.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory2", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ] }, { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ]}'),Obj);
             Obj=testTargetGoal1();
             system.assertEquals(JSON.deserializeUntyped('[ { "month" : 1, "year" : 2015, "goals" : [ { "productName" : "EFFIENT", "goalSet" : 2, "goalMet" : 2 } ] } ]'),Obj);
             Obj=testTrendsPrescriber1();
-            system.assertEquals(JSON.deserializeUntyped('[ {  "month" : 1,  "year" : 2015,  "products" : [ {    "product" : "EFFIENT",    "topFivePrescribers" : [ {      "prescriberFirstName" : "Test",      "prescriberLastName" : "Test",      "trx" : 1.00    } ]  } ]} ]'), Obj);
+            system.assertEquals(JSON.deserializeUntyped('[ {  "month" : 1,  "year" : 2015,  "products" : [ {    "product" : "EFFIENT",    "topFivePrescribers" : [ {      "prescriberFirstName" : "Test",      "prescriberLastName" : "Test",      "trx" : 1.00    } ]  } ]}, {  "month" : 2,  "year" : 2015,  "products" : [ {    "prescriberFirstName" : null,    "prescriberLastName" : null,    "trx" : 5.00  } ]} ]'), Obj);
             Obj=testProductTrends1();            
             system.assertEquals(JSON.deserializeUntyped('[ {   "month" : 1,   "year" : 2015,   "products" : [ {     "productName" : "TestProduct2",     "trx" : 1,     "dddDollars" : 1.00,     "dddUnits" : 1.00,     "percentageChangeFromPreviousMonthTRx" : 0.00,     "percentageChangeFromPreviousMonthDDDDollars" : 0.00,     "percentageChangeFromPreviousMonthDDDUnits" : 0.00,     "lillyProduct" : true   }, {     "productName" : "EFFIENT",     "trx" : 1,     "dddDollars" : 1.00,     "dddUnits" : 1.00,     "percentageChangeFromPreviousMonthTRx" : 0.00,     "percentageChangeFromPreviousMonthDDDDollars" : 0.00,     "percentageChangeFromPreviousMonthDDDUnits" : 0.00,     "lillyProduct" : true   } ] } ]'),Obj);
             Obj=testcallPlanning1();            
             Obj=testMarketShare1();
-            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
+            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true,  "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true, "dddUnits" : 1.00,  "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
         }
     }
     
@@ -638,12 +703,10 @@ public class Test_MYBZ_RegionRollup_Controller{
         User runAsUser = createUser('District Sales Manager');             
         System.runas(runAsUser){ 
            // Asserting the JSONs generated from querying records for each report after selection done using Territory picker
-            Obj=testRegionRollup();
-            System.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ] }'),obj);  
             Obj=testAlignment();
-            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ] } ]'),obj);  
+            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory2", "globalID" : "yyyyy" }, { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ]} ]'),obj);
             Obj=testTrendsPrescriber();
-            System.assertEquals(JSON.deserializeUntyped('[ {  "month" : 1,  "year" : 2015,  "products" : [ {    "product" : "EFFIENT",    "topFivePrescribers" : [ {      "prescriberFirstName" : "Test",      "prescriberLastName" : "Test",      "trx" : 1.00    } ]  } ]} ]'),obj); 
+            system.assertEquals(JSON.deserializeUntyped('[ {  "month" : 1,  "year" : 2015,  "products" : [ {    "product" : "EFFIENT",    "topFivePrescribers" : [ {      "prescriberFirstName" : "Test",      "prescriberLastName" : "Test",      "trx" : 1.00    } ]  } ]}, {  "month" : 2,  "year" : 2015,  "products" : [ {    "prescriberFirstName" : null,    "prescriberLastName" : null,    "trx" : 5.00  } ]} ]'), Obj);
             Obj=testTargetGoal();            
             System.assertEquals(JSON.deserializeUntyped('[ { "month" : 1, "year" : 2015, "goals" : [ { "productName" : "EFFIENT", "goalSet" : 2, "goalMet" : 2 } ] } ]'),obj);  
             Obj=testProductTrends();            
@@ -651,23 +714,21 @@ public class Test_MYBZ_RegionRollup_Controller{
             Obj=testcallPlanning(); 
             system.assertEquals(JSON.deserializeUntyped('{  "startDate1Month" : null,  "startDate3Month" : null,  "startDate6Month" : null,  "data" : [ {    "firstName" : "FirstName",    "lastName" : "LastName",    "tier" : "1",    "products" : [ {      "name" : null,      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    }, {      "name" : "EFFIENT",      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    } ],    "calls" : [ {      "date" : null,      "type" : "Test",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    }, {      "date" : null,      "type" : "Sample Only",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    } ]  } ]}'),Obj);
             Obj=testMarketShare(); 
-            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
+            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true,  "dddUnits" : 1.00,"percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true,  "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
-            System.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ] }'),obj);  
-            Obj=testAlignment1();
-            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ] } ]'),obj);  
+            system.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory2", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ] }, { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ]}'),Obj);
             Obj=testTargetGoal1();
             system.assertEquals(JSON.deserializeUntyped('[ { "month" : 1, "year" : 2015, "goals" : [ { "productName" : "EFFIENT", "goalSet" : 2, "goalMet" : 2 } ] } ]'),Obj);
             Obj=testTrendsPrescriber1();
-            system.assertEquals(JSON.deserializeUntyped('[ {  "month" : 1,  "year" : 2015,  "products" : [ {    "product" : "EFFIENT",    "topFivePrescribers" : [ {      "prescriberFirstName" : "Test",      "prescriberLastName" : "Test",      "trx" : 1.00    } ]  } ]} ]'), Obj);
+            system.assertEquals(JSON.deserializeUntyped('[ {  "month" : 1,  "year" : 2015,  "products" : [ {    "product" : "EFFIENT",    "topFivePrescribers" : [ {      "prescriberFirstName" : "Test",      "prescriberLastName" : "Test",      "trx" : 1.00    } ]  } ]}, {  "month" : 2,  "year" : 2015,  "products" : [ {    "prescriberFirstName" : null,    "prescriberLastName" : null,    "trx" : 5.00  } ]} ]'), Obj);
             Obj=testProductTrends1();            
             system.assertEquals(JSON.deserializeUntyped('[ {   "month" : 1,   "year" : 2015,   "products" : [ {     "productName" : "TestProduct2",     "trx" : 1,     "dddDollars" : 1.00,     "dddUnits" : 1.00,     "percentageChangeFromPreviousMonthTRx" : 0.00,     "percentageChangeFromPreviousMonthDDDDollars" : 0.00,     "percentageChangeFromPreviousMonthDDDUnits" : 0.00,     "lillyProduct" : true   }, {     "productName" : "EFFIENT",     "trx" : 1,     "dddDollars" : 1.00,     "dddUnits" : 1.00,     "percentageChangeFromPreviousMonthTRx" : 0.00,     "percentageChangeFromPreviousMonthDDDDollars" : 0.00,     "percentageChangeFromPreviousMonthDDDUnits" : 0.00,     "lillyProduct" : true   } ] } ]'),Obj);
             Obj=testcallPlanning1(); 
             system.assertEquals(JSON.deserializeUntyped('{  "startDate1Month" : null,  "startDate3Month" : null,  "startDate6Month" : null,  "data" : [ {    "firstName" : "FirstName",    "lastName" : "LastName",    "tier" : "1",    "products" : [ {      "name" : null,      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    }, {      "name" : "EFFIENT",      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    } ],    "calls" : [ {      "date" : null,      "type" : "Test",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    }, {      "date" : null,      "type" : "Sample Only",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    } ]  } ]}'),Obj);
             Obj=testMarketShare1();
-            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
+            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true,  "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true,  "dddUnits" : 1.00,  "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
         }
     }
     
@@ -682,10 +743,8 @@ public class Test_MYBZ_RegionRollup_Controller{
         User runAsUser = createUser('Account Manager');             
         System.runas(runAsUser){ 
             // Asserting the JSONs generated from querying records for each report after selection done using Territory picker 
-            Obj=testRegionRollup();
-            System.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ] }'),obj);  
             Obj=testAlignment();
-            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ] } ]'),obj);  
+            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory2", "globalID" : "yyyyy" }, { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ]} ]'),obj);
             Obj=testTargetGoal();            
             System.assertEquals(JSON.deserializeUntyped('[ { "month" : 1, "year" : 2015, "goals" : [ { "productName" : "EFFIENT", "goalSet" : 2, "goalMet" : 2 } ] } ]'),obj);  
             Obj=testProductTrends();
@@ -693,25 +752,23 @@ public class Test_MYBZ_RegionRollup_Controller{
             Obj=testcallPlanning(); 
             system.assertEquals(JSON.deserializeUntyped('{  "startDate1Month" : null,  "startDate3Month" : null,  "startDate6Month" : null,  "data" : [ {    "firstName" : "FirstName",    "lastName" : "LastName",    "tier" : "1",    "products" : [ {      "name" : null,      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    }, {      "name" : "EFFIENT",      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    } ],    "calls" : [ {      "date" : null,      "type" : "Test",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    }, {      "date" : null,      "type" : "Sample Only",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    } ]  } ]}'),Obj);
             Obj=testMarketShare(); 
-            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
+            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true,  "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true, "dddUnits" : 1.00,  "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
             
             //Asserting the JSONs generated from querying records for each report without using Territory picker
             Obj=testRegionRollup1();           
-            System.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ] }'),obj);  
-            Obj=testAlignment1();
-            System.assertEquals(JSON.deserializeUntyped('[ { "name" : "TestRegion", "globalID" : "xxxxx", "children" : [ { "name" : "TestDistrict", "globalID" : "xxxxx", "children" : [ { "name" : "TestTerritory", "globalID" : "xxxxx" } ] } ] } ]'),obj);  
+            system.assertEquals(JSON.deserializeUntyped('{ "name" : "TestDivision", "opexStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "netProfitStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "grossMarginsStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "trxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "nrxStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "dddStartDates" : { "oneMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "threeMonthDataStartDate" : "2015-01-21T00:00:00.000Z", "sixMonthDataStartDate" : "2015-01-21T00:00:00.000Z" }, "children" : [ { "name" : "TestRegion", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestDistrict", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "opex" : 1.00, "grossMargins" : 1.00, "netProfit" : 1.00, "dddDollars" : 1.00 } ], "children" : [ { "name" : "TestTerritory2", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : null, "nrxValue" : null, "dddDollars" : 1.00 } ] }, { "name" : "TestTerritory", "oneMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "threeMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ], "sixMonthData" : [ { "name" : "TestProduct2", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : null }, { "name" : "EFFIENT", "trxValue" : 1.00, "nrxValue" : 1.00, "dddDollars" : 1.00 } ] } ] } ] } ]}'),Obj);
             Obj=testTargetGoal1();
             system.assertEquals(JSON.deserializeUntyped('[ { "month" : 1, "year" : 2015, "goals" : [ { "productName" : "EFFIENT", "goalSet" : 2, "goalMet" : 2 } ] } ]'),Obj);
             Obj=testTrendsPrescriber1();
-            system.assertEquals(JSON.deserializeUntyped('[ {  "month" : 1,  "year" : 2015,  "products" : [ {    "product" : "EFFIENT",    "topFivePrescribers" : [ {      "prescriberFirstName" : "Test",      "prescriberLastName" : "Test",      "trx" : 1.00    } ]  } ]} ]'), Obj);
+            system.assertEquals(JSON.deserializeUntyped('[ {  "month" : 1,  "year" : 2015,  "products" : [ {    "product" : "EFFIENT",    "topFivePrescribers" : [ {      "prescriberFirstName" : "Test",      "prescriberLastName" : "Test",      "trx" : 1.00    } ]  } ]}, {  "month" : 2,  "year" : 2015,  "products" : [ {    "prescriberFirstName" : null,    "prescriberLastName" : null,    "trx" : 5.00  } ]} ]'), Obj);
             Obj=testProductTrends1();            
             system.assertEquals(JSON.deserializeUntyped('[ {   "month" : 1,   "year" : 2015,   "products" : [ {     "productName" : "TestProduct2",     "trx" : 1,     "dddDollars" : 1.00,     "dddUnits" : 1.00,     "percentageChangeFromPreviousMonthTRx" : 0.00,     "percentageChangeFromPreviousMonthDDDDollars" : 0.00,     "percentageChangeFromPreviousMonthDDDUnits" : 0.00,     "lillyProduct" : true   }, {     "productName" : "EFFIENT",     "trx" : 1,     "dddDollars" : 1.00,     "dddUnits" : 1.00,     "percentageChangeFromPreviousMonthTRx" : 0.00,     "percentageChangeFromPreviousMonthDDDDollars" : 0.00,     "percentageChangeFromPreviousMonthDDDUnits" : 0.00,     "lillyProduct" : true   } ] } ]'),Obj);
             Obj=testcallPlanning1(); 
             system.assertEquals(JSON.deserializeUntyped('{  "startDate1Month" : null,  "startDate3Month" : null,  "startDate6Month" : null,  "data" : [ {    "firstName" : "FirstName",    "lastName" : "LastName",    "tier" : "1",    "products" : [ {      "name" : null,      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    }, {      "name" : "EFFIENT",      "scriptsWrittenPastMonth" : 1.00,      "scriptsWrittenPastThreeMonths" : 1.00,      "scriptsWrittenPastSixMonths" : 1.00,      "percentageChangePastMonth" : 0.00,      "percentageChangePastThreeMonths" : 0.00,      "percentageChangePastSixMonths" : 0.00    } ],    "calls" : [ {      "date" : null,      "type" : "Test",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    }, {      "date" : null,      "type" : "Sample Only",      "product1" : "EFFIENT",      "product2" : "TestProduct2"    } ]  } ]}'),Obj);
             Obj=testMarketShare1();
-            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true, "dddDollars" : 1.00, "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDDollars" : 0.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
+            System.assertEquals(JSON.deserializeUntyped('[ { "market" : "test", "data" : [ { "month" : 1, "year" : 2015, "products" : [ { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "EFFIENT", "lillyProduct" : true,  "dddUnits" : 1.00, "percentageChangeFromPreviousMonthDDDUnits" : 0.00 }, { "trx" : 1, "percentageChangeFromPreviousMonthTRx" : 0.00, "productName" : "TestProduct2", "lillyProduct" : true,  "dddUnits" : 1.00,  "percentageChangeFromPreviousMonthDDDUnits" : 0.00 } ] } ] } ]'),obj);  
         }
-    } 
+    }
   
 
 }
