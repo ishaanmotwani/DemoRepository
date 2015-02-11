@@ -1,7 +1,7 @@
 /*
 *@ Class Name                                                    : MYBZ_Region_Rollup_Controller
 *@ Description                                                   : Controller class to prepare JSONs to share data queried from various objects to Angular JS .
-                                                                   Class for retrieving salesforce data in the form of a string and returning as a JSON object via a remote action.
+Class for retrieving salesforce data in the form of a string and returning as a JSON object via a remote action.
 *@ CreatedBy                                                     : Neelam Dalwani
 *@ CreatedOn                                                     : 09-30-2014
 *                    
@@ -21,7 +21,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
     static Decimal PercentageChangeDDDUnits = 0;
     static Decimal PercentageChangeDDDDollars = 0;
     
-     
+    
     
     static JSONGenerator generator;
     static List<MYBZ_Market_Share__c> productTrendsList = new  List<MYBZ_Market_Share__c>();
@@ -42,33 +42,35 @@ global with sharing class MYBZ_Region_Rollup_Controller
     global MYBZ_Region_Rollup_Controller(){
         fetchUserInfo();
     }
-/* 
+    /* 
 * @Method Name                    :  fetchUserInfo
 * @Description                    :  Method used to get logged in user's Role and Global id as it forms the basis to fetch 
-                                     user related data for reporting .                                        
+user related data for reporting .                                        
 * @Return Type                    :  void
 * @Param                          :  
 */    
     global static void fetchUserInfo(){
         UserId = UserInfo.getUserId();      
         User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
-        Role = userObj.MYBZ_Role__c;
-        if(Role==System.Label.MYBZ_AccountManager){
-            GlobalId=userObj.MYBZ_Reporting_ID__c;
+        if(userObj!=null){
+            Role = userObj.MYBZ_Role__c;
+            if(Role==System.Label.MYBZ_AccountManager){
+                GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }
+            else{
+                GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+            }
+            uname=userObj.name;
         }
-        else{
-            GlobalId = userObj.Prsnl_Nbr_GLBL__c;
-        }
-        uname=userObj.name;
         
         
     }
     
-/* 
+    /* 
 * @Method Name                    :  countUsageMetrics
 * @Description                    :  method is used to create a new record in usage metrics report object everytime a user
-                                     opens up the report with details like datetime,globalid, type of report etc. getting stamped each time.
-                                     This object is later used to report on User activity on this application.                                        
+opens up the report with details like datetime,globalid, type of report etc. getting stamped each time.
+This object is later used to report on User activity on this application.                                        
 * @Return Type                    :  void
 * @Param                          :  
 */
@@ -105,115 +107,139 @@ global with sharing class MYBZ_Region_Rollup_Controller
     @RemoteAction 
     global static Object alignment()
     {
-         try
+        try
         {
-           fetchUserInfo();
-           generator = JSON.createGenerator(true);
+            //Call fetch user function so that Role and Global id value is available in this method.
+            fetchUserInfo();
+            
+             //Returns a new JSON generator.
+            generator = JSON.createGenerator(true);
+            
+            //Set of unique Region id's .
             Set<Id> regionIds = new Set<Id>();
+            
+            //Set of unique district id's.
             Set<Id> districtIds = new Set<Id>();
+            
+            //Checking if the division record exist. There will be only one Division record.
             MYBZ_IHS_Division__c divisionObj = [SELECT Id, Name FROM MYBZ_IHS_Division__c LIMIT 1];
-            Map<String, String> RegionNameAndGlobalIdMap = new Map<String, String>();
-            Map<String, Set<String>> RegionNameAndDistrictMap = new Map<String, Set<String>>();
-            Map<String, String> DistrictNameAndGlobalIdMap = new Map<String, String>();
-            Map<String, Set<String>> DistrictNameAndTerritoryMap = new Map<String, Set<String>>();
-            Map<String, String> TerritoryNameAndGlobalIdMap = new Map<String, String>();
-            List <MYBZ_Region_Rollup__c> regionList = [SELECT Id, Region__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Region];
-            if(!regionList.isEmpty())
+            if(divisionObj==null)
             {
-                for(MYBZ_Region_Rollup__c regionObj : regionList){
-                    if(!RegionNameAndGlobalIdMap.containsKey(regionObj.Region__r.Name)){
-                        RegionNameAndGlobalIdMap.put(regionObj.Region__r.Name, regionObj.Global_Id__c);
-                    }
-                }
+                return null;
             }
-            List <MYBZ_Region_Rollup__c> districtList = [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_District ];
-            if(!districtList.isEmpty()){
-                for(MYBZ_Region_Rollup__c districtObj : districtList){
-                    if(!RegionNameAndDistrictMap.containsKey(districtObj.Region__r.Name)){
-                        Set<String> districtNames = new Set<String>();
-                        districtNames.add(districtObj.District__r.Name);
-                        RegionNameAndDistrictMap.put(districtObj.Region__r.Name, districtNames);
-                    }
-                    else{
-                        RegionNameAndDistrictMap.get(districtObj.Region__r.Name).add(districtObj.District__r.Name);
-                    }
-                    if(!DistrictNameAndGlobalIdMap.containsKey(districtObj.District__r.Name)){
-                        DistrictNameAndGlobalIdMap.put(districtObj.District__r.Name, districtObj.Global_Id__c);
-                    }
-                }
-            }
-            List <MYBZ_Region_Rollup__c> territoryList = [SELECT Id, Territory__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory ];
-            if(!territoryList.isEmpty()){
-                for(MYBZ_Region_Rollup__c territoryObj : territoryList){
-                    if(!DistrictNameAndTerritoryMap.containsKey(territoryObj.District__r.Name)){
-                        Set<String> territoryNames = new Set<String>();
-                        territoryNames.add(territoryObj.Territory__r.Name);
-                        DistrictNameAndTerritoryMap.put(territoryObj.District__r.Name, territoryNames);
-                    }
-                    else{
-                        DistrictNameAndTerritoryMap.get(territoryObj.District__r.Name).add(territoryObj.Territory__r.Name);
-                    }
-                    if(!TerritoryNameAndGlobalIdMap.containsKey(territoryObj.Territory__r.Name)){
-                        TerritoryNameAndGlobalIdMap.put(territoryObj.Territory__r.Name, territoryObj.Global_Id__c);
-                    }
-                }
-            }
-            if(!RegionNameAndGlobalIdMap.isEmpty() && !RegionNameAndDistrictMap.isEmpty() && !DistrictNameAndGlobalIdMap.isEmpty() && !DistrictNameAndTerritoryMap.isEmpty() && !TerritoryNameAndGlobalIdMap.isEmpty()){
-                generator.writeStartArray();
-                for(String regionName : RegionNameAndGlobalIdMap.keySet()){
-                    generator.writeStartObject();
-                    generator.writeStringField(System.Label.MYBZ_Name,regionName);
-                    String regionGlobalId = RegionNameAndGlobalIdMap.get(regionName);
-                    if(regionGlobalId == null || regionGlobalId == ''){
-                                generator.writeNullField(System.Label.MYBZ_globalID); 
-                            }
-                    else{
-                            generator.writeStringField(System.Label.MYBZ_globalID,regionGlobalId);
-                    }
-                    if(RegionNameAndDistrictMap.containsKey(regionName)){
-                        generator.writeFieldName(System.Label.MYBZ_children);
-                        generator.writeStartArray();
-                        for(String districtName : RegionNameAndDistrictMap.get(regionName)){
-                            generator.writeStartObject();
-                            generator.writeStringField(System.Label.MYBZ_Name,districtName);
-                            String districtGlobalId = DistrictNameAndGlobalIdMap.get(districtName);
-                            if(districtGlobalId == null || districtGlobalId == ''){
-                                generator.writeNullField(System.Label.MYBZ_globalID); 
-                            }
-                            else{
-                            generator.writeStringField(System.Label.MYBZ_globalID,districtGlobalId);
-                            }
-                            if(DistrictNameAndTerritoryMap.containsKey(districtName)){
-                                generator.writeFieldName(System.Label.MYBZ_children);
-                                generator.writeStartArray();
-                                for(String territoryName : DistrictNameAndTerritoryMap.get(districtName)){
-                                    generator.writeStartObject();
-                                    generator.writeStringField(System.Label.MYBZ_Name,territoryName);
-                                    String territoryGlobalId = TerritoryNameAndGlobalIdMap.get(territoryName);
-                                    if(territoryGlobalId == null || territoryGlobalId == ''){
-                                        generator.writeNullField(System.Label.MYBZ_globalID); 
-                                    }   
-                                    else
-                                    {    
-                                        generator.writeStringField(System.Label.MYBZ_globalID,territoryGlobalId);
-                                    }
-                                    generator.writeEndObject();
-                                }
-                                generator.writeEndArray();
-                            }
-                            generator.writeEndObject();
+            else
+            {
+                //Map of Region name and its global id.
+                Map<String, String> RegionNameAndGlobalIdMap = new Map<String, String>();
+                //Map of Region name and its associated districts.
+                Map<String, Set<String>> RegionNameAndDistrictMap = new Map<String, Set<String>>();
+                //Map of District Name and its Global id.
+                Map<String, String> DistrictNameAndGlobalIdMap = new Map<String, String>();
+                //Map of District name and its associated territory.
+                Map<String, Set<String>> DistrictNameAndTerritoryMap = new Map<String, Set<String>>();
+                //Map of Territory and its Global id.
+                Map<String, String> TerritoryNameAndGlobalIdMap = new Map<String, String>();
+               
+                    for(MYBZ_Region_Rollup__c regionObj : [SELECT Id, Region__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Region]){
+                        if(!RegionNameAndGlobalIdMap.containsKey(regionObj.Region__r.Name)){
+                            RegionNameAndGlobalIdMap.put(regionObj.Region__r.Name, regionObj.Global_Id__c);
                         }
-                        generator.writeEndArray();
                     }
-                    generator.writeEndObject();
+             
+                    for(MYBZ_Region_Rollup__c districtObj : [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_District ]){
+                        if(!RegionNameAndDistrictMap.containsKey(districtObj.Region__r.Name)){
+                            Set<String> districtNames = new Set<String>();
+                            districtNames.add(districtObj.District__r.Name);
+                            RegionNameAndDistrictMap.put(districtObj.Region__r.Name, districtNames);
+                        }
+                        else{
+                            RegionNameAndDistrictMap.get(districtObj.Region__r.Name).add(districtObj.District__r.Name);
+                        }
+                        if(!DistrictNameAndGlobalIdMap.containsKey(districtObj.District__r.Name)){
+                            DistrictNameAndGlobalIdMap.put(districtObj.District__r.Name, districtObj.Global_Id__c);
+                        }
+                    }
+             
+                    for(MYBZ_Region_Rollup__c territoryObj : [SELECT Id, Territory__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory ]){
+                        if(!DistrictNameAndTerritoryMap.containsKey(territoryObj.District__r.Name)){
+                            Set<String> territoryNames = new Set<String>();
+                            territoryNames.add(territoryObj.Territory__r.Name);
+                            DistrictNameAndTerritoryMap.put(territoryObj.District__r.Name, territoryNames);
+                        }
+                        else{
+                            DistrictNameAndTerritoryMap.get(territoryObj.District__r.Name).add(territoryObj.Territory__r.Name);
+                        }
+                        if(!TerritoryNameAndGlobalIdMap.containsKey(territoryObj.Territory__r.Name)){
+                            TerritoryNameAndGlobalIdMap.put(territoryObj.Territory__r.Name, territoryObj.Global_Id__c);
+                        }
+                    }
+             
+                if(!RegionNameAndGlobalIdMap.isEmpty() && !RegionNameAndDistrictMap.isEmpty() && !DistrictNameAndGlobalIdMap.isEmpty() && !DistrictNameAndTerritoryMap.isEmpty() && !TerritoryNameAndGlobalIdMap.isEmpty()){
+                    generator.writeStartArray();
+                    for(String regionName : RegionNameAndGlobalIdMap.keySet()){
+                        //Writes the starting marker of a JSON Object.
+                        generator.writeStartObject();
+                        //Start of writing the JSON fields.
+                        generator.writeStringField(System.Label.MYBZ_Name,regionName);
+                        String regionGlobalId = RegionNameAndGlobalIdMap.get(regionName);
+                        if(regionGlobalId == null || regionGlobalId == ''){
+                            generator.writeNullField(System.Label.MYBZ_globalID); 
+                        }
+                        else{
+                            generator.writeStringField(System.Label.MYBZ_globalID,regionGlobalId);
+                        }
+                        if(RegionNameAndDistrictMap.containsKey(regionName)){
+                            generator.writeFieldName(System.Label.MYBZ_children);
+                            
+                            generator.writeStartArray();
+                            for(String districtName : RegionNameAndDistrictMap.get(regionName)){
+                                
+                                //Writes the starting marker of a JSON Object.
+                                generator.writeStartObject();
+                                generator.writeStringField(System.Label.MYBZ_Name,districtName);
+                                String districtGlobalId = DistrictNameAndGlobalIdMap.get(districtName);
+                                if(districtGlobalId == null || districtGlobalId == ''){
+                                    generator.writeNullField(System.Label.MYBZ_globalID); 
+                                }
+                                else{
+                                    generator.writeStringField(System.Label.MYBZ_globalID,districtGlobalId);
+                                }
+                                if(DistrictNameAndTerritoryMap.containsKey(districtName)){
+                                    generator.writeFieldName(System.Label.MYBZ_children);
+                                    
+                                    //Writes the starting marker of a JSON Array.
+                                    generator.writeStartArray();
+                                    for(String territoryName : DistrictNameAndTerritoryMap.get(districtName)){
+                                        generator.writeStartObject();
+                                        generator.writeStringField(System.Label.MYBZ_Name,territoryName);
+                                        String territoryGlobalId = TerritoryNameAndGlobalIdMap.get(territoryName);
+                                        if(territoryGlobalId == null || territoryGlobalId == ''){
+                                            generator.writeNullField(System.Label.MYBZ_globalID); 
+                                        }   
+                                        else
+                                        {    
+                                            generator.writeStringField(System.Label.MYBZ_globalID,territoryGlobalId);
+                                        }
+                                        generator.writeEndObject();
+                                    }
+                                    generator.writeEndArray();
+                                }
+                                generator.writeEndObject();
+                            }
+                            //Writes the ending marker of a JSON Array.
+                            generator.writeEndArray();
+                        }
+                        //Writes the ending marker of a JSON Object.
+                        generator.writeEndObject();
+                    }
+                    generator.writeEndArray();
                 }
-                generator.writeEndArray();
+                String sdata = generator.getAsString();
+                System.debug('--Alignment'+sdata );
+                Object obj = Json.deserializeUntyped(sdata);
+                return obj;
             }
-            String sdata = generator.getAsString();
-            System.debug('--Alignment'+sdata );
-            Object obj = Json.deserializeUntyped(sdata);
-            return obj;
-        }
+        }    
         catch(Exception E) 
         {
             system.debug('Exception occurred during execution of Alignment method' + e);
@@ -225,13 +251,13 @@ global with sharing class MYBZ_Region_Rollup_Controller
             return null ;
         }
     }
-/* 
+    /* 
 * @Method Name                    :  productTrendsUsingPicker
 * @Description                    :  JavaScript remoting to allow Product Trends records for each month to be retrieved from Salesforce in the form of a JSON object 
 *                                    in the presence of a territory picker.                                      
 * @Return Type                    :  object
 * @Param                          :  Region - The region associated to the territory selected, District - The district associated to the territory selected
-                                     Territory - The territory selected via a territory picker. 
+Territory - The territory selected via a territory picker. 
 */    
     @RemoteAction 
     global static Object productTrendsUsingPicker(String region, String district, String territory)
@@ -270,15 +296,15 @@ global with sharing class MYBZ_Region_Rollup_Controller
         return ProductTrendsObject;
         
     }
-  
-/* 
+    
+    /* 
 * @Method Name                    :  productTrends
 * @Description                    :  JavaScript remoting to allow Product Trends records for each month to be retrieved from Salesforce in the form of a JSON object 
 *                                    in the absence of a territory picker.                                           
 * @Return Type                    :  object
 * @Param                          :   
 */
-
+    
     @RemoteAction
     global static Object productTrends()
     {
@@ -302,8 +328,9 @@ global with sharing class MYBZ_Region_Rollup_Controller
                 productTrendsList.clear();
                 
                 MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c LIMIT 1];
-                
-                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+                if(territoryObj!=null){
+                    productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+                }
             }
         }
         catch(Exception E) 
@@ -320,8 +347,8 @@ global with sharing class MYBZ_Region_Rollup_Controller
         return ProductTrendsObject;
         
     }
- 
-/* 
+    
+    /* 
 * @Method Name                    :  productTrendsProcessor
 * @Description                    :  Utility method to form JSONs associated to Product trends report                                      
 * @Return Type                    :  object
@@ -331,15 +358,15 @@ global with sharing class MYBZ_Region_Rollup_Controller
         
     {   
         Map<Decimal, Set<Decimal>> YearAndMonthsMap = new Map<Decimal, Set<Decimal>>();
-         Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>> YearAndMonthProductTrendMap = new Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>>();
-         Set<Decimal> productTrendYear = new Set<Decimal>();
+        Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>> YearAndMonthProductTrendMap = new Map<Decimal, Map<Decimal, List<MYBZ_Market_Share__c>>>();
+        Set<Decimal> productTrendYear = new Set<Decimal>();
         Object ProductTrendsObject;
         Decimal EffientTrx;
         Decimal EffientDollars;
         Decimal EffientUnits;
         
         //To determine if Effient product is present in the current month
-         integer EffientFlag = 0;
+        integer EffientFlag = 0;
         try
         {
             if(!productTrendsList.isEmpty()){
@@ -604,7 +631,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         return ProductTrendsObject;
     }
     
-/* 
+    /* 
 * @Method Name                    :  regionRollup
 * @Description                    :  JavaScript remoting to allow Region Rollup records to be retrieved from Salesforce in the form of a JSON object to show Region Rollup Report.                                        
 * @Return Type                    :  object
@@ -616,15 +643,28 @@ global with sharing class MYBZ_Region_Rollup_Controller
     {
         try
         {
-            
+            //Call fetch user function so that Role and Global id value is available in this method.
             fetchUserInfo();
+            
+            //Checking if the division record exist. There will be only one Division record.
             MYBZ_IHS_Division__c divisionObj = [SELECT Name FROM MYBZ_IHS_Division__c LIMIT 1];
+            
+            //Set of unique Region id's.
             Set<Id> regionIds = new Set<Id>();
+            
+            //Set of unique district id's.
             Set<Id> districtIds = new Set<Id>();
+            
+            //Getting the first Region to fetch the metric dates as all the regions have same dates.
             MYBZ_Region_Rollup__c firstRegionNameObj;
+            
+            //Initializing the date range.
             List<String> rangeData = new List<String>{'oneMonthData','threeMonthData','sixMonthData'};
+            
+            //Initializing the metric dates.
                 List<String> metricDates = new List<String>{'opexStartDates','netProfitStartDates','grossMarginsStartDates','trxStartDates','nrxStartDates','dddStartDates'};
-                    List <MYBZ_Region_Rollup__c> regionList = new List <MYBZ_Region_Rollup__c>();
+            
+            List <MYBZ_Region_Rollup__c> regionList = new List <MYBZ_Region_Rollup__c>();
             List <MYBZ_Region_Rollup__c> districtList = new List <MYBZ_Region_Rollup__c>();
             List <MYBZ_Region_Rollup__c> territoryList = new List <MYBZ_Region_Rollup__c>();
             Map<String,Map<String,MYBZ_Region_Rollup__c>> mapRegionNameAndRegion=new Map<String,Map<String,MYBZ_Region_Rollup__c>>();
@@ -632,6 +672,8 @@ global with sharing class MYBZ_Region_Rollup_Controller
             Map<String,Map<String,MYBZ_Region_Rollup__c>> mapDistrictNameAndDistrict=new Map<String,Map<String,MYBZ_Region_Rollup__c>>();
             Map<String,Set<String>> mapDistrictNameAndTerritoryName=new Map<String,Set<String>>();
             Map<String, Map<String,MYBZ_Region_Rollup__c>> mapTerritoryNameAndTerritory = new  Map<String, Map<String,MYBZ_Region_Rollup__c>>();
+            
+            //Fetching all the Region Rollup data at once and then segregating it in form of Region, district, Territory. 
             for(MYBZ_Region_Rollup__c regRoll : [SELECT Region__r.Name, District__r.Name, Territory__r.Name, Gross_Margin_1M__c, Gross_Margin_3M__c, Gross_Margin_6M__c, Gross_Margin_Start_Date_1M__c, Gross_Margin_Start_Date_3M__c, Gross_Margin_Start_Date_6M__c, Net_Profit_1M__c, Net_Profit_3M__c, Net_Profit_6M__c, Net_Profit_Start_Date_1M__c, Net_Profit_Start_Date_3M__c, Net_Profit_Start_Date_6M__c, NRx_1M__c, NRx_3M__c, NRx_6M__c, NRx_Start_Date_1M__c, NRx_Start_Date_3M__c, NRx_Start_Date_6M__c, OPEX_1M__c, OPEX_3M__c, OPEX_6M__c, OPEX_Start_Date_1M__c, OPEX_Start_Date_3M__c, OPEX_Start_Date_6M__c, TRx_1M__c, TRx_3M__c, TRx_6M__c, TRx_Start_Date_1M__c, TRx_Start_Date_3M__c, TRx_Start_Date_6M__c, DDD_Dollars_1M__c, DDD_Dollars_3M__c, DDD_Dollars_6M__c, DDD_Dollars_Start_Date_1M__c, DDD_Dollars_Start_Date_3M__c, DDD_Dollars_Start_Date_6M__c, Global_Id__c, Region__r.Parent__c, Product__r.Name, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Region__r.Parent__c =: divisionObj.id AND Product__c!=null]){
                 if(regRoll.Alignment_Level__c == System.Label.MYBZ_Region){
                     regionList.add(regRoll);
@@ -728,9 +770,16 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         break;
                     }
                 }
+                //Returns a new JSON generator.
                 generator = JSON.createGenerator(true);
+                
+                //Writes the starting marker of a JSON Object.
                 generator.writeStartObject();  
+                
+                //Start of writing the JSON fields.
                 generator.writeStringField(System.Label.MYBZ_Name,divisionObj.Name);
+    
+                //Start of writing the date fields of all the metrics.
                 for(String str : metricDates){
                     if(firstRegionNameObj !=null){
                         generator.writeFieldName(str);
@@ -801,6 +850,8 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                 generator.writeDateTimeField(System.Label.MYBZ_sixMonthDataStartDate,firstRegionNameObj.DDD_Dollars_Start_Date_6M__c);
                             }
                         }
+                        
+                        //Writes the ending marker of a JSON Object.
                         generator.writeEndObject();
                     }
                 }
@@ -817,6 +868,8 @@ global with sharing class MYBZ_Region_Rollup_Controller
                             for(String str : rangeData){
                                 generator.writeFieldName(str);
                                 generator.writeStartArray();
+                                
+                                //Start of writing fields of region as per the range.
                                 for(String eachProduct : regionsMap.keySet()){
                                     MYBZ_Region_Rollup__c tempRegionObj = regionsMap.get(eachProduct);
                                     if(str == 'oneMonthData'){
@@ -986,6 +1039,8 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         if(!mapRegionNameAndDistrictName.get(regionName).isEmpty()){
                             generator.writeFieldName(System.Label.MYBZ_children);
                             generator.writeStartArray();
+                            
+                            //Start of writing fields of district as per the range.
                             for(String distName : mapRegionNameAndDistrictName.get(regionName))
                             {
                                 generator.writeStartObject(); 
@@ -1168,6 +1223,8 @@ global with sharing class MYBZ_Region_Rollup_Controller
                                     for(String terrName : mapDistrictNameAndTerritoryName.get(distName))
                                     {
                                         generator.writeStartObject(); 
+                                        
+                                         //Start of writing fields of territory as per the range.
                                         generator.writeStringField(System.Label.MYBZ_Name,terrName);
                                         
                                         if(!mapTerritoryNameAndTerritory.get(terrName).isEmpty())
@@ -1288,8 +1345,12 @@ global with sharing class MYBZ_Region_Rollup_Controller
                         }
                         generator.writeEndObject();
                     }
+                    
+                    //Writes the ending marker of a JSON Array.
                     generator.writeEndArray();
                 }
+                
+                //Writes the ending marker of a JSON Object.
                 generator.writeEndObject();
             }
             JsonString = generator.getAsString();
@@ -1309,7 +1370,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
         }
     }
     
- /* 
+    /* 
 * @Method Name                    :  trendsPrescriberUsingPicker
 * @Description                    :  JavaScript remoting to allow top five prescribers for each month associated to a certain product to be  
 retrieved from Salesforce in the form of a JSON object in the presence of a territory picker. 
@@ -1354,7 +1415,7 @@ Territory - The territory selected via a territory picker.
         return trendsPrescriberObject;
     }
     
-/* 
+    /* 
 * @Method Name                    :  trendsPrescriber
 * @Description                    :  JavaScript remoting to allow top five prescribers for each month associated to a certain product to be  
 retrieved from Salesforce in the form of a JSON object in the absence of a territory picker. 
@@ -1396,8 +1457,8 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
         System.debug('TrendsPrescriberObject--'+trendsPrescriberObject);
         return trendsPrescriberObject;
     }
- 
-/* 
+    
+    /* 
 * @Method Name                    :  trendsPrescriberProcessor
 * @Description                    :  Utility method for creating JSONs associated with TrendsPrescriber Report
 * @Return Type                    :  object
@@ -1451,6 +1512,7 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
                             }
                             else
                             {
+                                
                                 if(productprescribercount!=6)
                                 {
                                     generator.writeEndArray();
@@ -1489,6 +1551,8 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
                     {
                         if(!Products.equals(trenddetails.IHS_Product__r.Name))
                         {
+                            
+                            //Check to ensure only top five prescribers are taken into consideration while generating the JSON
                             if(productprescribercount!=6&&(prescriberflag==1)&&(firstproductIteration!=1))
                             {
                                 generator.writeEndArray();
@@ -1514,6 +1578,9 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
                     if(productprescribercount<=5)
                     {
                         generator.writeStartObject();
+                        
+                        //Adding the required fields to the JSON
+                        
                         if(trenddetails.HCP_First_Name__c!=null){
                             generator.writeStringField(System.Label.MYBZ_prescriberFirstName,trenddetails.HCP_First_Name__c);
                         }
@@ -1569,12 +1636,12 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
         
     }
     
-/* 
+    /* 
 * @Method Name                    :  marketShareUsingPicker
 * @Description                    :  JavaScript remoting to allow MarketShare record of Lilly and Competitor  products to be retrieved from Salesforce in the form of a JSON object in the presence of a territory picker.                                         
 * @Return Type                    :  object
 * @Param                          :  Region - The region associated to the territory selected, District - The district associated to the territory selected
-                                     Territory - The territory selected via a territory picker.  
+Territory - The territory selected via a territory picker.  
 
 */    
     @RemoteAction 
@@ -1610,11 +1677,11 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
         System.debug('MarketShareObject--'+marketShareObject);
         return marketShareObject;
     }
-
-/* 
+    
+    /* 
 * @Method Name                    :  marketShare
 * @Description                    :  JavaScript remoting to allow MarketShare record of Lilly and Competitor products to be retrieved 
-                                     from Salesforce in the form of a JSON object based on Global id , without using territory picker
+from Salesforce in the form of a JSON object based on Global id , without using territory picker
 * @Return Type                    :  object
 * @Param                          :  
 
@@ -1639,7 +1706,9 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
             if(Role == System.Label.MYBZ_SuperUser){
                 marketShareList.clear();
                 MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c LIMIT 1];
-                marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id ORDER BY Month__c, Year__c ASC];
+                if(territoryObj!=null){
+                    marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id ORDER BY Month__c, Year__c ASC];
+                }
             }
             
         }
@@ -1660,7 +1729,7 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
         return marketShareObject;
     }   
     
-/* 
+    /* 
 * @Method Name                    :  marketShareProcessor
 * @Description                    :  Utility method for creating JSONs associated with marketsahre report                    
 * @Return Type                    :  object
@@ -1842,9 +1911,9 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
             return null ;
         }
     } 
-
-
-/* 
+    
+    
+    /* 
 * @Method Name                    :  targetGoalUsingPicker
 * @Description                    :  JavaScript remoting to allow TargetGoal record associated with particular district to be retrieved from Salesforce in the form of a JSON object                                         
 * @Return Type                    :  object
@@ -1859,23 +1928,23 @@ Territory - The territory selected via a territory picker.
             fetchUserInfo();
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) && district != null && district != ''){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null   ORDER BY Month__c, Year__c ASC ];
+                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null   ORDER BY Month__c, Year__c ASC ];
             }
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) && territory != null && territory != ''){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Territory__r.Name =: territory ORDER BY Month__c, Year__c ASC ];
+                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Territory__r.Name =: territory ORDER BY Month__c, Year__c ASC ];
             }
             if(Role == System.Label.MYBZ_MajorMarketManager && district !=null && district !=''){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
             }
             if(Role == System.Label.MYBZ_SuperUser && district != null && district != ''){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                targetGoalList = [SELECT Id,Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c , Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
             }
             if(Role == System.Label.MYBZ_SuperUser && territory != null && territory != ''){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Territory__r.Name =: territory ORDER BY Month__c, Year__c ASC ];
+                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Territory__r.Name =: territory ORDER BY Month__c, Year__c ASC ];
             }
         }    
         catch(Exception E){
@@ -1893,8 +1962,8 @@ Territory - The territory selected via a territory picker.
         return targetGoalObject;
         
     }
-
-/* 
+    
+    /* 
 * @Method Name                    :  TargetGoal
 * @Description                    :  JavaScript remoting to allow TargetGoal record associated with particular district to be retrieved from Salesforce in the form of a JSON object                                         
 * @Return Type                    :  object
@@ -1908,24 +1977,25 @@ Territory - The territory selected via a territory picker.
             fetchUserInfo();
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager)){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                targetGoalList = [SELECT Id,Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c , Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId AND Territory__c = null ORDER BY Month__c, Year__c ASC];
             }
             else if(Role == System.Label.MYBZ_MajorMarketManager){
                 targetGoalList.clear();
                 MYBZ_Region_Rollup__c regionRollupObj = [SELECT Id, District__c FROM MYBZ_Region_Rollup__c WHERE Global_Id__c =:GlobalId LIMIT 1];
                 
-                targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:regionRollupObj.District__c AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:regionRollupObj.District__c AND Territory__c = null ORDER BY Month__c, Year__c ASC];
             }
             else if(Role == System.Label.MYBZ_SalesRepresentative){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
+                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
                 
             }
             else if(Role == System.Label.MYBZ_SuperUser){
                 targetGoalList.clear();  
                 MYBZ_District__c districtObj = [SELECT Id FROM MYBZ_District__c LIMIT 1];
-                targetGoalList = [SELECT Id, Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:districtObj.Id AND Territory__c = null ORDER BY Month__c, Year__c ASC];
-                
+                if(districtObj!=null){
+                    targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:districtObj.Id AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                }
             }
         }
         catch(Exception E){
@@ -1941,8 +2011,8 @@ Territory - The territory selected via a territory picker.
         System.debug('TargetGoalObject--'+targetGoalObject);
         return targetGoalObject;
     }
-
-/* 
+    
+    /* 
 * @Method Name                    :  targetGoalProcessor
 * @Description                    :  Utility method for creating JSONS associated with Target Goal Report
 * @Return Type                    :  object
@@ -1952,7 +2022,7 @@ Territory - The territory selected via a territory picker.
     global static Object targetGoalProcessor()
     {
         Map<Decimal, Set<Decimal>> YearAndMonthsMap = new Map<Decimal, Set<Decimal>>();
-        try{
+                try{
             if(!targetGoalList.isEmpty()){
                 for(MYBZ_Target_Goal__c targetGoalObj : targetGoalList){
                     targetGoalYear.add(targetGoalObj.Year__c);
@@ -2008,8 +2078,26 @@ Territory - The territory selected via a territory picker.
                                 for(MYBZ_Target_Goal__c targetGoalObj : TempMonthAndTargetGoalMap.get(month)){
                                     generator.writeStartObject();
                                     generator.writeStringField(System.Label.MYBZ_productName,targetGoalObj.Product__r.Name);
-                                    generator.writeNumberField(System.Label.MYBZ_goalSet,targetGoalObj.TRx_Goal__c);
-                                    generator.writeNumberField(System.Label.MYBZ_goalMet,targetGoalObj.TRx_Goal_Attainment__c);
+                                     if(targetGoalObj.TRx_Goal__c !=null)
+                                        generator.writeNumberField(System.Label.MYBZ_goalSet,targetGoalObj.TRx_Goal__c);
+                                    else
+                                        generator.writeNullField(System.Label.MYBZ_goalSet);
+                                    if(targetGoalObj.TRx_Goal_Attainment__c !=null)
+                                        generator.writeNumberField(System.Label.MYBZ_goalMet,targetGoalObj.TRx_Goal_Attainment__c);
+                                    else
+                                        generator.writeNullField(System.Label.MYBZ_goalMet);
+                                    if(targetGoalObj.Baseline__c !=null)
+                                        generator.writeNumberField(System.Label.MYBZ_Baseline,targetGoalObj.Baseline__c);
+                                   else
+                                       generator.writeNullField(System.Label.MYBZ_Baseline);
+                                    if(targetGoalObj.Product_Weight_DDD__c !=null)
+                                     generator.writeNumberField(System.Label.MYBZ_Product_Weight_DDD_c,targetGoalObj.Product_Weight_DDD__c);
+                                   else
+                                       generator.writeNullField(System.Label.MYBZ_Product_Weight_DDD_c);
+                                    if(targetGoalObj.Product_Weight_TRx__c !=null)
+                                     generator.writeNumberField(System.Label.MYBZ_Product_Weight_TRx,targetGoalObj.Product_Weight_TRx__c);
+                                    else
+                                       generator.writeNullField(System.Label.MYBZ_Product_Weight_TRx);
                                     generator.writeEndObject();
                                 }
                                 generator.writeEndArray();
@@ -2035,15 +2123,16 @@ Territory - The territory selected via a territory picker.
             insert errlog;
             return null ;
         }
-    }  
 
-/* 
+    }  
+    
+    /* 
 * @Method Name                    :  callPlanning
 * @Description                    :  JavaScript remoting to allow Call Planning record for each prescriber as well as calls associated to the same prescriber
-                                     to be retrieved from Salesforce in the form of a JSON object in the presence of a territory picker.                                         
+to be retrieved from Salesforce in the form of a JSON object in the presence of a territory picker.                                         
 * @Return Type                    :  object
 * @Param                          :  Region - The region associated to the territory selected, District - The district associated to the territory selected
-                                     Territory - The territory selected via a territory picker.   
+Territory - The territory selected via a territory picker.   
 
 */    
     @RemoteAction 
@@ -2084,14 +2173,14 @@ Territory - The territory selected via a territory picker.
         System.debug('callPlanningObject--'+callPlanningObject);
         return callPlanningObject; 
     }
-
-/* 
+    
+    /* 
 * @Method Name                    :  callPlanning
 * @Description                    :  JavaScript remoting to allow Call Planning record for each prescriber as well as calls associated to the same prescriber
-                                     to be retrieved from Salesforce in the form of a JSON object in the absence of a territory picker.                                          
+to be retrieved from Salesforce in the form of a JSON object in the absence of a territory picker.                                          
 * @Return Type                    :  object
 * @Param                          :   */
-        
+    
     @RemoteAction 
     global static Object callPlanning()
     {       
@@ -2100,14 +2189,19 @@ Territory - The territory selected via a territory picker.
             if(Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser){
                 CallPlanningsList.clear();                
                 MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory LIMIT 1];
-                CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c,Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
+                if(territoryObj!=null){ 
+                    CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c,Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
+                }
             }
             if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ){
                 CallPlanningsList.clear();                
                 MYBZ_Region_Rollup__c districtObj = [SELECT Id, District__c FROM MYBZ_Region_Rollup__c WHERE Global_Id__c =:GlobalId LIMIT 1];
-                MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Name, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE District__c =:districtObj.District__c AND Global_Id__c !=null AND Global_Id__c !='' LIMIT 1];
-                CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
-                
+                if(districtObj!=null){
+                    MYBZ_Region_Rollup__c territoryObj = [SELECT Id, Name, Global_Id__c FROM MYBZ_Region_Rollup__c WHERE District__c =:districtObj.District__c AND Global_Id__c !=null AND Global_Id__c !='' LIMIT 1];
+                    if(territoryObj!=null){
+                        CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:territoryObj.Global_Id__c order by Call_Planning__r.Physician_ID__c,Product__r.Name];
+                    }
+                }
             }
             if(Role == System.Label.MYBZ_SalesRepresentative){
                 CallPlanningsList.clear();
@@ -2131,7 +2225,7 @@ Territory - The territory selected via a territory picker.
         return callPlanningObject; 
     }
     
-/* 
+    /* 
 * @Method Name                    :  CallPlanningProcessor
 * @Description                    :  Utility method for Creating JSONs associated with Call planning Report                                         
 * @Return Type                    :  object
@@ -2139,7 +2233,7 @@ Territory - The territory selected via a territory picker.
 
 */
     
-   global static Object callPlanningProcessor(){
+    global static Object callPlanningProcessor(){
         try{
             if(CallPlanningsList.isempty())
             {

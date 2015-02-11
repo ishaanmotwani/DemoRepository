@@ -10,7 +10,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_MYBZ_RegionRollup_Controller</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <description>Permission set for Sales Rep, DSM and MMM</description>
     <fieldPermissions>
@@ -535,6 +535,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Target_Goal__c.Baseline__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Target_Goal__c.District__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -547,6 +552,16 @@
         <editable>false</editable>
         <field>MYBZ_Target_Goal__c.Month__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Target_Goal__c.Product_Weight_DDD__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Target_Goal__c.Product_Weight_TRx__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -730,10 +745,6 @@
         <apexPage>MYBZ_Region_Rollup_Page</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
-    <tabSettings>
-        <tab>MYBZ_Business</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
     <tabSettings>
         <tab>MYBZ_Call_Planning__c</tab>
         <visibility>Available</visibility>
