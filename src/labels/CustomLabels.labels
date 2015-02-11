@@ -27,8 +27,7 @@
         <protected>false</protected>
         <shortDescription>MYBZ_Product_Weight_TRx</shortDescription>
         <value>ProductWeightTRx</value>
-    </labels>
-    <labels>
+    </labels>    
     <labels>
         <fullName>MYBZ_Calls</fullName>
         <language>en_US</language>
