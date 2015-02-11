@@ -132,6 +132,18 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Region__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Region</label>
+        <referenceTo>MYBZ_Region__c</referenceTo>
+        <relationshipLabel>Target Goals</relationshipLabel>
+        <relationshipName>Target_Goals</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>TRx_Goal_Attainment__c</fullName>
         <externalId>false</externalId>
         <label>TRx Goal Attainment</label>
