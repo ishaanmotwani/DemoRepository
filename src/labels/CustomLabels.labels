@@ -14,6 +14,21 @@
         <shortDescription>MYBZ_Baseline</shortDescription>
         <value>baseline</value>
     </labels>
+	<labels>
+        <fullName>MYBZ_Product_Weight_DDD_c</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_Product_Weight_DDD</shortDescription>
+        <value>ProductWeightDDD</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_Product_Weight_TRx</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_Product_Weight_TRx</shortDescription>
+        <value>ProductWeightTRx</value>
+    </labels>
+    <labels>
     <labels>
         <fullName>MYBZ_Calls</fullName>
         <language>en_US</language>
