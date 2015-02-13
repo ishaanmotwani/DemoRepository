@@ -1648,8 +1648,10 @@ Territory - The territory selected via a territory picker.
     global static Object marketShareUsingPicker(String region, String district, String territory)
     {
         try{
-            
+            // fetching logged in user information like Role,global id etc.
             fetchUserInfo();
+            
+            // Query for market share records based on the role of logged in user and alignment chosen using territory picker, decides the data available on report
             if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && district !=null && district !=''){
                 marketShareList.clear();                
                 marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
@@ -1673,6 +1675,7 @@ Territory - The territory selected via a territory picker.
             return null ;
         }
         
+        // Call to method which processes market share JSON based on market share list queried above
         Object marketShareObject = marketShareProcessor();
         System.debug('MarketShareObject--'+marketShareObject);
         return marketShareObject;
@@ -1690,7 +1693,10 @@ from Salesforce in the form of a JSON object based on Global id , without using 
     global static Object marketShare()
     {
         try{ 
+            // fetching logged in user information like Role,global id etc.
             fetchUserInfo();        
+            
+            // Query for market share records based on the role of logged in user , decides the data available on report
             if(Role == System.Label.MYBZ_SalesRepresentative){
                 marketShareList.clear();
                 marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
@@ -1724,6 +1730,7 @@ from Salesforce in the form of a JSON object based on Global id , without using 
             return null ;
         }
         
+        // Call to method which processes market share JSON based on market share list queried above
         Object marketShareObject = marketShareProcessor();
         System.debug('marketShareObject--'+marketShareObject);
         return marketShareObject;
@@ -1736,17 +1743,22 @@ from Salesforce in the form of a JSON object based on Global id , without using 
 * @Param                          :  
 */    
     global static Object marketShareProcessor()
-    {
+    {   
+    
+        // Initialization of variables   
         Map<Decimal, Set<Decimal>> YearAndMonthsMap = new Map<Decimal, Set<Decimal>>();
         Map<String, Set<Decimal>> MarketShareNameAndYearMap = new Map<String, Set<Decimal>>();
         Map<String, Map<Decimal, Set<Decimal>>>MarketShareNameAndYearMonthMap = new Map<String, Map<Decimal, Set<Decimal>>>();
         Map<String, Map<Decimal, List<MYBZ_Market_Share__c>>> MarketShareNameAndMarketShareMap = new Map<String, Map<Decimal, List<MYBZ_Market_Share__c>>>();
         
         try{
+            //Clear variables so that no remnants from previous call exists
             YearAndMonthsMap.clear();
             MarketShareNameAndYearMap.clear();
             MarketShareNameAndYearMonthMap.clear();
             MarketShareNameAndMarketShareMap.clear();
+            
+            // creating a map to hold years per marketshare name 
             if(!marketShareList.isEmpty()){
                 for(MYBZ_Market_Share__c marketShareObj : marketShareList){
                     if(!MarketShareNameAndYearMap.containsKey(marketShareObj.Market__c)){
@@ -1759,6 +1771,8 @@ from Salesforce in the form of a JSON object based on Global id , without using 
                     }
                 }
             }
+            
+            // creating a map to hold months per year for which market share records/data could be found 
             if(!MarketShareNameAndYearMap.isEmpty()){
                 for(String marketShareName : MarketShareNameAndYearMap.keySet()){                   
                     for(MYBZ_Market_Share__c marketShareObj : marketShareList){
@@ -1781,6 +1795,8 @@ from Salesforce in the form of a JSON object based on Global id , without using 
                     MarketShareNameAndYearMonthMap.put(marketShareName,YearAndMonthsMap);
                 }
             }
+            
+            // creating a map to hold marketshare per year map for each market            
             if(!MarketShareNameAndYearMonthMap.isEmpty()){
                 for(String marketShareName : MarketShareNameAndYearMonthMap.keySet()){
                     YearAndMonthsMap = MarketShareNameAndYearMonthMap.get(marketShareName);
@@ -1803,8 +1819,12 @@ from Salesforce in the form of a JSON object based on Global id , without using 
             }
             Object MarketShareObject;
             if(!MarketShareNameAndYearMonthMap.isEmpty() && !MarketShareNameAndMarketShareMap.isEmpty()){
+                //Returns a new JSON generator.
                 generator = JSON.createGenerator(true);
+                //Writes the starting marker of a JSON Object.
                 generator.writeStartArray();
+                
+                // Looping over each unique market 
                 for(String marketShareName : MarketShareNameAndMarketShareMap.keySet()){
                     Map<Decimal, Set<Decimal>> YearAndMonthMap = MarketShareNameAndYearMonthMap.get(marketShareName);
                     generator.writeStartObject();
@@ -1925,7 +1945,10 @@ Territory - The territory selected via a territory picker.
     global static Object targetGoalUsingPicker(String region, String district, String territory)
     {   
         try{
+            // fetching logged in user information like Role,global id etc.
             fetchUserInfo();
+            
+            // Query for target Goal records based on the role of logged in user and alignment chosen using territory picker, decides the data available on report
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) && district != null && district != ''){
                 targetGoalList.clear();
                 targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null   ORDER BY Month__c, Year__c ASC ];
@@ -1957,6 +1980,10 @@ Territory - The territory selected via a territory picker.
             return null ;
             
         }
+        
+        
+        
+        // Call to method which processes target Goal JSON based on target goal list queried above
         Object targetGoalObject = targetGoalProcessor();
         System.debug('TargetGoalObject--'+targetGoalObject);
         return targetGoalObject;
@@ -1974,7 +2001,10 @@ Territory - The territory selected via a territory picker.
     global static Object targetGoal()
     {
         try{
+            // fetching logged in user information like Role,global id etc.
             fetchUserInfo();
+            
+            // Query for target Goal records based on the role of logged in user, decides the data available on report
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager)){
                 targetGoalList.clear();
                 targetGoalList = [SELECT Id,Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c , Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId AND Territory__c = null ORDER BY Month__c, Year__c ASC];
@@ -2007,6 +2037,7 @@ Territory - The territory selected via a territory picker.
             insert errlog;
             return null ;
         }
+        // Call to method which processes target Goal JSON based on target goal list queried above
         Object targetGoalObject = targetGoalProcessor();
         System.debug('TargetGoalObject--'+targetGoalObject);
         return targetGoalObject;
@@ -2021,6 +2052,7 @@ Territory - The territory selected via a territory picker.
 */    
     global static Object targetGoalProcessor()
     {
+        // Map variable to collate data set of months associated with each year for which target goal records are found
         Map<Decimal, Set<Decimal>> YearAndMonthsMap = new Map<Decimal, Set<Decimal>>();
                 try{
             if(!targetGoalList.isEmpty()){
