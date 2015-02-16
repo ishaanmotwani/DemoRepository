@@ -336,7 +336,7 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShare.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/calanderSorter.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareCalculator.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/MarketShareChart.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareChart.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareChartCanvas.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareController.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareDataManager.js')}"/>
