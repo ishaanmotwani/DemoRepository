@@ -595,6 +595,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>MYBZ_Target_Goal__c.actualDddUnits__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>MYBZ_Territory__c.State__c</field>
         <readable>true</readable>
     </fieldPermissions>

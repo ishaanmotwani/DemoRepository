@@ -534,7 +534,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>MYBZ_Target_Goal__c.Baseline__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -554,12 +554,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>MYBZ_Target_Goal__c.Product_Weight_DDD__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>MYBZ_Target_Goal__c.Product_Weight_TRx__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -569,7 +569,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>MYBZ_Target_Goal__c.Region__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -591,6 +591,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>MYBZ_Target_Goal__c.Year__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Target_Goal__c.actualDddUnits__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

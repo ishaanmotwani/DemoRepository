@@ -1951,23 +1951,23 @@ Territory - The territory selected via a territory picker.
             // Query for target Goal records based on the role of logged in user and alignment chosen using territory picker, decides the data available on report
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) && district != null && district != ''){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null   ORDER BY Month__c, Year__c ASC ];
+                targetGoalList = [SELECT Id, Baseline__c,actualDddUnits__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null   ORDER BY Month__c, Year__c ASC ];
             }
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) && territory != null && territory != ''){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Territory__r.Name =: territory ORDER BY Month__c, Year__c ASC ];
+                targetGoalList = [SELECT Id, Baseline__c,actualDddUnits__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Territory__r.Name =: territory ORDER BY Month__c, Year__c ASC ];
             }
             if(Role == System.Label.MYBZ_MajorMarketManager && district !=null && district !=''){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                targetGoalList = [SELECT Id, Baseline__c,actualDddUnits__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
             }
             if(Role == System.Label.MYBZ_SuperUser && district != null && district != ''){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id,Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c , Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                targetGoalList = [SELECT Id,Baseline__c,actualDddUnits__c,Product_Weight_DDD__c,Product_Weight_TRx__c , Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__r.Name =:district AND Territory__c = null ORDER BY Month__c, Year__c ASC];
             }
             if(Role == System.Label.MYBZ_SuperUser && territory != null && territory != ''){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Territory__r.Name =: territory ORDER BY Month__c, Year__c ASC ];
+                targetGoalList = [SELECT Id, Baseline__c,actualDddUnits__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Territory__r.Name =: territory ORDER BY Month__c, Year__c ASC ];
             }
         }    
         catch(Exception E){
@@ -2007,24 +2007,24 @@ Territory - The territory selected via a territory picker.
             // Query for target Goal records based on the role of logged in user, decides the data available on report
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager)){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id,Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c , Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                targetGoalList = [SELECT Id,Baseline__c,actualDddUnits__c,Product_Weight_DDD__c,Product_Weight_TRx__c , Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId AND Territory__c = null ORDER BY Month__c, Year__c ASC];
             }
             else if(Role == System.Label.MYBZ_MajorMarketManager){
                 targetGoalList.clear();
                 MYBZ_Region_Rollup__c regionRollupObj = [SELECT Id, District__c FROM MYBZ_Region_Rollup__c WHERE Global_Id__c =:GlobalId LIMIT 1];
                 
-                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:regionRollupObj.District__c AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                targetGoalList = [SELECT Id, Baseline__c,actualDddUnits__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:regionRollupObj.District__c AND Territory__c = null ORDER BY Month__c, Year__c ASC];
             }
             else if(Role == System.Label.MYBZ_SalesRepresentative){
                 targetGoalList.clear();
-                targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
+                targetGoalList = [SELECT Id, Baseline__c,actualDddUnits__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE Global_Id__c =:GlobalId ORDER BY Month__c, Year__c ASC];
                 
             }
             else if(Role == System.Label.MYBZ_SuperUser){
                 targetGoalList.clear();  
                 MYBZ_District__c districtObj = [SELECT Id FROM MYBZ_District__c LIMIT 1];
                 if(districtObj!=null){
-                    targetGoalList = [SELECT Id, Baseline__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:districtObj.Id AND Territory__c = null ORDER BY Month__c, Year__c ASC];
+                    targetGoalList = [SELECT Id, Baseline__c,actualDddUnits__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:districtObj.Id AND Territory__c = null ORDER BY Month__c, Year__c ASC];
                 }
             }
         }
@@ -2047,9 +2047,8 @@ Territory - The territory selected via a territory picker.
 * @Method Name                    :  targetGoalProcessor
 * @Description                    :  Utility method for creating JSONS associated with Target Goal Report
 * @Return Type                    :  object
-* @Param                          :   
+* @Param                          :   */    
 
-*/    
     global static Object targetGoalProcessor()
     {
         // Map variable to collate data set of months associated with each year for which target goal records are found
@@ -2122,6 +2121,10 @@ Territory - The territory selected via a territory picker.
                                         generator.writeNumberField(System.Label.MYBZ_Baseline,targetGoalObj.Baseline__c);
                                    else
                                        generator.writeNullField(System.Label.MYBZ_Baseline);
+                                   if(targetGoalObj.actualDddUnits__c !=null)
+                                        generator.writeNumberField(System.Label.MYBZ_actualDddUnits,targetGoalObj.actualDddUnits__c);
+                                   else
+                                       generator.writeNullField(System.Label.MYBZ_actualDddUnits);
                                     if(targetGoalObj.Product_Weight_DDD__c !=null)
                                      generator.writeNumberField(System.Label.MYBZ_Product_Weight_DDD_c,targetGoalObj.Product_Weight_DDD__c);
                                    else
@@ -2243,7 +2246,7 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
         }
         Catch(Exception e)
         {
-            system.debug('Exception occurred during execution of TargetGoal Processor method' + e);
+            system.debug('Exception occurred during execution of Processor method' + e);
             GLBL_Error_Log__c errLog = new GLBL_Error_Log__c(Error_Datetime__c= DateTime.Now(),
                                                              Error_Message__c= e.getMessage(),
                                                              Running_User__c = UserInfo.getUserId() ,
