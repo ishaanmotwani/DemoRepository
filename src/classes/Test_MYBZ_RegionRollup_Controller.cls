@@ -18,10 +18,10 @@ public class Test_MYBZ_RegionRollup_Controller{
     static User createUser(String Role){
         Profile pfl = [select id from profile where name='GSO Basic User_Platform'];
         //Declaring the User
-        User runAsUser = new User(alias = 'Admin', email='appAdmin@testorg.com',
+        User runAsUser = new User(alias = 'BasicIHS', email='appBasicIhs@testorg.com',
                                   emailencodingkey='UTF-8', lastname='Testing', languagelocalekey='en_US',
                                   localesidkey='en_US', profileid = pfl.Id,  country='United States', CommunityNickname = 'u1'+Math.random()*100 ,
-                                  timezonesidkey='America/Los_Angeles', username='appAdmin@gso_org.com'+Math.random()*100 , MYBZ_Role__c=Role, Prsnl_Nbr_GLBL__c='xxxxx',MYBZ_Reporting_ID__c='xxxxx');
+                                  timezonesidkey='America/Los_Angeles', username='appBasicIhs@gso_org.com'+Math.random()*100 , MYBZ_Role__c=Role, Prsnl_Nbr_GLBL__c='xxxxx',MYBZ_Reporting_ID__c='xxxxx');
         
         Insert runAsUser;
         Return runAsUser;
