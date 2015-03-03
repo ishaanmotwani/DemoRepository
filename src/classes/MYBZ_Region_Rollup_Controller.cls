@@ -267,16 +267,16 @@ Territory - The territory selected via a territory picker.
             fetchUserInfo();
             if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager || Role == System.Label.MYBZ_SuperUser) && district !=null && district !=''){
                 productTrendsList.clear();
-                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Territory__c = null AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE District__r.Name =:district AND Territory__c = null AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC,Market__c];
             }
             if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !='' && (district == null || district == '')){
                 productTrendsList.clear();
                 
-                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC,Market__c];
             }
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory !=null && territory !=''){
                 productTrendsList.clear();
-                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC,Market__c];
             }
             
             
@@ -314,7 +314,7 @@ Territory - The territory selected via a territory picker.
             fetchUserInfo();
             if(Role == System.Label.MYBZ_SalesRepresentative){
                 productTrendsList.clear();
-                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC,Market__c];
             }
             if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ){
                 productTrendsList.clear();
