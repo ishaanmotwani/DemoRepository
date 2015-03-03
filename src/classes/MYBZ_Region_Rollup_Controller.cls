@@ -314,22 +314,22 @@ Territory - The territory selected via a territory picker.
             fetchUserInfo();
             if(Role == System.Label.MYBZ_SalesRepresentative){
                 productTrendsList.clear();
-                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC, Market__c];
+                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Market__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c,Previous_Month_TRx__c, DDD_Dollars__c,DDD_Units__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
             }
             if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ){
                 productTrendsList.clear();
-                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC,Market__c];
             }
             if(Role == System.Label.MYBZ_MajorMarketManager){
                 productTrendsList.clear();
-                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+                productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC,Market__c];
             }
             if(Role == System.Label.MYBZ_SuperUser){
                 productTrendsList.clear();
                 
                 MYBZ_Territory__c territoryObj = [SELECT Id FROM MYBZ_Territory__c LIMIT 1];
                 if(territoryObj!=null){
-                    productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC];
+                    productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Territory__c =:territoryObj.Id AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC,Market__c];
                 }
             }
         }
@@ -462,7 +462,8 @@ Territory - The territory selected via a territory picker.
                                             {
                                                 PercentageChangeTRx=0;
                                             }
-                                            generator.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx,PercentageChangeTRx);  
+                                            generator.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx,PercentageChangeTRx); 
+                                            
                                         }
                                         else
                                             generator.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx);
@@ -479,6 +480,7 @@ Territory - The territory selected via a territory picker.
                                                 PercentageChangeDDDDollars=0;
                                             }
                                             generator.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars,PercentageChangeDDDDollars); 
+                                            system.debug('Previous_DDD_Dollars__c'+productTrendObj.Previous_DDD_Dollars__c);
                                         }
                                         else
                                             generator.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars);
@@ -495,6 +497,7 @@ Territory - The territory selected via a territory picker.
                                                 PercentageChangeDDDUnits=0;
                                             }
                                             generator.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits,PercentageChangeDDDUnits);   
+                                            system.debug('Previous_DDD_Dollars__c'+productTrendObj.Previous_DDD_Units__c);
                                         }
                                         else
                                             generator.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits); 
