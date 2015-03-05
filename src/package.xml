@@ -17,6 +17,11 @@
         <members>CustomLabels</members>
         <name>CustomLabels</name>
     </types>
+	 <types>
+        <members>User.MYBZ_Reporting_ID__c</members>
+        <members>User.MYBZ_Role__c</members>
+        <name>CustomField</name>
+    </types>
     <types>
         <members>MYBZ_CallPlanningProductJunction__c</members>
         <members>MYBZ_Call_Planning__c</members>
