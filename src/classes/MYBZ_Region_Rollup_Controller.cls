@@ -1498,15 +1498,15 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
                     }   
                     if(trenddetails.Year__c!=null)
                     {
-                        if(!Years.contains(String.Valueof(trenddetails.Year__c)))
+                        if(!Years.equals(String.Valueof(trenddetails.Year__c)))
                         {
-                            Years+=trenddetails.Year__c;
+                            Years=String.Valueof(trenddetails.Year__c);
                             Months = '';
                         }
                     }
                     if(trenddetails.Month__c!=null)
                     {
-                        if(!Months.contains(String.Valueof(trenddetails.Month__c)))
+                        if(!Months.equals(String.Valueof(trenddetails.Month__c)))
                         {
                             if(firstiteration==1)
                             {
@@ -1527,7 +1527,7 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
                                 generator.writeEndObject();
                                 generator.writeStartObject();
                             }
-                            Months+=trenddetails.Month__c;
+                            Months=String.Valueof(trenddetails.Month__c);
                             Products='';
                             
                             if(trenddetails.Month__c!=null){
