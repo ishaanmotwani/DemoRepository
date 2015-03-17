@@ -12,15 +12,15 @@
     <types>
         <members>MyBusiness</members>
         <name>CustomApplication</name>
-    </types>
-    <types>
-        <members>User.MYBZ_Reporting_ID__c</members>
-        <members>User.MYBZ_Role__c</members>
-        <name>CustomField</name>
-    </types>
+    </types>    
     <types>
         <members>CustomLabels</members>
         <name>CustomLabels</name>
+    </types>
+	 <types>
+        <members>User.MYBZ_Reporting_ID__c</members>
+        <members>User.MYBZ_Role__c</members>
+        <name>CustomField</name>
     </types>
     <types>
         <members>MYBZ_CallPlanningProductJunction__c</members>
@@ -71,8 +71,7 @@
         <members>MYBZ_Region__c-Region Layout</members>
         <members>MYBZ_Target_Goal__c-Target Goal Layout</members>
         <members>MYBZ_Territory__c-Tier Layout</members>
-        <members>MYBZ_Usage_Metric_Report__c-Usage Metrics Report Layout</members>
-        <members>User-User Layout</members>
+        <members>MYBZ_Usage_Metric_Report__c-Usage Metrics Report Layout</members>        
         <name>Layout</name>
     </types>
     <types>
