@@ -189,16 +189,6 @@
 
                      
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/utils.js')}"/>
-                        
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/metricManager.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/monthManager.js')}"/>
-        
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareChart.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareChartCanvas.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareController.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareDataManager.js')}"/>
-        
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/target-goals/productMeterDirective.js')}"/>
         
      
     </head>
