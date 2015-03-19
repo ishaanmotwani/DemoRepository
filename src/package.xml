@@ -3,6 +3,7 @@
     <version>30.0</version>
 	 <types>
         <members>MYBZ_Region_Rollup_Controller</members>
+		<members>Test_MYBZ_RegionRollup_Controller</members>
         <name>ApexClass</name>
     </types>
     <types>
