@@ -4,7 +4,6 @@
 *@ CreatedBy                                                     : 
 *@ CreatedOn                                                     : 
 *@ Modification Log                                              : 18 Feb 2014 made changes to test class to include actual ddd units in target goal report calculations
-
 */
 
 @isTest(SeeAllData=false)
