@@ -329,7 +329,7 @@ Territory - The territory selected via a territory picker.
                 
                     MYBZ_Region__c reg=[Select id from MYBZ_Region__c where Name =: System.Label.MYBZ_defaultRegion ];
                 
-                    productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__c =:reg.Id AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC,Market__c];
+                    productTrendsList = [SELECT Id, Global_ID__c, Region__c, District__c, Owner__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, percentageChangeFromPreviousMonth__c, Previous_Month_TRx__c, DDD_Units__c,DDD_Dollars__c,Previous_DDD_Dollars__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__c =:reg.Id and district__c=null AND Owner__c = :System.Label.MYBZ_LILLY AND lillyProduct__c = true ORDER BY Month__c, Year__c ASC,Market__c];
                 
             }
         }
@@ -1442,7 +1442,7 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
                 
                 MYBZ_Region__c reg=[Select id from MYBZ_Region__c where Name =: System.Label.MYBZ_defaultRegion ];
                 
-                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Area__c =:reg.Id order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
+                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c from MYBZ_Product_Trend_Detail__c where Area__c =:reg.Id and district__c=null order by Year__c,Month__c asc, IHS_Product__r.Name desc, TRx_Units__c desc];
             }
         }
         catch(Exception E) 
@@ -1715,7 +1715,7 @@ from Salesforce in the form of a JSON object based on Global id , without using 
             if(Role == System.Label.MYBZ_SuperUser){
                 marketShareList.clear();
                     MYBZ_Region__c reg=[Select id from MYBZ_Region__c where Name =: System.Label.MYBZ_defaultRegion ];
-                    marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__c =:reg.Id ORDER BY Month__c, Year__c ASC];
+                    marketShareList = [SELECT Id, Region__c, District__c, Global_Id__c, Owner__c, Market__c, lillyProduct__c, Month__c, Year__c, Product__r.Name, TRx__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c WHERE Region__c =:reg.Id and district__c=null ORDER BY Month__c, Year__c ASC];
                 
             }
             
