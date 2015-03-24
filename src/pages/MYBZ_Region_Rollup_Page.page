@@ -8,7 +8,7 @@
         <title>Eli Lilly Sales Tool</title>
         
         <script>
-            
+
             var region = '';
             var district = '';
             var territory = '';
@@ -189,6 +189,9 @@
 
                      
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/utils.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/angular-scrollable-table.js')}"/>
+
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/scrollable-table.css')}"/>
         
      
     </head>
