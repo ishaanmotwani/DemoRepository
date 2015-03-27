@@ -17,5 +17,5 @@
         <members>MYBZ_Region_Rollup_Resource</members>
         <name>StaticResource</name>
     </types>
-    <version>30.0</version>
+    <version>32.0</version>
 </Package>
