@@ -11,7 +11,7 @@
     </types>
     <types>       
         <members>MYBZ_defaultRegion</members>
-        <name>CustomLabels</name>
+        <name>CustomLabel</name>
     </types>
     <types>
         <members>MYBZ_Region_Rollup_Resource</members>
