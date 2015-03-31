@@ -9,8 +9,8 @@
         <members>MYBZ_Region_Rollup_Page</members>
         <name>ApexPage</name>
     </types>
-    <types>
-        <members>CustomLabels</members>
+    <types>       
+        <members>MYBZ_defaultRegion</members>
         <name>CustomLabels</name>
     </types>
     <types>
