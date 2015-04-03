@@ -16,7 +16,7 @@
      <types>
         <members>MYBZ_CallPlanningProductJunction__c.Dataload_Id__c</members>
         <members>MYBZ_Call_Planning__c.Dataload_Id__c</members>
-        <members>MYBZ_Call__c,Dataload_Id__c</members>
+        <members>MYBZ_Call__c.Dataload_Id__c</members>
         <members>MYBZ_District__c.Dataload_Id__c</members>
         <members>MYBZ_IHS_Division__c.Dataload_Id__c</members>
         <members>MYBZ_Market_Share__c.Dataload_Id__c</members>
@@ -25,7 +25,7 @@
         <members>MYBZ_Region_Rollup__c.Dataload_Id__c</members>
         <members>MYBZ_Region__c.Dataload_Id__c</members>
         <members>MYBZ_Target_Goal__c.Dataload_Id__c</members>
-        <members>MYBZ_Territory__c.Dataload_Id__c</members>
+        <members>MYBZ_Territory__c.Dataload_Id__c</members>        
         <name>CustomField</name>
     </types>
     <types>
