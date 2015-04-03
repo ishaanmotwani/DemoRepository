@@ -13,20 +13,20 @@
         <members>MYBZ_defaultRegion</members>
         <name>CustomLabel</name>
     </types>
-    <types>
-        <members>MYBZ_CallPlanningProductJunction__c</members>
-        <members>MYBZ_Call_Planning__c</members>
-        <members>MYBZ_Call__c</members>
-        <members>MYBZ_District__c</members>
-        <members>MYBZ_IHS_Division__c</members>
-        <members>MYBZ_Market_Share__c</members>
-        <members>MYBZ_Product_Trend_Detail__c</members>
-        <members>MYBZ_Product__c</members>
-        <members>MYBZ_Region_Rollup__c</members>
-        <members>MYBZ_Region__c</members>
-        <members>MYBZ_Target_Goal__c</members>
-        <members>MYBZ_Territory__c</members>        
-        <name>CustomObject</name>
+     <types>
+        <members>MYBZ_CallPlanningProductJunction__c.Dataload_Id__c</members>
+        <members>MYBZ_Call_Planning__c.Dataload_Id__c</members>
+        <members>MYBZ_Call__c,Dataload_Id__c</members>
+        <members>MYBZ_District__c.Dataload_Id__c</members>
+        <members>MYBZ_IHS_Division__c.Dataload_Id__c</members>
+        <members>MYBZ_Market_Share__c.Dataload_Id__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Dataload_Id__c</members>
+        <members>MYBZ_Product__c.Dataload_Id__c</members>
+        <members>MYBZ_Region_Rollup__c.Dataload_Id__c</members>
+        <members>MYBZ_Region__c.Dataload_Id__c</members>
+        <members>MYBZ_Target_Goal__c.Dataload_Id__c</members>
+        <members>MYBZ_Territory__c.Dataload_Id__c</members>
+        <name>CustomField</name>
     </types>
     <types>
         <members>MYBZ_CallPlanningProductJunction__c-CallPlanningProductJunction Layout</members>
