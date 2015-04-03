@@ -9,9 +9,40 @@
         <members>MYBZ_Region_Rollup_Page</members>
         <name>ApexPage</name>
     </types>
+    <types>
+        <members>MYBZ_CallPlanningProductJunction__c</members>
+        <members>MYBZ_Call_Planning__c</members>
+        <members>MYBZ_Call__c</members>
+        <members>MYBZ_District__c</members>
+        <members>MYBZ_IHS_Division__c</members>
+        <members>MYBZ_Market_Share__c</members>
+        <members>MYBZ_Product_Trend_Detail__c</members>
+        <members>MYBZ_Product__c</members>
+        <members>MYBZ_Region_Rollup__c</members>
+        <members>MYBZ_Region__c</members>
+        <members>MYBZ_Target_Goal__c</members>
+        <members>MYBZ_Territory__c</members>        
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>MYBZ_CallPlanningProductJunction__c-CallPlanningProductJunction Layout</members>
+        <members>MYBZ_Call_Planning__c-Call Planning Layout</members>
+        <members>MYBZ_Call__c-Call Layout</members>
+        <members>MYBZ_District__c-State Layout</members>
+        <members>MYBZ_IHS_Division__c-Parent Layout</members>
+        <members>MYBZ_Market_Share__c-Market Share Layout</members>
+        <members>MYBZ_Product_Trend_Detail__c-Product Trend Detail Layout</members>
+        <members>MYBZ_Product__c-Product Layout</members>
+        <members>MYBZ_Region_Rollup__c-Alignment Layout</members>
+        <members>MYBZ_Region__c-Region Layout</members>
+        <members>MYBZ_Target_Goal__c-Target Goal Layout</members>
+        <members>MYBZ_Territory__c-Tier Layout</members>
+        <members>MYBZ_Usage_Metric_Report__c-Usage Metrics Report Layout</members>        
+        <name>Layout</name>
+    </types>
     <types>       
-        <members>MYBZ_defaultRegion</members>
-        <name>CustomLabel</name>
+        <members>MYBZ_Data_Load_User</members>        
+        <name>PermissionSet</name>
     </types>
     <types>
         <members>MYBZ_Region_Rollup_Resource</members>
