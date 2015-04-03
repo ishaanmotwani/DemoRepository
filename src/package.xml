@@ -9,6 +9,10 @@
         <members>MYBZ_Region_Rollup_Page</members>
         <name>ApexPage</name>
     </types>
+	<types>       
+        <members>MYBZ_defaultRegion</members>
+        <name>CustomLabel</name>
+    </types>
     <types>
         <members>MYBZ_CallPlanningProductJunction__c</members>
         <members>MYBZ_Call_Planning__c</members>
