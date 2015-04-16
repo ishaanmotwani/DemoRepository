@@ -28,9 +28,7 @@
         <members>MYBZ_Region_Rollup__c-Alignment Layout</members>
         <members>MYBZ_Region__c-Region Layout</members>
         <members>MYBZ_Target_Goal__c-Target Goal Layout</members>
-        <members>MYBZ_Territory__c-Tier Layout</members>
-        <members>MYBZ_Usage_Metric_Report__c-Usage Metrics Report Layout</members>
-        <members>User-User Layout</members>
+        <members>MYBZ_Territory__c-Tier Layout</members>        
         <name>Layout</name>
     </types>
 	
