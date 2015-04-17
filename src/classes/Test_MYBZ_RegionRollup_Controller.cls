@@ -24,6 +24,14 @@ public class Test_MYBZ_RegionRollup_Controller{
                                   timezonesidkey='America/Los_Angeles', username='appBasicIhs@gso_org.com'+Math.random()*100 , MYBZ_Role__c=Role, Prsnl_Nbr_GLBL__c='xxxxx',MYBZ_Reporting_ID__c='xxxxx');
         
         Insert runAsUser;
+        
+        System.runAs(new User(Id = Userinfo.getUserId())) {
+            PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = 'MYBZ_Reps_and_Managers'];
+            PermissionSetAssignment psa = new PermissionSetAssignment();
+            psa.AssigneeId = runAsUser.Id;
+            psa.PermissionSetId = ps.Id;
+            insert psa;
+        }
         Return runAsUser;
     }   
     static MYBZ_Region__c Region = New MYBZ_Region__c();

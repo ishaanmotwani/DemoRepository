@@ -8,7 +8,11 @@
         <title>Eli Lilly Sales Tool</title>
         
         <script>
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 4e690c9ede3e121f1b8a1fe220af75c5106abff8
             var region = '';
             var district = '';
             var territory = '';
@@ -189,6 +193,7 @@
 
                      
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/utils.js')}"/>
+<<<<<<< HEAD
                         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/metricManager.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/controls/monthManager.js')}"/>
@@ -199,6 +204,11 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/market-share/marketShareDataManager.js')}"/>
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/target-goals/productMeterDirective.js')}"/>
+=======
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/angular-scrollable-table.js')}"/>
+
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/scrollable-table.css')}"/>
+>>>>>>> 4e690c9ede3e121f1b8a1fe220af75c5106abff8
         
      
     </head>
