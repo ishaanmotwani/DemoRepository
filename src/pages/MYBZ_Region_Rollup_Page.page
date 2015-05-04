@@ -188,7 +188,7 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/chosen/chosen.jquery.min.js')}"/>
 
                      
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/utils.js')}"/>
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/utils.js')}"/>-->
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/angular-scrollable-table.js')}"/>
 
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/scrollable-table.css')}"/>
@@ -204,7 +204,8 @@
     </apex:form>
     <body>
         <div ng-controller="BaseController as base">
-
+          <div id="dashboard-container">
+            <dashboard-burger></dashboard-burger>
             <div id="dashboard-wrapper">
                 <div id="dashboard-background"></div>
                 <nav class="outer-nav right vertical">
@@ -212,6 +213,7 @@
                     <!--div ng-include="'{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'partials/dashboard.html')}'" id="dashboard"></div>-->
                 </nav>
             </div>
+          </div>
 
                 <!-- Container for dashboard/drawer -->
                 <!--<nav class="outer-nav right vertical">
@@ -235,18 +237,20 @@
             </div> <!-- /Perspective -->
 
             <!-- Controls Button -->
-            <img class="controls-view-toggle-indicator" src="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'/img/controls-closed.png')}" ng-hide="navigationHidden == true || controlsButtonHidden == true"></img>
+            <!--<img class="controls-view-toggle-indicator" src="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'/img/controls-closed.png')}" ng-hide="navigationHidden == true || controlsButtonHidden == true"></img>-->
             <button class="controls-view-toggle-button transparent" ng-click="base.centerButtonPressed()" ng-hide="navigationHidden == true || controlsButtonHidden == true"></button>
 
             
-            <dashboard-burger></dashboard-burger>
+            <!--<dashboard-burger></dashboard-burger>-->
             <sprite-spinner></sprite-spinner>
 
         </div> <!-- End root-container -->
 
     
+    
        <apex:includeScript value="{!URLFOR($Resource.MYBZ_HideAddressBar,'')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/lillyApp.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/ionicons.min.css')}"/>
         
         <!--This is problem area -->
         <!--<apex:stylesheet value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'css/component.css')}"/>
