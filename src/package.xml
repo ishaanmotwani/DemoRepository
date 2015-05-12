@@ -34,6 +34,12 @@
         <members>MYBZ_Market_Share__c.system__c</members>
         <name>CustomField</name>
     </types>
+	<types>
+        <members>MYBZ_MarketShareDetail__c</members>
+        <members>MYBZ_PGP__c</members>
+        <members>MYBZ_System__c</members>
+        <name>CustomObject</name>
+    </types>
     <types>
         <members>MYBZ_CallPlanningProductJunction__c-CallPlanningProductJunction Layout</members>
         <members>MYBZ_Call_Planning__c-Call Planning Layout</members>
