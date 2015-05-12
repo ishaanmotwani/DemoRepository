@@ -1,14 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <fields>
-        <fullName>Dataload_Id__c</fullName>
-        <caseSensitive>false</caseSensitive>
-        <externalId>true</externalId>
-        <label>Dataload Id</label>
-        <length>100</length>
+        <fullName>Division__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Division</label>
+        <referenceTo>MYBZ_IHS_Division__c</referenceTo>
+        <relationshipLabel>Market Shares</relationshipLabel>
+        <relationshipName>Market_Shares</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Hcp_First_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Hcp First Name</label>
+        <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
-        <unique>true</unique>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Hcp_Last_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Hcp Last Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LoadIdentifier__c</fullName>
+        <description>Identifier to differentiate between release 1.2 and 2.0 Loads</description>
+        <externalId>false</externalId>
+        <label>LoadIdentifier</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Month_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Month Number</label>
+        <length>2</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PGP__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Add lookup to Physician Group as part of Release 2.0</description>
+        <externalId>false</externalId>
+        <label>PGP</label>
+        <referenceTo>MYBZ_PGP__c</referenceTo>
+        <relationshipLabel>Market Shares</relationshipLabel>
+        <relationshipName>Market_Shares</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Physician_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Physician ID</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>System__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Lookup to IHS System for Release 2.0</description>
+        <externalId>false</externalId>
+        <label>System</label>
+        <referenceTo>MYBZ_System__c</referenceTo>
+        <relationshipLabel>Market Shares</relationshipLabel>
+        <relationshipName>Market_Shares</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Year_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Year Number</label>
+        <length>4</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>percentageChangeFromPreviousMonth__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(Previous_Month_TRx__c != 0,((TRx__c -  Previous_Month_TRx__c) /  Previous_Month_TRx__c),0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>percentageChangeFromPreviousMonth</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
     </fields>
 </CustomObject>
