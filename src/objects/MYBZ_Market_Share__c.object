@@ -99,20 +99,7 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>System__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <description>Lookup to IHS System for Release 2.0</description>
-        <externalId>false</externalId>
-        <label>System</label>
-        <referenceTo>MYBZ_System__c</referenceTo>
-        <relationshipLabel>Market Shares</relationshipLabel>
-        <relationshipName>Market_Shares</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
+    </fields>    
     <fields>
         <fullName>Year_Number__c</fullName>
         <externalId>false</externalId>
