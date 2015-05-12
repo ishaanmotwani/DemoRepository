@@ -32,6 +32,7 @@
         <members>MYBZ_Market_Share__c.Year_Number__c</members>
         <members>MYBZ_Market_Share__c.percentageChangeFromPreviousMonth__c</members>
         <members>MYBZ_Market_Share__c.system__c</members>
+		<members>MYBZ_Market_Share__c.Dataload_Id__c</members>
         <name>CustomField</name>
     </types>
 	<types>
