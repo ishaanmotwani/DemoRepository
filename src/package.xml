@@ -14,15 +14,9 @@
         <members>MYBZ_Call_Planning__c.Dataload_Id__c</members>
         <members>MYBZ_Call__c.Dataload_Id__c</members>
         <members>MYBZ_District__c.Dataload_Id__c</members>
-        <members>MYBZ_IHS_Division__c.Dataload_Id__c</members>        
-        <members>MYBZ_Product_Trend_Detail__c.Dataload_Id__c</members>
-        <members>MYBZ_Product_Trend_Detail__c.Range__c</members>
-        <members>MYBZ_Product__c.Dataload_Id__c</members>
-        <members>MYBZ_Region_Rollup__c.Dataload_Id__c</members>
-        <members>MYBZ_Region__c.Dataload_Id__c</members>
-        <members>MYBZ_Target_Goal__c.Dataload_Id__c</members>
-        <members>MYBZ_Territory__c.Dataload_Id__c</members>
-		<members>MYBZ_Market_Share__c.Division__c</members>
+        <members>MYBZ_IHS_Division__c.Dataload_Id__c</members>
+        <members>MYBZ_Market_Share__c.Dataload_Id__c</members>
+        <members>MYBZ_Market_Share__c.Division__c</members>
         <members>MYBZ_Market_Share__c.Hcp_First_Name__c</members>
         <members>MYBZ_Market_Share__c.Hcp_Last_Name__c</members>
         <members>MYBZ_Market_Share__c.LoadIdentifier__c</members>
@@ -31,11 +25,30 @@
         <members>MYBZ_Market_Share__c.Physician_ID__c</members>
         <members>MYBZ_Market_Share__c.Year_Number__c</members>
         <members>MYBZ_Market_Share__c.percentageChangeFromPreviousMonth__c</members>
-        <members>MYBZ_Market_Share__c.System__c</members>
-		<members>MYBZ_Market_Share__c.Dataload_Id__c</members>
+        <members>MYBZ_Market_Share__c.system__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Dataload_Id__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Division__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Gain_or_Lose_Percentage__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Gainer_Loser_Top__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.LE_ID_IHS__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.LE_ID_PGP__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.LoadIdentifier__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Month__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.PGP__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Previous_Month_TRx__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Range__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Rank__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.System__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP_ID__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP__c</members>
+        <members>MYBZ_Product__c.Dataload_Id__c</members>
+        <members>MYBZ_Region_Rollup__c.Dataload_Id__c</members>
+        <members>MYBZ_Region__c.Dataload_Id__c</members>
+        <members>MYBZ_Target_Goal__c.Dataload_Id__c</members>
+        <members>MYBZ_Territory__c.Dataload_Id__c</members>
         <name>CustomField</name>
     </types>
-	<types>
+    <types>
         <members>MYBZ_MarketShareDetail__c</members>
         <members>MYBZ_PGP__c</members>
         <members>MYBZ_System__c</members>
@@ -47,19 +60,19 @@
         <members>MYBZ_Call__c-Call Layout</members>
         <members>MYBZ_District__c-State Layout</members>
         <members>MYBZ_IHS_Division__c-Parent Layout</members>
+        <members>MYBZ_MarketShareDetail__c-MarketShareDetail Layout</members>
         <members>MYBZ_Market_Share__c-Market Share Layout</members>
-		<members>MYBZ_MarketShareDetail__c-MarketShareDetail Layout</members>        
         <members>MYBZ_PGP__c-PGP Layout</members>
-		<members>MYBZ_System__c-System Layout</members>
         <members>MYBZ_Product_Trend_Detail__c-Product Trend Detail Layout</members>
         <members>MYBZ_Product__c-Product Layout</members>
         <members>MYBZ_Region_Rollup__c-Alignment Layout</members>
         <members>MYBZ_Region__c-Region Layout</members>
+        <members>MYBZ_System__c-System Layout</members>
         <members>MYBZ_Target_Goal__c-Target Goal Layout</members>
         <members>MYBZ_Territory__c-Tier Layout</members>
         <name>Layout</name>
     </types>
-     <types>
+    <types>
         <members>MYBZ_Admin</members>
         <members>MYBZ_Data_Load_User</members>
         <members>MYBZ_Reps_and_Managers</members>

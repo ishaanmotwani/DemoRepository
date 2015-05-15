@@ -46,11 +46,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_MarketShareDetail__c.Gainers__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>MYBZ_MarketShareDetail__c.Global_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -166,6 +161,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>MYBZ_MarketShareDetail__c.percentageChangeFromPreviousMonth__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Market_Share__c.Dataload_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>MYBZ_Market_Share__c.Division__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -215,6 +220,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_PGP__c.Aligned_Districts__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_PGP__c.Global_IDs__c</field>
         <readable>true</readable>
@@ -236,7 +246,72 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Division__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Gain_or_Lose_Percentage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Gainer_Loser_Top__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.LE_ID_IHS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.LE_ID_PGP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.LoadIdentifier__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Month__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.PGP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Previous_Month_TRx__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>MYBZ_Product_Trend_Detail__c.Range__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Rank__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.System__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -253,6 +328,11 @@
         <editable>true</editable>
         <field>MYBZ_Region__c.Dataload_Id__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_System__c.Aligned_Districts__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
