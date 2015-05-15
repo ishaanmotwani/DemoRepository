@@ -25,6 +25,8 @@
         <members>MYBZ_Market_Share__c.Physician_ID__c</members>
         <members>MYBZ_Market_Share__c.System__c</members>
         <members>MYBZ_Market_Share__c.Year_Number__c</members>
+        <members>MYBZ_Market_Share__c.LE_ID_IHS__c</members>
+        <members>MYBZ_Market_Share__c.LE_ID_PGP__c</members>
         <members>MYBZ_Market_Share__c.percentageChangeFromPreviousMonth__c</members>
         <members>MYBZ_Market_Share__c.system__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Dataload_Id__c</members>
