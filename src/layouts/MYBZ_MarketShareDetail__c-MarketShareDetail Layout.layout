@@ -72,7 +72,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Gainers__c</field>
+                <field>percentageChangeFromPreviousMonth__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

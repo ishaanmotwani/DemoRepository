@@ -44,6 +44,26 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>LE_ID_IHS__c</fullName>
+        <externalId>false</externalId>
+        <label>LE_ID_IHS</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LE_ID_PGP__c</fullName>
+        <externalId>false</externalId>
+        <label>LE_ID_PGP</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>LoadIdentifier__c</fullName>
         <description>Identifier to differentiate between release 1.2 and 2.0 Loads</description>
         <externalId>false</externalId>
@@ -77,7 +97,17 @@
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
-	<fields>
+    <fields>
+        <fullName>Physician_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Physician ID</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>System__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Lookup to IHS System for Release 2.0</description>
@@ -90,16 +120,6 @@
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
-    <fields>
-        <fullName>Physician_ID__c</fullName>
-        <externalId>false</externalId>
-        <label>Physician ID</label>
-        <length>20</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>    
     <fields>
         <fullName>Year_Number__c</fullName>
         <externalId>false</externalId>

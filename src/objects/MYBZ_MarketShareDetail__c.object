@@ -70,21 +70,10 @@
         <fullName>Gainer_Loser__c</fullName>
         <externalId>false</externalId>
         <label>Gainer or Loser</label>
-        <length>10</length>
+        <length>20</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Gainers__c</fullName>
-        <externalId>false</externalId>
-        <label>Gain or Lose Percentage</label>
-        <precision>8</precision>
-        <required>false</required>
-        <scale>4</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
         <unique>false</unique>
     </fields>
     <fields>
@@ -183,10 +172,11 @@
         <fullName>Month__c</fullName>
         <externalId>false</externalId>
         <label>Month</label>
-        <length>2</length>
+        <precision>10</precision>
         <required>false</required>
+        <scale>0</scale>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
+        <type>Number</type>
         <unique>false</unique>
     </fields>
     <fields>
@@ -326,10 +316,22 @@
         <fullName>Year__c</fullName>
         <externalId>false</externalId>
         <label>Year</label>
-        <length>4</length>
+        <precision>10</precision>
         <required>false</required>
+        <scale>0</scale>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>percentageChangeFromPreviousMonth__c</fullName>
+        <externalId>false</externalId>
+        <label>Gain or Lose Percentage</label>
+        <precision>8</precision>
+        <required>false</required>
+        <scale>4</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
         <unique>false</unique>
     </fields>
     <label>MarketShareDetail</label>

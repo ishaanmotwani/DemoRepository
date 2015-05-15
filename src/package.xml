@@ -23,6 +23,7 @@
         <members>MYBZ_Market_Share__c.Month_Number__c</members>
         <members>MYBZ_Market_Share__c.PGP__c</members>
         <members>MYBZ_Market_Share__c.Physician_ID__c</members>
+        <members>MYBZ_Market_Share__c.System__c</members>
         <members>MYBZ_Market_Share__c.Year_Number__c</members>
         <members>MYBZ_Market_Share__c.percentageChangeFromPreviousMonth__c</members>
         <members>MYBZ_Market_Share__c.system__c</members>
