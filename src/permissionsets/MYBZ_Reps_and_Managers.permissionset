@@ -186,6 +186,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Market_Share__c.LE_ID_IHS__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Market_Share__c.LE_ID_PGP__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Market_Share__c.LoadIdentifier__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -226,6 +236,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_PGP__c.Aligned_Territories__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_PGP__c.Global_IDs__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -238,6 +253,11 @@
         <editable>false</editable>
         <field>MYBZ_PGP__c.System__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Alignment_Level__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -258,6 +278,11 @@
         <editable>false</editable>
         <field>MYBZ_Product_Trend_Detail__c.Gainer_Loser_Top__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Product_Trend_Detail__c.HCP_or_PGP__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -332,6 +357,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>MYBZ_System__c.Aligned_Districts__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_System__c.Aligned_Territories__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
