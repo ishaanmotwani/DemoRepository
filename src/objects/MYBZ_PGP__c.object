@@ -97,6 +97,81 @@
         <visibleLines>4</visibleLines>
     </fields>
     <fields>
+        <fullName>Aligned_Territories__c</fullName>
+        <externalId>false</externalId>
+        <label>Aligned Territories</label>
+        <picklist>
+            <picklistValues>
+                <fullName>WASHINGTON IHS AM 125506</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BAYSTATE MA IH Partner 125397</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BAYSTATE MA IH Specialist 125376</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BMC MA IH Partner 125396</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BMC MA IH Specialist 125375</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CAREGROUP MA IH Partner 125395</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CAREGROUP MA IH Specialist 125373</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>INDEPENDENT MA IH Partner 125398</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>OREGON IHS AM 126069</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PARTNERS MA IH Partner 125394</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PARTNERS MA IH Specialist 125372</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PORTLAND OR IHS AM 125505</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SEATTLE IHS AM 126070</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SOUTH MA IH Specialist 125374</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>STEWARD MA IHS Specialist 125414</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>UMASS MA IH Specialist 125377</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
         <fullName>Global_IDs__c</fullName>
         <externalId>false</externalId>
         <label>Global IDs</label>
