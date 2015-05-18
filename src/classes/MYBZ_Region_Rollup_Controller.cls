@@ -235,9 +235,93 @@ This object is later used to report on User activity on this application.
                     generator.writeEndArray();
                 }
                 String sdata = generator.getAsString();
-                System.debug('--Alignment'+sdata );
+                System.debug('--Alignment (GEO)'+sdata );
                 Object obj = Json.deserializeUntyped(sdata);
-                return obj;
+
+                // Begin processing of affiliation data
+                List<MYBZ_System__c> sysList;
+                List<MYBZ_PGP__c> orphanedPGP_list;
+                if(Role == System.Label.MYBZ_SuperUser || GlobalID == null || GlobalID == '')
+                {
+                    sysList = [SELECT Name, 
+                                      System_ID__c, 
+                                      Aligned_Territories__c,
+                                      Aligned_Districts__c,
+                                      (SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c FROM pgps__r) 
+                               FROM MYBZ_System__c];
+
+                    orphanedPGP_list = [SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c
+                                        FROM MYBZ_PGP__c];
+                }
+                else
+                {
+                    sysList = [SELECT 
+                                    Name, 
+                                    System_ID__c, 
+                                    Aligned_Territories__c,
+                                    Aligned_Districts__c, 
+                                    (SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c FROM pgps__r) 
+                               FROM MYBZ_System__c
+                               WHERE Global_IDs__c INCLUDES (:GlobalID)];
+
+                    orphanedPGP_list = [SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c
+                                        FROM MYBZ_PGP__c
+                                        WHERE Global_IDs__c INCLUDES (:GlobalID)];
+                }
+
+                MYBZ_AlignmentWrapper.Affiliation_Data response_affiliationData = new MYBZ_AlignmentWrapper.Affiliation_Data();
+                
+                response_affiliationData.systems = new List<MYBZ_AlignmentWrapper.IHS_System>();
+                for(MYBZ_System__c sys : sysList)
+                {
+                    List<MYBZ_AlignmentWrapper.PGP> pgps = new List<MYBZ_AlignmentWrapper.PGP>();
+                    
+                    for(MYBZ_PGP__c pgp : sys.pgps__r)
+                    {
+                        MYBZ_AlignmentWrapper.PGP response_PGP = new MYBZ_AlignmentWrapper.PGP();
+                        response_PGP.name = pgp.name;
+                        response_PGP.pgpID = pgp.PGP_ID__c;
+                        if(pgp.Aligned_Territories__c != null)
+                            response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
+                        if(pgp.Aligned_Districts__c != null)
+                            response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
+
+                        pgps.add(response_PGP);
+                    }
+                    
+                    MYBZ_AlignmentWrapper.IHS_System response_System = new MYBZ_AlignmentWrapper.IHS_System();
+                    response_System.name = sys.name;
+                    response_System.systemID = sys.System_ID__c;
+                    response_System.children = pgps;
+                    if(sys.Aligned_Territories__c != null)
+                        response_System.alignedTerritories = sys.Aligned_territories__c.split(';');
+                    if(sys.Aligned_Districts__c != null)
+                        response_System.alignedDistricts = sys.Aligned_Districts__c.split(';');
+
+                    response_affiliationData.systems.add(response_System);
+                }
+
+                response_affiliationData.orphanedPGPs = new List<MYBZ_AlignmentWrapper.PGP>();
+                for(MYBZ_PGP__c pgp : orphanedPGP_list)
+                {
+                    MYBZ_AlignmentWrapper.PGP response_PGP = new MYBZ_AlignmentWrapper.PGP();
+                    response_PGP.name = pgp.Name;
+                    response_PGP.pgpID = pgp.PGP_ID__c;
+                    if(pgp.Aligned_Territories__c != null)
+                        response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
+                    if(pgp.Aligned_Districts__c != null)
+                        response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
+
+                    response_affiliationData.orphanedPGPs.add(response_PGP);
+                }
+
+                MYBZ_AlignmentWrapper.Response response_Alignment = new MYBZ_AlignmentWrapper.Response();
+                response_Alignment.affiliationData = response_affiliationData;
+                response_Alignment.geoData = obj;
+
+                system.debug('--Alignment' + JSON.serializePretty(response_Alignment));
+
+                return response_Alignment;
             }
         }    
         catch(Exception E) 
