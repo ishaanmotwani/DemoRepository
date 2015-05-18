@@ -3,6 +3,7 @@
     <types>
         <members>MYBZ_Region_Rollup_Controller</members>
         <members>Test_MYBZ_RegionRollup_Controller</members>
+        <members>MYBZ_AlignmentWrapper</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -50,6 +51,15 @@
         <members>MYBZ_Region__c.Dataload_Id__c</members>
         <members>MYBZ_Target_Goal__c.Dataload_Id__c</members>
         <members>MYBZ_Territory__c.Dataload_Id__c</members>
+        <members>MYBZ_PGP__c.Aligned_Districts__c</members>
+        <members>MYBZ_PGP__c.Aligned_Territories__c</members>
+        <members>MYBZ_PGP__c.Global_IDs__c</members>
+        <members>MYBZ_PGP__c.PGP_ID__c</members>
+        <members>MYBZ_PGP__c.System__c</members>
+        <members>MYBZ_System__c.Aligned_Districts__c</members>
+        <members>MYBZ_System__c.Aligned_Territories__c</members>
+        <members>MYBZ_System__c.Global_IDs__c</members>
+        <members>MYBZ_System__c.System_ID__c</members>
         <name>CustomField</name>
     </types>
     <types>
