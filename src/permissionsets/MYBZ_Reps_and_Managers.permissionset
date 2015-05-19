@@ -56,12 +56,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>MYBZ_Market_Share__c.LE_ID_IHS__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>MYBZ_Market_Share__c.LE_ID_PGP__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
