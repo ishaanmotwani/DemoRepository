@@ -66,8 +66,7 @@
         <members>MYBZ_Call_Planning__c-Call Planning Layout</members>
         <members>MYBZ_Call__c-Call Layout</members>
         <members>MYBZ_District__c-State Layout</members>
-        <members>MYBZ_IHS_Division__c-Parent Layout</members>
-        <members>MYBZ_MarketShareDetail__c-MarketShareDetail Layout</members>
+        <members>MYBZ_IHS_Division__c-Parent Layout</members>       
         <members>MYBZ_Market_Share__c-Market Share Layout</members>
         <members>MYBZ_PGP__c-PGP Layout</members>
         <members>MYBZ_Product_Trend_Detail__c-Product Trend Detail Layout</members>
