@@ -53,8 +53,7 @@
         <members>MYBZ_Territory__c.Dataload_Id__c</members>       
         <name>CustomField</name>
     </types>
-    <types>
-        <members>MYBZ_MarketShareDetail__c</members>
+    <types>        
         <members>MYBZ_PGP__c</members>
         <members>MYBZ_System__c</members>
         <name>CustomObject</name>
