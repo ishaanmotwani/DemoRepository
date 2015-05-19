@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>MYBZ_updateMonthFields</fullName>
+        <field>Month_Number__c</field>
+        <formula>TEXT(Month__c)</formula>
+        <name>MYBZ_updateMonthFields</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>MYBZ_updateMonthYearFields</fullName>
+        <field>Year_Number__c</field>
+        <formula>TEXT(Year__c)</formula>
+        <name>MYBZ_updateMonthYearFields</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <rules>
+        <fullName>MYBZ_updateMonthYearFields</fullName>
+        <actions>
+            <name>MYBZ_updateMonthFields</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>MYBZ_updateMonthYearFields</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>TRUE</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

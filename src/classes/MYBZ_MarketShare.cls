@@ -1,0 +1,845 @@
+global with Sharing  class MYBZ_MarketShare{
+
+    global static Integer j,k,m,n;
+    global static List<MYBZ_Market_Share__c> marketShareList =new List<MYBZ_Market_Share__c>();
+    global static List<AggregateResult> marketShareListNational=new List<AggregateResult>();
+    global static List<AggregateResult> marketShareListDistrict=new List<AggregateResult>();
+    global static List<AggregateResult> marketShareListRegion=new List<AggregateResult>();
+    global static Map<string, List<AggregateResult>> mapAggNat  = new Map<string, List<AggregateResult>>();
+    global static Map<string, List<AggregateResult>> mapAggdis  = new Map<string, List<AggregateResult>>();
+    global static Map<string, List<AggregateResult>> mapAggreg  = new Map<string, List<AggregateResult>>();
+    global static List<MYBZ_Market_Share__c> marketShareNationalPercentChange=new List<MYBZ_Market_Share__c>();
+    global static List<MYBZ_Market_Share__c> marketSharedistrictPercentChange=new List<MYBZ_Market_Share__c>();
+    global static List<MYBZ_Market_Share__c> marketShareRegionPercentChange=new List<MYBZ_Market_Share__c>();
+    global static Map<String,Decimal> nationalPercentChange=new Map<String,Decimal>();
+    global static Map<String,Decimal> districtPercentChange=new Map<String,Decimal>();
+     global static Map<String,Decimal> regionPercentChange=new Map<String,Decimal>();
+    global static Decimal TotalTrx=0,TotalTrxDis=0,TotalTrxReg=0;
+    //global static MYBZ_Region__c reg;
+    global static String Role;
+    global static String GlobalId ;
+    global static MYBZ_Market_Share__c ms;
+    global static Decimal PercentageChangeDDDUnits=0;
+    
+    global static integer flag=1;
+     global static id UserId;
+    
+    global static void getAlignment(){
+        ms= [select Territory__c,District__c,Region__c, Division__c from MYBZ_Market_Share__c where Global_Id__c =:GlobalId Limit 1];
+    }
+       
+     global static void fetchUserInfo(){
+        UserId = UserInfo.getUserId();      
+        User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
+        if(userObj!=null){
+            Role = userObj.MYBZ_Role__c;
+          
+            GlobalId = userObj.Prsnl_Nbr_GLBL__c;
+            
+            //uname=userObj.name;
+        }
+        
+        
+    }
+    //Non-Aff and by defualt
+    global static void marketShareControllerNonAff() { 
+            fetchUserInfo();
+                    //for account summary page
+                    if(Role==System.Label.MYBZ_AccountManager){
+                        accountSummary();
+                        
+                    }
+                    system.debug(GlobalId+Role);
+                  
+            flag=1;
+            getAlignment();
+            
+             marketShareList.clear();          
+             marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                               Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                               FROM MYBZ_Market_Share__c 
+                               WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='NA' 
+                               ORDER BY Market__c,Month__c, Year__c ASC];
+                                 
+            marketShareListNational.clear();
+            marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  division__c =: ms.Division__c and territory__c = null and District__c = null and  Region__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+            marketShareNationalPercentChange.clear();
+            marketShareNationalPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE division__c =: ms.Division__c and territory__c = null and District__c = null and  Region__c = null  and lillyProduct__c=true  and LoadIdentifier__c='NA'];
+            
+            if(Role == System.Label.MYBZ_SalesRepresentative||  Role == System.Label.MYBZ_DistrictSalesManager) {
+     
+            marketShareListDistrict.clear();
+            marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  District__c =: ms.District__c and territory__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+            
+            marketShareDistrictPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__c =: ms.District__c and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='NA'];
+            
+            }
+            if(Role == System.Label.MYBZ_MajorMarketManager){
+                
+            marketShareListRegion.clear();
+            marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  region__c =: ms.region__c and District__c=null and territory__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+            
+            marketShareRegionPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE region__c =: ms.region__c and territory__c = null and District__c=null  and lillyProduct__c=true and LoadIdentifier__c='NA'];
+                   
+                                                      
+            }
+            
+          /*  if(Role == System.Label.MYBZ_SuperUser){
+                marketShareList.clear();
+                MYBZ_Region__c reg=[Select id from MYBZ_Region__c where Name =: System.Label.MYBZ_defaultRegion ];
+     
+                marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                               Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                               FROM MYBZ_Market_Share__c  WHERE Region__c =:reg.Id and district__c=null and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC];
+      
+            }*/
+            marketshareProcessor();          
+    }
+    
+    //Aff and by default
+   /* global static void marketshareControllerAffiliation(){
+          // MYBZ_Region__c reg=[Select id from MYBZ_Region__c where Name =: System.Label.MYBZ_defaultRegion ];
+           if(Role == System.Label.MYBZ_SalesRepresentative ){
+                
+              getAlignment();
+                marketShareList.clear();
+      
+                marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__c,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c 
+                           WHERE District__c=:ms.District__c and territory__c='' and LoadIdentifier__c='A' 
+                           ORDER BY Market__c,Month__c, Year__c ASC];
+                           
+                          
+    
+            }
+            if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager || Role == System.Label.MYBZ_MajorMarketManager){
+                marketShareList.clear(); 
+                 getAlignment();
+              
+                marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__c,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c 
+                           WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='NON_AFFLTN' ]; 
+          
+
+                marketShareListNational.clear();
+                marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  division__c =: ms.Division__c and territory__c = null and District__c = null and  Region__c = null  and system__c='a4wg00000003DC3AAM' and pgp__c=null GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+            marketShareNationalPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE division__c =: ms.Division__c and territory__c = null and District__c = null and  Region__c = null  and system__c='a4wg00000003DC3AAM' and pgp__c=null and lillyProduct__c=true];
+            
+            marketShareListDistrict.clear();
+                marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  District__c =: ms.District__c and territory__c = null  and system__c='a4wg00000003DC3AAM' and pgp__c=null GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+            marketShareListRegion.clear();
+                marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  region__c =: ms.region__c and District__c=null and territory__c = null  and system__c='a4wg00000003DC3AAM' and pgp__c=null GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+            marketShareDistrictPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__c =: ms.District__c and territory__c = null  and system__c='a4wg00000003DC3AAM' and pgp__c=null and lillyProduct__c=true];
+            
+            marketShareRegionPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE region__c =: ms.region__c and territory__c = null and District__c=null  and system__c='a4wg00000003DC3AAM' and pgp__c=null and lillyProduct__c=true];
+            
+            
+            }
+            if(Role == System.Label.MYBZ_SuperUser){
+                marketShareList.clear();                
+                marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c  WHERE Region__c =:reg.Id and district__c=null and LoadIdentifier__c='A' ORDER BY Market__c,Month__c, Year__c ASC];
+ 
+            }
+    
+
+    
+    }*/
+    global static void accountSummary(){
+        fetchUserInfo();
+                    //for account summary page
+                   
+        flag=0;
+        system.debug('Inside summary');
+        marketShareList = [SELECT Id, Region__c, Gross_Margin__c,DDD_Dollars__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c 
+                           WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='NON_AFFLTN' ]; 
+         marketshareProcessor();             
+                           
+    }
+        
+    
+    //Non Aff and Geo picker
+    global static void marketshareControllerNonAffUsingPicker(String region, String district, String territory){
+        fetchUserInfo();
+                    //for account summary page
+                    if(Role==System.Label.MYBZ_AccountManager){
+                        accountSummary();
+                        
+                    }
+                    system.debug(GlobalId+Role);
+                   
+        flag=1;
+        MYBZ_Market_Share__c mobj=[Select division__c,district__c,territory__c FROM MYBZ_Market_Share__c WHERE (territory__c=:territory OR District__c=:district OR Region__c=:region) LIMIT 1];
+        marketShareListNational.clear();
+        marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  division__c =: mobj.Division__c and territory__c = null and District__c = null and  Region__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+        marketShareNationalPercentChange.clear();                           
+        marketShareNationalPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE division__c =: mobj.Division__c and territory__c = null and District__c = null and  Region__c = null  and lillyProduct__c=true and LoadIdentifier__c='NA'];
+        
+        
+            if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ||Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && district !=null && district !='' && (territory==null || territory=='')){
+            marketShareList.clear();
+            marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                               Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c  FROM MYBZ_Market_Share__c  WHERE District__r.Name =:district AND Territory__c = null and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC]; 
+            marketShareListDistrict.clear();                   
+            marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  District__r.Name =: district and territory__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+            marketShareDistrictPercentChange.clear();
+            marketShareDistrictPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__r.Name =: district and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='NA'];
+            
+            }
+    
+        if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !='' && (district == null || district == '')){  
+        marketShareList.clear();
+        marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC]; 
+                           
+        marketShareListRegion.clear();
+        marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  region__r.Name =: region and District__c=null and territory__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+        marketShareRegionPercentChange.clear();
+        marketShareRegionPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE region__r.Name =: region and territory__c = null and District__c=null  and lillyProduct__c=true and LoadIdentifier__c='NA'];
+    
+        }
+        if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory !=null && territory !=''){ 
+                    marketShareList.clear();
+                    marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, system__r.Name,LE_ID_PGP__c,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC]; 
+                           
+                    marketShareListDistrict.clear();                   
+                    marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  District__c =: mobj.district__c and territory__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+                    marketShareDistrictPercentChange.clear();
+                    marketShareDistrictPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__c =: mobj.district__c and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='NA'];
+                           
+                           
+ 
+        }
+        marketshareProcessor();
+    }
+    
+    global static void marketshareControllerAffUsingPicker(String LE_ID_IHS, String LE_ID_PGP){
+        fetchUserInfo();
+                    //for account summary page
+                    if(Role==System.Label.MYBZ_AccountManager){
+                        accountSummary();
+                        
+                    }
+                    system.debug(GlobalId+Role);
+                    
+        //LE_ID_IHS='a4wg00000003DC3';
+        MYBZ_Market_Share__c mobj= [Select division__c FROM MYBZ_Market_Share__c WHERE (LE_ID_IHS__c=:LE_ID_IHS OR LE_ID_PGP__c=:LE_ID_PGP) LIMIT 1];
+        marketShareListNational.clear();
+        marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  division__c =: mobj.Division__c and territory__c = null and District__c = null and  Region__c = null  and /*LoadIdentifier__c='NON_AFFLTN' and*/ ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+        marketShareNationalPercentChange.clear();                           
+        marketShareNationalPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE division__c =: mobj.Division__c and territory__c = null and District__c = null and  Region__c = null  and lillyProduct__c=true and /*LoadIdentifier__c='NON_AFFLTN' and */((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP)];
+        
+        if(Role == System.Label.MYBZ_SalesRepresentative ||  Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager /*&& (LE_ID_PGP==null || LE_ID_PGP=='')*/ ){ // he will see pgp, system, assign to his district
+                    marketShareList.clear();
+                    marketShareList = [SELECT Id, Region__c, Gross_Margin__c,DDD_Dollars__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, system__r.Name,LE_ID_PGP__c,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c where ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) and LoadIdentifier__c='NON_AFFLTN' and district__c!=null
+                           ORDER BY Market__c,Month__c, Year__c ASC];
+                           
+                    marketShareListDistrict.clear();                   
+                    marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  District__c !=null and territory__c = null  and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) and LoadIdentifier__c='NON_AFFLTN'GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+                    marketShareDistrictPercentChange.clear();
+                    marketShareDistrictPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__c!=null and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='NON_AFFLTN'  and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP)];
+                           
+  
+        }
+
+      /*  if(Role == System.Label.MYBZ_SalesRepresentative ||  Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ){ // he will see pgp, system, assign to his district
+                    marketShareList.clear();
+                    marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c where LE_ID_PGP__c=:LE_ID_PGP and LoadIdentifier__c='A' and district__c!=null
+                           ORDER BY Market__c,Month__c, Year__c ASC];
+                           
+                           
+        
+        }*/
+        if(Role == System.Label.MYBZ_MajorMarketManager /*&& (LE_ID_PGP==null || LE_ID_PGP=='')*/ ) {
+                    marketShareList.clear();
+                    marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c where ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) and LoadIdentifier__c='A' and district__c=null  
+                           ORDER BY Market__c,Month__c, Year__c ASC];
+                           
+                    marketShareListRegion.clear();                 
+                    marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  region__c!=null and District__c =null and territory__c = null  and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) and LoadIdentifier__c='A'GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+                    marketShareRegionPercentChange.clear();
+                    marketShareRegionPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE region__c!=null and District__c =null and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='A'  and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP)];
+       
+        }
+      /*  if(Role == System.Label.MYBZ_MajorMarketManager){
+                    marketShareList.clear();
+                    marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c where LE_ID_PGP__c=:LE_ID_PGP and LoadIdentifier__c='A' and district__c=null
+                           ORDER BY Market__c,Month__c, Year__c ASC];
+                           
+                    
+         
+        }*/
+        marketshareProcessor();
+    
+    }
+    global static void marketshareControllerAffUsingPickerSuperUser(String LE_ID_IHS , String LE_ID_PGP,String region, String district, String terr){
+        flag=1;
+        fetchUserInfo();
+                    //for account summary page
+                    if(Role==System.Label.MYBZ_AccountManager){
+                        accountSummary();
+                        
+                    }
+                    system.debug(GlobalId+Role);
+                   
+        MYBZ_Market_Share__c mobj= [Select division__c FROM MYBZ_Market_Share__c WHERE (LE_ID_IHS__c=:LE_ID_IHS OR LE_ID_PGP__c=:LE_ID_PGP) LIMIT 1];
+        marketShareListNational.clear();
+        marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  division__c =: mobj.Division__c and territory__c = null and District__c = null and  Region__c = null  and LoadIdentifier__c='A' and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+        marketShareNationalPercentChange.clear();                           
+        marketShareNationalPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE division__c =: mobj.Division__c and territory__c = null and District__c = null and  Region__c = null  and lillyProduct__c=true and LoadIdentifier__c='A' and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP)];
+        
+        if(Role == System.Label.MYBZ_SuperUser && (district!='' || district!=null) ) { //selected district and System
+                marketShareList.clear();
+                marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c where ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) and LoadIdentifier__c='A' and District__r.Name =:district
+                           ORDER BY Market__c,Month__c, Year__c ASC];
+                           
+                    marketShareListDistrict.clear();                   
+                    marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  District__c !=null and territory__c = null  and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) and LoadIdentifier__c='A'GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+                    marketShareDistrictPercentChange.clear();
+                    marketShareDistrictPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__c!=null and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='A'  and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP)];
+                 
+        }//selects system and district
+ 
+        if(Role == System.Label.MYBZ_SuperUser && (region!='' || region!=null) ){     
+                marketShareList.clear();
+                marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, system__r.Name,LE_ID_PGP__c,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c WHERE ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) and Region__r.Name =: region AND District__c = null and (LE_ID_PGP__c=null OR LE_ID_PGP__c='') and LoadIdentifier__c='A' 
+                           ORDER BY Market__c,Month__c, Year__c ASC]; 
+                           
+                    marketShareListRegion.clear();                 
+                    marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  region__c!=null and District__c =null and territory__c = null  and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) and LoadIdentifier__c='A'GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+                    marketShareRegionPercentChange.clear();
+                    marketShareRegionPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE region__c!=null and District__c =null and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='A'  and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP)];
+          
+        }//selects system and region
+ 
+         if(Role == System.Label.MYBZ_SuperUser && (terr!='' || terr!=null) ){
+               marketShareList.clear();
+               marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c WHERE ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) and Territory__r.Name =:terr AND District__c = null and (LE_ID_PGP__c=null OR LE_ID_PGP__c='') and LoadIdentifier__c='A' 
+                           ORDER BY Market__c,Month__c, Year__c ASC]; 
+                           
+                    marketShareListDistrict.clear();                   
+                    marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
+                                                      FROM MYBZ_Market_Share__c 
+                                                      WHERE  District__c !=null and territory__c = null  and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP) and LoadIdentifier__c='A'GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      
+                    marketShareDistrictPercentChange.clear();
+                    marketShareDistrictPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__c!=null and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='A'  and ((LE_ID_IHS__c=:LE_ID_IHS and (LE_ID_PGP__c=null OR LE_ID_PGP__c='')) OR LE_ID_PGP__c=:LE_ID_PGP)];
+                           
+                          
+         } // selects system and Territory
+ 
+       /*  if(Role == System.Label.MYBZ_SuperUser && (terr!='' || terr!=null) ){
+               marketShareList.clear();
+               marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c WHERE  LE_ID_PGP__c=:LE_ID_PGP and Territory__r.Name =:terr AND District__c = null and LoadIdentifier__c='A' 
+                           ORDER BY Market__c,Month__c, Year__c ASC];  
+               
+            
+         }//selects pgp and Territory
+         
+         if(Role == System.Label.MYBZ_SuperUser && (district!='' || district!=null)) {
+               marketShareList.clear();
+               marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c WHERE  LE_ID_PGP__c=:LE_ID_PGP and  District__r.Name =:district  AND Territory__c = null and LoadIdentifier__c='A' 
+                           ORDER BY Market__c,Month__c, Year__c ASC];
+        
+         } // selects Pgp and Districts
+         
+         if(Role == System.Label.MYBZ_SuperUser && (region!='' || region!=null)) {
+                marketShareList.clear();
+                marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c  WHERE Region__c =:reg.Id and district__c=null and LoadIdentifier__c='A' ORDER BY Market__c,Month__c, Year__c ASC];
+                           
+         
+         }*/ //selects PGP and Region
+ }
+    global static void calculateNational(){
+        if(!marketShareListRegion.isEmpty()){
+            
+            for(AggregateResult Agg : marketShareListRegion ) {
+            string markMonthYear = (String)Agg.get('mar') + (String)Agg.get('mon') + (String)Agg.get('yr');
+            if(mapAggReg.containsKey((markMonthYear))) {            
+             mapAggReg.get(markMonthYear).add(Agg);
+            }else {
+            mapAggReg.put(markMonthYear , new list<AggregateResult> {Agg});
+            }
+          }  
+        }  
+         if(!marketShareListNational.isEmpty()){
+             
+             for(AggregateResult Agg : marketShareListNational ) {
+            string markMonthYear = (String)Agg.get('mar') + (String)Agg.get('mon') + (String)Agg.get('yr');
+            if(mapAggNat.containsKey((markMonthYear))) {            
+             mapAggNat.get(markMonthYear).add(Agg);
+            }else {
+            mapAggNat.put(markMonthYear , new list<AggregateResult> {Agg});
+            }
+          }    
+   
+        }
+        
+        if(!marketShareListNational.isEmpty()){
+            
+             for(AggregateResult Agg : marketShareListDistrict ) {
+            string markMonthYear = (String)Agg.get('mar') + (String)Agg.get('mon') + (String)Agg.get('yr');
+            if(mapAggDis.containsKey((markMonthYear))) {            
+             mapAggDis.get(markMonthYear).add(Agg);
+            }else {
+            mapAggDis.put(markMonthYear , new list<AggregateResult> {Agg});
+            }
+          }  
+          
+        }
+        
+    }
+
+    
+global static void marketshareProcessor() {  
+  //  marketshareControllerAffiliation();
+    String JsonString;
+    JSONGenerator generator= JSON.createGenerator(true);
+    calculateNational();
+     // MS record per product for a single PGP market,year,month and product
+        map<String , map<String, map<String, map<String, map< string , MYBZ_Market_Share__c>>>>> mapMarketYearMonthProductMarketObj = new map<String,map<string, map<String, map<String, map< string , MYBZ_Market_Share__c >>>>>();    
+        
+        map<string, Decimal> totalTRxperMonth = new map<string, Decimal>();
+        
+        map<String, map<String, map<String, map< string , MYBZ_Market_Share__c>>>> mapMSData=new map<String, map<String, map<String, map< string , MYBZ_Market_Share__c>>>>();
+        
+        map<String,String> mapPgpIhs=new map<String,String>();
+            // creating a map to hold years per marketshare name 
+            if(!marketShareList.isEmpty()){
+                for(MYBZ_Market_Share__c mObj  : marketShareList){ 
+                    if(flag==0){
+                    if( mapMarketYearMonthProductMarketObj.containsKey(mobj.LE_ID_PGP__c)){
+                        mapPgpIhs.put(mobj.LE_ID_PGP__c,mobj.system__r.Name);
+                       if(mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).containsKey(mObj.Market__c)){
+                           if( mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).containsKey(mObj.Month_Number__c)) {
+                             if(mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).get(mObj.Month_Number__c).containsKey(mObj.Year_Number__c)){
+                                if(mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).containsKey(mObj.Product__r.name))                                  
+                                        mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).put(mObj.Product__r.name, mObj); 
+                                else                                        
+                                        mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).put(mObj.Product__r.name, mObj);
+                             }
+                             else
+                                mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).get(mObj.Month_Number__c).put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );
+                                    
+                           }    
+                          else{ 
+                                 
+                                map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );  
+                                
+                                mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).put(mObj.Month_Number__c,yearProdMap);
+                                
+                          } 
+                       }          
+                    else{                                         
+                                map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );                                  
+                                
+                                map<string,map<string, map<string, MYBZ_Market_Share__c>>> monthyearProdMap =  new map<string,map<string, map<string, MYBZ_Market_Share__c>>>();
+                                monthyearProdMap .put(mObj.Month_Number__c,yearProdMap);
+                                
+                                mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).put(mObj.Market__c, monthyearProdMap);
+                         
+                       }
+                    }    
+                    else{
+                                map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );                                  
+                                
+                                map<string,map<string, map<string, MYBZ_Market_Share__c>>> monthyearProdMap =  new map<string,map<string, map<string, MYBZ_Market_Share__c>>>();
+                                monthyearProdMap .put(mObj.Month_Number__c,yearProdMap);
+                                
+                                map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>> marketmonthYearMap = new map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>>();
+                                marketmonthYearMap.put(mObj.Market__c, monthyearProdMap);
+                                
+                                mapMarketYearMonthProductMarketObj.put(mObj.LE_ID_PGP__c, marketmonthYearMap);   
+                                mapPgpIhs.put(mObj.LE_ID_PGP__c,mObj.system__c);
+
+                    }                   
+                 }
+
+                 else{
+                 
+                  if(mapMSData.containsKey(mObj.Market__c)){
+                           if( mapMSData.get(mObj.Market__c).containsKey(mObj.Month_Number__c)) {
+                             if(mapMSData.get(mObj.Market__c).get(mObj.Month_Number__c).containsKey(mObj.Year_Number__c)){
+                                if(mapMSData.get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).containsKey(mObj.Product__r.name))                                  
+                                        mapMSData.get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).put(mObj.Product__r.name, mObj); 
+                                else                                        
+                                        mapMSData.get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).put(mObj.Product__r.name, mObj);
+                             }
+                             else
+                                mapMSData.get(mObj.Market__c).get(mObj.Month_Number__c).put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );
+                                    
+                           }    
+                          else{
+                                map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );  
+                                
+                                mapMSData.get(mObj.Market__c).put(mObj.Month_Number__c,yearProdMap);
+                             
+                          } 
+                       }          
+                    else{                                         
+                                map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );                                  
+                                
+                                map<string,map<string, map<string, MYBZ_Market_Share__c>>> monthyearProdMap =  new map<string,map<string, map<string, MYBZ_Market_Share__c>>>();
+                                monthyearProdMap .put(mObj.Month_Number__c,yearProdMap);
+                                
+                                mapMSData.put(mObj.Market__c, monthyearProdMap);
+                         
+                       } 
+            
+                mapMarketYearMonthProductMarketObj.put(null,mapMSData);
+                
+            
+            }
+                        
+             }//if closes 
+           }
+           system.debug('mapPgpIhs'+mapPgpIhs);
+            generator.writeStartObject();
+            if(flag==0){
+            generator.writeFieldName(System.Label.Mybz_summaryData);
+            generator.writeStartObject();
+            generator.writeFieldName(System.Label.Mybyz_accounts);
+             generator.writeStartArray();
+            }
+            system.debug('mapMarketYearMonthProductMarketObj'+mapMarketYearMonthProductMarketObj);
+             for( string pgp : mapMarketYearMonthProductMarketObj.keyset()){
+                //generator.writeFieldName(System.Label.Mybz_summaryData);
+                if(flag==0){
+                   generator.writeStartObject();
+                /*  if(flag==1 &&  mapPgpIhs.isEmpty()){
+                    
+                    generator.writeNullField(System.Label.Mybz_name);
+                    generator.writeNullField(System.Label.mybz_associationName);
+                    
+                    }*/
+                 // else {
+                    if(pgp=='' || pgp==null)
+                         generator.writeNullField(System.Label.Mybz_name);
+                     else
+                        generator.writeStringField(System.Label.Mybz_name,pgp);
+                    //system.debug('++++ pgp ' + pgp + 'mapPgpIhs.get(pgp)' + mapPgpIhs.get(pgp));
+                    if(!(mapPgpIhs.get(pgp)== null)) 
+                        generator.writeStringField(System.Label.mybz_associationName,mapPgpIhs.get(pgp));
+                    else 
+                        generator.writeNullField(System.Label.mybz_associationName);
+                                
+             }           // }
+              generator.writeFieldName(System.Label.Mybz_markets);
+              generator.writeStartArray();
+              system.debug('mapMarketYearMonthProductMarketObj'+mapMarketYearMonthProductMarketObj);
+             for (String Market: mapMarketYearMonthProductMarketObj.get(pgp).keyset()){
+                  generator.writeStartObject();
+                  generator.writeStringField(System.Label.MYBZ_market,Market);
+                  
+                   generator.writeFieldName(System.Label.MYBZ_data);
+                   generator.writeStartArray();
+                  for( String year : mapMarketYearMonthProductMarketObj.get(pgp).get(Market).keyset()){
+                      
+                     for(String month : mapMarketYearMonthProductMarketObj.get(pgp).get(Market).get(year).keyset()){
+                        
+                         generator.writeStartObject();
+                         generator.writeStringField(System.Label.MYBZ_month,Month);
+                         generator.writeStringField(System.Label.MYBZ_Year,Year);
+                         generator.writeFieldName(System.Label.MYBZ_Products);
+                         generator.writeStartArray();
+                         for(string product : mapMarketYearMonthProductMarketObj.get(pgp).get(Market).get(year).get(month).keyset()){
+                             
+                          MYBZ_Market_Share__c marketShareObj = mapMarketYearMonthProductMarketObj.get(pgp).get(Market).get(year).get(month).get(product);
+                            generator.writeStartObject();
+                              if(marketShareObj.TRx__c !=null){
+                                 generator.writeNumberField(System.Label.MYBZ_trx,marketShareObj.TRx__c);
+                              }
+                              else{    
+                                 generator.writeNullField(System.Label.MYBZ_trx);
+                              }
+                              
+                              if(marketShareObj.percentageChangeFromPreviousMonth__c != null){
+                                  generator.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx,marketShareObj.percentageChangeFromPreviousMonth__c);
+                              }
+                              else{
+                                  generator.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx);
+                              }
+                              generator.writeStringField(System.Label.MYBZ_productName,marketShareObj.Product__r.Name);
+                              generator.writeBooleanField(System.Label.MYBZ_lillyProduct,marketShareObj.lillyProduct__c);
+                              if(marketShareObj.DDD_Units__c!=null){
+                                    generator.writeNumberField(System.Label.MYBZ_dddUnits,marketShareObj.DDD_Units__c);
+                              }
+                              else{    
+                                    generator.writeNullField(System.Label.MYBZ_dddUnits);
+                              }
+                              
+                              if(marketShareObj.Previous_DDD_Units__c!=null){
+                                    if(marketShareObj.Previous_DDD_Units__c!=0){
+                                        PercentageChangeDDDUnits = ((marketShareObj.DDD_Units__c - marketShareObj.Previous_DDD_Units__c)/marketShareObj.Previous_DDD_Units__c);
+                                        PercentageChangeDDDUnits = PercentageChangeDDDUnits.SetScale(2,RoundingMode.CEILING);
+                                    }
+                                    else{
+                                         PercentageChangeDDDUnits=0;
+                                    }
+                                    generator.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits,PercentageChangeDDDUnits);   
+                              }
+                              else
+                                    generator.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits);
+                              
+                            string markMonthYearMS =  marketShareObj.Market__c+marketShareObj.Month_Number__c+marketShareObj.Year_Number__c; //______________
+                            
+                            if(marketShareObj.Gross_Margin__c!=null )
+                                 generator.writeNumberField(System.Label.MYBZ_grossMargins,marketShareObj.Gross_Margin__c);   
+                            else 
+                                generator.writeNullField(System.Label.MYBZ_grossMargins);
+                            
+                            if(marketShareObj.DDD_Dollars__c!=null )
+                                 generator.writeNumberField(System.Label.MYBZ_dddDollars,marketShareObj.DDD_Dollars__c);   
+                            else 
+                                generator.writeNullField(System.Label.MYBZ_dddDollars);
+                            
+                    
+                    system.debug(marketShareObj.product__c+''+product);
+                    string markProdMonthYearMS =  marketShareObj.Market__c+product+marketShareObj.Month_Number__c+marketShareObj.Year_Number__c;
+                    for(MYBZ_Market_Share__c obj:marketShareNationalPercentChange){
+            
+                                nationalPercentChange.put(markProdMonthYearMS,obj.trx__c-obj.Previous_Month_TRx__c/obj.trx__c);
+                
+                    }
+                    for(MYBZ_Market_Share__c obj:marketShareDistrictPercentChange){
+            
+                                districtPercentChange.put(markProdMonthYearMS,obj.trx__c-obj.Previous_Month_TRx__c/obj.trx__c);
+                
+                    }
+                    for(MYBZ_Market_Share__c obj:marketShareRegionPercentChange){
+            
+                                regionPercentChange.put(markProdMonthYearMS,obj.trx__c-obj.Previous_Month_TRx__c/obj.trx__c);
+                
+                    }
+                system.debug('nationalPercentChange' + nationalPercentChange);
+                if(!mapAggNat.isempty() ){
+                    if(mapAggNat.get(markMonthYearMS)!=null){
+                    for(AggregateResult mshare: mapAggNat.get(markMonthYearMS)){
+                                
+                                    system.debug(markMonthYearMS);
+                                  //   system.debug('++markMonthYearMS' + markMonthYearMS + mshare); 
+                                       TotalTrx += (Decimal)mshare.get('TotTrx');  
+                                }
+                    } 
+                }
+                if(!mapAggDis.isempty() ){
+                    if(mapAggDis.get(markMonthYearMS)!=null){
+                    for(AggregateResult mshare: mapAggDis.get(markMonthYearMS)){
+                                
+                                    system.debug(markMonthYearMS);
+                                  //   system.debug('++markMonthYearMS' + markMonthYearMS + mshare); 
+                                       TotalTrxDis += (Decimal)mshare.get('TotTrx');  
+                                }
+                    } 
+                }
+                if(!mapAggReg.isempty() ){
+                    if(mapAggReg.get(markMonthYearMS)!=null){
+                    for(AggregateResult mshare: mapAggReg.get(markMonthYearMS)){
+                                
+                                    system.debug(markMonthYearMS);
+                                  //   system.debug('++markMonthYearMS' + markMonthYearMS + mshare); 
+                                       TotalTrxReg += (Decimal)mshare.get('TotTrx');  
+                                }
+                    } 
+                }
+                generator.writeFieldName(System.Label.MYBZ_National);                          
+                generator.writeStartObject();
+                if(marketShareObj.lillyProduct__c){
+                
+                if(TotalTrx!=0 && marketShareObj.Trx__c != null){
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrx) *100);
+                        system.debug('+++objNatWrapper.Percentage' + (marketShareObj.Trx__c/TotalTrx) *100);
+                        if(nationalPercentChange.get(markProdMonthYearMS)!=null)
+                            generator.writeNumberField(System.Label.MYBZ_PercentageChange,nationalPercentChange.get(markProdMonthYearMS));
+                        else
+                             generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                        
+                        }
+                        else{
+                        generator.writeNullField(System.Label.MYBZ_Percentage);
+                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                        }
+                    }   
+                    else {
+                        generator.writeNullField(System.Label.MYBZ_Percentage);
+                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                    }
+                
+                    generator.writeEndObject(); 
+                    
+                generator.writeFieldName(System.Label.MYBZ_District);                          
+                generator.writeStartObject();
+                if(marketShareObj.lillyProduct__c){
+                
+                if(TotalTrxDis!=0 && marketShareObj.Trx__c != null){
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxDis) *100);
+                        
+                        if(districtPercentChange.get(markProdMonthYearMS)!=null)
+                            generator.writeNumberField(System.Label.MYBZ_PercentageChange,districtPercentChange.get(markProdMonthYearMS));
+                        else
+                             generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                        
+                        }
+                        else{
+                        generator.writeNullField(System.Label.MYBZ_Percentage);
+                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                        }
+                    }   
+                    else {
+                        generator.writeNullField(System.Label.MYBZ_Percentage);
+                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                    }
+                
+                    generator.writeEndObject(); 
+                    
+                     generator.writeFieldName(System.Label.MYBZ_Region);                          
+                    generator.writeStartObject();
+                if(marketShareObj.lillyProduct__c){
+                
+                if(TotalTrxReg!=0 && marketShareObj.Trx__c != null){
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxReg) *100);
+                      
+                        if(regionPercentChange.get(markProdMonthYearMS)!=null)
+                            generator.writeNumberField(System.Label.MYBZ_PercentageChange,regionPercentChange.get(markProdMonthYearMS));
+                        else
+                             generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                        
+                        }
+                        else{
+                        generator.writeNullField(System.Label.MYBZ_Percentage);
+                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                        }
+                    }   
+                    else {
+                        generator.writeNullField(System.Label.MYBZ_Percentage);
+                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                    }
+                
+                    generator.writeEndObject();
+                    generator.writeEndObject(); 
+                    }
+                    generator.writeEndArray();  
+                    generator.writeEndObject();// month object ends
+                               
+                           }
+                            //year ends
+                         }
+                         generator.writeEndArray();
+                        generator.writeEndObject();  //market ends
+                     }
+                     if(flag==0){
+                     generator.writeEndArray();
+                      generator.writeEndObject();
+                     }   
+             }
+                 if(flag==0){
+                   generator.writeEndArray();
+                    generator.writeEndObject();
+                    
+                     }
+                    JsonString = generator.getAsString();
+                   System.debug('--MarketShare'+JsonString);
+                    Object MarketShareObject = Json.deserializeUntyped(JsonString); 
+                //    system.debug('obj'+MarketShareObject);
+                  }
+                 public MYBZ_MarketShare(){
+                  
+                //  marketshareControllerAffUsingPicker('a4wg00000003DC3','');
+                 }
+     }
