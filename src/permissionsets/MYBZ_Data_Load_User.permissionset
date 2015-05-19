@@ -49,6 +49,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Market_Share__c.Gross_Margin__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>MYBZ_Market_Share__c.LE_ID_IHS__c</field>
         <readable>false</readable>
@@ -159,6 +164,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Month__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_Product_Trend_Detail__c.PGP__c</field>
         <readable>true</readable>
@@ -209,14 +219,14 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>MYBZ_System__c.Aligned_Districts__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>MYBZ_System__c.Aligned_Territories__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>

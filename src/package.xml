@@ -18,18 +18,15 @@
         <members>MYBZ_IHS_Division__c.Dataload_Id__c</members>
         <members>MYBZ_Market_Share__c.Dataload_Id__c</members>
         <members>MYBZ_Market_Share__c.Division__c</members>
-        <members>MYBZ_Market_Share__c.Hcp_First_Name__c</members>
-        <members>MYBZ_Market_Share__c.Hcp_Last_Name__c</members>
+        <members>MYBZ_Market_Share__c.Gross_Margin__c</members>
         <members>MYBZ_Market_Share__c.LE_ID_IHS__c</members>
         <members>MYBZ_Market_Share__c.LE_ID_PGP__c</members>
         <members>MYBZ_Market_Share__c.LoadIdentifier__c</members>
         <members>MYBZ_Market_Share__c.Month_Number__c</members>
         <members>MYBZ_Market_Share__c.PGP__c</members>
-        <members>MYBZ_Market_Share__c.Physician_ID__c</members>
         <members>MYBZ_Market_Share__c.System__c</members>
         <members>MYBZ_Market_Share__c.Year_Number__c</members>
         <members>MYBZ_Market_Share__c.percentageChangeFromPreviousMonth__c</members>
-        <members>MYBZ_Product_Trend_Detail__c.Month__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Alignment_Level__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Dataload_Id__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Division__c</members>
@@ -39,6 +36,7 @@
         <members>MYBZ_Product_Trend_Detail__c.LE_ID_IHS__c</members>
         <members>MYBZ_Product_Trend_Detail__c.LE_ID_PGP__c</members>
         <members>MYBZ_Product_Trend_Detail__c.LoadIdentifier__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Month__c</members>
         <members>MYBZ_Product_Trend_Detail__c.PGP__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Previous_Month_TRx__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Range__c</members>
@@ -68,7 +66,8 @@
         <members>MYBZ_Call_Planning__c-Call Planning Layout</members>
         <members>MYBZ_Call__c-Call Layout</members>
         <members>MYBZ_District__c-State Layout</members>
-        <members>MYBZ_IHS_Division__c-Parent Layout</members>        
+        <members>MYBZ_IHS_Division__c-Parent Layout</members>
+        <members>MYBZ_MarketShareDetail__c-MarketShareDetail Layout</members>
         <members>MYBZ_Market_Share__c-Market Share Layout</members>
         <members>MYBZ_PGP__c-PGP Layout</members>
         <members>MYBZ_Product_Trend_Detail__c-Product Trend Detail Layout</members>
