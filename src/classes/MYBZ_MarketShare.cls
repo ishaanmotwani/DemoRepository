@@ -594,7 +594,7 @@ global static void marketshareProcessor() {
             if(flag==0){
             generator.writeFieldName(System.Label.Mybz_summaryData);
             generator.writeStartObject();
-            generator.writeFieldName(System.Label.Mybyz_accounts);
+            generator.writeFieldName(System.Label.Mybz_accounts);
              generator.writeStartArray();
             }
             system.debug('mapMarketYearMonthProductMarketObj'+mapMarketYearMonthProductMarketObj);

@@ -64,6 +64,13 @@
         <value>marketShareData</value>
     </labels>
     <labels>
+        <fullName>Mybz_accounts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mybz_accounts</shortDescription>
+        <value>accounts</value>
+    </labels>
+    <labels>
         <fullName>Mybz_summaryData</fullName>
         <language>en_US</language>
         <protected>false</protected>
