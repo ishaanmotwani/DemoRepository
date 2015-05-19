@@ -105,18 +105,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Hcp_First_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Hcp_Last_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Physician_ID__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Month_Number__c</field>
             </layoutItems>
             <layoutItems>
@@ -126,6 +114,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>LE_ID_PGP__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Gross_Margin__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
