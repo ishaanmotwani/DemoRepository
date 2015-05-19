@@ -53,6 +53,20 @@
         <name>CustomField</name>
     </types>
     <types>
+        <members>MYBZ_District</members>
+        <members>MYBZ_Gainers</members>
+        <members>MYBZ_National</members>
+        <members>MYBZ_PGPName</members>
+        <members>MYBZ_PGPPercentage</members>
+        <members>MYBZ_Percentage</members>
+        <members>MYBZ_PercentageChange</members>
+        <members>MYBZ_loosers</members>
+        <members>MYBZ_markets</members>
+        <members>mybz_associationName</members>
+        <members>mybz_summarydata</members>
+        <name>CustomLabel</name>
+    </types>
+    <types>
         <members>MYBZ_PGP__c</members>
         <members>MYBZ_System__c</members>
         <name>CustomObject</name>
