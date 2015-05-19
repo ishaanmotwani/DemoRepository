@@ -29,7 +29,7 @@
         <members>MYBZ_Market_Share__c.System__c</members>
         <members>MYBZ_Market_Share__c.Year_Number__c</members>
         <members>MYBZ_Market_Share__c.percentageChangeFromPreviousMonth__c</members>
-        <members>MYBZ_Product_Trend_Detail_	_c.Month__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.Month__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Alignment_Level__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Dataload_Id__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Division__c</members>
