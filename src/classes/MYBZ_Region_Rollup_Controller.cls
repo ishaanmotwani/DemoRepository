@@ -19,9 +19,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
     static String JsonString;
     static Decimal PercentageChangeTRx = 0;
     static Decimal PercentageChangeDDDUnits = 0;
-    static Decimal PercentageChangeDDDDollars = 0;
-    
-    
+    static Decimal PercentageChangeDDDDollars = 0;   
     
     static JSONGenerator generator;
     static List<MYBZ_Market_Share__c> productTrendsList = new  List<MYBZ_Market_Share__c>();
@@ -83,7 +81,7 @@ This object is later used to report on User activity on this application.
             metricsCount.DateTimeStamp__c=datetimeStamp;
             metricsCount.Global_Id__c=GlobalId;
             metricsCount.Page__c=Page;
-            insert metricsCount;
+            //insert metricsCount;
         }
         catch(Exception E) 
         {
@@ -235,10 +233,10 @@ This object is later used to report on User activity on this application.
                     generator.writeEndArray();
                 }
                 String sdata = generator.getAsString();
-                System.debug('--Alignment (GEO)'+sdata );
+                System.debug('--Alignment'+sdata );
                 Object obj = Json.deserializeUntyped(sdata);
-
-                // Begin processing of affiliation data
+                
+                 // Begin processing of affiliation data
                 List<MYBZ_System__c> sysList;
                 List<MYBZ_PGP__c> orphanedPGP_list;
                 if(Role == System.Label.MYBZ_SuperUser || GlobalID == null || GlobalID == '')
@@ -321,7 +319,8 @@ This object is later used to report on User activity on this application.
 
                 system.debug('--Alignment' + JSON.serializePretty(response_Alignment));
 
-                return response_Alignment;
+                return response_Alignment;                              
+                //return obj;
             }
         }    
         catch(Exception E) 
