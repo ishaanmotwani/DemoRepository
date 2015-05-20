@@ -181,8 +181,8 @@
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/modernizr/modernizr.custom.25376.js')}"/>
         <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/local-storage/angular-local-storage.min.js')}"/>-->
         <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/angular-local-storage/dist/angular-local-storage.min.js')}"/>-->
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/greensock/plugins/CSSPlugin.min.js')}"/>
-        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/greensock/TweenLite.min.js')}"/>
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/greensock/plugins/CSSPlugin.min.js')}"/>-->
+        <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/greensock/TweenLite.min.js')}"/>-->
         <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'js/classie.js')}"/>-->
         <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/placeholder-shim.js')}"/>-->
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/chosen/chosen.jquery.min.js')}"/>
