@@ -662,6 +662,10 @@ Territory - The territory selected via a territory picker.
             }
             catch(Exception E) 
             {
+                JsonString = generator.getAsString();
+                JsonString=JsonString.replaceall('\n','');
+                System.Debug('--CaughtTrendsPrescriber' + JsonString);
+                system.debug('Exception occurred during execution of TrendPrescriber method' + e);
                 GLBL_Error_Log__c errLog = new GLBL_Error_Log__c(Error_Datetime__c= DateTime.Now(),
                                                                  Error_Message__c= e.getMessage(),
                                                                  Running_User__c = UserInfo.getUserId() ,
