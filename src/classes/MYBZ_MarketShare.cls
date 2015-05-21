@@ -922,6 +922,7 @@ global static void marketshareProcessor() {
                                 
                                     system.debug(markMonthYearMS);
                                   //   system.debug('++markMonthYearMS' + markMonthYearMS + mshare); 
+                                   if(mshare.get('TotTrx')!=null)
                                        TotalTrxDis += (Decimal)mshare.get('TotTrx');  
                                 }
                     } 
@@ -932,6 +933,7 @@ global static void marketshareProcessor() {
                                 
                                     system.debug(markMonthYearMS);
                                   //   system.debug('++markMonthYearMS' + markMonthYearMS + mshare); 
+                                   if(mshare.get('TotTrx')!=null)
                                        TotalTrxReg += (Decimal)mshare.get('TotTrx');  
                                 }
                     } 
