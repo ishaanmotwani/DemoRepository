@@ -104,6 +104,21 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>PercentageChangeDDDunits__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF((Previous_DDD_Units__c  == 0 || ISNULL(Previous_DDD_Units__c ))
+
+,0,((DDD_Units__c - Previous_DDD_Units__c  ) / Previous_DDD_Units__c  ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>PercentageChangeDDDunits</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>4</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>System__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Lookup to IHS System for Release 2.0</description>
