@@ -24,11 +24,11 @@ window.district = '';
 window.territory = '';
 window.system = '';
 window.pgp = '';
-window.urlPath = "/resource/1432140303000/MYBZ_Region_Rollup_Resource";
+window.urlPath = "{!URLFOR($Resource.MYBZ_Region_Rollup_Resource, '')}";
 window.RESOURCE_ROOT = urlPath.split('?')[0];
-window.$GLOBALID = '123621';
-window.$Role = 'Super User';
-window.$uname = 'Emil Johansson';
+window.$GLOBALID = '{!JSENCODE(GlobalId)}';
+window.$Role = '{!JSENCODE(Role)}';
+window.$uname = '{!JSENCODE(uname)}';
 if (window.$Role == 'Sales Representative') {
     window.$userRole = 0;
 }
