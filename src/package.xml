@@ -11,6 +11,7 @@
     </types>
     <types>
         <members>MYBZ_Region_Rollup_Page</members>
+         <members>test</members>
         <name>ApexPage</name>
     </types>
     <types>
