@@ -47,15 +47,15 @@ Territory - The territory selected via a territory picker.
                 fetchUserInfo();
                 if((Role == System.Label.MYBZ_MajorMarketManager || (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) || Role == System.Label.MYBZ_SuperUser) && district !=null && district !=''){
                     TrendsDetailsList.clear();
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c from MYBZ_Product_Trend_Detail__c where District__r.Name =:district AND Territory__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where District__r.Name =:district AND Territory__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                 }
                 if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !='' && (district ==null || district =='')){
                     TrendsDetailsList.clear();
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c from MYBZ_Product_Trend_Detail__c where Area__r.Name =:region AND District__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where Area__r.Name =:region AND District__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                 }
                 if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager || Role == System.Label.MYBZ_SuperUser) && territory !=null && territory !=''){
                     TrendsDetailsList.clear();
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c from MYBZ_Product_Trend_Detail__c where territory__r.Name =:territory AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where territory__r.Name =:territory AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                 }
             }
             catch(Exception E) 
@@ -91,16 +91,16 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
                 if(Role == System.Label.MYBZ_SalesRepresentative || (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) || Role == System.Label.MYBZ_MajorMarketManager){
                     TrendsDetailsList.clear();
                     //List of all trend-details for a particular user
-                    //TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    //TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                     
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                 }
                 if(Role == System.Label.MYBZ_SuperUser){
                     TrendsDetailsList.clear();
                     
                     MYBZ_Region__c reg=[Select id from MYBZ_Region__c where Name =: System.Label.MYBZ_defaultRegion ];
                     
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c from MYBZ_Product_Trend_Detail__c where Area__c =:reg.Id and district__c=null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where Area__c =:reg.Id and district__c=null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                 }
             }
             catch(Exception E) 
@@ -243,7 +243,7 @@ Territory - The territory selected via a territory picker.
                         }
                         else
                         {
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c from MYBZ_Product_Trend_Detail__c where Area__r.Name =:region AND District__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where Area__r.Name =:region AND District__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                         }
                     }
                     else if(district!=null&&district!='')
@@ -258,7 +258,7 @@ Territory - The territory selected via a territory picker.
                         }
                         else
                         {
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c from MYBZ_Product_Trend_Detail__c where District__r.Name =:district AND Territory__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where District__r.Name =:district AND Territory__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                         }
                     }
                     else if(territory!=null&&territory!='')
@@ -274,7 +274,7 @@ Territory - The territory selected via a territory picker.
                         }
                         else
                         {
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c from MYBZ_Product_Trend_Detail__c where territory__r.Name =:territory AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where territory__r.Name =:territory AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                         }
                     }
                 }                       
