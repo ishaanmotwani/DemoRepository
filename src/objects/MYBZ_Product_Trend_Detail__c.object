@@ -65,6 +65,18 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Gain_or_Lose_Trx__c</fullName>
+        <externalId>false</externalId>
+        <label>Gain or Lose Trx</label>
+        <precision>12</precision>
+        <required>false</required>
+        <scale>6</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Gainer_Loser_Top__c</fullName>
         <externalId>false</externalId>
         <label>Gainer/Loser/Top</label>
