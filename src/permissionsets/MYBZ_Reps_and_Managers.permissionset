@@ -104,12 +104,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>MYBZ_PGP__c.Aligned_Districts__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>MYBZ_PGP__c.Aligned_Territories__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
