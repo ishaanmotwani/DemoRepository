@@ -119,6 +119,10 @@
                 <behavior>Edit</behavior>
                 <field>Gross_Margin__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>PercentageChangeDDDDollars__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
