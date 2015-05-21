@@ -1,4 +1,4 @@
-<apex:page docType="html-5.0" showHeader="false" sidebar="true" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="MYBZ_Region_Rollup_Controller" extensions="MYBZ_ProductTrendDetailsController">
+<apex:page docType="html-5.0" showHeader="false" sidebar="true" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="MYBZ_Region_Rollup_Controller" extensions="MYBZ_ProductTrendDetailsController,MYBZ_MarketShare">
     <html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="lillyApp">
     <head>
         <meta charset="utf-8" />
