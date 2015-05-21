@@ -42,6 +42,7 @@ global with Sharing  class MYBZ_MarketShare{
         
     }
     //Non-Aff and by defualt
+      @RemoteAction 
     global static void marketShareControllerNonAff() { 
             fetchUserInfo();
                  
@@ -50,7 +51,7 @@ global with Sharing  class MYBZ_MarketShare{
             
              marketShareList.clear();          
              marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,
+                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                                Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                                FROM MYBZ_Market_Share__c 
                                WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='NA' 
@@ -92,7 +93,7 @@ global with Sharing  class MYBZ_MarketShare{
                 MYBZ_Region__c reg=[Select id from MYBZ_Region__c where Name =: System.Label.MYBZ_defaultRegion ];
      
                 marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
+                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                                Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                                FROM MYBZ_Market_Share__c  WHERE Region__c =:reg.Id and district__c=null and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC];
       
@@ -103,6 +104,7 @@ global with Sharing  class MYBZ_MarketShare{
     
     
     //Aff and by default
+    @RemoteAction 
    /* global static void marketshareControllerAffiliation(){
        
             MYBZ_Market_Share__c objSys=[SELECT system__r.Name FROM MYBZ_Market_Share__c WHERE Global_Id__c =: GlobalId ORDER BY system__r.Name LIMIT 1];
@@ -114,7 +116,7 @@ global with Sharing  class MYBZ_MarketShare{
                 marketShareList.clear();
       
                 marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__c,
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                            FROM MYBZ_Market_Share__c 
                            WHERE District__c=:ms.District__c and territory__c='' and LoadIdentifier__c='A' 
@@ -128,7 +130,7 @@ global with Sharing  class MYBZ_MarketShare{
                  getAlignment();
               
                 marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__c,
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                            FROM MYBZ_Market_Share__c 
                            WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='NON_AFFLTN' ]; 
@@ -161,7 +163,7 @@ global with Sharing  class MYBZ_MarketShare{
                 marketShareList.clear();                
                 marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                            Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, 
-                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           Previous_Month_TRx__c, DDD_Units__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,Previous_DDD_Units__c 
                            FROM MYBZ_Market_Share__c  WHERE Region__c =:reg.Id and district__c=null and LoadIdentifier__c='A' ORDER BY Market__c,Month__c, Year__c ASC];
  
             }
@@ -169,6 +171,7 @@ global with Sharing  class MYBZ_MarketShare{
 
     
     }*/
+    
     global static void accountSummary(){
         fetchUserInfo();
                     //for account summary page
@@ -176,7 +179,7 @@ global with Sharing  class MYBZ_MarketShare{
         flag=0;
         system.debug('Inside summary');
         marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,DDD_Dollars__c,
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                            FROM MYBZ_Market_Share__c 
                            WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='A' ]; 
@@ -184,7 +187,7 @@ global with Sharing  class MYBZ_MarketShare{
                            
     }
         
-    
+    @RemoteAction 
     //Non Aff and Geo picker
     global static void marketshareControllerNonAffUsingPicker(String region, String district, String territory){
         fetchUserInfo();
@@ -208,7 +211,7 @@ global with Sharing  class MYBZ_MarketShare{
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ||Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && district !=null && district !='' ){
             marketShareList.clear();
             marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,
+                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                                Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c  FROM MYBZ_Market_Share__c  WHERE District__r.Name =:district AND Territory__c = null and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC]; 
             marketShareListDistrict.clear();                   
             marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
@@ -223,7 +226,7 @@ global with Sharing  class MYBZ_MarketShare{
         if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !='' && (district == null || district == '')){  
         marketShareList.clear();
         marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                            FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC]; 
                            
@@ -239,7 +242,7 @@ global with Sharing  class MYBZ_MarketShare{
         if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory !=null && territory !=''){ 
                     marketShareList.clear();
                     marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, system__r.Name,LE_ID_PGP__c,Gross_Margin__c,DDD_Dollars__c,
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, system__r.Name,LE_ID_PGP__c,Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                            FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC]; 
                            
@@ -264,7 +267,7 @@ global with Sharing  class MYBZ_MarketShare{
     public static String groupBy=' GROUP BY Month_Number__c, Year_Number__c,Market__c';
     global static String orderBy=' ORDER BY Market__c,Month__c, Year__c ASC';
     global static String getDivision,getmarketShareListNational,getmarketShareNationalPercentChange,getmarketShareList,getmarketShareListDistrict,getmarketShareDistrictPercentChange,getmarketShareRegionPercentChange,getmarketShareListRegion;
-    global static String strMarketShareList='SELECT Id,Region__c,Gross_Margin__c,DDD_Dollars__c,District__c,Month__c,Year__c,territory__c,Global_Id__c, Owner__c,Market__c,percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c,system__r.Name,LE_ID_PGP__c,Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c where LoadIdentifier__c=\''+a+ '\' and '  ;       
+    global static String strMarketShareList='SELECT Id,Region__c,Gross_Margin__c,DDD_Dollars__c,District__c,Month__c,Year__c,territory__c,Global_Id__c, Owner__c,Market__c,percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c,system__r.Name,LE_ID_PGP__c,Previous_Month_TRx__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,DDD_Units__c,Previous_DDD_Units__c FROM MYBZ_Market_Share__c where LoadIdentifier__c=\''+a+ '\' and '  ;       
 
     global static String strmarketShareListDistrict='select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr FROM MYBZ_Market_Share__c WHERE  District__c !=null and  lillyProduct__c=true and territory__c = null and LoadIdentifier__c=\''+a+ '\' and '  ;
     global static String strmarketShareListRegion='select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr FROM MYBZ_Market_Share__c WHERE  region__c!=null and District__c =null and  lillyProduct__c=true and territory__c = null and LoadIdentifier__c=\''+a+ '\' and ' ;
@@ -317,7 +320,7 @@ global with Sharing  class MYBZ_MarketShare{
         if(Role == System.Label.MYBZ_SalesRepresentative ||  Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  ){ // he will see pgp, system, assign to his district
                     marketShareList.clear();
                    /* marketShareList = [SELECT Id, Region__c, Gross_Margin__c,DDD_Dollars__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, system__r.Name,LE_ID_PGP__c,
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, system__r.Name,LE_ID_PGP__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                            FROM MYBZ_Market_Share__c where ((LE_ID_PGP__c=:LE_ID_IHS==null?LE_ID_PGP:LE_ID_IHS) OR ((LE_ID_IHS__c=:LE_ID_PGP==null?LE_ID_IHS:LE_ID_PGP) and LE_ID_PGP__c='')) and LoadIdentifier__c='A' and district__c!=null
                            ORDER BY Market__c,Month__c, Year__c ASC];*/
@@ -401,6 +404,7 @@ global with Sharing  class MYBZ_MarketShare{
     }
     
     //Aff and by default
+    @RemoteAction 
     global static void marketshareControllerAffiliation(){
         flag=1;
          fetchUserInfo();
@@ -472,7 +476,7 @@ global with Sharing  class MYBZ_MarketShare{
         
         
         
-        
+        @RemoteAction 
     
     global static void marketshareControllerAffUsingPickerSuperUser(String LE_ID_IHS , String LE_ID_PGP,String region, String district, String terr){
         flag=1;
