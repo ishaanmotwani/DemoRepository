@@ -1,4 +1,4 @@
-<apex:page controller="MYBZ_MarketShare">
+<apex:page controller="MYBZ_MarketShare" readonly="true">
   <script>
   alert('hi');
   function getCallPlanningDataFromSalesforce() {
