@@ -888,6 +888,8 @@ global static void marketshareProcessor() {
                     } 
                 }*/
                 system.debug('mapAggNat'+mapAggNat);
+                system.debug('mapAggNat'+mapAggReg);
+                system.debug('mapAggNat'+mapAggDis);
                 generator.writeFieldName(System.Label.MYBZ_National);                          
                 generator.writeStartObject();
                 if(marketShareObj.lillyProduct__c){
