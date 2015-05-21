@@ -97,19 +97,49 @@ function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation,
     );
 }
 
-function getMarketShareDataFromSalesforce(geography, callback) {
-    if (window.sfHelper.isSet(geography) === false) {
-        Visualforce.remoting.Manager.invokeAction(
-            'MYBZ_Region_Rollup_Controller.marketShare', callback
-        );
-        return;
-    }
+function getMarketShareDataFromSalesforce(geography, callback, affiliation, flagAff) {
     region = window.sfHelper.getProperty(geography, 'region');
     district = window.sfHelper.getProperty(geography, 'district');
     territory = window.sfHelper.getProperty(geography, 'territory');
+    system = window.sfHelper.getProperty(affiliation, 'system');
+    pgp = window.sfHelper.getProperty(affiliation, 'pgp');
+    
+    if (flagAff !== true) {
+        if (window.sfHelper.isSet(geography) === false) {
+            Visualforce.remoting.Manager.invokeAction(
+                'MYBZ_MarketShare.marketShareControllerNonAff', callback
+            );
+            return;
+        }
+        Visualforce.remoting.Manager.invokeAction(
+            'MYBZ_MarketShare.marketshareControllerNonAffUsingPicker', region, district, territory, callback
+        );
+        return;
+    }
+    if (window.sfHelper.isSet(affiliation) === true || window.sfHelper.isSet(geography) === false) {
+        Visualforce.remoting.Manager.invokeAction(
+            'MYBZ_MarketShare.marketshareControllerAffiliation', system, pgp, callback
+        );
+        return;
+    }
+    if(window.$Role == 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === true ){
+         Visualforce.remoting.Manager.invokeAction(
+            'MYBZ_MarketShare.marketshareControllerAffUsingPickerSuperUser', system, pgp,region, district, territory, callback
+        );
+        return;
+    }
+    if(window.$Role != 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === false ){
     Visualforce.remoting.Manager.invokeAction(
-        'MYBZ_Region_Rollup_Controller.marketShareUsingPicker', region, district, territory, callback
+        'MYBZ_MarketShare.marketshareControllerAffUsingPicker', system, pgp, callback
     );
+}
+if(window.$Role == 'Account Manager' ){
+
+Visualforce.remoting.Manager.invokeAction(
+        'MYBZ_MarketShare.accountSummary',  callback
+    );
+}
+
 }
 
 function getGoalsDataFromSalesforce(geography, callback) {

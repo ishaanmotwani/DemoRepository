@@ -175,7 +175,7 @@ global with Sharing  class MYBZ_MarketShare{
     global static void accountSummary(){
         fetchUserInfo();
                     //for account summary page
-                   
+      
         flag=0;
         system.debug('Inside summary');
         marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
@@ -413,7 +413,7 @@ global with Sharing  class MYBZ_MarketShare{
         
         getmarketShareListNational='select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(objSys.division__c)+'\''+strmarketShareListNational+' and LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys.LE_ID_IHS__c)+groupBy ;
             
-        getmarketShareNationalPercentChange='Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(objSys.division__c)+'\''+strmarketShareListNational+' and LE_ID_IHS__c==:objSys.LE_ID_IHS__c';
+        getmarketShareNationalPercentChange='Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(objSys.division__c)+'\''+strmarketShareListNational+' and LE_ID_IHS__c=:objSys.LE_ID_IHS__c';
         
          marketShareList.clear();
          
@@ -421,15 +421,15 @@ global with Sharing  class MYBZ_MarketShare{
             getAlignment();
                            
         if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager)  {
-            getmarketShareList=strMarketShareList+'  LE_ID_IHS__c==:objSys.LE_ID_IHS__c and district__c!=null and Global_Id__c=:GlobalId '+orderBy;
-            getmarketShareListDistrict=strmarketShareListDistrict+' Global_Id__c=:GlobalId and LE_ID_IHS__c==:objSys.LE_ID_IHS__c'+groupBy;
-            getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+'  Global_Id__c=:GlobalId '+' and LE_ID_IHS__c==:objSys.LE_ID_IHS__c';
+            getmarketShareList=strMarketShareList+'  LE_ID_IHS__c=:objSys.LE_ID_IHS__c and district__c!=null and Global_Id__c=:GlobalId '+orderBy;
+            getmarketShareListDistrict=strmarketShareListDistrict+' Global_Id__c=:GlobalId and LE_ID_IHS__c=:objSys.LE_ID_IHS__c'+groupBy;
+            getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+'  Global_Id__c=:GlobalId '+' and LE_ID_IHS__c=:objSys.LE_ID_IHS__c';
         }
        
         else if(Role == System.Label.MYBZ_SalesRepresentative ){
-            getmarketShareList=strMarketShareList+'LE_ID_IHS__c==:objSys.LE_ID_IHS__c and district__c!=null and district__c=\''+String.escapeSingleQuotes(ms.district__c)+'\''+orderBy;
-            getmarketShareListDistrict=strmarketShareListDistrict+' LE_ID_IHS__c==:objSys.LE_ID_IHS__c and district__c=\''+String.escapeSingleQuotes(ms.district__c)+'\''+groupBy;
-            getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+'  LE_ID_IHS__c==:objSys.LE_ID_IHS__c and district__c=\''+String.escapeSingleQuotes(ms.district__c)+'\'';
+            getmarketShareList=strMarketShareList+'LE_ID_IHS__c=:objSys.LE_ID_IHS__c and district__c!=null and district__c=\''+String.escapeSingleQuotes(ms.district__c)+'\''+orderBy;
+            getmarketShareListDistrict=strmarketShareListDistrict+' LE_ID_IHS__c=:objSys.LE_ID_IHS__c and district__c=\''+String.escapeSingleQuotes(ms.district__c)+'\''+groupBy;
+            getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+'  LE_ID_IHS__c=:objSys.LE_ID_IHS__c and district__c=\''+String.escapeSingleQuotes(ms.district__c)+'\'';
             
         }
         
