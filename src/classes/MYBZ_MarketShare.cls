@@ -191,11 +191,11 @@ global with Sharing  class MYBZ_MarketShare{
                 
         flag=1;MYBZ_Market_Share__c mssobj;
         if(region!='' && region!=null)
-             mssobj=[Select division__c FROM MYBZ_Market_Share__c WHERE Region__c=:region and district__c=null and territory__c=null LIMIT 1];
+             mssobj=[Select division__c FROM MYBZ_Market_Share__c WHERE Region__r.Name=:region and district__c=null and territory__c=null and LoadIdentifier__c='NA' LIMIT 1];
         else if(district!='' && district!=null)
-             mssobj=[Select division__c FROM MYBZ_Market_Share__c WHERE district__c=:district and territory__c=null LIMIT 1];
+             mssobj=[Select division__c FROM MYBZ_Market_Share__c WHERE district__r.Name=:district and territory__c=null and LoadIdentifier__c='NA' LIMIT 1];
         else
-             mssobj=[Select division__c,district__c FROM MYBZ_Market_Share__c WHERE territory__c=:territory LIMIT 1];
+             mssobj=[Select division__c,district__c FROM MYBZ_Market_Share__c WHERE territory__r.Name=:territory and LoadIdentifier__c='NA' LIMIT 1];
       //  MYBZ_Market_Share__c mobj=[Select division__c,district__c,territory__c FROM MYBZ_Market_Share__c WHERE (territory__c=:territory OR District__c=:district OR Region__c=:region) LIMIT 1];
         marketShareListNational.clear();
         marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
@@ -402,6 +402,7 @@ global with Sharing  class MYBZ_MarketShare{
     //Aff and by default
     global static void marketshareControllerAffiliation(){
         flag=1;
+         fetchUserInfo();
         MYBZ_Market_Share__c objSys=[SELECT LE_ID_IHS__c,division__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =: GlobalId and  LoadIdentifier__c='A' ORDER BY LE_ID_IHS__c LIMIT 1];
         system.debug('sys'+objSys.LE_ID_IHS__c );
         
@@ -626,6 +627,7 @@ global with Sharing  class MYBZ_MarketShare{
                            
          
          }*/ //selects PGP and Region
+          marketshareProcessor();
  }
     global static void calculateNational(){
         if(!marketShareListRegion.isEmpty()){
@@ -909,6 +911,7 @@ global static void marketshareProcessor() {
                                 
                                     system.debug(markMonthYearMS);
                                   //   system.debug('++markMonthYearMS' + markMonthYearMS + mshare); 
+                                  if(mshare.get('TotTrx')!=null)
                                        TotalTrx += (Decimal)mshare.get('TotTrx');  
                                 }
                     } 
