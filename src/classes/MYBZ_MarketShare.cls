@@ -176,7 +176,7 @@ global with Sharing  class MYBZ_MarketShare{
 
     
     }*/
-    
+    @RemoteAction
     global static void accountSummary(){
         fetchUserInfo();
                     //for account summary page
