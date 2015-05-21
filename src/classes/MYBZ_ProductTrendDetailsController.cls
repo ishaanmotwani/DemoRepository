@@ -1,5 +1,10 @@
 global with sharing class MYBZ_ProductTrendDetailsController 
 {
+
+    public MYBZ_ProductTrendDetailsController(MYBZ_Region_Rollup_Controller controller) {
+
+    }
+
     
     global static String Role;
     global static String GlobalId;
@@ -7,6 +12,7 @@ global with sharing class MYBZ_ProductTrendDetailsController
     static JSONGenerator generator;
     static String JsonString;
     global static MYBZ_Product_Trend_Detail__c AlignmentHelper;
+    global static MYBZ_Product_Trend_Detail__c DefaultSystem;
     static List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = new List<MYBZ_Product_Trend_Detail__c>();
     global static void fetchUserInfo()
     {
@@ -127,32 +133,63 @@ Territory - The territory selected via a territory picker.
                 fetchUserInfo();
                 
                 //AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where Global_Id__c =:GlobalId Limit 1];
-                AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where (Global_Id__c =:GlobalId AND District__c!=null) Limit 1];
+                AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND District__c!=null) Limit 1];
+                DefaultSystem = [Select LE_ID_IHS__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND LE_ID_IHS__c!=null)  order by System__r.Name Limit 1];
                 
-                if(Role == System.Label.MYBZ_MajorMarketManager && (LE_ID_IHS==null || LE_ID_IHS=='') ){
-                    TrendsDetailsList.clear();
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Area__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='AREA' AND Area__c=:AlignmentHelper.Area__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                if(Role == System.Label.MYBZ_MajorMarketManager)
+                {
+                    if(LE_ID_PGP!=null && LE_ID_PGP!='')
+                    {
+                        TrendsDetailsList.clear();
+                        TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Area__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='AREA' AND Area__c=:AlignmentHelper.Area__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    }
+                    else if(LE_ID_IHS!=null && LE_ID_IHS!='')
+                    {
+                        TrendsDetailsList.clear();
+                        TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c,Area__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='AREA' AND Area__c=:AlignmentHelper.Area__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    }
+                    else
+                    {
+                        TrendsDetailsList.clear();
+                        TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c,Area__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:DefaultSystem.LE_ID_IHS__c AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='AREA' AND Area__c=:AlignmentHelper.Area__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    }
                 }
-                if(Role == System.Label.MYBZ_MajorMarketManager && (LE_ID_PGP==null || LE_ID_PGP=='') ){
-                    TrendsDetailsList.clear();
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c,Area__c,Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='AREA' AND Area__c=:AlignmentHelper.Area__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                else if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager)
+                {
+                    if(LE_ID_PGP!=null && LE_ID_PGP!='')
+                    {
+                        TrendsDetailsList.clear();
+                        TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    }
+                    else if(LE_ID_IHS!=null && LE_ID_IHS!='') 
+                    {
+                        TrendsDetailsList.clear();
+                        TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    }
+                    else
+                    {
+                        TrendsDetailsList.clear();
+                        TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:DefaultSystem.LE_ID_IHS__c AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    }
                 }
-                if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) && (LE_ID_IHS==null || LE_ID_IHS=='') ){
-                    TrendsDetailsList.clear();
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
-                }
-                if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) && (LE_ID_PGP==null || LE_ID_PGP=='') ){
-                    TrendsDetailsList.clear();
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
-                }
-                if(Role == System.Label.MYBZ_SalesRepresentative && (LE_ID_IHS==null || LE_ID_IHS=='') ){
-                    TrendsDetailsList.clear();
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Territory__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='TRTRY' AND Territory__c=:AlignmentHelper.Territory__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
-                }
-                if(Role == System.Label.MYBZ_SalesRepresentative && (LE_ID_PGP==null || LE_ID_PGP=='') ){
-                    TrendsDetailsList.clear();
-                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
-                }
+                else if(Role == System.Label.MYBZ_SalesRepresentative)
+                {
+                    if(LE_ID_PGP!=null && LE_ID_PGP!='')
+                    {
+                        TrendsDetailsList.clear();
+                        TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Territory__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='TRTRY' AND Territory__c=:AlignmentHelper.Territory__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    }
+                    else if(LE_ID_IHS!=null && LE_ID_IHS!='')
+                    {
+                        TrendsDetailsList.clear();
+                        TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    }
+                    else
+                    {
+                        TrendsDetailsList.clear();
+                        TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:DefaultSystem.LE_ID_IHS__c AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                    }
+                }   
             }
             catch(Exception E) 
             {
@@ -193,34 +230,34 @@ Territory - The territory selected via a territory picker.
                     {
                         if(LE_ID_IHS==null || LE_ID_IHS=='')
                         {
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Area__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='AREA' AND Area__r.Name=:region order by Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Area__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='AREA' AND Area__r.Name=:region order by Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                         }
                         else if(LE_ID_PGP==null || LE_ID_PGP=='')
                         {
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c,Area__c,Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='AREA' AND Area__r.Name=:region order by Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c,Area__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='AREA' AND Area__r.Name=:region order by Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                         }
                     }
                     if(district!=null&&district!='')
                     {
                         if(LE_ID_IHS==null || LE_ID_IHS=='')
                         {
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='DSTRCT' AND District__r.Name=:district order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='DSTRCT' AND District__r.Name=:district order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                         }
                         else if(LE_ID_PGP==null || LE_ID_PGP=='')
                         {
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__r.Name=:district order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__r.Name=:district order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                         }
                     }
                     if(territory!=null&&territory!='')
                     {
                         if(LE_ID_IHS==null || LE_ID_IHS=='')
                         {
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Territory__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='TRTRY' AND Territory__r.Name=:territory order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Territory__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='TRTRY' AND Territory__r.Name=:territory order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                         }
                         else if(LE_ID_PGP==null || LE_ID_PGP=='')
                         {
                             selectedTerritory = [Select Name,State__c from MYBZ_Territory__c where Name=:territory];
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__r.Name=:selectedTerritory.State__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__r.Name=:selectedTerritory.State__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                         }
                     }
                 }                       
@@ -275,7 +312,7 @@ Territory - The territory selected via a territory picker.
                 Integer firstloserflag;
                 Integer newmonth=0;
                 Integer i;
-                List<MYBZ_Product_Trend_Detail__c> GainersList = New List<MYBZ_Product_Trend_Detail__c>();
+                List<MYBZ_TopGainer> GainersList = New List<MYBZ_TopGainer>();
                 
                 //Looping over Trend-Details
                 if(TrendsDetailsList != null && TrendsDetailsList.size() > 0){
@@ -346,37 +383,37 @@ Territory - The territory selected via a territory picker.
                                     for(i=GainersList.size()-1;i>=0;i--)
                                     {
                                         generator.writeStartObject();
-                                        if(GainersList[i].HCP_First_Name__c!=null||GainersList[i].HCP_Last_Name__c!=null){
-                                            if(GainersList[i].HCP_First_Name__c!=null&&GainersList[i].HCP_Last_Name__c!=null)
+                                        if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null||GainersList[i].trendDetailObj.HCP_Last_Name__c!=null){
+                                            if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null&&GainersList[i].trendDetailObj.HCP_Last_Name__c!=null)
                                             {
-                                                generator.writeStringField('name',GainersList[i].HCP_First_Name__c+''+GainersList[i].HCP_Last_Name__c);
+                                                generator.writeStringField('name',GainersList[i].trendDetailObj.HCP_First_Name__c+''+GainersList[i].trendDetailObj.HCP_Last_Name__c);
                                             }
-                                            else if(GainersList[i].HCP_First_Name__c!=null)
+                                            else if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null)
                                             {
-                                                generator.writeStringField('name',GainersList[i].HCP_First_Name__c);
+                                                generator.writeStringField('name',GainersList[i].trendDetailObj.HCP_First_Name__c);
                                             }
                                             else
                                             {
-                                                generator.writeStringField('name',GainersList[i].HCP_Last_Name__c);
+                                                generator.writeStringField('name',GainersList[i].trendDetailObj.HCP_Last_Name__c);
                                             }
                                         }
-                                        else if(GainersList[i].Top_or_Bottom_PGP__c!=null)
+                                        else if(GainersList[i].trendDetailObj.Top_or_Bottom_PGP__c!=null)
                                         {
-                                            generator.writeStringField('name',GainersList[i].Top_or_Bottom_PGP__c);
+                                            generator.writeStringField('name',GainersList[i].trendDetailObj.Top_or_Bottom_PGP__c);
                                         }
                                         else
                                         {           
                                             generator.writeNullField('name');
                                         }
-                                        if((GainersList[i].TRx_Units__c-GainersList[i].Previous_Month_TRx__c)!=null){
-                                            generator.writeNumberField('value',GainersList[i].TRx_Units__c-GainersList[i].Previous_Month_TRx__c); 
+                                        if((GainersList[i].trendDetailObj.Gain_or_Lose_Trx__c)!=null){
+                                            generator.writeNumberField('value',GainersList[i].trendDetailObj.Gain_or_Lose_Trx__c); 
                                         }
                                         else
                                         {    
                                             generator.writeNullField('value'); 
                                         }
-                                        if(GainersList[i].Gain_or_Lose_Percentage__c!=null){
-                                            generator.writeNumberField('percentageChange',GainersList[i].Gain_or_Lose_Percentage__c); // Change this to percentage label
+                                        if(GainersList[i].trendDetailObj.Gain_or_Lose_Percentage__c!=null){
+                                            generator.writeNumberField('percentageChange',GainersList[i].trendDetailObj.Gain_or_Lose_Percentage__c); // Change this to percentage label
                                         }
                                         else
                                         {    
@@ -418,7 +455,7 @@ Territory - The territory selected via a territory picker.
                                     }
                                 }
                                 
-                                GainersList = New List<MYBZ_Product_Trend_Detail__c>();
+                                GainersList = New List<MYBZ_TopGainer>();
                                 
                                 firstproductIteration=0;    
                                 firstloserflag=1;
@@ -551,7 +588,7 @@ Territory - The territory selected via a territory picker.
                             }
                             if(trenddetails.Gainer_Loser_Top__c.contains('GAINER'))
                             {
-                                GainersList.add(trenddetails);
+                                GainersList.add(new MYBZ_TopGainer(trenddetails));
                             }
                         }
                         
@@ -568,37 +605,37 @@ Territory - The territory selected via a territory picker.
                 for(i=GainersList.size()-1;i>=0;i--)
                 {
                     generator.writeStartObject();
-                    if(GainersList[i].HCP_First_Name__c!=null||GainersList[i].HCP_Last_Name__c!=null){
-                        if(GainersList[i].HCP_First_Name__c!=null&&GainersList[i].HCP_Last_Name__c!=null)
+                    if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null||GainersList[i].trendDetailObj.HCP_Last_Name__c!=null){
+                        if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null&&GainersList[i].trendDetailObj.HCP_Last_Name__c!=null)
                         {
-                            generator.writeStringField('name',GainersList[i].HCP_First_Name__c+''+GainersList[i].HCP_Last_Name__c);
+                            generator.writeStringField('name',GainersList[i].trendDetailObj.HCP_First_Name__c+''+GainersList[i].trendDetailObj.HCP_Last_Name__c);
                         }
-                        else if(GainersList[i].HCP_First_Name__c!=null)
+                        else if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null)
                         {
-                            generator.writeStringField('name',GainersList[i].HCP_First_Name__c);
+                            generator.writeStringField('name',GainersList[i].trendDetailObj.HCP_First_Name__c);
                         }
                         else
                         {
-                            generator.writeStringField('name',GainersList[i].HCP_Last_Name__c);
+                            generator.writeStringField('name',GainersList[i].trendDetailObj.HCP_Last_Name__c);
                         }
                     }
-                    else if(GainersList[i].Top_or_Bottom_PGP__c!=null)
+                    else if(GainersList[i].trendDetailObj.Top_or_Bottom_PGP__c!=null)
                     {
-                        generator.writeStringField('name',GainersList[i].Top_or_Bottom_PGP__c);
+                        generator.writeStringField('name',GainersList[i].trendDetailObj.Top_or_Bottom_PGP__c);
                     }
                     else
                     {           
                         generator.writeNullField('name');
                     }
-                    if((GainersList[i].TRx_Units__c-GainersList[i].Previous_Month_TRx__c)!=null){
-                        generator.writeNumberField('value',GainersList[i].TRx_Units__c-GainersList[i].Previous_Month_TRx__c); 
+                    if((GainersList[i].trendDetailObj.Gain_or_Lose_Trx__c)!=null){
+                        generator.writeNumberField('value',GainersList[i].trendDetailObj.Gain_or_Lose_Trx__c); 
                     }
                     else
                     {    
                         generator.writeNullField('value'); 
                     }
-                    if(GainersList[i].Gain_or_Lose_Percentage__c!=null){
-                        generator.writeNumberField('percentageChange',GainersList[i].Gain_or_Lose_Percentage__c); // Change this to percentage label
+                    if(GainersList[i].trendDetailObj.Gain_or_Lose_Percentage__c!=null){
+                        generator.writeNumberField('percentageChange',GainersList[i].trendDetailObj.Gain_or_Lose_Percentage__c); // Change this to percentage label
                     }
                     else
                     {    

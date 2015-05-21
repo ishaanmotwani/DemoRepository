@@ -17,6 +17,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MYBZ_TopGainer</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_MYBZ_RegionRollup_Controller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -154,6 +158,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>MYBZ_Product_Trend_Detail__c.Gain_or_Lose_Percentage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Gain_or_Lose_Trx__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
