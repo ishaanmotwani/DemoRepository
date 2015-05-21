@@ -187,7 +187,7 @@ global with Sharing  class MYBZ_MarketShare{
                            
     }
         
-    @RemoteAction 
+    @future 
     //Non Aff and Geo picker
     global static void marketshareControllerNonAffUsingPicker(String region, String district, String territory){
         fetchUserInfo();
@@ -853,18 +853,19 @@ global static void marketshareProcessor() {
                 
                     }
                 system.debug('nationalPercentChange' + nationalPercentChange);
-                if(!mapAggNat.isempty() ){
+                
+              /*  if(!mapAggNat.isempty(markMonthYearMS) ){
                     if(mapAggNat.get(markMonthYearMS)!=null){
-                    for(AggregateResult mshare: mapAggNat.get(markMonthYearMS)){
+                    //for(AggregateResult mshare: mapAggNat.get(markMonthYearMS)){
                                 
                                     system.debug(markMonthYearMS);
                                   //   system.debug('++markMonthYearMS' + markMonthYearMS + mshare); 
                                   if(mshare.get('TotTrx')!=null)
                                        TotalTrx += (Decimal)mshare.get('TotTrx');  
                                 }
-                    } 
-                }
-                if(!mapAggDis.isempty() ){
+                    //} 
+                }*/
+            /*    if(!mapAggDis.isempty() ){
                     if(mapAggDis.get(markMonthYearMS)!=null){
                     for(AggregateResult mshare: mapAggDis.get(markMonthYearMS)){
                                 
@@ -874,8 +875,8 @@ global static void marketshareProcessor() {
                                        TotalTrxDis += (Decimal)mshare.get('TotTrx');  
                                 }
                     } 
-                }
-                if(!mapAggReg.isempty() ){
+                }*/
+              /*  if(!mapAggReg.isempty() ){
                     if(mapAggReg.get(markMonthYearMS)!=null){
                     for(AggregateResult mshare: mapAggReg.get(markMonthYearMS)){
                                 
@@ -885,11 +886,12 @@ global static void marketshareProcessor() {
                                        TotalTrxReg += (Decimal)mshare.get('TotTrx');  
                                 }
                     } 
-                }
+                }*/
+                system.debug('mapAggNat'+mapAggNat);
                 generator.writeFieldName(System.Label.MYBZ_National);                          
                 generator.writeStartObject();
                 if(marketShareObj.lillyProduct__c){
-                
+                TotalTrx=(Decimal)mapAggNat.get(markMonthYearMS).get(0).get('TotTrx');
                 if(TotalTrx!=0 && marketShareObj.Trx__c != null){
                        generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrx) *100);
                         system.debug('+++objNatWrapper.Percentage' + (marketShareObj.Trx__c/TotalTrx) *100);
@@ -914,7 +916,7 @@ global static void marketshareProcessor() {
                 generator.writeFieldName(System.Label.MYBZ_District);                          
                 generator.writeStartObject();
                 if(marketShareObj.lillyProduct__c){
-                
+                TotalTrx=(Decimal)mapAggDis.get(markMonthYearMS).get(0).get('TotTrx');
                 if(TotalTrxDis!=0 && marketShareObj.Trx__c != null){
                        generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxDis) *100);
                         
@@ -939,7 +941,7 @@ global static void marketshareProcessor() {
                      generator.writeFieldName(System.Label.MYBZ_Region);                          
                     generator.writeStartObject();
                 if(marketShareObj.lillyProduct__c){
-                
+                TotalTrx=(Decimal)mapAggReg.get(markMonthYearMS).get(0).get('TotTrx');
                 if(TotalTrxReg!=0 && marketShareObj.Trx__c != null){
                        generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxReg) *100);
                       
