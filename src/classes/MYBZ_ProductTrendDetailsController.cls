@@ -1,6 +1,11 @@
 global with sharing class MYBZ_ProductTrendDetailsController 
 {
 
+    public MYBZ_ProductTrendDetailsController() {
+
+    }
+
+
     public MYBZ_ProductTrendDetailsController(MYBZ_Region_Rollup_Controller controller) {
 
     }
@@ -570,8 +575,8 @@ Territory - The territory selected via a territory picker.
                                 {           
                                     generator.writeNullField('name');
                                 }
-                                if((trenddetails.TRx_Units__c-trenddetails.Previous_Month_TRx__c)!=null){
-                                    generator.writeNumberField('value',trenddetails.TRx_Units__c-trenddetails.Previous_Month_TRx__c); 
+                                if((trenddetails.Gain_or_Lose_Trx__c)!=null){
+                                    generator.writeNumberField('value',trenddetails.Gain_or_Lose_Trx__c); 
                                 }
                                 else
                                 {    
@@ -657,7 +662,6 @@ Territory - The territory selected via a territory picker.
             }
             catch(Exception E) 
             {
-                system.debug('Exception occurred during execution of TrendPrescriber method' + e);
                 GLBL_Error_Log__c errLog = new GLBL_Error_Log__c(Error_Datetime__c= DateTime.Now(),
                                                                  Error_Message__c= e.getMessage(),
                                                                  Running_User__c = UserInfo.getUserId() ,
