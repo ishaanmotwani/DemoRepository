@@ -47,6 +47,7 @@ global with Sharing  class MYBZ_MarketShare{
     }
     //Non-Aff and by defualt
       @future
+      @RemoteAction
         global static void marketShareControllerNonAff() { 
             fetchUserInfo();
                  
@@ -95,7 +96,7 @@ global with Sharing  class MYBZ_MarketShare{
          
             marketshareProcessor();          
     }
- 
+    @RemoteAction
     global static void accountSummary(){
         fetchUserInfo();
                     //for account summary page
@@ -112,6 +113,7 @@ global with Sharing  class MYBZ_MarketShare{
     }
         
     @future 
+     @RemoteAction
     //Non Aff and Geo picker
     global static void marketshareControllerNonAffUsingPicker(String region, String district, String territory){
         fetchUserInfo();
