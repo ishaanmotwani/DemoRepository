@@ -411,14 +411,15 @@ global with Sharing  class MYBZ_MarketShare{
     @RemoteAction 
     global static void marketshareControllerAffiliation(){
         flag=1;
-         fetchUserInfo();
+        fetchUserInfo();
         MYBZ_Market_Share__c objSys=[SELECT LE_ID_IHS__c,division__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =: GlobalId and  LoadIdentifier__c='A' ORDER BY LE_ID_IHS__c LIMIT 1];
         system.debug('sys'+objSys.LE_ID_IHS__c );
         
-        getmarketShareListNational='select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(objSys.division__c)+'\''+strmarketShareListNational+' and LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys.LE_ID_IHS__c)+groupBy ;
+        getmarketShareListNational='select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(objSys.division__c)+'\''+strmarketShareListNational+' LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys.LE_ID_IHS__c) + '\'' +groupBy ;
         system.debug('++++ query' + getmarketShareListNational);
         
-        getmarketShareNationalPercentChange='Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(objSys.division__c)+'\''+strmarketShareListNational+' and LE_ID_IHS__c=:objSys.LE_ID_IHS__c';
+        string ihsID = objSys.LE_ID_IHS__c;
+        getmarketShareNationalPercentChange='Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(objSys.division__c)+'\''+strmarketShareListNational+' LE_ID_IHS__c=:ihsID';
         
          marketShareList.clear();
          marketShareListNational.clear();
@@ -478,6 +479,8 @@ global with Sharing  class MYBZ_MarketShare{
                     marketShareRegionPercentChange=database.query(getmarketShareRegionPercentChange);
                     
                 }
+                
+                 marketshareProcessor();
   
         }
         
