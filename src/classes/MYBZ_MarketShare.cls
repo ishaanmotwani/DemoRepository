@@ -3,8 +3,7 @@ global with Sharing  class MYBZ_MarketShare{
     public MYBZ_MarketShare(MYBZ_Region_Rollup_Controller controller) {
 
     }
-
-
+    
     global static Integer j,k,m,n;
     global static List<MYBZ_Market_Share__c> marketShareList =new List<MYBZ_Market_Share__c>();
     global static List<AggregateResult> marketShareListNational=new List<AggregateResult>();
@@ -176,6 +175,7 @@ global with Sharing  class MYBZ_MarketShare{
 
     
     }*/
+    
     global static void accountSummary(){
         fetchUserInfo();
                     //for account summary page
@@ -416,7 +416,8 @@ global with Sharing  class MYBZ_MarketShare{
         system.debug('sys'+objSys.LE_ID_IHS__c );
         
         getmarketShareListNational='select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(objSys.division__c)+'\''+strmarketShareListNational+' and LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys.LE_ID_IHS__c)+groupBy ;
-            
+        system.debug('++++ query' + getmarketShareListNational);
+        
         getmarketShareNationalPercentChange='Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(objSys.division__c)+'\''+strmarketShareListNational+' and LE_ID_IHS__c=:objSys.LE_ID_IHS__c';
         
          marketShareList.clear();
