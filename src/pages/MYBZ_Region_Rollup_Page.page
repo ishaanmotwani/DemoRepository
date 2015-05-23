@@ -184,6 +184,12 @@ Visualforce.remoting.Manager.invokeAction(
   );
 }
                 
+
+
+
+//KEEP, STARTS THE APP.
+//The app won't initially know about globalId, role and so on.
+window.salesforcePropertiesAreSet();
                 
            </script>
         
