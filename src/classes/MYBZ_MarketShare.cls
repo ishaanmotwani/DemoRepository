@@ -124,9 +124,9 @@ global with Sharing  class MYBZ_MarketShare{
                 
         flag=1;MYBZ_Market_Share__c mssobj;
         if(region!='' && region!=null)
-             mssobj=[Select division__c FROM MYBZ_Market_Share__c WHERE Region__r.Name=:region and district__c=null and territory__c=null and LoadIdentifier__c='NA' LIMIT 1];
+             mssobj=[Select division__c,District__c FROM MYBZ_Market_Share__c WHERE Region__r.Name=:region and district__c=null and territory__c=null and LoadIdentifier__c='NA' LIMIT 1];
         else if(district!='' && district!=null)
-             mssobj=[Select division__c FROM MYBZ_Market_Share__c WHERE district__r.Name=:district and territory__c=null and LoadIdentifier__c='NA' LIMIT 1];
+             mssobj=[Select division__c,District__c FROM MYBZ_Market_Share__c WHERE district__r.Name=:district and territory__c=null and LoadIdentifier__c='NA' LIMIT 1];
         else
              mssobj=[Select division__c,district__c FROM MYBZ_Market_Share__c WHERE territory__r.Name=:territory and LoadIdentifier__c='NA' LIMIT 1];
       

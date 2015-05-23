@@ -86,7 +86,7 @@ function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation,
         );
         return;
     }
-    if (window.sfHelper.isSet(affiliation) === false || window.sfHelper.isSet(geography) === false) {
+    if ((window.sfHelper.isSet(affiliation) === false || window.sfHelper.isSet(geography) === false) && window.$Role != 'Super User') {
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_ProductTrendDetailsController.trendsPrescriberUsingAffiliationPicker', system, pgp, callback
         );
@@ -116,7 +116,7 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
         );
         return;
     }
-    if (window.sfHelper.isSet(affiliation) === true || window.sfHelper.isSet(geography) === false) {
+    if ((window.sfHelper.isSet(affiliation) === true || window.sfHelper.isSet(geography) === false) && window.$Role != 'Super User') {
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerAffiliation', callback
         );
