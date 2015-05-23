@@ -93,7 +93,7 @@ function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation,
         return;
     }
     Visualforce.remoting.Manager.invokeAction(
-        'MYBZ_ProductTrendDetailsController.trendsPrescriberSuperUser', region, district, territory, system, pgp, callback
+        'MYBZ_ProductTrendDetailsController.trendsPrescriberSuperUser', system, pgp, region, district, territory,callback
     );
 }
 
