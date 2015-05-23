@@ -135,14 +135,12 @@ Territory - The territory selected via a territory picker.
     {
         try
         {
-            fetchUserInfo();
-            
-            //AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where Global_Id__c =:GlobalId Limit 1];
-            AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND District__c!=null) Limit 1];
+            fetchUserInfo();     
             DefaultSystem = [Select LE_ID_IHS__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND LE_ID_IHS__c!=null)  order by System__r.Name Limit 1];
             
             if(Role == System.Label.MYBZ_MajorMarketManager)
             {
+                AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND Area__c!=null) Limit 1];
                 if(LE_ID_PGP!=null && LE_ID_PGP!='')
                 {
                     TrendsDetailsList.clear();
@@ -161,6 +159,7 @@ Territory - The territory selected via a territory picker.
             }
             else if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager)
             {
+                AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND District__c!=null) Limit 1];
                 if(LE_ID_PGP!=null && LE_ID_PGP!='')
                 {
                     TrendsDetailsList.clear();
@@ -179,6 +178,7 @@ Territory - The territory selected via a territory picker.
             }
             else if(Role == System.Label.MYBZ_SalesRepresentative)
             {
+                AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND Territory__c!=null) Limit 1];
                 if(LE_ID_PGP!=null && LE_ID_PGP!='')
                 {
                     TrendsDetailsList.clear();
