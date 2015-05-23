@@ -24,11 +24,11 @@ global with Sharing  class MYBZ_MarketShare{
     global static String GlobalId ;
     global static MYBZ_Market_Share__c ms;
     global static Decimal PercentageChangeDDDUnits=0;
-    
+    global object marketShare;
     global static integer flag=1;
      global static id UserId;
     
-    global static void getAlignment(){
+    global static void  getAlignment(){
         ms= [select Territory__c,District__c,Region__c, Division__c from MYBZ_Market_Share__c where Global_Id__c =:GlobalId Limit 1];
     }
        
@@ -46,9 +46,9 @@ global with Sharing  class MYBZ_MarketShare{
         
     }
     //Non-Aff and by defualt
-      @future
+    // @future
       @RemoteAction
-        global static void marketShareControllerNonAff() { 
+        global static Object marketShareControllerNonAff() { 
             fetchUserInfo();
                  
             flag=1;
@@ -60,7 +60,7 @@ global with Sharing  class MYBZ_MarketShare{
                                Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                                FROM MYBZ_Market_Share__c 
                                WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='NA' 
-                               ORDER BY Market__c,Month__c, Year__c ASC];
+                               ORDER BY Market__c,Month__c, Year__c ASC LIMIT 500];
                                  
             marketShareListNational.clear();
             marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
@@ -94,10 +94,11 @@ global with Sharing  class MYBZ_MarketShare{
             }
             
          
-            marketshareProcessor();          
+           Object marketShare= marketshareProcessor();
+            return marketShare;
     }
     @RemoteAction
-    global static void accountSummary(){
+    global static Object accountSummary(){
         fetchUserInfo();
                     //for account summary page
       
@@ -107,15 +108,16 @@ global with Sharing  class MYBZ_MarketShare{
                            Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                            FROM MYBZ_Market_Share__c 
-                           WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='A' ]; 
-         marketshareProcessor();             
+                           WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='A' LIMIT 500]; 
+      Object marketShare= marketshareProcessor();
+         return marketShare;             
                            
     }
         
-    @future 
+   
      @RemoteAction
     //Non Aff and Geo picker
-    global static void marketshareControllerNonAffUsingPicker(String region, String district, String territory){
+    global static Object marketshareControllerNonAffUsingPicker(String region, String district, String territory){
         fetchUserInfo();
                 
         flag=1;MYBZ_Market_Share__c mssobj;
@@ -138,7 +140,7 @@ global with Sharing  class MYBZ_MarketShare{
             marketShareList.clear();
             marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                                Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
-                               Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c  FROM MYBZ_Market_Share__c  WHERE District__r.Name =:district AND Territory__c = null and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC]; 
+                               Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c  FROM MYBZ_Market_Share__c  WHERE District__r.Name =:district AND Territory__c = null and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC LIMIT 500]; 
             marketShareListDistrict.clear();                   
             marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
                                                       FROM MYBZ_Market_Share__c 
@@ -154,7 +156,7 @@ global with Sharing  class MYBZ_MarketShare{
         marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                            Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
-                           FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC]; 
+                           FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC LIMIT 500]; 
                            
         marketShareListRegion.clear();
         marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
@@ -170,7 +172,7 @@ global with Sharing  class MYBZ_MarketShare{
                     marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                            Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, system__r.Name,LE_ID_PGP__c,Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
-                           FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC]; 
+                           FROM MYBZ_Market_Share__c WHERE Territory__r.Name =:territory and LoadIdentifier__c='NA' ORDER BY Market__c,Month__c, Year__c ASC LIMIT 500]; 
                            
                     marketShareListDistrict.clear();                   
                     marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
@@ -178,12 +180,13 @@ global with Sharing  class MYBZ_MarketShare{
                                                       WHERE  District__c =: mssobj.district__c and territory__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
                                                       
                     marketShareDistrictPercentChange.clear();
-                    marketShareDistrictPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__c =: mssobj.district__c and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='NA'];
+                    marketShareDistrictPercentChange= [Select TRx__c,Previous_Month_TRx__c FROM MYBZ_Market_Share__c WHERE District__c =: mssobj.district__c and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='NA' ];
                            
                            
  
         }
-        marketshareProcessor();
+       Object marketShare= marketshareProcessor();
+         return marketShare;
     }
     public static String ihs=' LE_ID_PGP__c=null and LE_ID_IHS__c=:LE_ID_IHS';
     public static String pgps=' LE_ID_PGP__c=:LE_ID_PGP';
@@ -204,7 +207,7 @@ global with Sharing  class MYBZ_MarketShare{
     
     //String marketShareNationalPercentChange=
     
-    global static void marketshareControllerAffUsingPicker(String LE_ID_IHS, String LE_ID_PGP){
+    global static Object marketshareControllerAffUsingPicker(String LE_ID_IHS, String LE_ID_PGP){
          system.debug('LE_ID_IHS'+LE_ID_IHS);
         flag=1;
         fetchUserInfo();
@@ -304,13 +307,14 @@ global with Sharing  class MYBZ_MarketShare{
        
         }
       
-        marketshareProcessor();
+       Object marketShare= marketshareProcessor();
+         return marketShare;
     
     }
     
     //Aff and by default
     @RemoteAction 
-    global static void marketshareControllerAffiliation(){
+    global static Object marketshareControllerAffiliation(){
         flag=1;
         MYBZ_Market_Share__c objSys;
         fetchUserInfo();
@@ -379,7 +383,8 @@ global with Sharing  class MYBZ_MarketShare{
                     
                 }
                 
-                 marketshareProcessor();
+              Object marketShare= marketshareProcessor();
+                return marketShare;
   
         }
         
@@ -388,7 +393,7 @@ global with Sharing  class MYBZ_MarketShare{
         
         @RemoteAction 
     
-    global static void marketshareControllerAffUsingPickerSuperUser(String LE_ID_IHS , String LE_ID_PGP,String region, String district, String terr){
+    global static Object marketshareControllerAffUsingPickerSuperUser(String LE_ID_IHS , String LE_ID_PGP,String region, String district, String terr){
         flag=1;
         fetchUserInfo();
                   system.debug('LE_ID_IHS'+LE_ID_IHS);
@@ -476,7 +481,8 @@ global with Sharing  class MYBZ_MarketShare{
             marketShareRegionPercentChange=database.query(getmarketShareRegionPercentChange);                   
           
         }
-          marketshareProcessor();
+         Object marketShare= marketshareProcessor();
+         return marketShare;
  }
     global static void calculateNational(){
         mapAggNat.clear();
@@ -522,7 +528,7 @@ global with Sharing  class MYBZ_MarketShare{
     }
 
     
-global static void marketshareProcessor() {  
+global static Object marketshareProcessor() {  
     nationalPercentChange.clear();
     districtPercentChange.clear();
     regionPercentChange.clear();
@@ -865,7 +871,8 @@ global static void marketshareProcessor() {
                      }
                     JsonString = generator.getAsString();
                    System.debug('--MarketShare'+JsonString);
-                    Object MarketShareObject = Json.deserializeUntyped(JsonString); 
+                    Object marketShare = Json.deserializeUntyped(JsonString); 
+                    return marketShare;
                
                   }
                  public MYBZ_MarketShare(){

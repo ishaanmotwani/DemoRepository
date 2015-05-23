@@ -118,7 +118,7 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
     }
     if (window.sfHelper.isSet(affiliation) === true || window.sfHelper.isSet(geography) === false) {
         Visualforce.remoting.Manager.invokeAction(
-            'MYBZ_MarketShare.marketshareControllerAffiliation', system, pgp, callback
+            'MYBZ_MarketShare.marketshareControllerAffiliation', callback
         );
         return;
     }
