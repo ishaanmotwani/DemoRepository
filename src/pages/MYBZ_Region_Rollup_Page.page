@@ -187,6 +187,7 @@ Visualforce.remoting.Manager.invokeAction(
                 
            </script>
         
+        <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/dataCop.js')}"/>
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'dist/build.js')}"/>
         
         <!--<apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/jquery/jquery-1.11.1.min.js')}"/>-->
