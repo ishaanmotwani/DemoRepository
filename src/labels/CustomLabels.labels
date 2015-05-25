@@ -50,6 +50,13 @@
         <value>percentageChange</value>
     </labels>
     <labels>
+        <fullName>MYBZ_geolevelcomparison</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_geolevelcomparison</shortDescription>
+        <value>geolevelcomparison</value>
+    </labels>
+    <labels>
         <fullName>MYBZ_loosers</fullName>
         <language>en_US</language>
         <protected>false</protected>

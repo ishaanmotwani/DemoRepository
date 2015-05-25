@@ -11,7 +11,7 @@
     </types>
     <types>
         <members>MYBZ_Region_Rollup_Page</members>
-         <members>test</members>
+        <members>test</members>
         <name>ApexPage</name>
     </types>
     <types>
@@ -37,7 +37,6 @@
         <members>MYBZ_Product_Trend_Detail__c.Dataload_Id__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Division__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Gain_or_Lose_Percentage__c</members>
-        <members>MYBZ_Product_Trend_Detail__c.Gain_or_Lose_Trx__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Gainer_Loser_Top__c</members>
         <members>MYBZ_Product_Trend_Detail__c.HCP_or_PGP__c</members>
         <members>MYBZ_Product_Trend_Detail__c.LE_ID_IHS__c</members>
@@ -71,6 +70,7 @@
         <members>Mybz_accounts</members>
         <members>Mybz_summaryData</members>
         <members>mybz_associationName</members>
+        <members>MYBZ_geolevelcomparison</members>
         <name>CustomLabel</name>
     </types>
     <types>
