@@ -208,7 +208,7 @@ global with Sharing  class MYBZ_MarketShare{
     global static String strmarketShareRegionPercentChange= 'Select percentageChangeFromPreviousMonth__c,Month_Number__c, Year_Number__c,Product__c, Market__c FROM MYBZ_Market_Share__c WHERE region__c!=null and District__c =null and  lillyProduct__c=true and territory__c=null and LoadIdentifier__c=\''+a+ '\' and ';
     
     //String marketShareNationalPercentChange=
-    
+    @RemoteAction
     global static Object marketshareControllerAffUsingPicker(String LE_ID_IHS, String LE_ID_PGP){
          system.debug('LE_ID_IHS'+LE_ID_IHS);
         flag=1;
@@ -757,37 +757,16 @@ global static Object marketshareProcessor() {
                     
                     system.debug(marketShareObj.product__c+''+product);
                     string markProdMonthYearMS =  marketShareObj.Market__c+product+marketShareObj.Month_Number__c+marketShareObj.Year_Number__c;
-                 /*   for(MYBZ_Market_Share__c obj:marketShareNationalPercentChange){
-            
-                                if(obj.trx__c!=null && (obj.Previous_Month_TRx__c!=null && obj.Previous_Month_TRx__c!=0))
-                                    nationalPercentChange.put(markProdMonthYearMS,obj.trx__c-obj.Previous_Month_TRx__c/obj.Previous_Month_TRx__c);
-                                else
-                                    nationalPercentChange.put(markProdMonthYearMS,0);
                 
-                    }
-                    for(MYBZ_Market_Share__c obj:marketShareDistrictPercentChange){
-                            
-                            if(obj.trx__c!=null && (obj.Previous_Month_TRx__c!=null && obj.Previous_Month_TRx__c!=0))
-                                districtPercentChange.put(markProdMonthYearMS,obj.trx__c-obj.Previous_Month_TRx__c/obj.Previous_Month_TRx__c);
-                            else
-                                districtPercentChange.put(markProdMonthYearMS,0);
-                
-                    }
-                    for(MYBZ_Market_Share__c obj:marketShareRegionPercentChange){
-            
-                            if(obj.trx__c!=null && (obj.Previous_Month_TRx__c!=null && obj.Previous_Month_TRx__c!=0))
-                                regionPercentChange.put(markProdMonthYearMS,obj.trx__c-obj.Previous_Month_TRx__c/obj.Previous_Month_TRx__c);
-                            else
-                                regionPercentChange.put(markProdMonthYearMS,0);
-                
-                    }*/
-                system.debug('nationalPercentChange' + nationalPercentChange);
-                 system.debug('regionPercentChange' + regionPercentChange);
-                  system.debug('districtPercentChange' + districtPercentChange);
+                    system.debug('nationalPercentChange' + nationalPercentChange);
+                    system.debug('regionPercentChange' + regionPercentChange);
+                    system.debug('districtPercentChange' + districtPercentChange);
                 system.debug('mapAggNat'+mapAggNat);
                 system.debug('mapAggNat'+mapAggReg);
                 system.debug('mapAggNat'+mapAggDis);
                 if(flag==1){
+                generator.writeFieldName(System.Label.MYBZ_geolevelcomparison);  
+                generator.writeStartObject();
                 generator.writeFieldName(System.Label.MYBZ_National);                          
                 generator.writeStartObject();
                 if(marketShareObj.lillyProduct__c){
@@ -873,6 +852,7 @@ global static Object marketshareProcessor() {
                         generator.writeNullField(System.Label.MYBZ_PercentageChange);
                     }
                 
+                    generator.writeEndObject();
                     generator.writeEndObject();
                 }
                     generator.writeEndObject(); 
