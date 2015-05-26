@@ -22,7 +22,8 @@ global with Sharing  class MYBZ_MarketShare{
     //global static MYBZ_Region__c reg;
     global static String Role;
     global static String GlobalId ;
-    global static MYBZ_Market_Share__c ms;
+    global static MYBZ_Market_Share__c ms=new MYBZ_Market_Share__c();
+    global static MYBZ_Market_Share__c msobj=new MYBZ_Market_Share__c();
     global static Decimal PercentageChangeDDDUnits=0;
     global object marketShare;
     global static integer flag=1;
@@ -50,7 +51,7 @@ global with Sharing  class MYBZ_MarketShare{
       @RemoteAction
         global static Object marketShareControllerNonAff() { 
             fetchUserInfo();
-                 
+             system.debug('GlobalId'+GlobalId+'Role'+Role);    
             flag=1;
             getAlignment();
             
@@ -122,20 +123,20 @@ global with Sharing  class MYBZ_MarketShare{
     global static Object marketshareControllerNonAffUsingPicker(String region, String district, String territory){
         fetchUserInfo();
                 
-        flag=1;MYBZ_Market_Share__c mssobj;
+        flag=1;
         if(region!='' && region!=null)
-             mssobj=[Select division__c,District__c FROM MYBZ_Market_Share__c WHERE Region__r.Name=:region and district__c=null and territory__c=null and LoadIdentifier__c='NA' LIMIT 1];
+             msobj=[Select division__c,District__c FROM MYBZ_Market_Share__c WHERE Region__r.Name=:region and district__c=null and territory__c=null and LoadIdentifier__c='NA' LIMIT 1];
         else if(district!='' && district!=null)
-             mssobj=[Select division__c,District__c FROM MYBZ_Market_Share__c WHERE district__r.Name=:district and territory__c=null and LoadIdentifier__c='NA' LIMIT 1];
+             msobj=[Select division__c,District__c FROM MYBZ_Market_Share__c WHERE district__r.Name=:district and territory__c=null and LoadIdentifier__c='NA' LIMIT 1];
         else
-             mssobj=[Select division__c,district__c FROM MYBZ_Market_Share__c WHERE territory__r.Name=:territory and LoadIdentifier__c='NA' LIMIT 1];
+             msobj=[Select division__c,district__c FROM MYBZ_Market_Share__c WHERE territory__r.Name=:territory and LoadIdentifier__c='NA' LIMIT 1];
       
         marketShareListNational.clear();
         marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
                                                       FROM MYBZ_Market_Share__c 
-                                                      WHERE  division__c =: mssobj.Division__c and territory__c = null and District__c = null and  Region__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      WHERE  division__c =: msobj.Division__c and territory__c = null and District__c = null and  Region__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
         marketShareNationalPercentChange.clear();                           
-        marketShareNationalPercentChange= [Select Month_Number__c, Year_Number__c,Product__c, Market__c,percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE division__c =: mssobj.Division__c and territory__c = null and District__c = null and  Region__c = null  and lillyProduct__c=true and LoadIdentifier__c='NA'];
+        marketShareNationalPercentChange= [Select Month_Number__c, Year_Number__c,Product__c, Market__c,percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE division__c =: msobj.Division__c and territory__c = null and District__c = null and  Region__c = null  and lillyProduct__c=true and LoadIdentifier__c='NA'];
         
         
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ||Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && district !=null && district !='' ){
@@ -179,10 +180,10 @@ global with Sharing  class MYBZ_MarketShare{
                     marketShareListDistrict.clear();                   
                     marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr 
                                                       FROM MYBZ_Market_Share__c 
-                                                      WHERE  District__c =: mssobj.district__c and territory__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                      WHERE  District__c =: msobj.district__c and territory__c = null  and LoadIdentifier__c='NA' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
                                                       
                     marketShareDistrictPercentChange.clear();
-                    marketShareDistrictPercentChange= [Select Month_Number__c, Year_Number__c,Product__c, Market__c,percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE District__c =: mssobj.district__c and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='NA' ];
+                    marketShareDistrictPercentChange= [Select Month_Number__c, Year_Number__c,Product__c, Market__c,percentageChangeFromPreviousMonth__c FROM MYBZ_Market_Share__c WHERE District__c =: msobj.district__c and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='NA' ];
                            
                            
  
@@ -219,8 +220,8 @@ global with Sharing  class MYBZ_MarketShare{
                 else
                     getDivision=division+ihs+' Limit 1' ;
                 
-        MYBZ_Market_Share__c mobj=database.query(getDivision);
-        String id=mobj.division__c;
+         msobj=database.query(getDivision);
+        String id=msobj.division__c;
         If(String.isBlank(LE_ID_IHS)){
             getmarketShareListNational='select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(id)+'\''+strmarketShareListNational+pgps+groupBy ;
             
@@ -406,8 +407,8 @@ global with Sharing  class MYBZ_MarketShare{
                 else
                     getDivision=division+ihs+' Limit 1' ;
                 
-        MYBZ_Market_Share__c mobj=database.query(getDivision);
-        String id=mobj.division__c;
+         msobj=database.query(getDivision);
+        String id=msobj.division__c;
        
        if(String.isBlank(LE_ID_IHS)){
             getmarketShareListNational='select Market__c mar, SUM(TRx__c) TotTrx,Month_Number__c mon, Year_Number__c yr FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(id)+'\''+strmarketShareListNational+pgps+groupBy ;

@@ -63,8 +63,9 @@ function getCallPlanningDataFromSalesforce(geography, callback, affiliation, fla
     var district = window.sfHelper.getProperty(geography, 'district');
     var territory = window.sfHelper.getProperty(geography, 'territory');
     Visualforce.remoting.Manager.invokeAction(
-        'MYBZ_Region_Rollup_Controller.callPlanningUsingPicker', region, district, territory, callback
+        'MYBZ_Region_Rollup_Controller.callPlanningUsingPicker', region, district, district, callback
     );
+    
 }
 
 function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation, flagAff) {
@@ -104,16 +105,19 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
     var system = window.sfHelper.getProperty(affiliation, 'systemID');
     var pgp = window.sfHelper.getProperty(affiliation, 'pgpID');
     
+    
     if (flagAff !== true) {
-        if (window.sfHelper.isSet(geography) === false) {
+        if (window.sfHelper.isSet(geography) === false && window.$Role != 'Super User') {
             Visualforce.remoting.Manager.invokeAction(
                 'MYBZ_MarketShare.marketShareControllerNonAff', callback
             );
+            
             return;
         }
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerNonAffUsingPicker', region, district, territory, callback
         );
+    
         return;
     }
     if ((window.sfHelper.isSet(affiliation) === false && window.sfHelper.isSet(geography) === false) && window.$Role != 'Super User') {
@@ -126,13 +130,15 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
          Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerAffUsingPickerSuperUser', system, pgp,region, district, territory, callback
         );
+        
         return;
     }
-    //if(window.$Role != 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === false ){
+    if(window.$Role != 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === false ){
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerAffUsingPicker', system, pgp, callback
         );
-    //}
+        
+    }
 }
 
 function getGoalsDataFromSalesforce(geography, callback, affiliation, flagAff) {
@@ -190,7 +196,7 @@ Visualforce.remoting.Manager.invokeAction(
 //KEEP, STARTS THE APP.
 //The app won't initially know about globalId, role and so on.
 window.salesforcePropertiesAreSet();
-                
+
            </script>
         
         <apex:includeScript value="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'lib/dataCop.js')}"/>
