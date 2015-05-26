@@ -789,8 +789,8 @@ global static Object marketshareProcessor() {
                             if(mapAggNat.get(markMonthYearMS).get(0).get('TotTrx')!=null)
                                 TotalTrx=(Decimal)mapAggNat.get(markMonthYearMS).get(0).get('TotTrx');
                 if(TotalTrx!=0 && marketShareObj.Trx__c != null){
-                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrx) *100);
-                        system.debug('+++objNatWrapper.Percentage' + (marketShareObj.Trx__c/TotalTrx) *100);
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrx) );
+                        system.debug('+++objNatWrapper.Percentage' + (marketShareObj.Trx__c/TotalTrx) );
                         if(nationalPercentChange.get(markProdMonthYearMS)!=null)
                             generator.writeNumberField(System.Label.MYBZ_PercentageChange,nationalPercentChange.get(markProdMonthYearMS));
                         else
@@ -820,7 +820,7 @@ global static Object marketshareProcessor() {
                         
                     
                 if(TotalTrxDis!=0 && marketShareObj.Trx__c != null){
-                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxDis) *100);
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxDis) );
                         
                         if(districtPercentChange.get(markProdMonthYearMS)!=null)
                             generator.writeNumberField(System.Label.MYBZ_PercentageChange,districtPercentChange.get(markProdMonthYearMS));
@@ -848,7 +848,7 @@ global static Object marketshareProcessor() {
                             if(mapAggReg.get(markMonthYearMS).get(0).get('TotTrx')!=null)
                                 TotalTrxReg=(Decimal)mapAggReg.get(markMonthYearMS).get(0).get('TotTrx');
                 if(TotalTrxReg!=0 && marketShareObj.Trx__c != null){
-                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxReg) *100);
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxReg) );
                       
                         if(regionPercentChange.get(markProdMonthYearMS)!=null)
                             generator.writeNumberField(System.Label.MYBZ_PercentageChange,regionPercentChange.get(markProdMonthYearMS));
