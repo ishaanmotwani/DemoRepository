@@ -18,6 +18,17 @@ window.sfHelper.getProperty = function(obj, prop) {
 window.sfHelper.isSet = function(value) {
     return typeof value !== 'undefined' && value !== null && value !== '';
 };
+window.sfHelper.validateRDT = function(geography) {
+    if (window.sfHelper.isSet(geography) === false) {
+        return;
+    }
+    if (window.sfHelper.isSet(geography.district)) {
+        delete geography.region;
+    }
+    if (window.sfHelper.isSet(geography.territory)) {
+        delete geography.district;
+    }
+};
 
 //window.region = '';
 //window.district = '';
@@ -47,12 +58,14 @@ if (window.$Role == 'Account Manager') {
 
 
 function getAlignmentDataFromSalesforce(geography, callback, affiliation, flagAff) {
+    window.sfHelper.validateRDT(geography);
     Visualforce.remoting.Manager.invokeAction(
         'MYBZ_Region_Rollup_Controller.alignment', callback
     );
 }
 
 function getCallPlanningDataFromSalesforce(geography, callback, affiliation, flagAff) {
+    window.sfHelper.validateRDT(geography);
     if (window.sfHelper.isSet(geography) === false) {
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_Region_Rollup_Controller.callPlanning', callback
@@ -69,6 +82,7 @@ function getCallPlanningDataFromSalesforce(geography, callback, affiliation, fla
 }
 
 function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation, flagAff) {
+    window.sfHelper.validateRDT(geography);
     var region = window.sfHelper.getProperty(geography, 'region');
     var district = window.sfHelper.getProperty(geography, 'district');
     var territory = window.sfHelper.getProperty(geography, 'territory');
@@ -99,6 +113,7 @@ function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation,
 }
 
 function getMarketShareDataFromSalesforce(geography, callback, affiliation, flagAff) {
+    window.sfHelper.validateRDT(geography);
     var region = window.sfHelper.getProperty(geography, 'region');
     var district = window.sfHelper.getProperty(geography, 'district');
     var territory = window.sfHelper.getProperty(geography, 'territory');
@@ -142,6 +157,7 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
 }
 
 function getGoalsDataFromSalesforce(geography, callback, affiliation, flagAff) {
+    window.sfHelper.validateRDT(geography);
     if (window.sfHelper.isSet(geography) === false) {
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_Region_Rollup_Controller.targetGoal', callback
@@ -158,12 +174,14 @@ function getGoalsDataFromSalesforce(geography, callback, affiliation, flagAff) {
 }
              
 function getRegionRollupDataFromSalesforce(geography, callback, affiliation, flagAff) {
+    window.sfHelper.validateRDT(geography);
     Visualforce.remoting.Manager.invokeAction(
         'MYBZ_Region_Rollup_Controller.regionRollup', callback
     );
 }
                 
 function getTrendsDataFromSalesforce(geography, callback, affiliation, flagAff) {
+    window.sfHelper.validateRDT(geography);
     var region = window.sfHelper.getProperty(geography, 'region');
     var district = window.sfHelper.getProperty(geography, 'district');
     var territory = window.sfHelper.getProperty(geography, 'territory');
@@ -185,9 +203,10 @@ function getTrendsDataFromSalesforce(geography, callback, affiliation, flagAff) 
 }
                 
 function getSummaryDataFromSalesforce(geography,callback, affiliation, flagAff) {
-Visualforce.remoting.Manager.invokeAction(
-    'MYBZ_MarketShare.accountSummary',  callback
-  );
+    window.sfHelper.validateRDT(geography);
+    Visualforce.remoting.Manager.invokeAction(
+        'MYBZ_MarketShare.accountSummary',  callback
+     );
 }
                 
 
