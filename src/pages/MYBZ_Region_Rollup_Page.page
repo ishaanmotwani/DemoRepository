@@ -105,7 +105,7 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
     var system = window.sfHelper.getProperty(affiliation, 'systemID');
     var pgp = window.sfHelper.getProperty(affiliation, 'pgpID');
     
-    
+   
     if (flagAff !== true) {
         if (window.sfHelper.isSet(geography) === false && window.$Role != 'Super User') {
             Visualforce.remoting.Manager.invokeAction(
