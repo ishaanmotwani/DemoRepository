@@ -249,11 +249,11 @@ global with Sharing  class MYBZ_MarketShare{
         
          }
         //add specific district data
-        if(Role == System.Label.MYBZ_SalesRepresentative ||  Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  ){ // he will see pgp, system, assign to his district
+        if(Role == System.Label.MYBZ_SalesRepresentative ||  Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SalesRepresentative ){ // he will see pgp, system, assign to his district
                     marketShareList.clear();
                    
                 //dangerous
-        if(Role == System.Label.MYBZ_SalesRepresentative )
+      
             getAlignment();
            system.debug('LE_ID_IHS'+LE_ID_IHS);                
         if((LE_ID_IHS==''|| LE_ID_IHS==null) && (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) ) {
@@ -331,7 +331,7 @@ global with Sharing  class MYBZ_MarketShare{
         fetchUserInfo();
         if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager || Role == System.Label.MYBZ_MajorMarketManager) {
             objSys=[SELECT LE_ID_IHS__c,division__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =: GlobalId and  LoadIdentifier__c='A' ORDER BY LE_ID_IHS__c LIMIT 1];
-            system.debug('sys'+objSys[0].LE_ID_IHS__c );
+           // system.debug('sys'+objSys[0].LE_ID_IHS__c );
         }
         else if(Role == System.Label.MYBZ_SalesRepresentative && (!ms.isEmpty())){
               getAlignment();
@@ -789,8 +789,8 @@ global static Object marketshareProcessor() {
                             if(mapAggNat.get(markMonthYearMS).get(0).get('TotTrx')!=null)
                                 TotalTrx=(Decimal)mapAggNat.get(markMonthYearMS).get(0).get('TotTrx');
                 if(TotalTrx!=0 && marketShareObj.Trx__c != null){
-                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrx) );
-                        system.debug('+++objNatWrapper.Percentage' + (marketShareObj.Trx__c/TotalTrx) );
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrx) *100);
+                        system.debug('+++objNatWrapper.Percentage' + (marketShareObj.Trx__c/TotalTrx) *100);
                         if(nationalPercentChange.get(markProdMonthYearMS)!=null)
                             generator.writeNumberField(System.Label.MYBZ_PercentageChange,nationalPercentChange.get(markProdMonthYearMS));
                         else
@@ -820,7 +820,7 @@ global static Object marketshareProcessor() {
                         
                     
                 if(TotalTrxDis!=0 && marketShareObj.Trx__c != null){
-                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxDis) );
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxDis) *100);
                         
                         if(districtPercentChange.get(markProdMonthYearMS)!=null)
                             generator.writeNumberField(System.Label.MYBZ_PercentageChange,districtPercentChange.get(markProdMonthYearMS));
@@ -848,7 +848,7 @@ global static Object marketshareProcessor() {
                             if(mapAggReg.get(markMonthYearMS).get(0).get('TotTrx')!=null)
                                 TotalTrxReg=(Decimal)mapAggReg.get(markMonthYearMS).get(0).get('TotTrx');
                 if(TotalTrxReg!=0 && marketShareObj.Trx__c != null){
-                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxReg) );
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxReg) *100);
                       
                         if(regionPercentChange.get(markProdMonthYearMS)!=null)
                             generator.writeNumberField(System.Label.MYBZ_PercentageChange,regionPercentChange.get(markProdMonthYearMS));
