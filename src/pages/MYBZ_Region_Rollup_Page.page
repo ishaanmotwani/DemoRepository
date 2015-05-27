@@ -101,15 +101,18 @@ function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation,
         );
         return;
     }
-    if ((window.sfHelper.isSet(affiliation) === false || window.sfHelper.isSet(geography) === false) && window.$Role != 'Super User') {
+    if (window.$Role === 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === true && (region!='' || district!='' || territory!='')) {
         Visualforce.remoting.Manager.invokeAction(
-            'MYBZ_ProductTrendDetailsController.trendsPrescriberUsingAffiliationPicker', system, pgp, callback
+            'MYBZ_ProductTrendDetailsController.trendsPrescriberSuperUser', system, pgp, region, district, territory,callback
         );
         return;
     }
+    if(window.$Role !== 'Super User'){
     Visualforce.remoting.Manager.invokeAction(
-        'MYBZ_ProductTrendDetailsController.trendsPrescriberSuperUser', system, pgp, region, district, territory,callback
+            'MYBZ_ProductTrendDetailsController.trendsPrescriberUsingAffiliationPicker', system, pgp, callback
     );
+    return;
+    }
 }
 
 function getMarketShareDataFromSalesforce(geography, callback, affiliation, flagAff) {
@@ -120,9 +123,9 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
     var system = window.sfHelper.getProperty(affiliation, 'systemID');
     var pgp = window.sfHelper.getProperty(affiliation, 'pgpID');
     
-   
+    
     if (flagAff !== true) {
-        if (window.sfHelper.isSet(geography) === false && window.$Role != 'Super User') {
+        if (window.sfHelper.isSet(geography) === false && window.$Role !== 'Super User') {
             Visualforce.remoting.Manager.invokeAction(
                 'MYBZ_MarketShare.marketShareControllerNonAff', callback
             );
@@ -135,25 +138,31 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
     
         return;
     }
-    if ((window.sfHelper.isSet(affiliation) === false && window.sfHelper.isSet(geography) === false) && window.$Role != 'Super User') {
+    if(window.$Role !== 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === true && ((system!==null && system!=='') || (pgp!==null && pgp!==''))){
+    
+        Visualforce.remoting.Manager.invokeAction(
+            'MYBZ_MarketShare.marketshareControllerAffUsingPicker', system, pgp, callback
+        );
+        return;
+        
+    }
+    
+  /*  if ((window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === true) && window.$Role !== 'Super User') {
+        alert('outside sys');
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerAffiliation', callback
         );
         return;
-    }
-    if(window.$Role == 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === true ){
+    }*/
+    if(window.$Role === 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === true && (region!='' || district!='' || territory!='')){
+        
          Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerAffUsingPickerSuperUser', system, pgp,region, district, territory, callback
         );
         
         return;
     }
-    //if(window.$Role != 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === false ){
-        Visualforce.remoting.Manager.invokeAction(
-            'MYBZ_MarketShare.marketshareControllerAffUsingPicker', system, pgp, callback
-        );
-        
-    //}
+    
 }
 
 function getGoalsDataFromSalesforce(geography, callback, affiliation, flagAff) {

@@ -11,11 +11,11 @@ global class MYBZ_TopGainer implements Comparable{
             Integer returnValue = 0;
             if (trendDetailObj.Gain_or_Lose_Trx__c < compareToPTD.trendDetailObj.Gain_or_Lose_Trx__c )
             {
-                returnValue = 1;
+                returnValue = -1;
             }
             else if (trendDetailObj.Gain_or_Lose_Trx__c  > compareToPTD.trendDetailObj.Gain_or_Lose_Trx__c ) 
             {
-                returnValue = -1;
+                returnValue = 1;
             }
             return returnValue;
         }

@@ -157,7 +157,7 @@ Territory - The territory selected via a territory picker.
                     TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c,Area__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:DefaultSystem.LE_ID_IHS__c AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='AREA' AND Area__c=:AlignmentHelper.Area__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                 }
             }
-            else if(Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager)
+            else if(Role == System.Label.MYBZ_DistrictSalesManager)
             {
                 AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND District__c!=null) Limit 1];
                 if(LE_ID_PGP!=null && LE_ID_PGP!='')
@@ -176,7 +176,7 @@ Territory - The territory selected via a territory picker.
                     TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:DefaultSystem.LE_ID_IHS__c AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                 }
             }
-            else if(Role == System.Label.MYBZ_SalesRepresentative)
+            else if(Role == System.Label.MYBZ_SalesRepresentative || Role == System.Label.MYBZ_AccountManager)
             {
                 AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND Territory__c!=null) Limit 1];
                 if(LE_ID_PGP!=null && LE_ID_PGP!='')

@@ -108,11 +108,12 @@ global with Sharing  class MYBZ_MarketShare{
       
         flag=0;
         system.debug('Inside summary');
+        MYBZ_Market_Share__c mobject=[SELECT district__c FROM MYBZ_Market_Share__c  WHERE Global_Id__c =:GlobalId LIMIT 1];
         marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                            Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                            FROM MYBZ_Market_Share__c 
-                           WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='A' ]; 
+                           WHERE district__c =:mobject.district__c and LoadIdentifier__c='A' ]; 
       Object marketShare= marketshareProcessor();
          return marketShare;             
                            
@@ -249,7 +250,7 @@ global with Sharing  class MYBZ_MarketShare{
         
          }
         //add specific district data
-        if(Role == System.Label.MYBZ_SalesRepresentative ||  Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SalesRepresentative ){ // he will see pgp, system, assign to his district
+        if( Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SalesRepresentative ){ // he will see pgp, system, assign to his district
                     marketShareList.clear();
                    
                 //dangerous
@@ -324,8 +325,8 @@ global with Sharing  class MYBZ_MarketShare{
     }
     
     //Aff and by default
-    @RemoteAction 
-    global static Object marketshareControllerAffiliation(){
+    /*@RemoteAction 
+        global static Object marketshareControllerAffiliation(){
         flag=1;
         List<MYBZ_Market_Share__c> objSys=new List<MYBZ_Market_Share__c>();
         fetchUserInfo();
@@ -399,7 +400,7 @@ global with Sharing  class MYBZ_MarketShare{
               Object marketShare= marketshareProcessor();
                 return marketShare;
   
-        }
+        }*/
         
         
         
@@ -734,7 +735,7 @@ global static Object marketshareProcessor() {
                               }
                               generator.writeStringField(System.Label.MYBZ_productName,marketShareObj.Product__r.Name);
                               generator.writeBooleanField(System.Label.MYBZ_lillyProduct,marketShareObj.lillyProduct__c);
-                              if(flag==1){
+                              if(marketShareObj.TRx__c ==null){
                                   if(marketShareObj.DDD_Units__c!=null){
                                         generator.writeNumberField(System.Label.MYBZ_dddUnits,marketShareObj.DDD_Units__c);
                                   }
@@ -789,8 +790,8 @@ global static Object marketshareProcessor() {
                             if(mapAggNat.get(markMonthYearMS).get(0).get('TotTrx')!=null)
                                 TotalTrx=(Decimal)mapAggNat.get(markMonthYearMS).get(0).get('TotTrx');
                 if(TotalTrx!=0 && marketShareObj.Trx__c != null){
-                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrx) *100);
-                        system.debug('+++objNatWrapper.Percentage' + (marketShareObj.Trx__c/TotalTrx) *100);
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrx) );
+                        system.debug('+++objNatWrapper.Percentage' + (marketShareObj.Trx__c/TotalTrx) );
                         if(nationalPercentChange.get(markProdMonthYearMS)!=null)
                             generator.writeNumberField(System.Label.MYBZ_PercentageChange,nationalPercentChange.get(markProdMonthYearMS));
                         else
@@ -820,7 +821,7 @@ global static Object marketshareProcessor() {
                         
                     
                 if(TotalTrxDis!=0 && marketShareObj.Trx__c != null){
-                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxDis) *100);
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxDis) );
                         
                         if(districtPercentChange.get(markProdMonthYearMS)!=null)
                             generator.writeNumberField(System.Label.MYBZ_PercentageChange,districtPercentChange.get(markProdMonthYearMS));
@@ -848,7 +849,7 @@ global static Object marketshareProcessor() {
                             if(mapAggReg.get(markMonthYearMS).get(0).get('TotTrx')!=null)
                                 TotalTrxReg=(Decimal)mapAggReg.get(markMonthYearMS).get(0).get('TotTrx');
                 if(TotalTrxReg!=0 && marketShareObj.Trx__c != null){
-                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxReg) *100);
+                       generator.writeNumberField(System.Label.MYBZ_Percentage,(marketShareObj.Trx__c/TotalTrxReg) );
                       
                         if(regionPercentChange.get(markProdMonthYearMS)!=null)
                             generator.writeNumberField(System.Label.MYBZ_PercentageChange,regionPercentChange.get(markProdMonthYearMS));
