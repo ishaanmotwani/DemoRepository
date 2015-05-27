@@ -162,6 +162,9 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
         
         return;
     }
+    Visualforce.remoting.Manager.invokeAction(
+        'MYBZ_MarketShare.marketshareControllerAffUsingPicker', system, pgp, callback
+    );
     
 }
 
