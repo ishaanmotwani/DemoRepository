@@ -148,12 +148,12 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
         
         return;
     }
-    if(window.$Role != 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === false ){
+    //if(window.$Role != 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === false ){
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerAffUsingPicker', system, pgp, callback
         );
         
-    }
+    //}
 }
 
 function getGoalsDataFromSalesforce(geography, callback, affiliation, flagAff) {
