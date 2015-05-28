@@ -325,7 +325,7 @@ global with Sharing  class MYBZ_MarketShare{
     }
     
     //Aff and by default
-    /*@RemoteAction 
+        @RemoteAction 
         global static Object marketshareControllerAffiliation(){
         flag=1;
         List<MYBZ_Market_Share__c> objSys=new List<MYBZ_Market_Share__c>();
@@ -400,7 +400,7 @@ global with Sharing  class MYBZ_MarketShare{
               Object marketShare= marketshareProcessor();
                 return marketShare;
   
-        }*/
+        }
         
         
         
