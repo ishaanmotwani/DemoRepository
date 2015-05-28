@@ -187,12 +187,9 @@ function getGoalsDataFromSalesforce(geography, callback, affiliation, flagAff) {
              
 function getRegionRollupDataFromSalesforce(geography, callback, affiliation, flagAff) {
     window.sfHelper.validateRDT(geography);
-     if (window.sfHelper.isSet(geography) === false) {
     Visualforce.remoting.Manager.invokeAction(
         'MYBZ_Region_Rollup_Controller.regionRollup', callback
     );
-    return;
-    }
 }
                 
 function getTrendsDataFromSalesforce(geography, callback, affiliation, flagAff) {
