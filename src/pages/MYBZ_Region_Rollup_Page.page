@@ -298,7 +298,9 @@ window.salesforcePropertiesAreSet();
 
             <!-- Controls Button -->
             <!--<img class="controls-view-toggle-indicator" src="{!URLFOR($Resource.MYBZ_Region_Rollup_Resource,'/img/controls-closed.png')}" ng-hide="navigationHidden == true || controlsButtonHidden == true"></img>-->
-            <button class="controls-view-toggle-button transparent" ng-click="base.centerButtonPressed()" ng-hide="navigationHidden == true || controlsButtonHidden == true"></button>
+            <toggle-controls-view-button
+                class="controls-view-toggle-button transparent"
+                base="base"></toggle-controls-view-button>
 
             
             <!--<dashboard-burger></dashboard-burger>-->
