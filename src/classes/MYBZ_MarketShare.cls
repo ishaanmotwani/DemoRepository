@@ -54,7 +54,16 @@ global with Sharing  class MYBZ_MarketShare{
              system.debug('GlobalId'+GlobalId+'Role'+Role);    
             flag=1;
             getAlignment();
+            if(Role == System.Label.MYBZ_AccountManager){
+             marketShareList.clear();   
+            system.debug('Inside summary');
             
+            marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
+                           FROM MYBZ_Market_Share__c 
+                           WHERE district__c =:ms[0].district__c and LoadIdentifier__c='NON_AFFLTN' ];
+            }
              marketShareList.clear();          
              marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                                Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
