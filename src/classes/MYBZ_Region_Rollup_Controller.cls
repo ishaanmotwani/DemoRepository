@@ -176,7 +176,7 @@ This object is later used to report on User activity on this application.
                  
                 List<MYBZ_Market_Share__c> territoryObj = [SELECT Id, Territory__r.Name, Territory__r.State__r.name,Territory__r.state__r.region__r.name , Global_Id__c
                                                              FROM MYBZ_Market_Share__c 
-                                                             WHERE Territory__r.state__r.region__r.name LIKE '%PAC NW%' ];
+                                                             WHERE Territory__r.Name LIKE '%IHS AM%' ];
                 for(MYBZ_Market_Share__c mobj : territoryObj ){
                     if(!RegionNameAndGlobalIdMap.containsKey(mobj.Territory__r.state__r.region__r.name)){
                           RegionNameAndGlobalIdMap.put(mobj.Territory__r.state__r.region__r.name, null);
