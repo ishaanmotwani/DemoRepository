@@ -729,7 +729,7 @@ global static Object marketshareProcessor() {
                              
                           MYBZ_Market_Share__c marketShareObj = mapMarketYearMonthProductMarketObj.get(pgp).get(Market).get(year).get(month).get(product);
                             generator.writeStartObject();
-                            if(marketShareObj.DDD_Units__c==null || marketShareObj.DDD_Dollars__c==null ){
+                            
                               if(marketShareObj.TRx__c !=null){
                                  generator.writeNumberField(System.Label.MYBZ_trx,marketShareObj.TRx__c);
                               }
@@ -743,10 +743,10 @@ global static Object marketshareProcessor() {
                               else{
                                   generator.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx);
                               }
-                            }
+                            
                               generator.writeStringField(System.Label.MYBZ_productName,marketShareObj.Product__r.Name);
                               generator.writeBooleanField(System.Label.MYBZ_lillyProduct,marketShareObj.lillyProduct__c);
-                              if(marketShareObj.TRx__c ==null){
+                              
                                   if(marketShareObj.DDD_Units__c!=null){
                                         generator.writeNumberField(System.Label.MYBZ_dddUnits,marketShareObj.DDD_Units__c);
                                   }
@@ -770,7 +770,7 @@ global static Object marketshareProcessor() {
                                      generator.writeNumberField(System.Label.MYBZ_dddDollars,marketShareObj.DDD_Dollars__c);   
                                 else 
                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
-                              }
+                              
                             string markMonthYearMS =  marketShareObj.Market__c+marketShareObj.Month_Number__c+marketShareObj.Year_Number__c; 
                               
                             if(marketShareObj.Gross_Margin__c!=null )
