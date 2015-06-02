@@ -44,6 +44,9 @@ Territory - The territory selected via a territory picker.
     {
         try
         {
+            System.debug('--region'+region);
+            System.debug('--district'+district);
+            System.debug('--territory'+territory);
             fetchUserInfo();
             if((Role == System.Label.MYBZ_MajorMarketManager || (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) || Role == System.Label.MYBZ_SuperUser) && district !=null && district !=''){
                 TrendsDetailsList.clear();
@@ -135,6 +138,8 @@ Territory - The territory selected via a territory picker.
     {
         try
         {
+            System.debug('--LE_ID_IHS'+LE_ID_IHS);
+            System.debug('--LE_ID_PGP'+LE_ID_PGP);
             fetchUserInfo();     
             DefaultSystem = [Select LE_ID_IHS__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND LE_ID_IHS__c!=null)  order by System__r.Name Limit 1];
             
@@ -227,6 +232,11 @@ Territory - The territory selected via a territory picker.
     {
         try
         {
+            System.debug('--LE_ID_IHS'+LE_ID_IHS);
+            System.debug('--LE_ID_PGP'+LE_ID_PGP);
+            System.debug('--region'+region);
+            System.debug('--district'+district);
+            System.debug('--territory'+territory);
             MYBZ_Territory__c selectedTerritory = new MYBZ_Territory__c();
             fetchUserInfo();
             if(Role==System.Label.MYBZ_SuperUser)
@@ -403,7 +413,7 @@ Territory - The territory selected via a territory picker.
                                     if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null||GainersList[i].trendDetailObj.HCP_Last_Name__c!=null){
                                         if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null&&GainersList[i].trendDetailObj.HCP_Last_Name__c!=null)
                                         {
-                                            generator.writeStringField('name',GainersList[i].trendDetailObj.HCP_First_Name__c+''+GainersList[i].trendDetailObj.HCP_Last_Name__c);
+                                            generator.writeStringField('name',GainersList[i].trendDetailObj.HCP_First_Name__c+' '+GainersList[i].trendDetailObj.HCP_Last_Name__c);
                                         }
                                         else if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null)
                                         {
@@ -501,7 +511,7 @@ Territory - The territory selected via a territory picker.
                                 if(trenddetails.HCP_First_Name__c!=null||trenddetails.HCP_Last_Name__c!=null){
                                     if(trenddetails.HCP_First_Name__c!=null&&trenddetails.HCP_Last_Name__c!=null)
                                     {
-                                        generator.writeStringField('name',trenddetails.HCP_First_Name__c+''+trenddetails.HCP_Last_Name__c);
+                                        generator.writeStringField('name',trenddetails.HCP_First_Name__c+' '+trenddetails.HCP_Last_Name__c);
                                     }
                                     else if(trenddetails.HCP_First_Name__c!=null)
                                     {
@@ -569,7 +579,7 @@ Territory - The territory selected via a territory picker.
                                 if(trenddetails.HCP_First_Name__c!=null||trenddetails.HCP_Last_Name__c!=null){
                                     if(trenddetails.HCP_First_Name__c!=null&&trenddetails.HCP_Last_Name__c!=null)
                                     {
-                                        generator.writeStringField('name',trenddetails.HCP_First_Name__c+''+trenddetails.HCP_Last_Name__c);
+                                        generator.writeStringField('name',trenddetails.HCP_First_Name__c+' '+trenddetails.HCP_Last_Name__c);
                                     }
                                     else if(trenddetails.HCP_First_Name__c!=null)
                                     {
@@ -628,7 +638,7 @@ Territory - The territory selected via a territory picker.
                 if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null||GainersList[i].trendDetailObj.HCP_Last_Name__c!=null){
                     if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null&&GainersList[i].trendDetailObj.HCP_Last_Name__c!=null)
                     {
-                        generator.writeStringField('name',GainersList[i].trendDetailObj.HCP_First_Name__c+''+GainersList[i].trendDetailObj.HCP_Last_Name__c);
+                        generator.writeStringField('name',GainersList[i].trendDetailObj.HCP_First_Name__c+' '+GainersList[i].trendDetailObj.HCP_Last_Name__c);
                     }
                     else if(GainersList[i].trendDetailObj.HCP_First_Name__c!=null)
                     {
