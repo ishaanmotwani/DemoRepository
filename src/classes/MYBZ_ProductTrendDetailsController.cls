@@ -334,7 +334,7 @@ Territory - The territory selected via a territory picker.
             String Loser='LOSER';
             Integer productprescribercount;
             Integer firstiteration=1;
-            Integer prescriberflag=1;
+            //Integer prescriberflag=1;
             Integer firstproductIteration=1;
             Integer firstloserflag;
             Integer newmonth=0;
@@ -387,6 +387,7 @@ Territory - The territory selected via a territory picker.
                             else
                             {    
                                 newmonth=1;
+                                Products='';
                             }
                             
                         }
@@ -459,7 +460,7 @@ Territory - The territory selected via a territory picker.
                                     generator.writeStartObject();//Starts a month
                                     
                                     Months=String.Valueof(trenddetails.Month__c);
-                                    Products='';
+                                    //Products='';
                                     
                                     if(trenddetails.Month__c!=null){
                                         generator.writeNumberField(System.Label.MYBZ_month,trenddetails.Month__c);
