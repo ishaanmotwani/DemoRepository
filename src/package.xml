@@ -10,8 +10,7 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>MYBZ_Region_Rollup_Page</members>
-        <members>test</members>
+        <members>MYBZ_Region_Rollup_Page</members>        
         <name>ApexPage</name>
     </types>
     <types>
