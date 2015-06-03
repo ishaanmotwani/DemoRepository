@@ -17,29 +17,33 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MYBZ_TopGainer</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_MYBZ_RegionRollup_Controller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <description>Permission set for myBusiness Admin</description>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>MYBZ_CallPlanningProductJunction__c.Dataload_Id__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>MYBZ_Call_Planning__c.Dataload_Id__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>MYBZ_Call__c.Dataload_Id__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>MYBZ_District__c.Dataload_Id__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -158,6 +162,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>MYBZ_Product_Trend_Detail__c.Gain_or_Lose_Trx__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>MYBZ_Product_Trend_Detail__c.Gainer_Loser_Top__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -232,9 +241,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>MYBZ_Region__c.Dataload_Id__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -288,10 +297,6 @@
     <pageAccesses>
         <apexPage>MYBZ_Region_Rollup_Page</apexPage>
         <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>test</apexPage>
-        <enabled>false</enabled>
     </pageAccesses>
     <tabSettings>
         <tab>MYBZ_PGP__c</tab>
