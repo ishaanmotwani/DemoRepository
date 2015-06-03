@@ -175,7 +175,38 @@ This object is later used to report on User activity on this application.
                         }    
                     }
                  
-               
+                // for including PAC NW Geo   
+                 
+                List<MYBZ_Market_Share__c> territoryObj = [SELECT Id, Territory__r.Name, Territory__r.State__r.name,Territory__r.state__r.region__r.name , Global_Id__c
+                                                             FROM MYBZ_Market_Share__c 
+                                                             WHERE Territory__r.state__r.region__r.name LIKE '%PAC NW%' ];
+                for(MYBZ_Market_Share__c mobj : territoryObj ){
+                    if(!RegionNameAndGlobalIdMap.containsKey(mobj.Territory__r.state__r.region__r.name)){
+                          RegionNameAndGlobalIdMap.put(mobj.Territory__r.state__r.region__r.name, null);
+                    }
+                    
+                    if(!RegionNameAndDistrictMap.containsKey(mobj.Territory__r.state__r.region__r.name)){
+                                            
+                        RegionNameAndDistrictMap.put(mobj.Territory__r.state__r.region__r.name, new set<String>{mobj.Territory__r.State__r.name});
+                    }
+                    else{
+                        RegionNameAndDistrictMap.get(mobj.Territory__r.state__r.region__r.name).add(mobj.Territory__r.State__r.name);
+                    }
+                    if(!DistrictNameAndGlobalIdMap.containsKey(mobj.Territory__r.State__r.name)){
+                        DistrictNameAndGlobalIdMap.put(mobj.Territory__r.State__r.name, null);
+                    }
+                    
+                    if(!DistrictNameAndTerritoryMap.containsKey(mobj.Territory__r.State__r.name)){
+                        DistrictNameAndTerritoryMap.put(mobj.Territory__r.State__r.name, new set<String>{mobj.Territory__r.Name});
+                    }
+                    else{
+                        DistrictNameAndTerritoryMap.get(mobj.Territory__r.State__r.name).add(mobj.Territory__r.Name);
+                    }
+                    if(!TerritoryNameAndGlobalIdMap.containsKey(mobj.Territory__r.Name)){
+                        TerritoryNameAndGlobalIdMap.put(mobj.Territory__r.Name, mobj.Global_Id__c);
+                    }    
+                }
+
                  
                  
                 if(!RegionNameAndGlobalIdMap.isEmpty() && !RegionNameAndDistrictMap.isEmpty() && !DistrictNameAndGlobalIdMap.isEmpty() && !DistrictNameAndTerritoryMap.isEmpty() && !TerritoryNameAndGlobalIdMap.isEmpty()){
