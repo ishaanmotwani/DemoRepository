@@ -242,6 +242,36 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Sales_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Sales_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Sales_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Sales_Start_Date_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Sales_Start_Date_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Sales_Start_Date_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Region__c.Dataload_Id__c</field>
         <readable>false</readable>
     </fieldPermissions>
