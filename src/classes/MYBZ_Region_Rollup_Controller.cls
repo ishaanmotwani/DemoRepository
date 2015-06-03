@@ -138,13 +138,15 @@ This object is later used to report on User activity on this application.
                 //Map of Territory and its Global id.
                 Map<String, String> TerritoryNameAndGlobalIdMap = new Map<String, String>();
                
-                    for(MYBZ_Region_Rollup__c regionObj : [SELECT Id, Region__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Region]){
+                
+               
+                 for(MYBZ_Region_Rollup__c regionObj : [SELECT Id, Region__r.Name, Global_Id__c, Product__r.name, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Region]){
                         if(!RegionNameAndGlobalIdMap.containsKey(regionObj.Region__r.Name)){
                             RegionNameAndGlobalIdMap.put(regionObj.Region__r.Name, regionObj.Global_Id__c);
-                        }
+                        }   
                     }
              
-                    for(MYBZ_Region_Rollup__c districtObj : [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_District ]){
+                    for(MYBZ_Region_Rollup__c districtObj : [SELECT Id, Region__r.Name, District__r.Name,Product__r.name,Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_District ]){
                         if(!RegionNameAndDistrictMap.containsKey(districtObj.Region__r.Name)){
                             Set<String> districtNames = new Set<String>();
                             districtNames.add(districtObj.District__r.Name);
@@ -155,10 +157,11 @@ This object is later used to report on User activity on this application.
                         }
                         if(!DistrictNameAndGlobalIdMap.containsKey(districtObj.District__r.Name)){
                             DistrictNameAndGlobalIdMap.put(districtObj.District__r.Name, districtObj.Global_Id__c);
+                           
                         }
                     }
              
-                    for(MYBZ_Region_Rollup__c territoryObj : [SELECT Id, Territory__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory ]){
+                    for(MYBZ_Region_Rollup__c territoryObj : [SELECT Id, Territory__r.Name, District__r.Name, Product__r.name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory ]){
                         if(!DistrictNameAndTerritoryMap.containsKey(territoryObj.District__r.Name)){
                             Set<String> territoryNames = new Set<String>();
                             territoryNames.add(territoryObj.Territory__r.Name);
@@ -169,41 +172,10 @@ This object is later used to report on User activity on this application.
                         }
                         if(!TerritoryNameAndGlobalIdMap.containsKey(territoryObj.Territory__r.Name)){
                             TerritoryNameAndGlobalIdMap.put(territoryObj.Territory__r.Name, territoryObj.Global_Id__c);
-                        }
+                        }    
                     }
-                    
-                // for including PAC NW Geo   
                  
-                List<MYBZ_Market_Share__c> territoryObj = [SELECT Id, Territory__r.Name, Territory__r.State__r.name,Territory__r.state__r.region__r.name , Global_Id__c
-                                                             FROM MYBZ_Market_Share__c 
-                                                             WHERE Territory__r.Name LIKE '%IHS AM%' ];
-                for(MYBZ_Market_Share__c mobj : territoryObj ){
-                    if(!RegionNameAndGlobalIdMap.containsKey(mobj.Territory__r.state__r.region__r.name)){
-                          RegionNameAndGlobalIdMap.put(mobj.Territory__r.state__r.region__r.name, null);
-                    }
-                    
-                    if(!RegionNameAndDistrictMap.containsKey(mobj.Territory__r.state__r.region__r.name)){
-                                            
-                        RegionNameAndDistrictMap.put(mobj.Territory__r.state__r.region__r.name, new set<String>{mobj.Territory__r.State__r.name});
-                    }
-                    else{
-                        RegionNameAndDistrictMap.get(mobj.Territory__r.state__r.region__r.name).add(mobj.Territory__r.State__r.name);
-                    }
-                    if(!DistrictNameAndGlobalIdMap.containsKey(mobj.Territory__r.State__r.name)){
-                        DistrictNameAndGlobalIdMap.put(mobj.Territory__r.State__r.name, null);
-                    }
-                    
-                    if(!DistrictNameAndTerritoryMap.containsKey(mobj.Territory__r.State__r.name)){
-                        DistrictNameAndTerritoryMap.put(mobj.Territory__r.State__r.name, new set<String>{mobj.Territory__r.Name});
-                    }
-                    else{
-                        DistrictNameAndTerritoryMap.get(mobj.Territory__r.State__r.name).add(mobj.Territory__r.Name);
-                    }
-                    if(!TerritoryNameAndGlobalIdMap.containsKey(mobj.Territory__r.Name)){
-                        TerritoryNameAndGlobalIdMap.put(mobj.Territory__r.Name, mobj.Global_Id__c);
-                    }    
-                }
-
+               
                  
                  
                 if(!RegionNameAndGlobalIdMap.isEmpty() && !RegionNameAndDistrictMap.isEmpty() && !DistrictNameAndGlobalIdMap.isEmpty() && !DistrictNameAndTerritoryMap.isEmpty() && !TerritoryNameAndGlobalIdMap.isEmpty()){
@@ -220,6 +192,7 @@ This object is later used to report on User activity on this application.
                         else{
                             generator.writeStringField(System.Label.MYBZ_globalID,regionGlobalId);
                         }
+                        
                         if(RegionNameAndDistrictMap.containsKey(regionName)){
                             generator.writeFieldName(System.Label.MYBZ_children);
                             
@@ -236,6 +209,8 @@ This object is later used to report on User activity on this application.
                                 else{
                                     generator.writeStringField(System.Label.MYBZ_globalID,districtGlobalId);
                                 }
+                                 
+                                 
                                 if(DistrictNameAndTerritoryMap.containsKey(districtName)){
                                     generator.writeFieldName(System.Label.MYBZ_children);
                                     
@@ -249,9 +224,11 @@ This object is later used to report on User activity on this application.
                                             generator.writeNullField(System.Label.MYBZ_globalID); 
                                         }   
                                         else
-                                        {    
-                                            generator.writeStringField(System.Label.MYBZ_globalID,territoryGlobalId);
+                                        {   
+                                            generator.writeStringField(System.Label.MYBZ_globalID,TerritoryNameAndGlobalIdMap.get(territoryName));
                                         }
+                                        
+                                        
                                         generator.writeEndObject();
                                     }
                                     generator.writeEndArray();
@@ -363,7 +340,7 @@ This object is later used to report on User activity on this application.
 
                     response_affiliationData.orphanedPGPs.add(response_PGP);
                 }
-
+                
                 MYBZ_AlignmentWrapper.Response response_Alignment = new MYBZ_AlignmentWrapper.Response();
                 response_Alignment.affiliationData = response_affiliationData;
                 response_Alignment.geoData = obj;
