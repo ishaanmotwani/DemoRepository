@@ -50,6 +50,13 @@
         <value>percentageChange</value>
     </labels>
     <labels>
+        <fullName>MYBZ_TableauURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_TableauURL</shortDescription>
+        <value>https://ix1redwood01.am.lilly.com/t/LillyUSA/views/Lilly_MyBusiness_Combined_v11/</value>
+    </labels>
+    <labels>
         <fullName>MYBZ_geolevelcomparison</fullName>
         <language>en_US</language>
         <protected>false</protected>
