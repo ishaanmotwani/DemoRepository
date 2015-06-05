@@ -1,12 +1,7 @@
 global with sharing class MYBZ_CallPlanningController 
 {
 
-    public MYBZ_CallPlanningController(TestPrescribers2 controller) {
-
-    }
-
-    
-    public MYBZ_CallPlanningController() {
+	public MYBZ_CallPlanningController() {
         
     }
     global static String Role;
