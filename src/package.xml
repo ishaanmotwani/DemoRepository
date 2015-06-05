@@ -64,6 +64,7 @@
         <members>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP_ID__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP__c</members>
         <members>MYBZ_Product__c.Dataload_Id__c</members>
+		<members>MYBZ_Region_Rollup__c.Dataload_Id__c</members>
         <members>MYBZ_Region_Rollup__c.Net_Sales_1M__c</members>
 		<members>MYBZ_Region_Rollup__c.Net_Sales_3M__c</members>
 		<members>MYBZ_Region_Rollup__c.Net_Sales_6M__c</members>
@@ -89,6 +90,8 @@
         <members>Mybz_accounts</members>
         <members>Mybz_summaryData</members>
         <members>mybz_associationName</members>
+		<members>MYBZ_geolevelcomparison</members>
+		<members>MYBZ_TableauURL</members>
         <name>CustomLabel</name>
     </types>
     <types>
