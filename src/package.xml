@@ -93,6 +93,7 @@
         <members>mybz_associationName</members>
 		<members>MYBZ_geolevelcomparison</members>
 		<members>MYBZ_TableauURL</members>
+		<members>MYBZ_newSales</members>
         <name>CustomLabel</name>
     </types>
     <types>
