@@ -144,9 +144,7 @@ Territory - The territory selected via a territory picker.
             System.debug('--territory'+territory);
             MYBZ_Territory__c selectedTerritory = new MYBZ_Territory__c();
             fetchUserInfo();
-            if(Role==System.Label.MYBZ_SuperUser)
-            {
-                if(region!=null&&region!='')
+            if(region!=null&&region!='')
                 {
                     if(LE_ID_PGP!=null && LE_ID_PGP!='')
                     {
@@ -179,8 +177,7 @@ Territory - The territory selected via a territory picker.
                         selectedTerritory = [Select Name,State__c from MYBZ_Territory__c where Name=:territory];
                         TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__r.Name=:selectedTerritory.State__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                     }
-                }
-            }                       
+                }                      
         }
         catch(Exception E) 
         {
@@ -197,6 +194,61 @@ Territory - The territory selected via a territory picker.
         System.debug('TrendsPrescriberObject--'+TrendsPrescriberObject);
         return trendsPrescriberObject;
     }  
+    
+        /* 
+* @Method Name                    :  trendsPrescriberUsingAffiliationPicker
+* @Description                    :  JavaScript remoting to allow top five prescribers for each month associated to a certain product to be  
+retrieved from Salesforce in the form of a JSON object in the presence of a territory picker. 
+* @Return Type                    :  object
+* @Param                          :  Region - The region associated to the territory selected, District - The district associated to the territory selected
+Territory - The territory selected via a territory picker.   
+
+*/
+    
+    @RemoteAction 
+    global static Object trendsPrescriberUsingAffiliationPicker(String LE_ID_IHS, String LE_ID_PGP)
+    {
+        try
+        {
+            System.debug('--LE_ID_IHS'+LE_ID_IHS);
+            System.debug('--LE_ID_PGP'+LE_ID_PGP);
+            fetchUserInfo();     
+            if(Role == System.Label.MYBZ_SalesRepresentative || Role == System.Label.MYBZ_AccountManager)
+            {
+                AlignmentHelper = [Select Territory__c,District__c,Area__c,Division__c from MYBZ_Product_Trend_Detail__c where (LoadIdentifier__c = 'AFFLTN' AND Global_Id__c =:GlobalId AND Territory__c!=null) Limit 1];
+                if(LE_ID_PGP!=null && LE_ID_PGP!='')
+                {
+                    TrendsDetailsList.clear();
+                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Territory__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' AND Alignment_Level__c='TRTRY' AND Territory__c=:AlignmentHelper.Territory__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                }
+                else if(LE_ID_IHS!=null && LE_ID_IHS!='')
+                {
+                    TrendsDetailsList.clear();
+                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                }
+                else
+                {
+                    TrendsDetailsList.clear();
+                    TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:DefaultSystem.LE_ID_IHS__c AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' AND Alignment_Level__c='DSTRCT' AND District__c=:AlignmentHelper.District__c order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                }
+            }   
+        }
+        catch(Exception E) 
+        {
+            system.debug('Exception occurred during execution of RegionRollup1 method' + e);
+            GLBL_Error_Log__c errLog = new GLBL_Error_Log__c(Error_Datetime__c= DateTime.Now(),
+                                                             Error_Message__c= e.getMessage(),
+                                                             Running_User__c = UserInfo.getUserId() ,
+                                                             Stack_Trace__c = e.getStackTraceString()); 
+            insert errlog;
+            return null ;
+        }
+        
+        Object trendsPrescriberObject=trendsPrescriberProcessor();
+        System.debug('TrendsPrescriberObject--'+TrendsPrescriberObject);
+        return trendsPrescriberObject;
+    }   
+
     
     /* 
 * @Method Name                    :  trendsPrescriberProcessor
