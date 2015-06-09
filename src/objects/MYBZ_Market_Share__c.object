@@ -119,6 +119,15 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Prioritized_Account__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Checkbox for Account Manager records</description>
+        <externalId>false</externalId>
+        <label>Prioritized Account</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>System__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Lookup to IHS System for Release 2.0</description>

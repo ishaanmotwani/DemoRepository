@@ -36,11 +36,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>MYBZ_Call_Planning__c.Data_Load_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>MYBZ_Call_Planning__c.Dataload_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -167,6 +162,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>MYBZ_Market_Share__c.PercentageChangeDDDunits__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MYBZ_Market_Share__c.Prioritized_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
