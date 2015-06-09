@@ -52,12 +52,12 @@ user related data for reporting .
         User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
         if(userObj!=null){
             Role = userObj.MYBZ_Role__c;
-            if(Role==System.Label.MYBZ_AccountManager){
+            /*if(Role==System.Label.MYBZ_AccountManager){
                 GlobalId=userObj.MYBZ_Reporting_ID__c;
             }
-            else{
+            else{ */
                 GlobalId = userObj.Prsnl_Nbr_GLBL__c;
-            }
+            //}
             uname=userObj.name;
         }
         
@@ -235,7 +235,7 @@ This object is later used to report on User activity on this application.
                                 generator.writeStringField(System.Label.MYBZ_Name,districtName);
                                 String districtGlobalId = DistrictNameAndGlobalIdMap.get(districtName);
                                 if(districtGlobalId == null || districtGlobalId == ''){
-                                    generator.writeNullField(System.Label.MYBZ_globalID); 
+                                    generator.writeNullField(System.Label.MYBZ_globalID);
                                 }
                                 else{
                                     generator.writeStringField(System.Label.MYBZ_globalID,districtGlobalId);
@@ -311,7 +311,8 @@ This object is later used to report on User activity on this application.
                                         WHERE Aligned_Districts__c INCLUDES (:districtRR.District__r.Name)];               
                 }
                 else
-                {
+                {   
+                    system.debug('*****Global id' + GlobalID);
                     sysList = [SELECT 
                                     Name, 
                                     System_ID__c, 
@@ -320,10 +321,12 @@ This object is later used to report on User activity on this application.
                                     (SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c FROM pgps__r) 
                                FROM MYBZ_System__c
                                WHERE Global_IDs__c INCLUDES (:GlobalID)];
-
+                               
+                    system.debug('*****syslist'+ sysList);
                     orphanedPGP_list = [SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c
                                         FROM MYBZ_PGP__c
                                         WHERE Global_IDs__c INCLUDES (:GlobalID)];
+                    system.debug('****orphanedPGP_list'+ orphanedPGP_list);                    
                 }
 
                 MYBZ_AlignmentWrapper.Affiliation_Data response_affiliationData = new MYBZ_AlignmentWrapper.Affiliation_Data();
@@ -776,7 +779,7 @@ Territory - The territory selected via a territory picker.
         return ProductTrendsObject;
     }
     
-    /* 
+      /* 
 * @Method Name                    :  regionRollup
 * @Description                    :  JavaScript remoting to allow Region Rollup records to be retrieved from Salesforce in the form of a JSON object to show Region Rollup Report.                                        
 * @Return Type                    :  object
@@ -792,8 +795,9 @@ Territory - The territory selected via a territory picker.
             fetchUserInfo();
             
             //Checking if the division record exist. There will be only one Division record.
-            MYBZ_IHS_Division__c divisionObj = [SELECT Name FROM MYBZ_IHS_Division__c LIMIT 1];
-            
+            //MYBZ_IHS_Division__c divisionObj = [SELECT Name FROM MYBZ_IHS_Division__c LIMIT 1];
+             List<MYBZ_IHS_Division__c> divisionObjList = [SELECT id,Name FROM MYBZ_IHS_Division__c];
+             
             //Set of unique Region id's.
             Set<Id> regionIds = new Set<Id>();
             
@@ -819,7 +823,8 @@ Territory - The territory selected via a territory picker.
             Map<String, Map<String,MYBZ_Region_Rollup__c>> mapTerritoryNameAndTerritory = new  Map<String, Map<String,MYBZ_Region_Rollup__c>>();
             
             //Fetching all the Region Rollup data at once and then segregating it in form of Region, district, Territory. 
-            for(MYBZ_Region_Rollup__c regRoll : [SELECT Region__r.Name, District__r.Name, Territory__r.Name, Gross_Margin_1M__c, Gross_Margin_3M__c, Gross_Margin_6M__c, Gross_Margin_Start_Date_1M__c, Gross_Margin_Start_Date_3M__c, Gross_Margin_Start_Date_6M__c, Net_Profit_1M__c, Net_Profit_3M__c, Net_Profit_6M__c, Net_Profit_Start_Date_1M__c, Net_Profit_Start_Date_3M__c, Net_Profit_Start_Date_6M__c, NRx_1M__c, NRx_3M__c, NRx_6M__c, NRx_Start_Date_1M__c, NRx_Start_Date_3M__c, NRx_Start_Date_6M__c, OPEX_1M__c, OPEX_3M__c, OPEX_6M__c, OPEX_Start_Date_1M__c, OPEX_Start_Date_3M__c, OPEX_Start_Date_6M__c, TRx_1M__c, TRx_3M__c, TRx_6M__c, TRx_Start_Date_1M__c, TRx_Start_Date_3M__c, TRx_Start_Date_6M__c, DDD_Dollars_1M__c, DDD_Dollars_3M__c, DDD_Dollars_6M__c, DDD_Dollars_Start_Date_1M__c, DDD_Dollars_Start_Date_3M__c, DDD_Dollars_Start_Date_6M__c, Global_Id__c, Region__r.Parent__c, Product__r.Name, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Region__r.Parent__c =: divisionObj.id AND Product__c!=null]){
+             for(MYBZ_Region_Rollup__c regRoll : [SELECT Region__r.Name, District__r.Name, Territory__r.Name, Gross_Margin_1M__c, Gross_Margin_3M__c, Gross_Margin_6M__c, Gross_Margin_Start_Date_1M__c, Gross_Margin_Start_Date_3M__c, Gross_Margin_Start_Date_6M__c, Net_Profit_1M__c, Net_Profit_3M__c, Net_Profit_6M__c, Net_Profit_Start_Date_1M__c, Net_Profit_Start_Date_3M__c, Net_Profit_Start_Date_6M__c, NRx_1M__c, NRx_3M__c, NRx_6M__c, NRx_Start_Date_1M__c, NRx_Start_Date_3M__c, NRx_Start_Date_6M__c, OPEX_1M__c, OPEX_3M__c, OPEX_6M__c, OPEX_Start_Date_1M__c, OPEX_Start_Date_3M__c, OPEX_Start_Date_6M__c, TRx_1M__c, TRx_3M__c, TRx_6M__c, TRx_Start_Date_1M__c, TRx_Start_Date_3M__c, TRx_Start_Date_6M__c, DDD_Dollars_1M__c, DDD_Dollars_3M__c, DDD_Dollars_6M__c, DDD_Dollars_Start_Date_1M__c, DDD_Dollars_Start_Date_3M__c, DDD_Dollars_Start_Date_6M__c, Global_Id__c, Region__r.Parent__c, Product__r.Name, Alignment_Level__c,Net_Sales_1M__c,Net_Sales_3M__c,Net_Sales_6M__c,Net_Sales_Start_Date_1M__c,Net_Sales_Start_Date_3M__c,Net_Sales_Start_Date_6M__c,IHS_Division__c, IHS_Division__r.name FROM MYBZ_Region_Rollup__c WHERE  IHS_Division__c IN: divisionObjList AND Product__c!=null]){
+             
                 if(regRoll.Alignment_Level__c == System.Label.MYBZ_Region){
                     regionList.add(regRoll);
                 }
@@ -922,7 +927,7 @@ Territory - The territory selected via a territory picker.
                 generator.writeStartObject();  
                 
                 //Start of writing the JSON fields.
-                generator.writeStringField(System.Label.MYBZ_Name,divisionObj.Name);
+                generator.writeStringField(System.Label.MYBZ_Name,'IHS Division');
     
                 //Start of writing the date fields of all the metrics.
                 for(String str : metricDates){
@@ -1068,7 +1073,17 @@ Territory - The territory selected via a territory picker.
                                         {
                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                         }
+                                        if(tempRegionObj.Net_Sales_1M__c !=null){
+                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_1M__c);
+                                        }
+                                        else
+                                        {
+                                            generator.writeNullField(System.Label.MYBZ_newSales);
+                                        } 
+                                        
                                         generator.writeEndObject();
+                                        
+                                          
                                     }
                                     if(str == 'threeMonthData'){
                                         generator.writeStartObject();
@@ -1121,6 +1136,13 @@ Territory - The territory selected via a territory picker.
                                         {
                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                         }       
+                                        if(tempRegionObj.Net_Sales_3M__c !=null){
+                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_3M__c);
+                                        }
+                                        else
+                                        {
+                                            generator.writeNullField(System.Label.MYBZ_newSales);
+                                        }   
                                         generator.writeEndObject();
                                     }
                                     if(str == 'sixMonthData'){
@@ -1174,6 +1196,13 @@ Territory - The territory selected via a territory picker.
                                         {
                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                         }
+                                        if(tempRegionObj.Net_Sales_6M__c !=null){
+                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_6M__c);
+                                        }
+                                        else
+                                        {
+                                            generator.writeNullField(System.Label.MYBZ_newSales);
+                                        } 
                                         generator.writeEndObject();
                                     }
                                 }
@@ -1250,6 +1279,13 @@ Territory - The territory selected via a territory picker.
                                                 {
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
+                                                if(tempdistObj.Net_Sales_1M__c !=null){
+                                                    generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_1M__c);
+                                                }
+                                                else
+                                                {
+                                                    generator.writeNullField(System.Label.MYBZ_newSales);
+                                                } 
                                                 generator.writeEndObject();
                                             }
                                             if(str == 'threeMonthData'){
@@ -1303,6 +1339,13 @@ Territory - The territory selected via a territory picker.
                                                 { 
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
+                                                if(tempdistObj.Net_Sales_3M__c !=null){
+                                                    generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_3M__c);
+                                                }
+                                                else
+                                                {
+                                                    generator.writeNullField(System.Label.MYBZ_newSales);
+                                                } 
                                                 generator.writeEndObject();
                                             }
                                             if(str == 'sixMonthData'){
@@ -1356,6 +1399,13 @@ Territory - The territory selected via a territory picker.
                                                 {
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
+                                                if(tempdistObj.Net_Sales_6M__c !=null){
+                                                    generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_6M__c);
+                                                }
+                                                else
+                                                {
+                                                    generator.writeNullField(System.Label.MYBZ_newSales);
+                                                } 
                                                 generator.writeEndObject();
                                             }
                                         }
@@ -1410,6 +1460,13 @@ Territory - The territory selected via a territory picker.
                                                         {
                                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                         }
+                                                         if(tempTerrtObj.Net_Sales_1M__c !=null){
+                                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_1M__c);
+                                                        }
+                                                        else
+                                                        {
+                                                            generator.writeNullField(System.Label.MYBZ_newSales);
+                                                        }  
                                                         generator.writeEndObject();
                                                     }
                                                     if(str == 'threeMonthData'){
@@ -1442,6 +1499,13 @@ Territory - The territory selected via a territory picker.
                                                         {
                                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                         }
+                                                         if(tempTerrtObj.Net_Sales_3M__c !=null){
+                                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_3M__c);
+                                                        }
+                                                        else
+                                                        {
+                                                            generator.writeNullField(System.Label.MYBZ_newSales);
+                                                        }  
                                                         generator.writeEndObject();
                                                     }
                                                     if(str == 'sixMonthData'){
@@ -1474,6 +1538,13 @@ Territory - The territory selected via a territory picker.
                                                         {   
                                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                         }
+                                                         if(tempTerrtObj.Net_Sales_6M__c !=null){
+                                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_6M__c);
+                                                        }
+                                                        else
+                                                        {
+                                                            generator.writeNullField(System.Label.MYBZ_newSales);
+                                                        }  
                                                         generator.writeEndObject();
                                                     }
                                                 }
@@ -1514,7 +1585,6 @@ Territory - The territory selected via a territory picker.
             return null ;
         }
     }
-    
     /* 
 * @Method Name                    :  trendsPrescriberUsingPicker
 * @Description                    :  JavaScript remoting to allow top five prescribers for each month associated to a certain product to be  
