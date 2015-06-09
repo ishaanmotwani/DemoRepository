@@ -2,7 +2,6 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>MYBZ_AlignmentWrapper</members>
-        <members>MYBZ_CallPlanningController</members>
         <members>MYBZ_MarketShare</members>
         <members>MYBZ_ProductTrendDetailsController</members>
         <members>MYBZ_Region_Rollup_Controller</members>
@@ -17,19 +16,7 @@
     <types>
         <members>MYBZ_CallPlanningProductJunction__c.Dataload_Id__c</members>
         <members>MYBZ_Call_Planning__c.Dataload_Id__c</members>
-        <members>MYBZ_Call_Planning__c.IHS_PGP_HCP_Level__c</members>
-        <members>MYBZ_Call_Planning__c.LE_ID_IHS__c</members>
-        <members>MYBZ_Call_Planning__c.LE_ID_PGP__c</members>
-        <members>MYBZ_Call_Planning__c.LoadIdentifier__c</members>
-        <members>MYBZ_Call_Planning__c.PGP__c</members>
-        <members>MYBZ_Call_Planning__c.Subtype__c</members>
-        <members>MYBZ_Call_Planning__c.System__c</members>
         <members>MYBZ_Call__c.Dataload_Id__c</members>
-        <members>MYBZ_Call__c.LE_ID_IHS__c</members>
-        <members>MYBZ_Call__c.LE_ID_PGP__c</members>
-        <members>MYBZ_Call__c.LoadIdentifier__c</members>
-        <members>MYBZ_Call__c.PGP__c</members>
-        <members>MYBZ_Call__c.System__c</members>
         <members>MYBZ_District__c.Dataload_Id__c</members>
         <members>MYBZ_IHS_Division__c.Dataload_Id__c</members>
         <members>MYBZ_Market_Share__c.Dataload_Id__c</members>
@@ -64,14 +51,14 @@
         <members>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP_ID__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP__c</members>
         <members>MYBZ_Product__c.Dataload_Id__c</members>
-		<members>MYBZ_Region_Rollup__c.Dataload_Id__c</members>
+        <members>MYBZ_Region_Rollup__c.Dataload_Id__c</members>
+        <members>MYBZ_Region_Rollup__c.IHS_Division__c</members>
         <members>MYBZ_Region_Rollup__c.Net_Sales_1M__c</members>
-		<members>MYBZ_Region_Rollup__c.Net_Sales_3M__c</members>
-		<members>MYBZ_Region_Rollup__c.Net_Sales_6M__c</members>
-		<members>MYBZ_Region_Rollup__c.Net_Sales_Start_Date_1M__c</members>
-		<members>MYBZ_Region_Rollup__c.Net_Sales_Start_Date_3M__c</members>
-		<members>MYBZ_Region_Rollup__c.Net_Sales_Start_Date_6M__c</members>
-		<members>MYBZ_Region_Rollup__c.IHS_Division__c</members>
+        <members>MYBZ_Region_Rollup__c.Net_Sales_3M__c</members>
+        <members>MYBZ_Region_Rollup__c.Net_Sales_6M__c</members>
+        <members>MYBZ_Region_Rollup__c.Net_Sales_Start_Date_1M__c</members>
+        <members>MYBZ_Region_Rollup__c.Net_Sales_Start_Date_3M__c</members>
+        <members>MYBZ_Region_Rollup__c.Net_Sales_Start_Date_6M__c</members>
         <members>MYBZ_Region__c.Dataload_Id__c</members>
         <members>MYBZ_Target_Goal__c.Dataload_Id__c</members>
         <members>MYBZ_Territory__c.Dataload_Id__c</members>
@@ -85,13 +72,14 @@
         <members>MYBZ_PGPPercentage</members>
         <members>MYBZ_Percentage</members>
         <members>MYBZ_PercentageChange</members>
+        <members>MYBZ_TableauURL</members>
+        <members>MYBZ_geolevelcomparison</members>
         <members>MYBZ_loosers</members>
         <members>MYBZ_markets</members>
         <members>Mybz_accounts</members>
         <members>Mybz_summaryData</members>
         <members>mybz_associationName</members>
-		<members>MYBZ_geolevelcomparison</members>
-		<members>MYBZ_TableauURL</members>
+        <members>MYBZ_newSales</members>
         <name>CustomLabel</name>
     </types>
     <types>
