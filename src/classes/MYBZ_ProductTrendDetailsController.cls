@@ -6,11 +6,8 @@ global with sharing class MYBZ_ProductTrendDetailsController
     }
     
     
-    public MYBZ_ProductTrendDetailsController(MYBZ_Region_Rollup_Controller controller) {
-        
+    public MYBZ_ProductTrendDetailsController(MYBZ_Region_Rollup_Controller controller) {    
     }
-    
-    
     global static String Role;
     global static String GlobalId;
     global static id UserId;
