@@ -1,4 +1,4 @@
-<apex:page docType="html-5.0" showHeader="false" sidebar="true" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="MYBZ_Region_Rollup_Controller" extensions="MYBZ_ProductTrendDetailsController,MYBZ_MarketShare">
+<apex:page docType="html-5.0" showHeader="false" sidebar="true" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="MYBZ_Region_Rollup_Controller" extensions="MYBZ_ProductTrendDetailsController,MYBZ_MarketShare,MYBZ_CallPlanningController">
     <html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="lillyApp">
     <head>
         <meta charset="utf-8" />
@@ -68,21 +68,29 @@ function getAlignmentDataFromSalesforce(geography, callback, affiliation, flagAf
 
 function getCallPlanningDataFromSalesforce(geography, callback, affiliation, flagAff) {
     window.sfHelper.validateRDT(geography);
+    var region = window.sfHelper.getProperty(geography, 'region');
+    var district = window.sfHelper.getProperty(geography, 'district');
+    var territory = window.sfHelper.getProperty(geography, 'territory');
+    var system = window.sfHelper.getProperty(affiliation, 'systemID');
+    var pgp = window.sfHelper.getProperty(affiliation, 'pgpID');
+    if (flagAff !== true) {
     if (window.sfHelper.isSet(geography) === false) {
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_Region_Rollup_Controller.callPlanning', callback
         );
         return;
     }
-    var region = window.sfHelper.getProperty(geography, 'region');
-    var district = window.sfHelper.getProperty(geography, 'district');
-    var territory = window.sfHelper.getProperty(geography, 'territory');
     Visualforce.remoting.Manager.invokeAction(
-        'MYBZ_Region_Rollup_Controller.callPlanningUsingPicker', region, district, district, callback
+        'MYBZ_Region_Rollup_Controller.callPlanningUsingPicker', region, district, territory, callback
     );
+    }
+    
+        Visualforce.remoting.Manager.invokeAction(
+            'MYBZ_CallPlanningController.callPlanningAffiliationView', system, pgp, territory,callback
+        );
+        return;
     
 }
-
 function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation, flagAff) {
     window.sfHelper.validateRDT(geography);
     var region = window.sfHelper.getProperty(geography, 'region');
@@ -103,18 +111,16 @@ function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation,
         );
         return;
     }
-    if (window.$Role === 'Super User' && window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === true && (region!='' || district!='' || territory!='')) {
+    if (window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === true && (region!='' || district!='' || territory!='')) {
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_ProductTrendDetailsController.trendsPrescriberSuperUser', system, pgp, region, district, territory,callback
         );
         return;
     }
-    if(window.$Role !== 'Super User'){
     Visualforce.remoting.Manager.invokeAction(
-            'MYBZ_ProductTrendDetailsController.trendsPrescriberUsingAffiliationPicker', system, pgp, callback
-    );
-    return;
-    }
+            'MYBZ_ProductTrendDetailsController.trendsPrescriberUsingAffiliationPicker', system, pgp,callback
+        );
+        return;
 }
 
 function getMarketShareDataFromSalesforce(geography, callback, affiliation, flagAff) {
@@ -336,4 +342,5 @@ window.salesforcePropertiesAreSet();
     </body>  
     </html>
     
+
 </apex:page>
