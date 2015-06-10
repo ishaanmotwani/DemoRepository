@@ -15,7 +15,7 @@
         <name>ApexPage</name>
     </types>
     <types>
-        <members>MYBZ_CallPlanning__c.Data_Load_Date__c</members>
+        <members>MYBZ_Call_Planning__c.Data_Load_Date__c</members>
         <members>MYBZ_CallPlanningProductJunction__c.Dataload_Id__c</members>
         <members>MYBZ_Call_Planning__c.Dataload_Id__c</members>
         <members>MYBZ_Call_Planning__c.IHS_PGP_HCP_Level__c</members>
