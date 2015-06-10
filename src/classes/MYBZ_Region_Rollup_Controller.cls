@@ -1073,14 +1073,15 @@ Territory - The territory selected via a territory picker.
                                         {
                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                         }
-                                        if(tempRegionObj.Net_Sales_1M__c !=null){
-                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_1M__c);
+                                        if(tempRegionObj.Region__r.name.contains('IHS PAC')) {
+                                            if(tempRegionObj.Net_Sales_1M__c !=null ){
+                                                generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_1M__c);
+                                            }
+                                            else
+                                            {
+                                                generator.writeNullField(System.Label.MYBZ_newSales);
+                                            } 
                                         }
-                                        else
-                                        {
-                                            generator.writeNullField(System.Label.MYBZ_newSales);
-                                        } 
-                                        
                                         generator.writeEndObject();
                                         
                                           
@@ -1135,14 +1136,17 @@ Territory - The territory selected via a territory picker.
                                         else
                                         {
                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
-                                        }       
-                                        if(tempRegionObj.Net_Sales_3M__c !=null){
-                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_3M__c);
-                                        }
-                                        else
-                                        {
-                                            generator.writeNullField(System.Label.MYBZ_newSales);
                                         }   
+                                        
+                                        if(tempRegionObj.Region__r.name.contains('IHS PAC')) {                                      
+                                            if(tempRegionObj.Net_Sales_3M__c !=null){
+                                                generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_3M__c);
+                                            }
+                                            else
+                                            {
+                                                generator.writeNullField(System.Label.MYBZ_newSales);
+                                            }  
+                                        }               
                                         generator.writeEndObject();
                                     }
                                     if(str == 'sixMonthData'){
@@ -1196,13 +1200,15 @@ Territory - The territory selected via a territory picker.
                                         {
                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                         }
-                                        if(tempRegionObj.Net_Sales_6M__c !=null){
-                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_6M__c);
-                                        }
-                                        else
-                                        {
-                                            generator.writeNullField(System.Label.MYBZ_newSales);
-                                        } 
+                                        if(tempRegionObj.Region__r.name.contains('IHS PAC')) {
+                                            if(tempRegionObj.Net_Sales_6M__c !=null){
+                                                generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_6M__c);
+                                            }
+                                            else
+                                            {
+                                                generator.writeNullField(System.Label.MYBZ_newSales);
+                                            }
+                                        }   
                                         generator.writeEndObject();
                                     }
                                 }
@@ -1279,13 +1285,15 @@ Territory - The territory selected via a territory picker.
                                                 {
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
-                                                if(tempdistObj.Net_Sales_1M__c !=null){
-                                                    generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_1M__c);
+                                                if(tempdistObj.District__r.Name.contains('IHS PAC')) {
+                                                    if(tempdistObj.Net_Sales_1M__c !=null){
+                                                        generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_1M__c);
+                                                    }
+                                                    else
+                                                    {
+                                                        generator.writeNullField(System.Label.MYBZ_newSales);
+                                                    } 
                                                 }
-                                                else
-                                                {
-                                                    generator.writeNullField(System.Label.MYBZ_newSales);
-                                                } 
                                                 generator.writeEndObject();
                                             }
                                             if(str == 'threeMonthData'){
@@ -1339,13 +1347,15 @@ Territory - The territory selected via a territory picker.
                                                 { 
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
-                                                if(tempdistObj.Net_Sales_3M__c !=null){
-                                                    generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_3M__c);
-                                                }
-                                                else
-                                                {
-                                                    generator.writeNullField(System.Label.MYBZ_newSales);
-                                                } 
+                                                if(tempdistObj.District__r.Name.contains('IHS PAC')) {
+                                                    if(tempdistObj.Net_Sales_3M__c !=null){
+                                                        generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_3M__c);
+                                                    }
+                                                    else
+                                                    {
+                                                        generator.writeNullField(System.Label.MYBZ_newSales);
+                                                    } 
+                                                }   
                                                 generator.writeEndObject();
                                             }
                                             if(str == 'sixMonthData'){
@@ -1399,13 +1409,15 @@ Territory - The territory selected via a territory picker.
                                                 {
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
-                                                if(tempdistObj.Net_Sales_6M__c !=null){
-                                                    generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_6M__c);
-                                                }
-                                                else
-                                                {
-                                                    generator.writeNullField(System.Label.MYBZ_newSales);
-                                                } 
+                                                if(tempdistObj.District__r.Name.contains('IHS PAC')) {
+                                                    if(tempdistObj.Net_Sales_6M__c !=null){
+                                                        generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_6M__c);
+                                                    }
+                                                    else
+                                                    {
+                                                        generator.writeNullField(System.Label.MYBZ_newSales);
+                                                    } 
+                                                }   
                                                 generator.writeEndObject();
                                             }
                                         }
@@ -1460,13 +1472,15 @@ Territory - The territory selected via a territory picker.
                                                         {
                                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                         }
-                                                         if(tempTerrtObj.Net_Sales_1M__c !=null){
-                                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_1M__c);
-                                                        }
-                                                        else
-                                                        {
-                                                            generator.writeNullField(System.Label.MYBZ_newSales);
-                                                        }  
+                                                        if(tempTerrtObj.Territory__r.Name.contains('IHS AM')) {
+                                                            if(tempTerrtObj.Net_Sales_1M__c !=null){
+                                                                generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_1M__c);
+                                                            }
+                                                            else
+                                                            {
+                                                                generator.writeNullField(System.Label.MYBZ_newSales);
+                                                            } 
+                                                        }                                                       
                                                         generator.writeEndObject();
                                                     }
                                                     if(str == 'threeMonthData'){
@@ -1499,13 +1513,15 @@ Territory - The territory selected via a territory picker.
                                                         {
                                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                         }
-                                                         if(tempTerrtObj.Net_Sales_3M__c !=null){
-                                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_3M__c);
-                                                        }
-                                                        else
-                                                        {
-                                                            generator.writeNullField(System.Label.MYBZ_newSales);
-                                                        }  
+                                                        if(!tempTerrtObj.Territory__r.Name.contains('IHS AM')) {
+                                                            if(tempTerrtObj.Net_Sales_3M__c !=null){
+                                                                generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_3M__c);
+                                                            }
+                                                            else
+                                                            {
+                                                                generator.writeNullField(System.Label.MYBZ_newSales);
+                                                            } 
+                                                        }   
                                                         generator.writeEndObject();
                                                     }
                                                     if(str == 'sixMonthData'){
@@ -1538,13 +1554,15 @@ Territory - The territory selected via a territory picker.
                                                         {   
                                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                         }
-                                                         if(tempTerrtObj.Net_Sales_6M__c !=null){
-                                                            generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_6M__c);
-                                                        }
-                                                        else
-                                                        {
-                                                            generator.writeNullField(System.Label.MYBZ_newSales);
-                                                        }  
+                                                        if(tempTerrtObj.Territory__r.Name.contains('IHS AM')) {
+                                                            if(tempTerrtObj.Net_Sales_6M__c !=null){
+                                                                generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_6M__c);
+                                                            }
+                                                            else
+                                                            {
+                                                                generator.writeNullField(System.Label.MYBZ_newSales);
+                                                            }  
+                                                        }   
                                                         generator.writeEndObject();
                                                     }
                                                 }
