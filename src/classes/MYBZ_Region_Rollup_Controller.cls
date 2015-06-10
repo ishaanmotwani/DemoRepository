@@ -1073,7 +1073,7 @@ Territory - The territory selected via a territory picker.
                                         {
                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                         }
-                                        if(tempRegionObj.Region__r.name.contains('IHS PAC')) {
+                                        if(tempRegionObj.Region__r.name.contains(system.label.MYBZ_PACArea)) {
                                             if(tempRegionObj.Net_Sales_1M__c !=null ){
                                                 generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_1M__c);
                                             }
@@ -1138,7 +1138,7 @@ Territory - The territory selected via a territory picker.
                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                         }   
                                         
-                                        if(tempRegionObj.Region__r.name.contains('IHS PAC')) {                                      
+                                        if(tempRegionObj.Region__r.name.contains(system.label.MYBZ_PACArea)) {                                      
                                             if(tempRegionObj.Net_Sales_3M__c !=null){
                                                 generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_3M__c);
                                             }
@@ -1200,7 +1200,7 @@ Territory - The territory selected via a territory picker.
                                         {
                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                         }
-                                        if(tempRegionObj.Region__r.name.contains('IHS PAC')) {
+                                        if(tempRegionObj.Region__r.name.contains(system.label.MYBZ_PACArea)) {
                                             if(tempRegionObj.Net_Sales_6M__c !=null){
                                                 generator.writeNumberField(System.Label.MYBZ_newSales,tempRegionObj.Net_Sales_6M__c);
                                             }
@@ -1285,7 +1285,7 @@ Territory - The territory selected via a territory picker.
                                                 {
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
-                                                if(tempdistObj.District__r.Name.contains('PAC WEST')) {
+                                                if(tempdistObj.District__r.Name.contains(system.label.MYBZ_PACDistrict)) {
                                                     if(tempdistObj.Net_Sales_1M__c !=null){
                                                         generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_1M__c);
                                                     }
@@ -1347,7 +1347,7 @@ Territory - The territory selected via a territory picker.
                                                 { 
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
-                                                if(tempdistObj.District__r.Name.contains('PAC WEST')) {
+                                                if(tempdistObj.District__r.Name.contains(system.label.MYBZ_PACDistrict)) {
                                                     if(tempdistObj.Net_Sales_3M__c !=null){
                                                         generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_3M__c);
                                                     }
@@ -1409,7 +1409,7 @@ Territory - The territory selected via a territory picker.
                                                 {
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
-                                                if(tempdistObj.District__r.Name.contains('PAC WEST')) {
+                                                if(tempdistObj.District__r.Name.contains(system.label.MYBZ_PACDistrict)) {
                                                     if(tempdistObj.Net_Sales_6M__c !=null){
                                                         generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_6M__c);
                                                     }
@@ -1472,7 +1472,8 @@ Territory - The territory selected via a territory picker.
                                                         {
                                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                         }
-                                                        if(tempTerrtObj.Territory__r.Name.contains('IHS AM')) {
+                                                       // if(tempTerrtObj.Territory__r.Name.contains('IHS AM')) {
+                                                       if(tempTerrtObj.District__r.Name.contains(system.label.MYBZ_PACDistrict)){
                                                             if(tempTerrtObj.Net_Sales_1M__c !=null){
                                                                 generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_1M__c);
                                                             }
@@ -1513,7 +1514,7 @@ Territory - The territory selected via a territory picker.
                                                         {
                                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                         }
-                                                        if(!tempTerrtObj.Territory__r.Name.contains('IHS AM')) {
+                                                       if(tempTerrtObj.District__r.Name.contains(system.label.MYBZ_PACDistrict)){
                                                             if(tempTerrtObj.Net_Sales_3M__c !=null){
                                                                 generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_3M__c);
                                                             }
@@ -1554,7 +1555,7 @@ Territory - The territory selected via a territory picker.
                                                         {   
                                                             generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                         }
-                                                        if(tempTerrtObj.Territory__r.Name.contains('IHS AM')) {
+                                                        if(tempTerrtObj.District__r.Name.contains(system.label.MYBZ_PACDistrict)){
                                                             if(tempTerrtObj.Net_Sales_6M__c !=null){
                                                                 generator.writeNumberField(System.Label.MYBZ_newSales,tempTerrtObj.Net_Sales_6M__c);
                                                             }

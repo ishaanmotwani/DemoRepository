@@ -29,6 +29,20 @@
         <value>national</value>
     </labels>
     <labels>
+        <fullName>MYBZ_PACArea</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_PACArea</shortDescription>
+        <value>IHS PAC NW</value>
+    </labels>
+    <labels>
+        <fullName>MYBZ_PACDistrict</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_PACDistrict</shortDescription>
+        <value>PAC WEST IHS DISTRICT</value>
+    </labels>
+    <labels>
         <fullName>MYBZ_PGPName</fullName>
         <language>en_US</language>
         <protected>false</protected>
