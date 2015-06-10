@@ -75,7 +75,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MYBZ_TableauURL</shortDescription>
-        <value>https://ix1redwood01.am.lilly.com/t/LillyUSA/views/Lilly_MyBusiness_v12_noHeader/</value>
+        <value>https://ix1redwood01.am.lilly.com/t/LillyUSA/views/Lilly_MyBusiness_v17_noHeader/</value>
     </labels>
     <labels>
         <fullName>MYBZ_geolevelcomparison</fullName>
