@@ -796,7 +796,26 @@ Territory - The territory selected via a territory picker.
             
             //Checking if the division record exist. There will be only one Division record.
             //MYBZ_IHS_Division__c divisionObj = [SELECT Name FROM MYBZ_IHS_Division__c LIMIT 1];
-             List<MYBZ_IHS_Division__c> divisionObjList = [SELECT id,Name FROM MYBZ_IHS_Division__c];
+             Boolean flagshowPAC = false ;
+             if(Role != System.Label.MYBZ_SuperUser ){
+                MYBZ_Region_Rollup__c userDivisionRR = [Select IHS_Division__r.name, GLOBAL_ID__C, Alignment_Level__c from MYBZ_Region_Rollup__c where GLOBAL_ID__C =: UserId LIMIT 1];
+                string UserDivision = userDivisionRR.IHS_Division__r.name;
+                if(UserDivision.contains(system.label.MYBZ_PACArea)){
+                  flagshowPAC = true;
+                }
+             }
+             else flagshowPAC = true;
+                
+             
+                
+             List<MYBZ_IHS_Division__c> divisionObjList = new List<MYBZ_IHS_Division__c>();
+             if(flagshowPAC)
+                divisionObjList = [SELECT id,Name FROM MYBZ_IHS_Division__c ];
+             else 
+                divisionObjList = [SELECT id,Name FROM MYBZ_IHS_Division__c WHERE name =: System.Label.MYBZ_IHSDivision ];
+            
+            
+            //List<MYBZ_IHS_Division__c> divisionObjList = [SELECT id,Name FROM MYBZ_IHS_Division__c];     
              
             //Set of unique Region id's.
             Set<Id> regionIds = new Set<Id>();
