@@ -798,7 +798,8 @@ Territory - The territory selected via a territory picker.
             //MYBZ_IHS_Division__c divisionObj = [SELECT Name FROM MYBZ_IHS_Division__c LIMIT 1];
              Boolean flagshowPAC = false ;
              if(Role != System.Label.MYBZ_SuperUser ){
-                MYBZ_Region_Rollup__c userDivisionRR = [Select IHS_Division__r.name, GLOBAL_ID__C, Alignment_Level__c from MYBZ_Region_Rollup__c where GLOBAL_ID__C =: UserId LIMIT 1];
+                system.debug('*** user id' + userId);
+                MYBZ_Region_Rollup__c userDivisionRR = [Select IHS_Division__r.name, GLOBAL_ID__C, Alignment_Level__c from MYBZ_Region_Rollup__c where GLOBAL_ID__C =: GlobalId LIMIT 1];
                 string UserDivision = userDivisionRR.IHS_Division__r.name;
                 if(UserDivision.contains(system.label.MYBZ_PACArea)){
                   flagshowPAC = true;
