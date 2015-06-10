@@ -15,6 +15,13 @@
         <value>gainers</value>
     </labels>
     <labels>
+        <fullName>MYBZ_IHSDivision</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MYBZ_IHSDivision</shortDescription>
+        <value>IHS Division</value>
+    </labels>
+    <labels>
         <fullName>MYBZ_National</fullName>
         <language>en_US</language>
         <protected>false</protected>

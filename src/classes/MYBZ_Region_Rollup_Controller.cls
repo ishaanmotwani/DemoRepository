@@ -927,7 +927,7 @@ Territory - The territory selected via a territory picker.
                 generator.writeStartObject();  
                 
                 //Start of writing the JSON fields.
-                generator.writeStringField(System.Label.MYBZ_Name,'IHS Division');
+                generator.writeStringField(System.Label.MYBZ_Name,System.Label.MYBZ_IHSDivision);
     
                 //Start of writing the date fields of all the metrics.
                 for(String str : metricDates){
@@ -1285,7 +1285,7 @@ Territory - The territory selected via a territory picker.
                                                 {
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
-                                                if(tempdistObj.District__r.Name.contains('IHS PAC')) {
+                                                if(tempdistObj.District__r.Name.contains('PAC WEST')) {
                                                     if(tempdistObj.Net_Sales_1M__c !=null){
                                                         generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_1M__c);
                                                     }
@@ -1347,7 +1347,7 @@ Territory - The territory selected via a territory picker.
                                                 { 
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
-                                                if(tempdistObj.District__r.Name.contains('IHS PAC')) {
+                                                if(tempdistObj.District__r.Name.contains('PAC WEST')) {
                                                     if(tempdistObj.Net_Sales_3M__c !=null){
                                                         generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_3M__c);
                                                     }
@@ -1409,7 +1409,7 @@ Territory - The territory selected via a territory picker.
                                                 {
                                                     generator.writeNullField(System.Label.MYBZ_dddDollars);
                                                 }
-                                                if(tempdistObj.District__r.Name.contains('IHS PAC')) {
+                                                if(tempdistObj.District__r.Name.contains('PAC WEST')) {
                                                     if(tempdistObj.Net_Sales_6M__c !=null){
                                                         generator.writeNumberField(System.Label.MYBZ_newSales,tempdistObj.Net_Sales_6M__c);
                                                     }
