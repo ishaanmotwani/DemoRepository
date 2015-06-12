@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MYBZ_District</shortDescription>
-        <value>district</value>
+        <value>District</value>
     </labels>
     <labels>
         <fullName>MYBZ_Gainers</fullName>
@@ -75,7 +75,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MYBZ_TableauURL</shortDescription>
-        <value>https://ix1redwood01.am.lilly.com/t/LillyUSA/views/Lilly_MyBusiness_v17/</value>
+        <value>https://ix1redwood01.am.lilly.com/t/LillyUSA/workbooks/Lilly_MyBusiness_Profitability/</value>
     </labels>
     <labels>
         <fullName>MYBZ_geolevelcomparison</fullName>
