@@ -2601,9 +2601,22 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
                             CallsCount = i;
                             
                             //If the call count for a particular physician exceeds five, break out of the loop since only five most recent calls information needs to be passed.
-                            if(NewCallCount==5)
+                            if(NewCallCount==5&&(!currentCallID.equals(CallsList[i].Call_ID__c)))
                             {
                                 generator.writeEndObject();
+                                generator.writeEndArray();
+                                generator.writeFieldName('range');
+                                generator.writeStartArray();
+                                if(!RangeSet.isEmpty())
+                                {
+                                    for(string range : RangeSet)
+                                    {
+                                        if(range!=null)
+                                        {
+                                        generator.writeString(range);
+                                        }
+                                    }
+                                }
                                 generator.writeEndArray();
                                 break;
                             }
@@ -2615,8 +2628,7 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
                             {
                                 //Keep track of the call range 
                                 RangeSet.add(CallsList[i].Range__c);
-                                if((i+1 <= CallsList.size()))
-                                System.debug(LoggingLevel.INFO,'--PhysicianID'+PhysicianID+' Range Set'+RangeSet+'NextPhysicianID' + CallsList[i+1].Physician_ID__c);
+                                
                                 //Check if the current record encountered corresponds to the same call as the previous.
                                 if(!currentCallID.equals(CallsList[i].Call_ID__c))
                                 {
@@ -2723,7 +2735,7 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
                                 if((i+1 == CallsList.size() )||(!PhysicianID.equals(CallsList[i+1].Physician_ID__c)))
                                 {
                                     //closing all calls
-                                    System.debug(LoggingLevel.INFO,'--PhysicianIDinside'+PhysicianID+' Range Set'+RangeSet);
+                                    
                                     generator.writeEndObject();
                                     generator.writeEndArray();
                                     generator.writeFieldName('range');
@@ -2732,7 +2744,10 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
                                     {
                                         for(string range : RangeSet)
                                         {
+                                            if(range!=null)
+                                            {
                                             generator.writeString(range);
+                                            }
                                         }
                                     }
                                     generator.writeEndArray();
