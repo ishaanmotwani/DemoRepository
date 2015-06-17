@@ -341,10 +341,46 @@ This object is later used to report on User activity on this application.
                         MYBZ_AlignmentWrapper.PGP response_PGP = new MYBZ_AlignmentWrapper.PGP();
                         response_PGP.name = pgp.name;
                         response_PGP.pgpID = pgp.PGP_ID__c;
-                        if(pgp.Aligned_Territories__c != null)
-                            response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
-                        if(pgp.Aligned_Districts__c != null)
-                            response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
+                        if(pgp.Aligned_Territories__c != null) {
+                            if(Role == System.Label.MYBZ_SuperUser){                     
+                                response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
+                            }
+                            else{
+                                List<String> alignTerr = pgp.Aligned_Territories__c.split(';');
+                                List<String> alignTerrOfUser = new List<string>();
+                                if(alignTerr.size() != 0) {
+                                  for(String aTerritory : alignTerr){
+                                    if(TerritoryNameAndGlobalIdMap.get(aTerritory) == globalId){
+                                      alignTerrOfUser.add(aTerritory);
+                                    }
+                                  }
+                                }
+                                response_PGP.alignedTerritories = alignTerrOfUser;
+                            }
+                        }   
+                        
+                        if(pgp.Aligned_Districts__c != null){
+                             if(Role == System.Label.MYBZ_SuperUser){
+                                response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
+                             }
+                            else{                            
+                                List<String> alignDist = pgp.Aligned_Districts__c.split(';');
+                                List<String> alignDistOfUser = new List<string>();
+                                if(alignDist.size() != 0) {
+                                  for(String aDistrict : alignDist){    
+                                    if(Role == System.Label.MYBZ_AccountManager){
+                                      if(DistrictNameAndGlobalIdMap.get(aDistrict) == null){
+                                        alignDistOfUser.add(aDistrict);
+                                      }
+                                    }                                   
+                                    else if(DistrictNameAndGlobalIdMap.get(aDistrict) == globalId){
+                                      alignDistOfUser.add(aDistrict);
+                                    }
+                                  }
+                                }
+                                response_PGP.alignedDistricts = alignDistOfUser;
+                            } 
+                        }
 
                         pgps.add(response_PGP);
                     }
@@ -353,10 +389,46 @@ This object is later used to report on User activity on this application.
                     response_System.name = sys.name;
                     response_System.systemID = sys.System_ID__c;
                     response_System.children = pgps;
-                    if(sys.Aligned_Territories__c != null)
-                        response_System.alignedTerritories = sys.Aligned_territories__c.split(';');
-                    if(sys.Aligned_Districts__c != null)
-                        response_System.alignedDistricts = sys.Aligned_Districts__c.split(';');
+                    if(sys.Aligned_Territories__c != null) {
+                            if(Role == System.Label.MYBZ_SuperUser){                     
+                                response_System.alignedTerritories = sys.Aligned_Territories__c.split(';');
+                            }
+                            else{
+                                List<String> alignTerr = sys.Aligned_Territories__c.split(';');
+                                List<String> alignTerrOfUser = new List<string>();
+                                if(alignTerr.size() != 0) {
+                                  for(String aTerritory : alignTerr){
+                                    if(TerritoryNameAndGlobalIdMap.get(aTerritory) == globalId){
+                                      alignTerrOfUser.add(aTerritory);
+                                    }
+                                  }
+                                }
+                                response_System.alignedTerritories = alignTerrOfUser;
+                            }
+                        }   
+                        
+                        if(sys.Aligned_Districts__c != null){
+                             if(Role == System.Label.MYBZ_SuperUser){
+                                response_System.alignedDistricts = sys.Aligned_Districts__c.split(';');
+                             }
+                            else{                            
+                                List<String> alignDist = sys.Aligned_Districts__c.split(';');
+                                List<String> alignDistOfUser = new List<string>();
+                                if(alignDist.size() != 0) {
+                                  for(String aDistrict : alignDist){
+                                    if(Role == System.Label.MYBZ_AccountManager){
+                                      if(DistrictNameAndGlobalIdMap.get(aDistrict) == null){
+                                        alignDistOfUser.add(aDistrict);
+                                      }
+                                    }
+                                    else if(DistrictNameAndGlobalIdMap.get(aDistrict) == globalId){
+                                      alignDistOfUser.add(aDistrict);
+                                    }
+                                  }
+                                }
+                                response_System.alignedDistricts = alignDistOfUser;
+                            } 
+                        }
 
                     response_affiliationData.systems.add(response_System);
                 }
@@ -367,10 +439,47 @@ This object is later used to report on User activity on this application.
                     MYBZ_AlignmentWrapper.PGP response_PGP = new MYBZ_AlignmentWrapper.PGP();
                     response_PGP.name = pgp.Name;
                     response_PGP.pgpID = pgp.PGP_ID__c;
-                    if(pgp.Aligned_Territories__c != null)
-                        response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
-                    if(pgp.Aligned_Districts__c != null)
-                        response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
+                    if(pgp.Aligned_Territories__c != null) {
+                            if(Role == System.Label.MYBZ_SuperUser){                     
+                                response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
+                            }
+                            else{
+                                List<String> alignTerr = pgp.Aligned_Territories__c.split(';');
+                                List<String> alignTerrOfUser = new List<string>();
+                                if(alignTerr.size() != 0) {
+                                  for(String aTerritory : alignTerr){
+                                    if(TerritoryNameAndGlobalIdMap.get(aTerritory) == globalId){
+                                      alignTerrOfUser.add(aTerritory);
+                                    }
+                                  }
+                                }
+                                response_PGP.alignedTerritories = alignTerrOfUser;
+                            }
+                        }   
+                        
+                        if(pgp.Aligned_Districts__c != null){
+                             if(Role == System.Label.MYBZ_SuperUser){
+                                response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
+                             }
+                            else{                            
+                                List<String> alignDist = pgp.Aligned_Districts__c.split(';');
+                                List<String> alignDistOfUser = new List<string>();
+                                if(alignDist.size() != 0) {
+                                  for(String aDistrict : alignDist){
+                                  if(Role == System.Label.MYBZ_AccountManager){
+                                      if(DistrictNameAndGlobalIdMap.get(aDistrict) == null){
+                                        alignDistOfUser.add(aDistrict);
+                                      }
+                                  }
+                                  else if(DistrictNameAndGlobalIdMap.get(aDistrict) == globalId){
+                                      alignDistOfUser.add(aDistrict);
+                                    }
+                                  }
+                                }
+                                response_PGP.alignedDistricts = alignDistOfUser;
+                            } 
+                        }
+
 
                     response_affiliationData.orphanedPGPs.add(response_PGP);
                 }
