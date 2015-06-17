@@ -36,7 +36,7 @@
     </fields>
     <fields>
         <fullName>LE_ID_IHS__c</fullName>
-        <externalId>false</externalId>
+        <externalId>true</externalId>
         <label>LE_ID_IHS</label>
         <length>20</length>
         <required>false</required>
