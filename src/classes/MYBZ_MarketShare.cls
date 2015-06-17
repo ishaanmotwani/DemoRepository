@@ -117,14 +117,32 @@ global with Sharing  class MYBZ_MarketShare{
       
         flag=0;
         system.debug('Inside summary');
+        // Prioritised Account modification
+        List<MYBZ_PriorityAccount__c> lstProrityAccount = new List<MYBZ_PriorityAccount__c>();
+        List<String> lstIHSNames = new List<String>();
         MYBZ_Market_Share__c mobject=[SELECT district__c FROM MYBZ_Market_Share__c  WHERE Global_Id__c =:GlobalId LIMIT 1];
-        marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
+        lstProrityAccount = [Select Global_Id__c, LE_ID_IHS__c From MYBZ_PriorityAccount__c Where Global_Id__c =:GlobalId];
+        
+        if(!lstProrityAccount.isEmpty()){
+            for(MYBZ_PriorityAccount__c objProrityAccount: lstProrityAccount){
+                lstIHSNames.add(objProrityAccount.LE_ID_IHS__c);
+            }        
+        }
+        
+        System.debug('@@@IHSNames'+lstIHSNames);
+        if(!lstIHSNames.isEmpty()){
+        	System.debug('@@@Here');
+            marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, 
+                           TRx__c, LE_ID_PGP__c,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
                            FROM MYBZ_Market_Share__c 
-                           WHERE district__c =:mobject.district__c and LoadIdentifier__c='AFFLTN' ]; 
-      Object marketShare= marketshareProcessor();
-         return marketShare;             
+                           WHERE district__c =:mobject.district__c and LoadIdentifier__c='AFFLTN'  and LE_ID_IHS__c in :lstIHSNames]; 
+            
+        }
+        System.debug('@@@AccountSummary'+marketShareList);
+      	Object marketShare= marketshareProcessor();
+        return marketShare;             
                            
     }
         
@@ -381,7 +399,9 @@ global with Sharing  class MYBZ_MarketShare{
             getmarketShareListDistrict=strmarketShareListDistrict+' LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys[0].LE_ID_IHS__c)+'\''+' and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\''+groupBy;
             getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+'  LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys[0].LE_ID_IHS__c)+'\''+' and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\'';
             
-            marketShareList=database.query(getmarketShareList);    
+            System.debug('@@@Query-->'+getmarketShareList);
+            marketShareList=database.query(getmarketShareList);  
+            System.debug('@@@QueryList-->'+marketShareList);  
             marketShareListDistrict.clear();                   
             marketShareListDistrict=database.query(getmarketShareListDistrict);
             marketShareDistrictPercentChange.clear();
@@ -720,6 +740,9 @@ global static Object marketshareProcessor() {
                       
                      for(String month : mapMarketYearMonthProductMarketObj.get(pgp).get(Market).get(year).keyset()){
                         
+                         system.debug('@@@Year'+year);
+                         system.debug('@@@Month'+Month);
+                         system.debug('@@@Market'+market);
                          generator.writeStartObject();
                          generator.writeStringField(System.Label.MYBZ_month,Year);
                          generator.writeStringField(System.Label.MYBZ_Year,month);
