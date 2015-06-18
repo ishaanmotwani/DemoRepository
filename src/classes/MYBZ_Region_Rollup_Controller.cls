@@ -347,7 +347,7 @@ This object is later used to report on User activity on this application.
                             }
                             else{
                                 List<String> alignTerr = pgp.Aligned_Territories__c.split(';');
-                                List<String> alignTerrOfUser = new List<string>();
+                                set<String> alignTerrOfUser = new set<string>();
                                 if(alignTerr.size() != 0) {
                                   for(String aTerritory : alignTerr){
                                     if(TerritoryNameAndGlobalIdMap.get(aTerritory) == globalId){
@@ -355,7 +355,7 @@ This object is later used to report on User activity on this application.
                                     }
                                   }
                                 }
-                                response_PGP.alignedTerritories = alignTerrOfUser;
+                                response_PGP.alignedTerritories = new list<String>(alignTerrOfUser);
                             }
                         }   
                         
@@ -365,7 +365,7 @@ This object is later used to report on User activity on this application.
                              }
                             else{                            
                                 List<String> alignDist = pgp.Aligned_Districts__c.split(';');
-                                List<String> alignDistOfUser = new List<string>();
+                                set<String> alignDistOfUser = new set<string>();
                                 if(alignDist.size() != 0) {
                                   for(String aDistrict : alignDist){    
                                     if(Role == System.Label.MYBZ_AccountManager){
@@ -378,7 +378,7 @@ This object is later used to report on User activity on this application.
                                     }
                                   }
                                 }
-                                response_PGP.alignedDistricts = alignDistOfUser;
+                                response_PGP.alignedDistricts = new list<String>(alignDistOfUser);
                             } 
                         }
 
@@ -395,7 +395,7 @@ This object is later used to report on User activity on this application.
                             }
                             else{
                                 List<String> alignTerr = sys.Aligned_Territories__c.split(';');
-                                List<String> alignTerrOfUser = new List<string>();
+                                set<String> alignTerrOfUser = new set<String>();
                                 if(alignTerr.size() != 0) {
                                   for(String aTerritory : alignTerr){
                                     if(TerritoryNameAndGlobalIdMap.get(aTerritory) == globalId){
@@ -403,7 +403,7 @@ This object is later used to report on User activity on this application.
                                     }
                                   }
                                 }
-                                response_System.alignedTerritories = alignTerrOfUser;
+                                response_System.alignedTerritories = new list<String>(alignTerrOfUser);
                             }
                         }   
                         
@@ -413,7 +413,7 @@ This object is later used to report on User activity on this application.
                              }
                             else{                            
                                 List<String> alignDist = sys.Aligned_Districts__c.split(';');
-                                List<String> alignDistOfUser = new List<string>();
+                                set<String> alignDistOfUser = new set<String>();
                                 if(alignDist.size() != 0) {
                                   for(String aDistrict : alignDist){
                                     if(Role == System.Label.MYBZ_AccountManager){
@@ -426,7 +426,7 @@ This object is later used to report on User activity on this application.
                                     }
                                   }
                                 }
-                                response_System.alignedDistricts = alignDistOfUser;
+                                response_System.alignedDistricts = new list<String>(alignDistOfUser);
                             } 
                         }
 
@@ -445,7 +445,7 @@ This object is later used to report on User activity on this application.
                             }
                             else{
                                 List<String> alignTerr = pgp.Aligned_Territories__c.split(';');
-                                List<String> alignTerrOfUser = new List<string>();
+                                set<String> alignTerrOfUser = new set<String>();
                                 if(alignTerr.size() != 0) {
                                   for(String aTerritory : alignTerr){
                                     if(TerritoryNameAndGlobalIdMap.get(aTerritory) == globalId){
@@ -453,7 +453,7 @@ This object is later used to report on User activity on this application.
                                     }
                                   }
                                 }
-                                response_PGP.alignedTerritories = alignTerrOfUser;
+                                response_PGP.alignedTerritories = new list<String>(alignTerrOfUser);
                             }
                         }   
                         
@@ -463,7 +463,7 @@ This object is later used to report on User activity on this application.
                              }
                             else{                            
                                 List<String> alignDist = pgp.Aligned_Districts__c.split(';');
-                                List<String> alignDistOfUser = new List<string>();
+                                set<String> alignDistOfUser = new set<String>();
                                 if(alignDist.size() != 0) {
                                   for(String aDistrict : alignDist){
                                   if(Role == System.Label.MYBZ_AccountManager){
@@ -476,7 +476,7 @@ This object is later used to report on User activity on this application.
                                     }
                                   }
                                 }
-                                response_PGP.alignedDistricts = alignDistOfUser;
+                                response_PGP.alignedDistricts = new list<String>(alignDistOfUser);
                             } 
                         }
 
