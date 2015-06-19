@@ -50,18 +50,18 @@ Territory - The territory selected via a territory picker.
                 selectedpgp = [select PGP_ID__c, System__c, System__r.System_ID__c from MYBZ_PGP__c where PGP_ID__c=:LE_ID_PGP limit 1];
                 CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.Territory__r.Name,Call_Planning__r.LoadIdentifier__c,Call_Planning__r.System__c,Call_Planning__r.System__r.Name,Call_Planning__r.LE_ID_IHS__c,Call_Planning__r.PGP__c,Call_Planning__r.PGP__r.Name,Call_Planning__r.LE_ID_PGP__c,Call_Planning__r.IHS_PGP_HCP_Level__c,Product__c,Call_Planning__r.Subtype__c, Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c, Call_Planning__r.Data_Load_Date__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId AND Call_Planning__r.LoadIdentifier__c='AFFLTN' AND ((Call_Planning__r.LE_ID_PGP__c=:LE_ID_PGP) OR (Call_Planning__r.LE_ID_IHS__c=:selectedpgp.System__r.System_ID__c AND Call_Planning__r.PGP__c=null)) order by Call_Planning__r.LE_ID_IHS__c, Call_Planning__r.LE_ID_PGP__c, Call_Planning__r.IHS_PGP_HCP_Level__c, Call_Planning__r.Physician_ID__c,Product__r.Name];
                 
-                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c,Product__c,Product__r.Name,Territory__r.Name,Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c from MYBZ_Call__c where Global_ID__c=:GlobalId AND LoadIdentifier__c='AFFLTN' AND LE_ID_PGP__c=:LE_ID_PGP order by LE_ID_IHS__c,LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];   
+                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c,Product__c,Product__r.Name,Territory__r.Name,Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c,Range__c from MYBZ_Call__c where Global_ID__c=:GlobalId AND LoadIdentifier__c='AFFLTN' AND LE_ID_PGP__c=:LE_ID_PGP order by LE_ID_IHS__c,LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc,Range__c asc,Product_Position__c asc ];   
                 }
                 else if(LE_ID_IHS!=null && LE_ID_IHS!='')
                 {
                 CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.Territory__r.Name,Call_Planning__r.LoadIdentifier__c,Call_Planning__r.System__c,Call_Planning__r.System__r.Name,Call_Planning__r.LE_ID_IHS__c,Call_Planning__r.PGP__c,Call_Planning__r.PGP__r.Name,Call_Planning__r.LE_ID_PGP__c,Call_Planning__r.IHS_PGP_HCP_Level__c,Product__c,Call_Planning__r.Subtype__c, Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c, Call_Planning__r.Data_Load_Date__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId AND Call_Planning__r.LoadIdentifier__c='AFFLTN' AND Call_Planning__r.LE_ID_IHS__c=:LE_ID_IHS order by Call_Planning__r.LE_ID_IHS__c, Call_Planning__r.LE_ID_PGP__c, Call_Planning__r.IHS_PGP_HCP_Level__c, Call_Planning__r.Physician_ID__c,Product__r.Name];
-                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c,Product__c,Product__r.Name,Territory__r.Name,Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c from MYBZ_Call__c where Global_ID__c=:GlobalId AND LoadIdentifier__c='AFFLTN' AND LE_ID_IHS__c=:LE_ID_IHS order by LE_ID_IHS__c,LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];     
+                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c,Product__c,Product__r.Name,Territory__r.Name,Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c, Range__c from MYBZ_Call__c where Global_ID__c=:GlobalId AND LoadIdentifier__c='AFFLTN' AND LE_ID_IHS__c=:LE_ID_IHS order by LE_ID_IHS__c,LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Range__c asc,Product_Position__c asc ];     
                 }           
                 else
                 {   
                 CallPlanningsList.clear();
                 CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.LoadIdentifier__c,Call_Planning__r.System__c,Call_Planning__r.LE_ID_IHS__c,Call_Planning__r.PGP__c,Call_Planning__r.LE_ID_PGP__c,Call_Planning__r.IHS_PGP_HCP_Level__c,Product__c,Call_Planning__r.Subtype__c, Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c, Call_Planning__r.Data_Load_Date__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId AND Call_Planning__r.LoadIdentifier__c='AFFLTN' order by Call_Planning__r.LE_ID_IHS__c, Call_Planning__r.LE_ID_PGP__c, Call_Planning__r.IHS_PGP_HCP_Level__c desc, Call_Planning__r.Physician_ID__c,Product__r.Name];
-                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name, Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c from MYBZ_Call__c where Global_ID__c=:GlobalId AND LoadIdentifier__c='AFFLTN' order by LE_ID_IHS__c, LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];
+                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name, Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c,Range__c from MYBZ_Call__c where Global_ID__c=:GlobalId AND LoadIdentifier__c='AFFLTN' order by LE_ID_IHS__c, LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc,Range__c asc,Product_Position__c asc ];
                 }
             }
             else if(Role != System.Label.MYBZ_SalesRepresentative && territory!=null && territory!='')
@@ -70,17 +70,17 @@ Territory - The territory selected via a territory picker.
                     {
                      selectedpgp = [select PGP_ID__c, System__c, System__r.System_ID__c from MYBZ_PGP__c where PGP_ID__c=:LE_ID_PGP limit 1];
                      CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.Territory__r.Name,Call_Planning__r.LoadIdentifier__c,Call_Planning__r.System__c,Call_Planning__r.System__r.Name,Call_Planning__r.LE_ID_IHS__c,Call_Planning__r.PGP__c,Call_Planning__r.PGP__r.Name,Call_Planning__r.LE_ID_PGP__c,Call_Planning__r.IHS_PGP_HCP_Level__c,Product__c,Call_Planning__r.Subtype__c, Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c, Call_Planning__r.Data_Load_Date__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Territory__r.Name=:territory AND Call_Planning__r.LoadIdentifier__c='AFFLTN' AND ((Call_Planning__r.LE_ID_PGP__c=:LE_ID_PGP) OR (Call_Planning__r.LE_ID_IHS__c=:selectedpgp.System__r.System_ID__c AND Call_Planning__r.PGP__c=null)) order by Call_Planning__r.LE_ID_IHS__c, Call_Planning__r.LE_ID_PGP__c, Call_Planning__r.IHS_PGP_HCP_Level__c, Call_Planning__r.Physician_ID__c,Product__r.Name];
-                     CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c,Product__c,Product__r.Name,Territory__r.Name,Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c from MYBZ_Call__c where Territory__r.Name=:territory AND LoadIdentifier__c='AFFLTN' AND LE_ID_PGP__c=:LE_ID_PGP order by LE_ID_IHS__c,LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];   
+                     CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c,Product__c,Product__r.Name,Territory__r.Name,Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c,Range__c from MYBZ_Call__c where Territory__r.Name=:territory AND LoadIdentifier__c='AFFLTN' AND LE_ID_PGP__c=:LE_ID_PGP order by LE_ID_IHS__c,LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc,Range__c asc,Product_Position__c asc ];   
                     }
                     else if(LE_ID_IHS!=null && LE_ID_IHS!='')
                     {
                      CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.Territory__r.Name,Call_Planning__r.LoadIdentifier__c,Call_Planning__r.System__c,Call_Planning__r.System__r.Name,Call_Planning__r.LE_ID_IHS__c,Call_Planning__r.PGP__c,Call_Planning__r.PGP__r.Name,Call_Planning__r.LE_ID_PGP__c,Call_Planning__r.IHS_PGP_HCP_Level__c,Product__c,Call_Planning__r.Subtype__c, Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c, Call_Planning__r.Data_Load_Date__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Territory__r.Name=:territory AND Call_Planning__r.LoadIdentifier__c='AFFLTN' AND Call_Planning__r.LE_ID_IHS__c=:LE_ID_IHS order by Call_Planning__r.LE_ID_IHS__c, Call_Planning__r.LE_ID_PGP__c, Call_Planning__r.IHS_PGP_HCP_Level__c, Call_Planning__r.Physician_ID__c,Product__r.Name];
-                     CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c,Product__c,Product__r.Name,Territory__r.Name,Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c from MYBZ_Call__c where Territory__r.Name=:territory AND LoadIdentifier__c='AFFLTN' AND LE_ID_IHS__c=:LE_ID_IHS order by LE_ID_IHS__c,LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];     
+                     CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c,Product__c,Product__r.Name,Territory__r.Name,Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c,Range__c from MYBZ_Call__c where Territory__r.Name=:territory AND LoadIdentifier__c='AFFLTN' AND LE_ID_IHS__c=:LE_ID_IHS order by LE_ID_IHS__c,LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc,Range__c asc,Product_Position__c asc ];     
                     }
                     else
                     {
                      CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.Territory__r.Name,Call_Planning__r.LoadIdentifier__c,Call_Planning__r.System__c,Call_Planning__r.System__r.Name,Call_Planning__r.LE_ID_IHS__c,Call_Planning__r.PGP__c,Call_Planning__r.PGP__r.Name,Call_Planning__r.LE_ID_PGP__c,Call_Planning__r.IHS_PGP_HCP_Level__c,Product__c,Call_Planning__r.Subtype__c, Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c, Call_Planning__r.Data_Load_Date__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Territory__r.Name=:territory AND Call_Planning__r.LoadIdentifier__c='AFFLTN' order by Call_Planning__r.LE_ID_IHS__c, Call_Planning__r.LE_ID_PGP__c, Call_Planning__r.IHS_PGP_HCP_Level__c, Call_Planning__r.Physician_ID__c,Product__r.Name];
-                     CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c,Product__c,Product__r.Name,Territory__r.Name,Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c from MYBZ_Call__c where Territory__r.Name=:territory AND LoadIdentifier__c='AFFLTN' order by LE_ID_IHS__c,LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];   
+                     CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c,Product__c,Product__r.Name,Territory__r.Name,Territory__r.state__c, LoadIdentifier__c, System__c, LE_ID_IHS__c, PGP__c, LE_ID_PGP__c,Range__c from MYBZ_Call__c where Territory__r.Name=:territory AND LoadIdentifier__c='AFFLTN' order by LE_ID_IHS__c,LE_ID_PGP__c, Physician_ID__c,Call_Date__c desc,Call_ID__c asc,Range__c asc,Product_Position__c asc ];   
                     }
             }
         }
@@ -114,7 +114,7 @@ Territory - The territory selected via a territory picker.
                 return null;
             } 
             
-            //Check if this can be removed and got from the data instead
+        
             DateTime districtLastCallDate = null;
             if(CallsList != null){
                 Set<Id> districtIds = new Set<Id>();
@@ -187,6 +187,12 @@ Territory - The territory selected via a territory picker.
             //Keeps track of the calls count while iterating over the call records.
             Integer CallsCount=0;
             
+            //Keeps track of new calls per physician
+            Integer NewCallCount=0;
+            
+            //Set to keep track of ranges per physician
+            Set<string> RangeSet = new Set<string>();
+            
             //Returns a new JSON generator.
             generator = JSON.createGenerator(true);
             
@@ -234,8 +240,9 @@ Territory - The territory selected via a territory picker.
             for(Integer CallPlanningCount=0;CallPlanningCount<CallPlanningsList.size();CallPlanningCount++)
             {
                 //Determine if a new system is encountered
-              if(CallPlanningsList[CallPlanningCount].Call_Planning__r.IHS_PGP_HCP_Level__c.equals('System'))
+                if(CallPlanningsList[CallPlanningCount].Call_Planning__r.IHS_PGP_HCP_Level__c.equals('System'))
                 {
+                    
                     if(!SystemID.equals(CallPlanningsList[CallPlanningCount].Call_Planning__r.LE_ID_IHS__c))
                     {
                         SystemID=CallPlanningsList[CallPlanningCount].Call_Planning__r.LE_ID_IHS__c;
@@ -603,6 +610,9 @@ Territory - The territory selected via a territory picker.
                     //Initializing CurrentProduct as blank for each new physician  
                     CurrentProduct='';
                     
+                    //Each physician should have their own ranges recorded
+                    RangeSet.clear();
+                    
                     PhysicianID=CallPlanningsList[CallPlanningCount].Call_Planning__r.Physician_ID__c;
                     
                     //If a new physician record is encountered, start the object else, end the previous object first.
@@ -824,28 +834,46 @@ Territory - The territory selected via a territory picker.
                         generator.writeStartArray();
                         firstCall=1;
                         usercallcount=0;
+                        NewCallCount=0;
                         for(integer i = CallsCount; i<CallsList.Size(); i++)
                         {
                             CallsCount = i;
                             
                             //If the call count for a particular physician exceeds five, break out of the loop since only five most recent calls information needs to be passed.
-                            if(usercallcount==5)
+                            if(NewCallCount==5&&(!currentCallID.equals(CallsList[i].Call_ID__c)))
                             {
                                 generator.writeEndObject();
+                                generator.writeEndArray();
+                                generator.writeFieldName('range');
+                                generator.writeStartArray();
+                                if(!RangeSet.isEmpty())
+                                {
+                                    for(string range : RangeSet)
+                                    {
+                                        if(range!=null)
+                                        {
+                                        generator.writeString(range);
+                                        }
+                                    }
+                                }
                                 generator.writeEndArray();
                                 break;
                             }
                             
-                            usercallcount++;
+                            //usercallcount++;
                             
                             //Check if the current call record correspond to the current call planning record
                             if(PhysicianID.equals(CallsList[i].Physician_ID__c))
                             {
+                                //Keep track of the call range 
+                                RangeSet.add(CallsList[i].Range__c);
+                                
                                 //Check if the current record encountered corresponds to the same call as the previous.
                                 if(!currentCallID.equals(CallsList[i].Call_ID__c))
                                 {
                                     newCallID=1;
                                     currentCallID= CallsList[i].Call_ID__c;
+                                    NewCallCount++;
                                 }
                                 else
                                 {
@@ -853,7 +881,7 @@ Territory - The territory selected via a territory picker.
                                 }
                                 
                                 
-                                if( newCallID==1 && usercallcount<6)
+                                if( newCallID==1 && NewCallCount<6)
                                 {
                                     callsProductNumber = 1;
                                     if(firstCall==1)
@@ -894,7 +922,7 @@ Territory - The territory selected via a territory picker.
                                 {
                                     if(callsProductNumber==2)
                                     {
-                                        usercallcount--;
+                                        //usercallcount--;
                                         if(CallsList[i-1].Product__c!=NULL)
                                         {
                                             if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
@@ -907,7 +935,7 @@ Territory - The territory selected via a territory picker.
                                     }
                                     else
                                     {
-                                        if((CallsList[i].Product__c!=NULL))
+                                        if((CallsList[i].Product__c!=NULL)&&callsProductNumber==1)
                                         {
                                             generator.writeStringField(System.Label.MYBZ_Product1,CallsList[i].Product__r.Name);
                                         }
@@ -920,7 +948,7 @@ Territory - The territory selected via a territory picker.
                                     
                                     if(callsProductNumber==2)
                                     {
-                                        usercallcount--;
+                                        //usercallcount--;
                                         
                                         if(CallsList[i-1].Product__c!=NULL)
                                         {
@@ -937,7 +965,7 @@ Territory - The territory selected via a territory picker.
                                     else
                                     {
                                         
-                                        if((CallsList[i].Product__c!=NULL)&&CallsList[i].Product_Position__c==1)
+                                        if((CallsList[i].Product__c!=NULL)&&CallsList[i].Product_Position__c==1&&callsProductNumber==1)
                                         {
                                             generator.writeStringField(System.Label.MYBZ_Product1,CallsList[i].Product__r.Name);
                                         }
@@ -948,6 +976,19 @@ Territory - The territory selected via a territory picker.
                                     //closing all calls
                                     
                                     generator.writeEndObject();
+                                    generator.writeEndArray();
+                                    generator.writeFieldName('range');
+                                    generator.writeStartArray();
+                                    if(!RangeSet.isEmpty())
+                                    {
+                                        for(string range : RangeSet)
+                                        {
+                                            if(range!=null)
+                                            {
+                                            generator.writeString(range);
+                                            }
+                                        }
+                                    }
                                     generator.writeEndArray();
                                     if((i+1)!=CallsList.size())
                                     {

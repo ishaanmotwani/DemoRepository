@@ -2541,13 +2541,13 @@ Territory - The territory selected via a territory picker.
             if(Role == System.Label.MYBZ_SalesRepresentative){
                 CallPlanningsList.clear();
                 CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c, Call_Planning__r.Data_Load_Date__c, Call_Planning__r.LoadIdentifier__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId AND Call_Planning__r.LoadIdentifier__c='NON_AFFLTN' order by Call_Planning__r.Physician_ID__c,Product__r.Name];
-                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name, Territory__r.State__c, LoadIdentifier__c from MYBZ_Call__c where Global_ID__c=:GlobalId AND LoadIdentifier__c='NON_AFFLTN' order by Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];
+                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name, Territory__r.State__c, LoadIdentifier__c, Range__c from MYBZ_Call__c where Global_ID__c=:GlobalId AND LoadIdentifier__c='NON_AFFLTN' order by Physician_ID__c,Call_Date__c desc,Call_ID__c asc,Range__c asc, Product_Position__c asc ];
                 
             }
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory != null && territory !=''){
                 CallPlanningsList.clear();
                 CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Call_Planning__r.Territory__r.Name, Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c,Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c, Call_Planning__r.Data_Load_Date__c, Call_Planning__r.LoadIdentifier__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Territory__r.Name=:territory AND Call_Planning__r.LoadIdentifier__c='NON_AFFLTN' order by Call_Planning__r.Physician_ID__c,Product__r.Name];
-                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name,Territory__c,Territory__r.Name, Territory__r.state__c, LoadIdentifier__c from MYBZ_Call__c where Territory__r.Name=:territory AND LoadIdentifier__c='NON_AFFLTN' order by Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];
+                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name,Territory__c,Territory__r.Name, Territory__r.state__c, LoadIdentifier__c, Range__c from MYBZ_Call__c where Territory__r.Name=:territory AND LoadIdentifier__c='NON_AFFLTN' order by Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Range__c asc, Product_Position__c asc ];
             }
             if(Role == System.Label.MYBZ_MajorMarketManager){
                 CallPlanningsList.clear();
@@ -2603,7 +2603,7 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
             if(Role == System.Label.MYBZ_SalesRepresentative){
                 CallPlanningsList.clear();
                 CallPlanningsList = [Select Call_Planning__c,Call_Planning__r.Physician_ID__c,Call_Planning__r.Global_ID__c,Call_Planning__r.First_Name__c,Call_Planning__r.Last_Name__c,Call_Planning__r.Tier__c,Product__c,Product__r.name,TRx_Units_1M__c, TRx_Units_3M__c, TRx_Units_6M__c, Previous_TRx_Units_1M__c, Previous_TRx_Units_3M__c, Previous_TRx_Units_6M__c, Call_Planning__r.Start_Date_1M__c, Call_Planning__r.Start_Date_3M__c, Call_Planning__r.Start_Date_6M__c,Call_Planning__r.LoadIdentifier__c,Call_Planning__r.Data_Load_Date__c from MYBZ_CallPlanningProductJunction__c where Call_Planning__r.Global_ID__c=:GlobalId AND Call_Planning__r.LoadIdentifier__c='NON_AFFLTN' order by Call_Planning__r.Physician_ID__c,Product__r.Name];
-                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name, Territory__r.state__c, LoadIdentifier__c from MYBZ_Call__c where Global_ID__c=:GlobalId AND LoadIdentifier__c='NON_AFFLTN' order by Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Product_Position__c asc ];
+                CallsList = [select Name,Global_ID__c,First_Name__c,Last_Name__c,Physician_ID__c, Call_ID__c,Call_Type__c,Product_Position__c,Call_Date__c, Product__c,Product__r.Name, Territory__r.state__c, LoadIdentifier__c, Range__c from MYBZ_Call__c where Global_ID__c=:GlobalId AND LoadIdentifier__c='NON_AFFLTN' order by Physician_ID__c,Call_Date__c desc,Call_ID__c asc, Range__c asc, Product_Position__c asc ];
             }
         }
         Catch(Exception e)
@@ -2697,6 +2697,12 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
             //Keeps track of the calls count while iterating over the call records.
             Integer CallsCount=0;
             
+            //Keeps track of new calls per physician
+            Integer NewCallCount=0;
+            
+            //Set to keep track of ranges per physician
+            Set<string> RangeSet = new Set<string>();
+            
             //Returns a new JSON generator.
             generator = JSON.createGenerator(true);
             
@@ -2755,6 +2761,9 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
                     
                     //Initializing CurrentProduct as blank for each new physician  
                     CurrentProduct='';
+                    
+                    //Each physician should have their own ranges recorded
+                    RangeSet.clear();
                     
                     PhysicianID=CallPlanningsList[CallPlanningCount].Call_Planning__r.Physician_ID__c;
                     
@@ -2971,28 +2980,47 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
                         generator.writeStartArray();
                         firstCall=1;
                         usercallcount=0;
+                        NewCallCount=0;
                         for(integer i = CallsCount; i<CallsList.Size(); i++)
                         {
                             CallsCount = i;
                             
                             //If the call count for a particular physician exceeds five, break out of the loop since only five most recent calls information needs to be passed.
-                            if(usercallcount==5)
+                            if(NewCallCount==5&&(!currentCallID.equals(CallsList[i].Call_ID__c)))
                             {
                                 generator.writeEndObject();
+                                generator.writeEndArray();
+                                generator.writeFieldName('range');
+                                generator.writeStartArray();
+                                if(!RangeSet.isEmpty())
+                                {
+                                    for(string range : RangeSet)
+                                    {
+                                        if(range!=null)
+                                        {
+                                        generator.writeString(range);
+                                        }
+                                    }
+                                }
                                 generator.writeEndArray();
                                 break;
                             }
                             
-                            usercallcount++;
+                            //usercallcount++;
                             
                             //Check if the current call record correspond to the current call planning record
                             if(PhysicianID.equals(CallsList[i].Physician_ID__c))
                             {
+                            
+                                //Keep track of the call range 
+                                RangeSet.add(CallsList[i].Range__c);
+                                
                                 //Check if the current record encountered corresponds to the same call as the previous.
                                 if(!currentCallID.equals(CallsList[i].Call_ID__c))
                                 {
                                     newCallID=1;
                                     currentCallID= CallsList[i].Call_ID__c;
+                                    NewCallCount++;
                                 }
                                 else
                                 {
@@ -3000,7 +3028,7 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
                                 }
                                 
                                 
-                                if( newCallID==1 && usercallcount<6)
+                                if( newCallID==1 && NewCallCount<6)
                                 {
                                     callsProductNumber = 1;
                                     if(firstCall==1)
@@ -3041,7 +3069,7 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
                                 {
                                     if(callsProductNumber==2)
                                     {
-                                        usercallcount--;
+                                        //usercallcount--;
                                         if(CallsList[i-1].Product__c!=NULL)
                                         {
                                             if(!CallsList[i].Product__r.Name.equals(CallsList[i-1].Product__r.Name)&&(CallsList[i].Product__c!=NULL))
@@ -3054,7 +3082,7 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
                                     }
                                     else
                                     {
-                                        if((CallsList[i].Product__c!=NULL))
+                                        if((CallsList[i].Product__c!=NULL)&&callsProductNumber==1)
                                         {
                                             generator.writeStringField(System.Label.MYBZ_Product1,CallsList[i].Product__r.Name);
                                         }
@@ -3095,6 +3123,19 @@ to be retrieved from Salesforce in the form of a JSON object in the absence of a
                                     //closing all calls
                                     
                                     generator.writeEndObject();
+                                    generator.writeEndArray();
+                                    generator.writeFieldName('range');
+                                    generator.writeStartArray();
+                                    if(!RangeSet.isEmpty())
+                                    {
+                                        for(string range : RangeSet)
+                                        {
+                                            if(range!=null)
+                                            {
+                                            generator.writeString(range);
+                                            }
+                                        }
+                                    }
                                     generator.writeEndArray();
                                     if((i+1)!=CallsList.size())
                                     {
