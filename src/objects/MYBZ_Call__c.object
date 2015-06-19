@@ -59,6 +59,29 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Range__c</fullName>
+        <externalId>false</externalId>
+        <label>Range</label>
+        <picklist>
+            <picklistValues>
+                <fullName>1M</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>3M</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>6M</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
         <fullName>System__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
