@@ -148,5 +148,5 @@
         <members>MYBZ_Market_Share__c</members>
         <name>Workflow</name>
     </types>
-    <version>32.0</version>
+    <version>34.0</version>
 </Package>
