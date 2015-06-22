@@ -44,6 +44,7 @@
         <actionName>View</actionName>
         <type>Default</type>
     </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
     <enableActivities>false</enableActivities>
@@ -84,6 +85,10 @@
             </picklistValues>
             <picklistValues>
                 <fullName>WI IHS DISTRICT</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MA IHS AM DISTRICT</fullName>
                 <default>false</default>
             </picklistValues>
             <sorted>false</sorted>
@@ -159,6 +164,22 @@
             </picklistValues>
             <picklistValues>
                 <fullName>UMASS MA IH Specialist 125377</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PARTNERS MA IHS AM 125917</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CAREGROUP MA IHS AM 125915</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BMC MA IHS AM 125913</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BAYSTATE MA IHS AM 125911</fullName>
                 <default>false</default>
             </picklistValues>
             <sorted>false</sorted>
@@ -274,6 +295,22 @@
             </picklistValues>
             <picklistValues>
                 <fullName>2099861</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>2048169</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>131367</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>128653</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>121379</fullName>
                 <default>false</default>
             </picklistValues>
             <sorted>false</sorted>
