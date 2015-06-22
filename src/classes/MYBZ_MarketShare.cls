@@ -131,7 +131,7 @@ global with Sharing  class MYBZ_MarketShare{
         
         System.debug('@@@IHSNames'+lstIHSNames);
         if(!lstIHSNames.isEmpty()){
-        	System.debug('@@@Here');
+            System.debug('@@@Here');
             marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                            Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, 
                            TRx__c, LE_ID_PGP__c,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
@@ -141,7 +141,7 @@ global with Sharing  class MYBZ_MarketShare{
             
         }
         System.debug('@@@AccountSummary'+marketShareList);
-      	Object marketShare= marketshareProcessor();
+        Object marketShare= marketshareProcessor();
         return marketShare;             
                            
     }
@@ -295,14 +295,18 @@ global with Sharing  class MYBZ_MarketShare{
             getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+'  Global_Id__c=:GlobalId and '+ihs;
         }
         else if((LE_ID_IHS=='' || LE_ID_IHS==null) && Role == System.Label.MYBZ_SalesRepresentative && (!ms.isEmpty()) ){
-            getmarketShareList=strMarketShareList+pgps+' and district__c!=null and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\''+orderBy;
+            System.debug('@@@SalesRep'); 
+            //getmarketShareList=strMarketShareList+pgps+' and district__c!=null and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\''+orderBy;
+            getmarketShareList=strMarketShareList+pgps+' and Territory__c != null and Global_Id__c=:GlobalId '+orderBy;
             getmarketShareListDistrict=strmarketShareListDistrict+' district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\' and ' +pgps+groupBy;
             getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+' district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\' and '+pgps;
             
         }
         else{
             if(!ms.isEmpty()){
-            getmarketShareList=strMarketShareList+ihs+' and district__c!=null and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\''+orderBy;
+            System.debug('@@@Else');
+            //getmarketShareList=strMarketShareList+ihs+' and district__c!=null and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\''+orderBy;
+            getmarketShareList=strMarketShareList+ihs+' and Territory__c!=null and Global_Id__c=:GlobalId '+orderBy;
             getmarketShareListDistrict=strmarketShareListDistrict+' district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\' and '+ihs+groupBy;
             getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+' district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\' and '+ihs;
             }
@@ -394,8 +398,9 @@ global with Sharing  class MYBZ_MarketShare{
         }
        
         else if(Role == System.Label.MYBZ_SalesRepresentative && (!ms.isEmpty())){
-        
-            getmarketShareList=strMarketShareList+'LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys[0].LE_ID_IHS__c)+'\''+' and district__c!=null and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\''+orderBy;
+            
+            //getmarketShareList=strMarketShareList+'LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys[0].LE_ID_IHS__c)+'\''+' and district__c!=null and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\''+orderBy;
+            getmarketShareList=strMarketShareList+'LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys[0].LE_ID_IHS__c)+'\''+' and Global_Id__c=:GlobalId '+orderBy;
             getmarketShareListDistrict=strmarketShareListDistrict+' LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys[0].LE_ID_IHS__c)+'\''+' and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\''+groupBy;
             getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+'  LE_ID_IHS__c=\''+String.escapeSingleQuotes(objSys[0].LE_ID_IHS__c)+'\''+' and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\'';
             
