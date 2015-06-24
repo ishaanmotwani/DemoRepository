@@ -104,6 +104,7 @@
         <members>Mybz_accounts</members>
         <members>Mybz_summaryData</members>
         <members>mybz_associationName</members>
+		<members>MYBZ_IHSAM</members>
         <name>CustomLabel</name>
     </types>
     <types>

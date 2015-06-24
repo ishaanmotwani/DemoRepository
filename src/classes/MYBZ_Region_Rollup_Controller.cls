@@ -910,10 +910,11 @@ Territory - The territory selected via a territory picker.
                 system.debug('*** user id' + userId);
                 /*MYBZ_Region_Rollup__c userDivisionRR = [Select IHS_Division__r.name, GLOBAL_ID__C, Alignment_Level__c from MYBZ_Region_Rollup__c where GLOBAL_ID__C =: GlobalId LIMIT 1];
                 string UserDivision = userDivisionRR.IHS_Division__r.name;*/
-                MYBZ_Market_Share__c userDivisionRR = [Select Division__r.name, GLOBAL_ID__C from MYBZ_Market_Share__c where GLOBAL_ID__C =: GlobalId LIMIT 1];
+                MYBZ_Market_Share__c userDivisionRR = [Select Division__r.name,District__r.name, GLOBAL_ID__C from MYBZ_Market_Share__c where GLOBAL_ID__C =: GlobalId LIMIT 1];
                 string UserDivision = userDivisionRR.Division__r.name;
+                string UserDistrict = userDivisionRR.District__r.name;
                 
-                if(UserDivision.contains(system.label.MYBZ_PACArea)){
+                if(UserDivision.contains(system.label.MYBZ_PACArea)|| UserDistrict.contains(system.label.MYBZ_IHSAM)){
                   flagshowPAC = true;
                 }
              }
