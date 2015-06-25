@@ -459,6 +459,10 @@
         <visibility>Available</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>MYBZ_PriorityAccount__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>MYBZ_System__c</tab>
         <visibility>Available</visibility>
     </tabSettings>

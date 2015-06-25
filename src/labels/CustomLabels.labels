@@ -14,7 +14,7 @@
         <shortDescription>MYBZ_Gainers</shortDescription>
         <value>gainers</value>
     </labels>
-    <labels>
+	 <labels>
         <fullName>MYBZ_IHSAM</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -91,7 +91,7 @@
         <shortDescription>MYBZ_geolevelcomparison</shortDescription>
         <value>geolevelcomparison</value>
     </labels>
-    <labels>
+	<labels>
         <fullName>MYBZ_grossMargins</fullName>
         <language>en_US</language>
         <protected>false</protected>

@@ -120,12 +120,18 @@ global with Sharing  class MYBZ_MarketShare{
         // Prioritised Account modification
         List<MYBZ_PriorityAccount__c> lstProrityAccount = new List<MYBZ_PriorityAccount__c>();
         List<String> lstIHSNames = new List<String>();
+        List<String> lstPGPNames= new List<String>();
+        
         MYBZ_Market_Share__c mobject=[SELECT district__c FROM MYBZ_Market_Share__c  WHERE Global_Id__c =:GlobalId LIMIT 1];
-        lstProrityAccount = [Select Global_Id__c, LE_ID_IHS__c From MYBZ_PriorityAccount__c Where Global_Id__c =:GlobalId];
+        lstProrityAccount = [Select Global_Id__c, LE_ID_IHS__c,LE_ID_PGP__c From MYBZ_PriorityAccount__c Where Global_Id__c =:GlobalId];
         
         if(!lstProrityAccount.isEmpty()){
             for(MYBZ_PriorityAccount__c objProrityAccount: lstProrityAccount){
-                lstIHSNames.add(objProrityAccount.LE_ID_IHS__c);
+                if(objProrityAccount.LE_ID_PGP__c != '' && objProrityAccount.LE_ID_PGP__c != null){
+                    lstPGPNames.add(objProrityAccount.LE_ID_PGP__c);
+                }else{
+                    lstIHSNames.add(objProrityAccount.LE_ID_IHS__c);
+                }
             }        
         }
         
@@ -134,10 +140,10 @@ global with Sharing  class MYBZ_MarketShare{
             System.debug('@@@Here');
             marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                            Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, 
-                           TRx__c, LE_ID_PGP__c,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
-                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c 
+                           TRx__c, LE_ID_PGP__c,PGP__r.ID,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c,LE_ID_IHS__c,system__r.ID, PGP__r.name
                            FROM MYBZ_Market_Share__c 
-                           WHERE district__c =:mobject.district__c and LoadIdentifier__c='AFFLTN'  and LE_ID_IHS__c in :lstIHSNames]; 
+                           WHERE district__c =:mobject.district__c and LoadIdentifier__c='AFFLTN'  and ((LE_ID_IHS__c in :lstIHSNames and LE_ID_PGP__c = null) or (LE_ID_PGP__c in :lstPGPNames))];
             
         }
         System.debug('@@@AccountSummary'+marketShareList);
@@ -597,7 +603,12 @@ global with Sharing  class MYBZ_MarketShare{
         
     }
 
-    
+global class wrapperpriorityaccounts{
+    String systemName;
+    String pgpName;
+    wrapperpriorityaccounts(){       
+   }
+}    
 global static Object marketshareProcessor() {  
     nationalPercentChange.clear();
     districtPercentChange.clear();
@@ -606,69 +617,136 @@ global static Object marketshareProcessor() {
     JSONGenerator generator= JSON.createGenerator(true);
     calculateNational();
      // MS record per product for a single PGP market,year,month and product
-        map<String , map<String, map<String, map<String, map< string , MYBZ_Market_Share__c>>>>> mapMarketYearMonthProductMarketObj = new map<String,map<string, map<String, map<String, map< string , MYBZ_Market_Share__c >>>>>();    
+        map<string , map<String, map<String, map<String, map< string , MYBZ_Market_Share__c>>>>> mapMarketYearMonthProductMarketObj = new map<string,map<string, map<String, map<String, map< string , MYBZ_Market_Share__c >>>>>();    
         
         map<string, Decimal> totalTRxperMonth = new map<string, Decimal>();
         
         map<String, map<String, map<String, map< string , MYBZ_Market_Share__c>>>> mapMSData=new map<String, map<String, map<String, map< string , MYBZ_Market_Share__c>>>>();
         
-        map<String,String> mapPgpIhs=new map<String,String>();
+        map<String,wrapperpriorityaccounts> mapPgpIhs=new map<String,wrapperpriorityaccounts>();
             // creating a map to hold years per marketshare name 
             if(!marketShareList.isEmpty()){
                 for(MYBZ_Market_Share__c mObj  : marketShareList){ 
-                    if(flag==0){
-                    if( mapMarketYearMonthProductMarketObj.containsKey(mobj.LE_ID_PGP__c)){
-                        mapPgpIhs.put(mobj.LE_ID_PGP__c,mobj.system__r.Name);
-                       if(mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).containsKey(mObj.Market__c)){
-                           if( mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).containsKey(mObj.Month_Number__c)) {
-                             if(mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).get(mObj.Month_Number__c).containsKey(mObj.Year_Number__c)){
-                                if(mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).containsKey(mObj.Product__r.name))                                  
-                                        mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).put(mObj.Product__r.name, mObj); 
-                                else                                        
-                                        mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).put(mObj.Product__r.name, mObj);
-                             }
-                             else
-                                mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).get(mObj.Month_Number__c).put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );
-                                    
-                           }    
-                          else{ 
-                                 
-                                map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
-                                yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );  
-                                
-                                mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).get(mObj.Market__c).put(mObj.Month_Number__c,yearProdMap);
-                                
-                          } 
-                       }          
-                    else{                                         
-                                map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
-                                yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );                                  
-                                
-                                map<string,map<string, map<string, MYBZ_Market_Share__c>>> monthyearProdMap =  new map<string,map<string, map<string, MYBZ_Market_Share__c>>>();
-                                monthyearProdMap .put(mObj.Month_Number__c,yearProdMap);
-                                
-                                mapMarketYearMonthProductMarketObj.get(mobj.LE_ID_PGP__c).put(mObj.Market__c, monthyearProdMap);
-                         
-                       }
-                    }    
-                    else{
-                                map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
-                                yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );                                  
-                                
-                                map<string,map<string, map<string, MYBZ_Market_Share__c>>> monthyearProdMap =  new map<string,map<string, map<string, MYBZ_Market_Share__c>>>();
-                                monthyearProdMap .put(mObj.Month_Number__c,yearProdMap);
-                                
-                                map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>> marketmonthYearMap = new map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>>();
-                                marketmonthYearMap.put(mObj.Market__c, monthyearProdMap);
-                                
-                                mapMarketYearMonthProductMarketObj.put(mObj.LE_ID_PGP__c, marketmonthYearMap);   
-                                mapPgpIhs.put(mObj.LE_ID_PGP__c,mObj.system__c);
+                    if(flag==0){ //acccount summary begins
+                      if(mobj.PGP__r.ID != null || mobj.PGP__r.ID != ''){ // its a prioritised PGP
+                                if( mapMarketYearMonthProductMarketObj.containsKey(mobj.PGP__r.ID)){
+                                system.debug('++++mobj.system__r.Name' +mobj.system__r.Name + '+++mobj.PGP__r.Name' +mobj.PGP__r.Name);
+                                    wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
+                                    wrapAcc.systemName = mobj.system__r.Name;
+                                    wrapAcc.pgpName =mobj.PGP__r.Name;
+                                    mapPgpIhs.put(mobj.PGP__r.ID,wrapAcc);
+                                system.debug('+++wrapAcc' + wrapAcc);    
+                                   if(mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).containsKey(mObj.Market__c)){
+                                       if( mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).get(mObj.Market__c).containsKey(mObj.Month_Number__c)) {
+                                         if(mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).containsKey(mObj.Year_Number__c)){
+                                            if(mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).containsKey(mObj.Product__r.name))                                  
+                                                    mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).put(mObj.Product__r.name, mObj); 
+                                            else                                        
+                                                    mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).put(mObj.Product__r.name, mObj);
+                                         }
+                                         else
+                                            mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );
+                                                
+                                       }    
+                                      else{ 
+                                             
+                                            map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                            yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );  
+                                            
+                                            mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).get(mObj.Market__c).put(mObj.Month_Number__c,yearProdMap);
+                                            
+                                      } 
+                                   }          
+                                else{                                         
+                                            map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                            yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );                                  
+                                            
+                                            map<string,map<string, map<string, MYBZ_Market_Share__c>>> monthyearProdMap =  new map<string,map<string, map<string, MYBZ_Market_Share__c>>>();
+                                            monthyearProdMap .put(mObj.Month_Number__c,yearProdMap);
+                                            
+                                            mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).put(mObj.Market__c, monthyearProdMap);
+                                     
+                                   }
+                                }    
+                                else{
+                                            map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                            yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );                                  
+                                            
+                                            map<string,map<string, map<string, MYBZ_Market_Share__c>>> monthyearProdMap =  new map<string,map<string, map<string, MYBZ_Market_Share__c>>>();
+                                            monthyearProdMap .put(mObj.Month_Number__c,yearProdMap);
+                                            
+                                            map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>> marketmonthYearMap = new map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>>();
+                                            marketmonthYearMap.put(mObj.Market__c, monthyearProdMap);
+                                            
+                                            mapMarketYearMonthProductMarketObj.put(mobj.PGP__r.ID, marketmonthYearMap);   
+                                            wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
+                                            wrapAcc.systemName = mobj.system__r.Name;
+                                            wrapAcc.pgpName =mobj.PGP__r.Name;
+                                            mapPgpIhs.put(mobj.PGP__r.ID,wrapAcc);
 
-                    }                   
-                 }
+                                }                   
+                 } 
+                    
+               else{ // if its a prioritised system
+                   if( mapMarketYearMonthProductMarketObj.containsKey(mobj.System__r.ID)){
+                                   wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
+                                    wrapAcc.systemName = mobj.system__r.Name;
+                                    wrapAcc.pgpName =null;
+                                    mapPgpIhs.put(mobj.System__r.ID,wrapAcc);
+                                   if(mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).containsKey(mObj.Market__c)){
+                                       if( mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).get(mObj.Market__c).containsKey(mObj.Month_Number__c)) {
+                                         if(mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).containsKey(mObj.Year_Number__c)){
+                                            if(mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).containsKey(mObj.Product__r.name))                                  
+                                                    mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).put(mObj.Product__r.name, mObj); 
+                                            else                                        
+                                                    mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).get(mObj.Year_Number__c).put(mObj.Product__r.name, mObj);
+                                         }
+                                         else
+                                            mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );
+                                                
+                                       }    
+                                      else{ 
+                                             
+                                            map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                            yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );  
+                                            
+                                            mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).get(mObj.Market__c).put(mObj.Month_Number__c,yearProdMap);
+                                            
+                                      } 
+                                   }          
+                                else{                                         
+                                            map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                            yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );                                  
+                                            
+                                            map<string,map<string, map<string, MYBZ_Market_Share__c>>> monthyearProdMap =  new map<string,map<string, map<string, MYBZ_Market_Share__c>>>();
+                                            monthyearProdMap .put(mObj.Month_Number__c,yearProdMap);
+                                            
+                                            mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).put(mObj.Market__c, monthyearProdMap);
+                                     
+                                   }
+                                }    
+                                else{
+                                            map<string, map<string, MYBZ_Market_Share__c>> yearProdMap = new map<string, map<string,MYBZ_Market_Share__c>>();
+                                            yearProdMap .put(mObj.Year_Number__c, new  map<string, MYBZ_Market_Share__c> {mObj.Product__r.name => mObj } );                                  
+                                            
+                                            map<string,map<string, map<string, MYBZ_Market_Share__c>>> monthyearProdMap =  new map<string,map<string, map<string, MYBZ_Market_Share__c>>>();
+                                            monthyearProdMap .put(mObj.Month_Number__c,yearProdMap);
+                                            
+                                            map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>> marketmonthYearMap = new map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>>();
+                                            marketmonthYearMap.put(mObj.Market__c, monthyearProdMap);
+                                            
+                                            mapMarketYearMonthProductMarketObj.put(mobj.System__r.ID, marketmonthYearMap);   
+                                            wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
+                                            wrapAcc.systemName = mobj.system__r.Name;
+                                            wrapAcc.pgpName =null;
+                                            mapPgpIhs.put(mobj.System__r.ID,wrapAcc);
 
+                                }
+
+               }
+                    }//account summary ends
                  else{
-                 
+                   // non account summary begin
                   if(mapMSData.containsKey(mObj.Market__c)){
                            if( mapMSData.get(mObj.Market__c).containsKey(mObj.Month_Number__c)) {
                              if(mapMSData.get(mObj.Market__c).get(mObj.Month_Number__c).containsKey(mObj.Year_Number__c)){
@@ -718,19 +796,29 @@ global static Object marketshareProcessor() {
             system.debug('mapMarketYearMonthProductMarketObj'+mapMarketYearMonthProductMarketObj);
              for( string pgp : mapMarketYearMonthProductMarketObj.keyset()){
                 //generator.writeFieldName(System.Label.Mybz_summaryData);
-                if(flag==0){
+                if(flag==0){ // Account Summary block
                    generator.writeStartObject();
                 
-                    if(pgp=='' || pgp==null)
-                         generator.writeNullField(System.Label.Mybz_name);
-                     else
-                        generator.writeStringField(System.Label.Mybz_name,pgp);
-                 
-                    if(!(mapPgpIhs.get(pgp)== null)) 
-                        generator.writeStringField(System.Label.mybz_associationName,mapPgpIhs.get(pgp));
-                    else 
-                        generator.writeNullField(System.Label.mybz_associationName);
-                                
+                    if(mapPgpIhs.get(pgp) !=null){ 
+                         if(mapPgpIhs.get(pgp).pgpName != null || mapPgpIhs.get(pgp).pgpName != ''){// PGP to be written
+                            generator.writeStringField(System.Label.Mybz_name,mapPgpIhs.get(pgp).pgpName);
+                            if(mapPgpIhs.get(pgp).systemName != null)
+                             generator.writeStringField(System.Label.mybz_associationName,mapPgpIhs.get(pgp).systemName);
+                            else
+                             generator.writeNullField(System.Label.mybz_associationName);   
+                         }                       
+                         else{      // SYSTEM is written                    
+                            if(mapPgpIhs.get(pgp).systemName != null){
+                             generator.writeStringField(System.Label.Mybz_name,mapPgpIhs.get(pgp).pgpName);    
+                             generator.writeStringField(System.Label.mybz_associationName,mapPgpIhs.get(pgp).systemName);
+                            } 
+                            else{
+                             generator.writeNullField(System.Label.Mybz_name);       
+                             generator.writeNullField(System.Label.mybz_associationName);   
+                            } 
+                         }
+                            
+                    }            
              }          
               generator.writeFieldName(System.Label.Mybz_markets);
               generator.writeStartArray();

@@ -7,9 +7,9 @@
         <members>MYBZ_ProductTrendDetailsController</members>
         <members>MYBZ_Region_Rollup_Controller</members>
         <members>MYBZ_TopGainer</members>
+        <members>Test_MYBZ_RegionRollup_Controller</members>
         <members>Test_MYBZ_CallPlanningController</members>
         <members>Test_MYBZ_MarketShare</members>
-        <members>Test_MYBZ_RegionRollup_Controller</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -98,14 +98,14 @@
         <members>MYBZ_PercentageChange</members>
         <members>MYBZ_TableauURL</members>
         <members>MYBZ_geolevelcomparison</members>
+		<members>MYBZ_grossMargins</members>
         <members>MYBZ_loosers</members>
         <members>MYBZ_markets</members>
         <members>MYBZ_newSales</members>
         <members>Mybz_accounts</members>
         <members>Mybz_summaryData</members>
         <members>mybz_associationName</members>
-        <members>MYBZ_IHSAM</members>
-        <members>MYBZ_grossMargins</members>        
+		<members>MYBZ_IHSAM</members>
         <name>CustomLabel</name>
     </types>
     <types>
@@ -117,6 +117,7 @@
     <types>
         <members>MYBZ_PGP__c</members>
         <members>MYBZ_System__c</members>
+		<members>MYBZ_PriorityAccount__c</members>
         <name>CustomTab</name>
     </types>
     <types>
@@ -127,6 +128,7 @@
         <members>MYBZ_IHS_Division__c-Parent Layout</members>
         <members>MYBZ_Market_Share__c-Market Share Layout</members>
         <members>MYBZ_PGP__c-PGP Layout</members>
+		<members>MYBZ_PriorityAccount__c-MYBZ_priorityAccount Layout</members>
         <members>MYBZ_Product_Trend_Detail__c-Product Trend Detail Layout</members>
         <members>MYBZ_Product__c-Product Layout</members>
         <members>MYBZ_Region_Rollup__c-Alignment Layout</members>
