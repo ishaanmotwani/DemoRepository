@@ -7,9 +7,9 @@
         <members>MYBZ_ProductTrendDetailsController</members>
         <members>MYBZ_Region_Rollup_Controller</members>
         <members>MYBZ_TopGainer</members>
-        <members>Test_MYBZ_RegionRollup_Controller</members>
         <members>Test_MYBZ_CallPlanningController</members>
         <members>Test_MYBZ_MarketShare</members>
+        <members>Test_MYBZ_RegionRollup_Controller</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -104,7 +104,8 @@
         <members>Mybz_accounts</members>
         <members>Mybz_summaryData</members>
         <members>mybz_associationName</members>
-		<members>MYBZ_IHSAM</members>
+        <members>MYBZ_IHSAM</members>
+        <members>MYBZ_grossMargins</members>        
         <name>CustomLabel</name>
     </types>
     <types>
