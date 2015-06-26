@@ -136,7 +136,7 @@ global with Sharing  class MYBZ_MarketShare{
         }
         
         System.debug('@@@IHSNames'+lstIHSNames);
-        if(!lstIHSNames.isEmpty()){
+        if(!lstIHSNames.isEmpty() || !lstPGPNames.isEmpty()){
             System.debug('@@@Here');
             marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                            Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, 
