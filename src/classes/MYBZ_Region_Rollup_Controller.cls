@@ -294,7 +294,7 @@ This object is later used to report on User activity on this application.
                                         FROM MYBZ_PGP__c];
                 }
                 //Added newly so that salesRep gets to view the system/PGP aligned to Reps Territorie's District
-                else if( Role == System.Label.MYBZ_SalesRepresentative){
+                /*else if( Role == System.Label.MYBZ_SalesRepresentative){
                      MYBZ_Region_Rollup__c districtRR = [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory AND Global_Id__c =: GlobalID Limit 1 ];
                      
                     sysList  = [SELECT 
@@ -309,7 +309,7 @@ This object is later used to report on User activity on this application.
                     orphanedPGP_list = [SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c
                                         FROM MYBZ_PGP__c
                                         WHERE Aligned_Districts__c INCLUDES (:districtRR.District__r.Name)];               
-                }
+                } */
                 else
                 {   
                     system.debug('*****Global id' + GlobalID);
