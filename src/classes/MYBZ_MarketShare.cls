@@ -323,18 +323,18 @@ global with Sharing  class MYBZ_MarketShare{
       
             getAlignment();
            system.debug('LE_ID_IHS'+LE_ID_IHS);                
-        if((LE_ID_IHS==''|| LE_ID_IHS==null) && (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) ) {
+        if((LE_ID_IHS==''|| LE_ID_IHS==null) && (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_SalesRepresentative) ) {
             getmarketShareList=strMarketShareList+pgps+' and district__c!=null and Global_Id__c=:GlobalId '+orderBy;
             getmarketShareListDistrict=strmarketShareListDistrict+' Global_Id__c=:GlobalId and '+pgps+groupBy;
             getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+'  Global_Id__c=:GlobalId and '+pgps;
         }
-        else if(LE_ID_IHS!='' && LE_ID_IHS!=null&& (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) ){
+        else if(LE_ID_IHS!='' && LE_ID_IHS!=null&& (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_SalesRepresentative) ){
             getmarketShareList=strMarketShareList+ihs+' and district__c!=null and Global_Id__c=:GlobalId '+orderBy;
             getmarketShareListDistrict=strmarketShareListDistrict+'  Global_Id__c=:GlobalId and '+ihs+groupBy;
             getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+'  Global_Id__c=:GlobalId and '+ihs;
         }
-        else if((LE_ID_IHS=='' || LE_ID_IHS==null) && Role == System.Label.MYBZ_SalesRepresentative && (!ms.isEmpty()) ){
-            System.debug('@@@SalesRep'); 
+        else if((LE_ID_IHS=='' || LE_ID_IHS==null) && Role == System.Label.MYBZ_AccountManager && (!ms.isEmpty()) ){
+            System.debug('@@@MYBZ_AccountManager'); 
             //getmarketShareList=strMarketShareList+pgps+' and district__c!=null and district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\''+orderBy;
             getmarketShareList=strMarketShareList+pgps+' and Territory__c != null and Global_Id__c=:GlobalId '+orderBy;
             getmarketShareListDistrict=strmarketShareListDistrict+' district__c=\''+String.escapeSingleQuotes(ms[0].district__c)+'\' and ' +pgps+groupBy;
