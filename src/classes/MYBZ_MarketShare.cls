@@ -1,3 +1,12 @@
+/*
+*@ Class Name                                                    : MYBZ_MarketShare
+*@ Description                                                   : Controller class to prepare JSONs to share data queried from marketshare objects to Angular JS .
+Class for retrieving salesforce data in the form of a string and returning as a JSON object via a remote action.
+*@ CreatedBy                                                     : Deloitte Consulting
+*@ CreatedOn                                                     : 04-20-2015
+*                    
+*/
+
 global with Sharing  class MYBZ_MarketShare{
 
     public MYBZ_MarketShare(MYBZ_Region_Rollup_Controller controller) {
@@ -17,7 +26,7 @@ global with Sharing  class MYBZ_MarketShare{
     global static List<MYBZ_Market_Share__c> marketShareRegionPercentChange=new List<MYBZ_Market_Share__c>();
     global static Map<String,Decimal> nationalPercentChange=new Map<String,Decimal>();
     global static Map<String,Decimal> districtPercentChange=new Map<String,Decimal>();
-     global static Map<String,Decimal> regionPercentChange=new Map<String,Decimal>();
+    global static Map<String,Decimal> regionPercentChange=new Map<String,Decimal>();
     global static Decimal TotalTrx=0,TotalTrxDis=0,TotalTrxReg=0;
     global static Decimal TotalDDD=0, TotalDDDDis=0, TotalDDDReg=0;
     //global static MYBZ_Region__c reg;
@@ -28,26 +37,42 @@ global with Sharing  class MYBZ_MarketShare{
     global static Decimal PercentageChangeDDDUnits=0;
     global object marketShare;
     global static integer flag=1;
-     global static id UserId;
+    global static id UserId;
     
+     /* 
+        * @Method Name                    :  getAlignment
+        * @Description                    :  Helper method to find the alignment information from given global id 
+        * @Return Type                    :  void
+        * @Param                          :  none   
+        
+     */
     global static void  getAlignment(){
         ms= [select Territory__c,District__c,Region__c, Division__c from MYBZ_Market_Share__c where Global_Id__c =:GlobalId Limit 1];
     }
-       
-     global static void fetchUserInfo(){
+     
+     
+    /* 
+        * @Method Name                    :  fetchUserInfo
+        * @Description                    :  Method used to get logged in user's Role and Global id as it forms the basis to fetch 
+        user related data for reporting .                                        
+        * @Return Type                    :  void
+        * @Param                          :  
+    */      
+    
+    global static void fetchUserInfo(){
         UserId = UserInfo.getUserId();      
         User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
         if(userObj!=null){
             Role = userObj.MYBZ_Role__c;
           
             GlobalId = userObj.Prsnl_Nbr_GLBL__c;
-            
-            //uname=userObj.name;
         }
         
         
     }
-    //Non-Aff and by default
+    
+    
+      //Non-Aff and by default
     
       @RemoteAction
         global static Object marketShareControllerNonAff() { 
@@ -145,7 +170,7 @@ global with Sharing  class MYBZ_MarketShare{
                            TRx__c, LE_ID_PGP__c,PGP__r.ID,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c,LE_ID_IHS__c,system__r.ID, PGP__r.name
                            FROM MYBZ_Market_Share__c 
-                           WHERE district__c =:mobject.district__c and LoadIdentifier__c='AFFLTN'  and ((LE_ID_IHS__c in :lstIHSNames and LE_ID_PGP__c = null) or (LE_ID_PGP__c in :lstPGPNames))];
+                           WHERE district__c =:mobject.district__c and territory__c = null and LoadIdentifier__c='AFFLTN'  and ((LE_ID_IHS__c in :lstIHSNames and LE_ID_PGP__c = null) or (LE_ID_PGP__c in :lstPGPNames))];
             
         }
         System.debug('@@@AccountSummary'+marketShareList);
@@ -167,16 +192,18 @@ global with Sharing  class MYBZ_MarketShare{
              msobj=[Select division__c,District__c FROM MYBZ_Market_Share__c WHERE district__r.Name=:district and territory__c=null and LoadIdentifier__c='NON_AFFLTN' LIMIT 1];
         else
              msobj=[Select division__c,district__c FROM MYBZ_Market_Share__c WHERE territory__r.Name=:territory and LoadIdentifier__c='NON_AFFLTN' LIMIT 1];
+        
         if(!msobj.isEmpty()){
-        marketShareListNational.clear();
-        marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
-                                                      FROM MYBZ_Market_Share__c 
-                                                      WHERE  division__c =: msobj[0].Division__c and territory__c = null and District__c = null and  Region__c = null  and LoadIdentifier__c='NON_AFFLTN' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
-        marketShareNationalPercentChange.clear();                           
-        marketShareNationalPercentChange= [Select Month_Number__c, Year_Number__c,Product__c, Market__c,percentageChangeFromPreviousMonth__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c FROM MYBZ_Market_Share__c WHERE division__c =: msobj[0].Division__c and territory__c = null and District__c = null and  Region__c = null  and lillyProduct__c=true and LoadIdentifier__c='NON_AFFLTN'];
+            marketShareListNational.clear();
+            marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
+                                                          FROM MYBZ_Market_Share__c 
+                                                          WHERE  division__c =: msobj[0].Division__c and territory__c = null and District__c = null and  Region__c = null  and LoadIdentifier__c='NON_AFFLTN' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+            marketShareNationalPercentChange.clear();                           
+            marketShareNationalPercentChange= [Select Month_Number__c, Year_Number__c,Product__c, Market__c,percentageChangeFromPreviousMonth__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c FROM MYBZ_Market_Share__c WHERE division__c =: msobj[0].Division__c and territory__c = null and District__c = null and  Region__c = null  and lillyProduct__c=true and LoadIdentifier__c='NON_AFFLTN'];
         
         }
-            if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ||Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && district !=null && district !='' ){
+        
+        if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ||Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && district !=null && district !='' ){
             marketShareList.clear();
             marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                                Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
@@ -189,24 +216,25 @@ global with Sharing  class MYBZ_MarketShare{
             marketShareDistrictPercentChange.clear();
             marketShareDistrictPercentChange= [Select Month_Number__c, Year_Number__c,Product__c, Market__c,percentageChangeFromPreviousMonth__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  FROM MYBZ_Market_Share__c WHERE District__r.Name =: district and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='NON_AFFLTN'];
             
-            }
+         }
     
         if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !='' && (district == null || district == '')){  
-        marketShareList.clear();
-        marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
-                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c 
-                           FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null and LoadIdentifier__c='NON_AFFLTN' ORDER BY Market__c,Month__c, Year__c ASC ]; 
-                           
-        marketShareListRegion.clear();
-        marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
-                                                      FROM MYBZ_Market_Share__c 
-                                                      WHERE  region__r.Name =: region and District__c=null and territory__c = null  and LoadIdentifier__c='NON_AFFLTN' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
-                                                      
-        marketShareRegionPercentChange.clear();
-        marketShareRegionPercentChange= [Select Month_Number__c, Year_Number__c,Product__c, Market__c,percentageChangeFromPreviousMonth__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  FROM MYBZ_Market_Share__c WHERE region__r.Name =: region and territory__c = null and District__c=null  and lillyProduct__c=true and LoadIdentifier__c='NON_AFFLTN'];
+            marketShareList.clear();
+            marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
+                               Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c 
+                               FROM MYBZ_Market_Share__c WHERE Region__r.Name =: region AND District__c = null and LoadIdentifier__c='NON_AFFLTN' ORDER BY Market__c,Month__c, Year__c ASC ]; 
+                               
+            marketShareListRegion.clear();
+            marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
+                                                          FROM MYBZ_Market_Share__c 
+                                                          WHERE  region__r.Name =: region and District__c=null and territory__c = null  and LoadIdentifier__c='NON_AFFLTN' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                          
+            marketShareRegionPercentChange.clear();
+            marketShareRegionPercentChange= [Select Month_Number__c, Year_Number__c,Product__c, Market__c,percentageChangeFromPreviousMonth__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  FROM MYBZ_Market_Share__c WHERE region__r.Name =: region and territory__c = null and District__c=null  and lillyProduct__c=true and LoadIdentifier__c='NON_AFFLTN'];
     
         }
+        
         if((Role == System.Label.MYBZ_MajorMarketManager ||Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager  || Role == System.Label.MYBZ_SuperUser) && territory !=null && territory !=''){ 
                     marketShareList.clear();
                     marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
@@ -225,9 +253,12 @@ global with Sharing  class MYBZ_MarketShare{
             }                 
  
         }
+        
        Object marketShare= marketshareProcessor();
          return marketShare;
     }
+    
+    
     public static String ihs=' LE_ID_PGP__c=null and LE_ID_IHS__c=:LE_ID_IHS';
     public static String pgps=' LE_ID_PGP__c=:LE_ID_PGP';
     public static String a='AFFLTN';
@@ -245,7 +276,7 @@ global with Sharing  class MYBZ_MarketShare{
     
     global static String strmarketShareRegionPercentChange= 'Select percentageChangeFromPreviousMonth__c,Month_Number__c, Year_Number__c,Product__c, Market__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  FROM MYBZ_Market_Share__c WHERE region__c!=null and District__c =null and  lillyProduct__c=true and territory__c=null and LoadIdentifier__c=\''+a+ '\' and ';
     
-    //String marketShareNationalPercentChange=
+   
     @RemoteAction
     global static Object marketshareControllerAffUsingPicker(String LE_ID_IHS, String LE_ID_PGP){
          system.debug('LE_ID_IHS'+LE_ID_IHS);
@@ -475,45 +506,61 @@ global with Sharing  class MYBZ_MarketShare{
             
             getmarketShareNationalPercentChange='Select percentageChangeFromPreviousMonth__c,Month_Number__c, Year_Number__c,Product__c, Market__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(id)+'\''+strmarketShareListNational+ihs;
         }
-        marketShareListNational.clear();
-       
-        marketShareListNational=database.query(getmarketShareListNational);
-        marketShareNationalPercentChange.clear();    
-        marketShareNationalPercentChange=database.query(getmarketShareNationalPercentChange);       
+            marketShareListNational.clear();
+           
+            marketShareListNational=database.query(getmarketShareListNational);
+            marketShareNationalPercentChange.clear();    
+            marketShareNationalPercentChange=database.query(getmarketShareNationalPercentChange);       
      
-         }
-        if(Role == System.Label.MYBZ_SuperUser && ((district!='' && district!=null) || (terr!='' && terr!=null))) { //selected district and System
-                marketShareList.clear();
-              
-                           if((terr!='' && terr!=null)){
-                            MYBZ_territory__c objterr= [Select state__r.NAme from MYBZ_territory__c WHERE  name=:terr];
-                            district=objterr.state__r.NAme;
-                           }
-                           
-        if(String.isBlank(LE_ID_IHS)) {
-            getmarketShareList=strMarketShareList+pgps+' and district__c!=null and District__r.Name =:district'+orderBy;
-            getmarketShareListDistrict=strmarketShareListDistrict+pgps+groupBy;
-            getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+pgps;
         }
-        else{
-            getmarketShareList=strMarketShareList+ihs+' and district__c!=null and District__r.Name =:district'+orderBy;
-            getmarketShareListDistrict=strmarketShareListDistrict+ihs+groupBy;
-            getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+ihs;
-        }
-                           
-                    marketShareListDistrict.clear();                   
-                    
-                                                      
-                    marketShareDistrictPercentChange.clear();
+        
+        if((terr!='' && terr!=null)){
+               marketShareList.clear();
+               
+               if(String.isBlank(LE_ID_IHS)) {
+                    getmarketShareList=strMarketShareList+pgps+' and Territory__c!=null and Territory__r.Name =:territory'+orderBy; 
+                    getmarketShareListDistrict=strmarketShareListDistrict+pgps+groupBy;
+                    getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+pgps;
+                }
+                else{
+                    getmarketShareList=strMarketShareList+ihs+' and Territory__c!=null and Territory__r.Name =:territory'+orderBy;
+                    getmarketShareListDistrict=strmarketShareListDistrict+ihs+groupBy;
+                    getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+ihs;
+                }
+                
+                marketShareListDistrict.clear(); 
+                marketShareDistrictPercentChange.clear();
                  
                   
-        marketShareList=database.query(getmarketShareList);    
-        marketShareListDistrict=database.query(getmarketShareListDistrict);
-        marketShareDistrictPercentChange=database.query(getmarketShareDistrictPercentChange); 
+                marketShareList=database.query(getmarketShareList);    
+                marketShareListDistrict=database.query(getmarketShareListDistrict);
+                marketShareDistrictPercentChange=database.query(getmarketShareDistrictPercentChange); 
+        }
+        if((district!='' && district!=null)) { //selected district and System
+                marketShareList.clear();                  
+                           
+                if(String.isBlank(LE_ID_IHS)) {
+                    getmarketShareList=strMarketShareList+pgps+' and district__c!=null and District__r.Name =:district'+orderBy;
+                    getmarketShareListDistrict=strmarketShareListDistrict+pgps+groupBy;
+                    getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+pgps;
+                }
+                else{
+                    getmarketShareList=strMarketShareList+ihs+' and district__c!=null and District__r.Name =:district'+orderBy;
+                    getmarketShareListDistrict=strmarketShareListDistrict+ihs+groupBy;
+                    getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+ihs;
+                }
+                           
+                marketShareListDistrict.clear(); 
+                marketShareDistrictPercentChange.clear();
+                 
+                  
+                marketShareList=database.query(getmarketShareList);    
+                marketShareListDistrict=database.query(getmarketShareListDistrict);
+                marketShareDistrictPercentChange=database.query(getmarketShareDistrictPercentChange); 
                  
         }//selects system and district
  
-        if(Role == System.Label.MYBZ_SuperUser && (region!='' && region!=null) ){     
+        if(region!='' && region!=null ){     
                 marketShareList.clear();
                
                            

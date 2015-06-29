@@ -55,6 +55,17 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
+        <fullName>Address__c</fullName>
+        <description>Address of the PGP</description>
+        <externalId>false</externalId>
+        <label>Address</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Aligned_Districts__c</fullName>
         <externalId>false</externalId>
         <label>Aligned Districts</label>
