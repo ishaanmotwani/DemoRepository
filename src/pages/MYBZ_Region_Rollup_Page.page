@@ -213,7 +213,7 @@ function getTrendsDataFromSalesforce(geography, callback, affiliation, flagAff) 
 }
                 
 function getSummaryDataFromSalesforce(geography,callback, affiliation, flagAff) {
-    alert('Account summary is being called');
+    //alert('Account summary is being called');
     window.sfHelper.validateRDT(geography);
     Visualforce.remoting.Manager.invokeAction(
         'MYBZ_MarketShare.accountSummary',  callback
