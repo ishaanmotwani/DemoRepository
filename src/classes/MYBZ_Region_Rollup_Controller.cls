@@ -2388,7 +2388,7 @@ Territory - The territory selected via a territory picker.
             }
             else if(Role == System.Label.MYBZ_SuperUser){
                 targetGoalList.clear();  
-                MYBZ_District__c districtObj = [SELECT Id FROM MYBZ_District__c LIMIT 1];
+                MYBZ_District__c districtObj = [SELECT Id,Region__r.name FROM MYBZ_District__c WHERE Region__r.name =: System.Label.MYBZ_defaultRegion LIMIT 1];
                 if(districtObj!=null){
                     targetGoalList = [SELECT Id, Baseline__c,actualDddUnits__c,Product_Weight_DDD__c,Product_Weight_TRx__c ,Global_Id__c, Month__c, Year__c, Product__r.Name, TRx_Goal__c, TRx_Goal_Attainment__c FROM MYBZ_Target_Goal__c WHERE District__c =:districtObj.Id AND Territory__c = null ORDER BY Month__c, Year__c ASC];
                 }

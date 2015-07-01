@@ -90,13 +90,28 @@ global with Sharing  class MYBZ_MarketShare{
                            FROM MYBZ_Market_Share__c 
                            WHERE district__c =:ms[0].district__c and LoadIdentifier__c='NON_AFFLTN' ];
             }*/
-             marketShareList.clear();          
-             marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+            
+             marketShareList.clear(); 
+             
+             if( Role !=  System.Label.MYBZ_SuperUser){      
+                     marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                                Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
                                Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c 
                                FROM MYBZ_Market_Share__c
                                WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='NON_AFFLTN' 
                                ORDER BY Market__c,Month__c, Year__c ASC ];
+             }
+             else{
+             
+                    MYBZ_Region__c reg=[Select id from MYBZ_Region__c where Name =: System.Label.MYBZ_defaultRegion ];
+                    marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
+                               Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
+                               Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c 
+                               FROM MYBZ_Market_Share__c
+                               WHERE Region__c =:reg.Id and district__c=null and LoadIdentifier__c='NON_AFFLTN' 
+                               ORDER BY Market__c,Month__c, Year__c ASC ];
+             
+             }                  
             if(!ms.isEmpty()){
             marketShareListNational.clear();
             marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
@@ -118,7 +133,7 @@ global with Sharing  class MYBZ_MarketShare{
             marketShareDistrictPercentChange= [Select percentageChangeFromPreviousMonth__c,Month_Number__c, Year_Number__c,Product__c, Market__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  FROM MYBZ_Market_Share__c WHERE District__c =: ms[0].District__c and territory__c = null  and lillyProduct__c=true and LoadIdentifier__c='NON_AFFLTN'];
             } 
             }
-            if(Role == System.Label.MYBZ_MajorMarketManager){
+            if(Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser){
                 
             marketShareListRegion.clear();
             if(!ms.isEmpty()){
@@ -184,7 +199,7 @@ global with Sharing  class MYBZ_MarketShare{
     //Non Aff and Geo picker
     global static Object marketshareControllerNonAffUsingPicker(String region, String district, String territory){
         fetchUserInfo();
-                
+        system.debug('****region'+region+ '****district'+ district+'****territory'+ territory);        
         flag=1;
         if(region!='' && region!=null)
              msobj=[Select division__c,District__c FROM MYBZ_Market_Share__c WHERE Region__r.Name=:region and district__c=null and territory__c=null and LoadIdentifier__c='NON_AFFLTN' LIMIT 1];
@@ -861,7 +876,7 @@ global static Object marketshareProcessor() {
                    generator.writeStartObject();
                 
                     if(mapPgpIhs.get(pgp) !=null){ 
-                         if(mapPgpIhs.get(pgp).pgpName != null || mapPgpIhs.get(pgp).pgpName != ''){// PGP to be written
+                         if(mapPgpIhs.get(pgp).pgpName != null && mapPgpIhs.get(pgp).pgpName != ''){// PGP to be written
                             generator.writeStringField(System.Label.Mybz_name,mapPgpIhs.get(pgp).pgpName);
                             if(mapPgpIhs.get(pgp).systemName != null)
                              generator.writeStringField(System.Label.mybz_associationName,mapPgpIhs.get(pgp).systemName);
@@ -870,7 +885,7 @@ global static Object marketshareProcessor() {
                          }                       
                          else{      // SYSTEM is written                    
                             if(mapPgpIhs.get(pgp).systemName != null){
-                             generator.writeStringField(System.Label.Mybz_name,mapPgpIhs.get(pgp).pgpName);    
+                             generator.writeStringField(System.Label.Mybz_name,mapPgpIhs.get(pgp).systemName);    
                              generator.writeStringField(System.Label.mybz_associationName,mapPgpIhs.get(pgp).systemName);
                             } 
                             else{
