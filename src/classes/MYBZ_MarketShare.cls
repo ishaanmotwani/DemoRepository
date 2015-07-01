@@ -511,7 +511,7 @@ global with Sharing  class MYBZ_MarketShare{
         String id=msobj[0].division__c;
        
        if(String.isBlank(LE_ID_IHS)){
-            getmarketShareListNational='select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD,, Month_Number__c mon, Year_Number__c yr FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(id)+'\''+strmarketShareListNational+pgps+groupBy ;
+            getmarketShareListNational='select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(id)+'\''+strmarketShareListNational+pgps+groupBy ;
             
             getmarketShareNationalPercentChange='Select percentageChangeFromPreviousMonth__c,Month_Number__c, Year_Number__c,Product__c, Market__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  FROM MYBZ_Market_Share__c WHERE division__c =\''+String.escapeSingleQuotes(id)+'\''+strmarketShareListNational+pgps;
             
@@ -533,12 +533,12 @@ global with Sharing  class MYBZ_MarketShare{
                marketShareList.clear();
                
                if(String.isBlank(LE_ID_IHS)) {
-                    getmarketShareList=strMarketShareList+pgps+' and Territory__c!=null and Territory__r.Name =:territory'+orderBy; 
+                    getmarketShareList=strMarketShareList+pgps+' and Territory__c!=null and Territory__r.Name =:terr'+orderBy; 
                     getmarketShareListDistrict=strmarketShareListDistrict+pgps+groupBy;
                     getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+pgps;
                 }
                 else{
-                    getmarketShareList=strMarketShareList+ihs+' and Territory__c!=null and Territory__r.Name =:territory'+orderBy;
+                    getmarketShareList=strMarketShareList+ihs+' and Territory__c!=null and Territory__r.Name =:terr'+orderBy;
                     getmarketShareListDistrict=strmarketShareListDistrict+ihs+groupBy;
                     getmarketShareDistrictPercentChange=strmarketShareDistrictPercentChange+ihs;
                 }
@@ -704,7 +704,7 @@ global static Object marketshareProcessor() {
             if(!marketShareList.isEmpty()){
                 for(MYBZ_Market_Share__c mObj  : marketShareList){ 
                     if(flag==0){ //acccount summary begins
-                      if(mobj.PGP__r.ID != null || mobj.PGP__r.ID != ''){ // its a prioritised PGP
+                      if(mobj.PGP__r.ID != null && mobj.PGP__r.ID != ''){ // its a prioritised PGP
                                 if( mapMarketYearMonthProductMarketObj.containsKey(mobj.PGP__r.ID)){
                                 system.debug('++++mobj.system__r.Name' +mobj.system__r.Name + '+++mobj.PGP__r.Name' +mobj.PGP__r.Name);
                                     wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
