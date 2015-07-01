@@ -136,7 +136,7 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
     
     if (flagAff !== true) {
         if (window.sfHelper.isSet(geography) === false) {
-            alert('marketShareControllerNonAff' + 'called for' + window.$Role);
+            //alert('marketShareControllerNonAff' + 'called for' + window.$Role);
             Visualforce.remoting.Manager.invokeAction(
                 'MYBZ_MarketShare.marketShareControllerNonAff', callback
             );
@@ -157,14 +157,14 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
     }
     
     if(window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === true && (region!='' || district!='' || territory!='') && window.$Role !== 'Sales Representative'){
-        alert('marketshareControllerAffUsingPickerSuperUser' + 'called for' + window.$Role );
+        //alert('marketshareControllerAffUsingPickerSuperUser' + 'called for' + window.$Role );
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerAffUsingPickerSuperUser', system, pgp,region, district, territory, callback
         );
         return;
         
     } 
-    alert('marketshareControllerAffUsingPicker' + 'called for' + window.$Role);
+    //alert('marketshareControllerAffUsingPicker' + 'called for' + window.$Role);
     Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerAffUsingPicker', system, pgp, callback
      );
