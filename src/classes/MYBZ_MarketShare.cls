@@ -80,17 +80,7 @@ global with Sharing  class MYBZ_MarketShare{
              system.debug('GlobalId'+GlobalId+'Role'+Role);    
             flag=1;
             getAlignment();
-           /* if(Role == System.Label.MYBZ_AccountManager){
-             marketShareList.clear();   
-            system.debug('Inside summary');
-            
-            marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
-                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c 
-                           FROM MYBZ_Market_Share__c 
-                           WHERE district__c =:ms[0].district__c and LoadIdentifier__c='NON_AFFLTN' ];
-            }*/
-            
+                     
              marketShareList.clear(); 
              
              if( Role !=  System.Label.MYBZ_SuperUser){      
@@ -489,10 +479,6 @@ global with Sharing  class MYBZ_MarketShare{
                 return marketShare;
   
         }
-        
-        
-        
-        
         @RemoteAction 
     
     global static Object marketshareControllerAffUsingPickerSuperUser(String LE_ID_IHS , String LE_ID_PGP,String region, String district, String terr){
@@ -603,6 +589,198 @@ global with Sharing  class MYBZ_MarketShare{
          Object marketShare= marketshareProcessor();
          return marketShare;
  }
+ 
+ 
+   @RemoteAction
+   global static  Object marketshareControllerAffUsingPickerNew(String LE_ID_IHS , String LE_ID_PGP, String region, String district, String terr){
+            
+        fetchUserInfo();
+        flag=1;
+        getAlignment();
+        List<MYBZ_Territory__c> lstTerritory = new List<MYBZ_Territory__c>();
+        List<MYBZ_District__c> lstDistrict = new List<MYBZ_District__c>();
+        List<MYBZ_Region__c> lstRegion = new List<MYBZ_Region__c>();
+                         
+        if(!String.isBlank(LE_ID_IHS)){
+            marketShareList.clear();
+            marketShareList = [SELECT Id,Region__c,Gross_Margin__c,DDD_Dollars__c,District__c,Month__c,Year__c,
+                                      territory__c,Global_Id__c, Owner__c,Market__c,percentageChangeFromPreviousMonth__c,lillyProduct__c, 
+                                      Month_Number__c, Year_Number__c, Product__r.Name, TRx__c,system__r.Name, LE_ID_IHS__c, LE_ID_PGP__c,Previous_Month_TRx__c,
+                                      PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,DDD_Units__c,Previous_DDD_Units__c, 
+                                      Previous_DDD_Dollars__c FROM MYBZ_Market_Share__c where LE_ID_IHS__c =:LE_ID_IHS  and LoadIdentifier__c='AFFLTN' and Division__c = null and Region__c = null and District__c =null and Territory__c = null];
+        }
+        
+        if(!String.isBlank(LE_ID_PGP)){
+            marketShareList.clear();
+            marketShareList = [SELECT Id,Region__c,Gross_Margin__c,DDD_Dollars__c,District__c,Month__c,Year__c,
+                                      territory__c,Global_Id__c, Owner__c,Market__c,percentageChangeFromPreviousMonth__c,lillyProduct__c, 
+                                      Month_Number__c, Year_Number__c, Product__r.Name, TRx__c,system__r.Name, LE_ID_IHS__c, LE_ID_PGP__c,Previous_Month_TRx__c,
+                                      PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,DDD_Units__c,Previous_DDD_Units__c, 
+                                      Previous_DDD_Dollars__c FROM MYBZ_Market_Share__c where LE_ID_PGP__c =:LE_ID_PGP  and LoadIdentifier__c='AFFLTN' and Division__c = null and Region__c = null and District__c =null and Territory__c = null];
+        }
+        
+        if(!String.isBlank(terr)){
+            lstTerritory = [Select id, name, State__c, State__r.Name, 
+                                    State__r.Region__c, State__r.Region__r.Name, 
+                                    State__r.Region__r.Parent__c FROM MYBZ_Territory__c
+                                    where name = : terr limit 1];
+            if(!lstTerritory.isEmpty()){
+                if(lstTerritory[0].State__c != null){
+                    marketShareListDistrict.clear();
+                    marketShareDistrictPercentChange.clear();
+                    marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
+                                                          FROM MYBZ_Market_Share__c 
+                                                          WHERE  District__c =: lstTerritory[0].State__c and LE_ID_PGP__c = null and LE_ID_IHS__c =null and territory__c = null  and LoadIdentifier__c='AFFLTN' GROUP BY Month_Number__c, Year_Number__c,Market__c];
+                          
+                
+                    marketShareDistrictPercentChange= [Select percentageChangeFromPreviousMonth__c,Month_Number__c, 
+                                                            Year_Number__c,Product__c, Market__c, PercentageChangeDDDDollars__c, 
+                                                            PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  
+                                                            FROM MYBZ_Market_Share__c WHERE District__c =: lstTerritory[0].State__c 
+                                                            and territory__c = null  and LE_ID_PGP__c = null and LE_ID_IHS__c =null and lillyProduct__c=true and LoadIdentifier__c='AFFLTN'];
+                    
+                }
+                if(lstTerritory[0].State__r.Region__c !=null){
+                    marketShareListRegion.clear();
+                    marketShareRegionPercentChange.clear();
+                    marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
+                                                          FROM MYBZ_Market_Share__c 
+                                                          WHERE  region__c =: lstTerritory[0].State__r.Region__c and District__c=null and territory__c = null  
+                                                          and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                          
+                
+                    marketShareRegionPercentChange= [Select percentageChangeFromPreviousMonth__c,Month_Number__c, 
+                                                            Year_Number__c,Product__c, Market__c, PercentageChangeDDDDollars__c, 
+                                                            PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  
+                                                            FROM MYBZ_Market_Share__c WHERE region__c =: lstTerritory[0].State__r.Region__c and territory__c = null 
+                                                            and District__c=null  and lillyProduct__c=true and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' ];
+                                
+                }
+                if(lstTerritory[0].State__r.Region__r.Parent__c !=null){
+                    marketShareListNational.clear();
+                    marketShareNationalPercentChange.clear();
+                    marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
+                                                          FROM MYBZ_Market_Share__c 
+                                                          WHERE  division__c =: lstTerritory[0].State__r.Region__r.Parent__c and territory__c = null and District__c = null 
+                                                          and  Region__c = null  and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' 
+                                                          GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+               
+                
+                    marketShareNationalPercentChange= [Select percentageChangeFromPreviousMonth__c,Month_Number__c, Year_Number__c,
+                                                              Product__c, Market__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, 
+                                                              DDD_Dollars__c, DDD_Units__c, TRx__c FROM MYBZ_Market_Share__c
+                                                               WHERE division__c =: lstTerritory[0].State__r.Region__r.Parent__c and territory__c = null and 
+                                                               District__c = null and  Region__c = null  and lillyProduct__c=true  
+                                                               and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' ];
+                    
+                }
+            }
+            
+        }
+        
+        if(!String.isBlank(district)){
+            lstDistrict = [Select id, Region__c, Region__r.Name, Region__r.Parent__c  FROM MYBZ_District__c Where name =:district limit 1];
+            
+            if(!lstDistrict.isEmpty()){
+                if(lstDistrict[0].id != null){
+                    marketShareListDistrict.clear();
+                    marketShareDistrictPercentChange.clear();
+                    marketShareListDistrict = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
+                                                          FROM MYBZ_Market_Share__c 
+                                                          WHERE  District__c =: lstDistrict[0].id and LE_ID_PGP__c = null and LE_ID_IHS__c =null and territory__c = null  and LoadIdentifier__c='AFFLTN' GROUP BY Month_Number__c, Year_Number__c,Market__c];
+                          
+                
+                    marketShareDistrictPercentChange= [Select percentageChangeFromPreviousMonth__c,Month_Number__c, 
+                                                            Year_Number__c,Product__c, Market__c, PercentageChangeDDDDollars__c, 
+                                                            PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  
+                                                            FROM MYBZ_Market_Share__c WHERE District__c =: lstDistrict[0].id 
+                                                            and territory__c = null  and LE_ID_PGP__c = null and LE_ID_IHS__c =null and lillyProduct__c=true and LoadIdentifier__c='AFFLTN'];
+                    
+                }
+                if(lstDistrict[0].Region__c != null){
+                    marketShareListRegion.clear();
+                    marketShareRegionPercentChange.clear();
+                    marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
+                                                          FROM MYBZ_Market_Share__c 
+                                                          WHERE  region__c =: lstDistrict[0].Region__c and District__c=null and territory__c = null  
+                                                          and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                          
+                
+                    marketShareRegionPercentChange= [Select percentageChangeFromPreviousMonth__c,Month_Number__c, 
+                                                            Year_Number__c,Product__c, Market__c, PercentageChangeDDDDollars__c, 
+                                                            PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  
+                                                            FROM MYBZ_Market_Share__c WHERE region__c =: lstDistrict[0].Region__c and territory__c = null 
+                                                            and District__c=null  and lillyProduct__c=true and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' ];
+                                
+                }
+                 if(lstDistrict[0].Region__r.Parent__c != null){
+                    marketShareListNational.clear();
+                    marketShareNationalPercentChange.clear();
+                    marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
+                                                          FROM MYBZ_Market_Share__c 
+                                                          WHERE  division__c =: lstDistrict[0].Region__r.Parent__c and territory__c = null and District__c = null 
+                                                          and  Region__c = null  and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' 
+                                                          GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+               
+                
+                    marketShareNationalPercentChange= [Select percentageChangeFromPreviousMonth__c,Month_Number__c, Year_Number__c,
+                                                              Product__c, Market__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, 
+                                                              DDD_Dollars__c, DDD_Units__c, TRx__c FROM MYBZ_Market_Share__c
+                                                               WHERE division__c =: lstDistrict[0].Region__r.Parent__c and territory__c = null and 
+                                                               District__c = null and  Region__c = null  and lillyProduct__c=true  
+                                                               and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' ];
+                    
+                }
+                    
+            }
+                
+        }
+        if(!String.isBlank(region)){    
+            lstRegion = [Select id, name, Parent__c FROM MYBZ_Region__c where name =:region limit 1];
+            
+            if(!lstRegion.isEmpty()){
+                if(lstRegion[0].id != null){
+                    marketShareListRegion.clear();
+                    marketShareRegionPercentChange.clear();
+                    marketShareListRegion = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
+                                                          FROM MYBZ_Market_Share__c 
+                                                          WHERE  region__c =: lstRegion[0].id  and District__c=null and territory__c = null  
+                                                          and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+                                                          
+                
+                    marketShareRegionPercentChange= [Select percentageChangeFromPreviousMonth__c,Month_Number__c, 
+                                                            Year_Number__c,Product__c, Market__c, PercentageChangeDDDDollars__c, 
+                                                            PercentageChangeDDDunits__c, DDD_Dollars__c, DDD_Units__c, TRx__c  
+                                                            FROM MYBZ_Market_Share__c WHERE region__c =: lstRegion[0].id  and territory__c = null 
+                                                            and District__c=null  and lillyProduct__c=true and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' ];
+                                
+                }
+                 if(lstRegion[0].Parent__c != null){
+                    marketShareListNational.clear();
+                    marketShareNationalPercentChange.clear();
+                    marketShareListNational = [select Market__c mar, SUM(TRx__c) TotTrx, SUM(DDD_Units__c) TotDDD, Month_Number__c mon, Year_Number__c yr 
+                                                          FROM MYBZ_Market_Share__c 
+                                                          WHERE  division__c =: lstRegion[0].Parent__c and territory__c = null and District__c = null 
+                                                          and  Region__c = null  and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' 
+                                                          GROUP BY Month_Number__c, Year_Number__c,Market__c ];
+               
+                
+                    marketShareNationalPercentChange= [Select percentageChangeFromPreviousMonth__c,Month_Number__c, Year_Number__c,
+                                                              Product__c, Market__c, PercentageChangeDDDDollars__c, PercentageChangeDDDunits__c, 
+                                                              DDD_Dollars__c, DDD_Units__c, TRx__c FROM MYBZ_Market_Share__c
+                                                               WHERE division__c =: lstRegion[0].Parent__c and territory__c = null and 
+                                                               District__c = null and  Region__c = null  and lillyProduct__c=true  
+                                                               and LE_ID_PGP__c = null and LE_ID_IHS__c =null and  LoadIdentifier__c='AFFLTN' ];
+                    
+                }
+            }
+                
+        }
+       Object marketShare= marketshareProcessor();
+        return marketShare;
+   }
+   
+   
     global static void calculateNational(){
         mapAggNat.clear();
         mapAggReg.clear();
