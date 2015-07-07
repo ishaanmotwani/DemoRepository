@@ -12,6 +12,7 @@ private class Test_MYBZ_MarketShare {
     static MYBZ_Territory__c Territory = New MYBZ_Territory__c();
     static MYBZ_Territory__c Territory2 = New MYBZ_Territory__c();
     static List<MYBZ_Market_Share__c> marketShareList =new List<MYBZ_Market_Share__c>();
+    static Object Obj;
     
     
     /*
@@ -438,21 +439,59 @@ private class Test_MYBZ_MarketShare {
             
                 MYBZ_MarketShare controller = new MYBZ_MarketShare();
                 
-                MYBZ_MarketShare.marketShareControllerNonAff();
+                Obj=MYBZ_MarketShare.marketShareControllerNonAff();
+                system.assert(Obj!=null);
+                jsonrespasString = Obj+'';
+                //system.assert(jsonrespasString.contains('TestDivision'));
                 
-                MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, District.Name, Territory.Name);
-                MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, null, Territory.Name);
-                MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, null, null);
-                MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(Region.Name, District.Name, Territory.Name);
+                Obj=MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, District.Name, Territory.Name);
+                system.assert(Obj!=null);
+                jsonrespasString = Obj+'';
+                //system.assert(jsonrespasString.contains('TestDivision'));
+                
+                Obj=MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, null, Territory.Name);
+                system.assert(Obj!=null);
+                jsonrespasString = Obj+'';
+                //system.assert(jsonrespasString.contains('TestDivision'));
+                
+                
+                Obj=MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, null, null);
+                system.assert(Obj!=null);
+                jsonrespasString = Obj+'';
+                //system.assert(jsonrespasString.contains('TestDivision'));
+                
+                
+                Obj=MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(Region.Name, District.Name, Territory.Name);
+                system.assert(Obj!=null);
+                jsonrespasString = Obj+'';
+                //system.assert(jsonrespasString.contains('TestDivision'));
                
+                Obj=MYBZ_MarketShare.marketshareControllerAffUsingPicker('Test IHS 1', 'Test PGP 1'); 
+                system.assert(Obj!=null);
+                jsonrespasString = Obj+'';
+                //system.assert(jsonrespasString.contains('TestDivision'));
                 
                 
-                MYBZ_MarketShare.marketshareControllerAffUsingPicker('Test IHS 1', 'Test PGP 1'); 
-                MYBZ_MarketShare.marketshareControllerAffUsingPicker(null, 'Test PGP 1');  
-                MYBZ_MarketShare.marketshareControllerAffUsingPicker('Test IHS 1', null);   
-                MYBZ_MarketShare.marketshareControllerAffUsingPicker(null, null);              
-                MYBZ_MarketShare.marketshareControllerAffiliation();
-            
+                Obj=MYBZ_MarketShare.marketshareControllerAffUsingPicker(null, 'Test PGP 1');  
+                system.assert(Obj!=null);
+                jsonrespasString = Obj+'';
+                //system.assert(jsonrespasString.contains('TestDivision'));
+                
+                Obj=MYBZ_MarketShare.marketshareControllerAffUsingPicker('Test IHS 1', null); 
+                system.assert(Obj!=null); 
+                jsonrespasString = Obj+''; 
+                //system.assert(jsonrespasString.contains('TestDivision'));
+                
+                
+                Obj=MYBZ_MarketShare.marketshareControllerAffUsingPicker(null, null);      
+                system.assert(Obj!=null);
+                jsonrespasString = Obj+'';
+                //system.assert(jsonrespasString.contains('TestDivision'));
+                        
+                /*Obj=MYBZ_MarketShare.marketshareControllerAffiliation();
+                system.assert(Obj!=null);
+                jsonrespasString = Obj+'';*/
+                //system.assert(jsonrespasString.contains('TestDivision'));
             Test.stopTest();
         }
      }
@@ -488,7 +527,7 @@ private class Test_MYBZ_MarketShare {
                 MYBZ_MarketShare.marketshareControllerAffUsingPicker('Test IHS 1', null);   
                 MYBZ_MarketShare.marketshareControllerAffUsingPicker(null, null);      
                          
-                MYBZ_MarketShare.marketshareControllerAffiliation();
+                //MYBZ_MarketShare.marketshareControllerAffiliation();
             Test.stopTest();
            
         }
@@ -513,7 +552,7 @@ private class Test_MYBZ_MarketShare {
             
                 MYBZ_MarketShare controller = new MYBZ_MarketShare();
                 MYBZ_MarketShare.marketShareControllerNonAff();
-                MYBZ_MarketShare.marketshareControllerAffiliation();
+                //MYBZ_MarketShare.marketshareControllerAffiliation();
                 
                 MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, District.Name, Territory.Name);
                 MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, null, Territory.Name);
@@ -525,7 +564,7 @@ private class Test_MYBZ_MarketShare {
                 MYBZ_MarketShare.marketshareControllerAffUsingPicker('Test IHS 1', null);   
                 MYBZ_MarketShare.marketshareControllerAffUsingPicker(null, null);      
                          
-                MYBZ_MarketShare.marketshareControllerAffiliation();
+                //MYBZ_MarketShare.marketshareControllerAffiliation();
                 
             Test.stopTest();
         }
@@ -552,7 +591,7 @@ private class Test_MYBZ_MarketShare {
             Test.startTest();
                 MYBZ_MarketShare controller = new MYBZ_MarketShare();
                 MYBZ_MarketShare.marketShareControllerNonAff();
-                MYBZ_MarketShare.marketshareControllerAffiliation();
+                //MYBZ_MarketShare.marketshareControllerAffiliation();
                 MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, District.Name, Territory.Name);
                 MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, null, Territory.Name);
                 MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, null, null);
@@ -589,7 +628,7 @@ private class Test_MYBZ_MarketShare {
             Test.startTest();
                 MYBZ_MarketShare controller = new MYBZ_MarketShare();
                 MYBZ_MarketShare.marketShareControllerNonAff();
-                MYBZ_MarketShare.marketshareControllerAffiliation();
+                //MYBZ_MarketShare.marketshareControllerAffiliation();
                 MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, District.Name, Territory.Name);
                 MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, null, Territory.Name);
                 MYBZ_MarketShare.marketshareControllerNonAffUsingPicker(null, null, null);
