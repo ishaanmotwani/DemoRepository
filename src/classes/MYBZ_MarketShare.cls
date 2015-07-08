@@ -299,7 +299,8 @@ global with Sharing  class MYBZ_MarketShare{
     */
     @RemoteAction
     global static Object marketshareControllerAffUsingPicker(String LE_ID_IHS, String LE_ID_PGP){
-        system.debug('LE_ID_IHS'+LE_ID_IHS + 'LE_ID_PGP' + LE_ID_PGP);
+        system.debug('LE_ID_IHS'+LE_ID_IHS);
+        system.debug('LE_ID_PGP' + LE_ID_PGP);
         
         flag=1;
         fetchUserInfo();
@@ -326,6 +327,8 @@ global with Sharing  class MYBZ_MarketShare{
    */
    @RemoteAction
    global static  Object marketshareControllerAffUsingPickerSuperUser(String LE_ID_IHS , String LE_ID_PGP, String region, String district, String terr){
+   
+   System.debug('@@IHS'+LE_ID_IHS+'@@PGP'+LE_ID_PGP+'@@Reg'+region+'@@District'+district+'@@terr'+terr);
             
         fetchUserInfo();
         flag=1;
@@ -636,7 +639,7 @@ global with Sharing  class MYBZ_MarketShare{
                 if(!marketShareList.isEmpty()){
                     for(MYBZ_Market_Share__c mObj  : marketShareList){ 
                         if(flag==0){ //acccount summary begins
-                          if(mobj.PGP__r.ID != null && mobj.PGP__r.ID != ''){ // its a prioritised PGP
+                          if(mobj.PGP__r.ID != null){ // its a prioritised PGP
                                     if( mapMarketYearMonthProductMarketObj.containsKey(mobj.PGP__r.ID)){
                                         system.debug('++++mobj.system__r.Name' +mobj.system__r.Name + '+++mobj.PGP__r.Name' +mobj.PGP__r.Name);
                                         wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
