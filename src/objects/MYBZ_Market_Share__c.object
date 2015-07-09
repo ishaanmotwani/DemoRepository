@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <fields>
+        <fullName>DDD_Dollars__c</fullName>
+        <externalId>false</externalId>
+        <label>DDD Dollars</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DDD_Units__c</fullName>
+        <externalId>false</externalId>
+        <label>DDD Units</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Dataload_Id__c</fullName>
         <caseSensitive>false</caseSensitive>
         <externalId>true</externalId>
@@ -29,7 +51,7 @@
         <label>Gross Margin</label>
         <precision>18</precision>
         <required>false</required>
-        <scale>4</scale>
+        <scale>3</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -114,6 +136,39 @@
         <precision>18</precision>
         <required>false</required>
         <scale>4</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Previous_DDD_Dollars__c</fullName>
+        <externalId>false</externalId>
+        <label>Previous DDD Dollars</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Previous_DDD_Units__c</fullName>
+        <externalId>false</externalId>
+        <label>Previous DDD Units</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Previous_Month_TRx__c</fullName>
+        <externalId>false</externalId>
+        <label>Previous Month TRx</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>

@@ -18,6 +18,12 @@
     </types>
     <types>
         <members>MYBZ_CallPlanningProductJunction__c.Dataload_Id__c</members>
+        <members>MYBZ_CallPlanningProductJunction__c.Previous_TRx_Units_1M__c</members>
+        <members>MYBZ_CallPlanningProductJunction__c.Previous_TRx_Units_3M__c</members>
+        <members>MYBZ_CallPlanningProductJunction__c.Previous_TRx_Units_6M__c</members>
+        <members>MYBZ_CallPlanningProductJunction__c.TRx_Units_1M__c</members>
+        <members>MYBZ_CallPlanningProductJunction__c.TRx_Units_3M__c</members>
+        <members>MYBZ_CallPlanningProductJunction__c.TRx_Units_6M__c</members>
         <members>MYBZ_Call_Planning__c.Data_Load_Date__c</members>
         <members>MYBZ_Call_Planning__c.Dataload_Id__c</members>
         <members>MYBZ_Call_Planning__c.IHS_PGP_HCP_Level__c</members>
@@ -50,6 +56,11 @@
         <members>MYBZ_Market_Share__c.System__c</members>
         <members>MYBZ_Market_Share__c.Year_Number__c</members>
         <members>MYBZ_Market_Share__c.percentageChangeFromPreviousMonth__c</members>
+        <members>MYBZ_Market_Share__c.DDD_Dollars__c</members>
+        <members>MYBZ_Market_Share__c.DDD_Units__c</members>
+        <members>MYBZ_Market_Share__c.Previous_DDD_Dollars__c</members>
+        <members>MYBZ_Market_Share__c.Previous_DDD_Units__c</members>
+        <members>MYBZ_Market_Share__c.Previous_Month_TRx__c</members>
         <members>MYBZ_PriorityAccount__c.Global_Id__c</members>
         <members>MYBZ_PriorityAccount__c.LE_ID_IHS__c</members>
         <members>MYBZ_PriorityAccount__c.System__c</members>
@@ -71,6 +82,7 @@
         <members>MYBZ_Product_Trend_Detail__c.System__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP_ID__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP__c</members>
+        <members>MYBZ_Product_Trend_Detail__c.TRx_Units__c</members>
         <members>MYBZ_Product__c.Dataload_Id__c</members>
         <members>MYBZ_Region_Rollup__c.Dataload_Id__c</members>
         <members>MYBZ_Region_Rollup__c.IHS_Division__c</members>

@@ -56,9 +56,9 @@
         <fullName>Gain_or_Lose_Percentage__c</fullName>
         <externalId>false</externalId>
         <label>Gain or Lose Percentage</label>
-        <precision>10</precision>
+        <precision>18</precision>
         <required>false</required>
-        <scale>5</scale>
+        <scale>3</scale>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -68,9 +68,9 @@
         <fullName>Gain_or_Lose_Trx__c</fullName>
         <externalId>false</externalId>
         <label>Gain or Lose Trx</label>
-        <precision>12</precision>
+        <precision>18</precision>
         <required>false</required>
-        <scale>6</scale>
+        <scale>3</scale>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -172,7 +172,7 @@
         <label>Previous Month TRx</label>
         <precision>18</precision>
         <required>false</required>
-        <scale>0</scale>
+        <scale>3</scale>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -225,6 +225,18 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>TRx_Units__c</fullName>
+        <externalId>false</externalId>
+        <label>TRx Units</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Top_or_Bottom_PGP_ID__c</fullName>
