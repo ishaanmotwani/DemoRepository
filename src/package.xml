@@ -61,6 +61,7 @@
         <members>MYBZ_Market_Share__c.Previous_DDD_Dollars__c</members>
         <members>MYBZ_Market_Share__c.Previous_DDD_Units__c</members>
         <members>MYBZ_Market_Share__c.Previous_Month_TRx__c</members>
+        <members>MYBZ_Market_Share__c.TRx__c</members>
         <members>MYBZ_PriorityAccount__c.Global_Id__c</members>
         <members>MYBZ_PriorityAccount__c.LE_ID_IHS__c</members>
         <members>MYBZ_PriorityAccount__c.System__c</members>

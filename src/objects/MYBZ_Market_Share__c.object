@@ -196,6 +196,17 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>TRx__c</fullName>
+        <externalId>false</externalId>
+        <label>TRx</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Year_Number__c</fullName>
         <externalId>false</externalId>
         <label>Year Number</label>
