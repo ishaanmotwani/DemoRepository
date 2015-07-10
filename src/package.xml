@@ -155,6 +155,7 @@
         <members>MYBZ_Admin</members>
         <members>MYBZ_Data_Load_User</members>
         <members>MYBZ_Reps_and_Managers</members>
+        <members>MYBZ_Informatica_Integration_Hard_Delete</members>
         <name>PermissionSet</name>
     </types>
     <types>
