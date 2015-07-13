@@ -95,7 +95,7 @@ global with Sharing  class MYBZ_MarketShare{
                                ORDER BY Market__c,Month__c, Year__c ASC ];
              }
              else{
-             
+                    ms= [SELECT Region__c, Division__c FROM MYBZ_Market_Share__c WHERE Region__r.name =: System.Label.MYBZ_defaultRegion Limit 1];
                     MYBZ_Region__c reg=[SELECT id FROM MYBZ_Region__c WHERE Name =: System.Label.MYBZ_defaultRegion ];
                     marketShareList = [SELECT Id, Region__c, District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                                Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, Gross_Margin__c,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
