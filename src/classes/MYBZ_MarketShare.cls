@@ -14,6 +14,7 @@ global with Sharing  class MYBZ_MarketShare{
     }    
     
     global static List<MYBZ_Market_Share__c> marketShareList =new List<MYBZ_Market_Share__c>();
+    global static List<MYBZ_Market_Share__c> lstMarketShareAccSum = new List<MYBZ_Market_Share__c>();
     global static List<AggregateResult> marketShareListNational=new List<AggregateResult>();
     global static List<AggregateResult> marketShareListDistrict=new List<AggregateResult>();
     global static List<AggregateResult> marketShareListRegion=new List<AggregateResult>();
@@ -26,6 +27,7 @@ global with Sharing  class MYBZ_MarketShare{
     global static Map<String,Decimal> nationalPercentChange=new Map<String,Decimal>();
     global static Map<String,Decimal> districtPercentChange=new Map<String,Decimal>();
     global static Map<String,Decimal> regionPercentChange=new Map<String,Decimal>();
+    global static Map<String,Decimal> districtGrossMargin =new Map<String,Decimal>();
     global static Decimal TotalTrx=0,TotalTrxDis=0,TotalTrxReg=0;
     global static Decimal TotalDDD=0, TotalDDDDis=0, TotalDDDReg=0;    
     global static String Role;
@@ -159,10 +161,14 @@ global with Sharing  class MYBZ_MarketShare{
         system.debug('Inside summary');
         // Prioritised Account modification
         List<MYBZ_PriorityAccount__c> lstProrityAccount = new List<MYBZ_PriorityAccount__c>();
+        List<MYBZ_Market_Share__c> lstMarketShareAlign = new List<MYBZ_Market_Share__c>();
+        
         List<String> lstIHSNames = new List<String>();
         List<String> lstPGPNames= new List<String>();        
         
         lstProrityAccount = [SELECT Global_Id__c, LE_ID_IHS__c,LE_ID_PGP__c FROM MYBZ_PriorityAccount__c WHERE Global_Id__c =:GlobalId];
+        lstMarketShareAlign =[SELECT district__c, territory__c  FROM MYBZ_Market_Share__c  WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='NON_AFFLTN' LIMIT 1];
+
         
         if(!lstProrityAccount.isEmpty()){
             for(MYBZ_PriorityAccount__c objProrityAccount: lstProrityAccount){
@@ -181,12 +187,21 @@ global with Sharing  class MYBZ_MarketShare{
             marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
                            Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, 
                            TRx__c, LE_ID_PGP__c,PGP__r.ID,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
-                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c,LE_ID_IHS__c,system__r.ID, PGP__r.name
+                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c,LE_ID_IHS__c,system__c, system__r.ID, PGP__c, PGP__r.name
                            FROM MYBZ_Market_Share__c 
                            WHERE LoadIdentifier__c='AFFLTN' and (division__c = null and District__c = null and Region__c = null and territory__c = null)
                            and ((LE_ID_IHS__c in :lstIHSNames and LE_ID_PGP__c = null) or (LE_ID_PGP__c in :lstPGPNames))];
             
         }
+        if(!lstMarketShareAlign.isEmpty()){
+        	lstMarketShareAccSum = [SELECT id, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c,Owner__c, 
+                           			Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name 
+                           			FROM MYBZ_Market_Share__c
+						   			WHERE LoadIdentifier__c='AFFLTN' and district__c =:lstMarketShareAlign[0].district__c and territory__c = null];
+        }
+        
+        calculateGrossmargindistrictforSummary();
+        
         System.debug('@@@AccountSummary'+marketShareList);
         Object marketShare= marketshareProcessor();
         return marketShare;             
@@ -276,19 +291,6 @@ global with Sharing  class MYBZ_MarketShare{
        Object marketShare= marketshareProcessor();
          return marketShare;
     }
-    
-    
-    public static String ihs=' LE_ID_PGP__c=null and LE_ID_IHS__c=:LE_ID_IHS';
-    public static String pgps=' LE_ID_PGP__c=:LE_ID_PGP';
-    public static String a='AFFLTN';
-    public static String division='SELECT division__c FROM MYBZ_Market_Share__c WHERE  ';
-    public static String strmarketShareListNational=' and territory__c = null and District__c = null and  Region__c = null  and lillyProduct__c=true and LoadIdentifier__c=\''+a+ '\' and ';
-    public static String groupBy=' GROUP BY Month_Number__c, Year_Number__c,Market__c';
-    global static String orderBy=' ORDER BY Market__c,Month__c, Year__c ASC';
-    
-          
-
-    
     
     
     /* 
@@ -518,6 +520,31 @@ global with Sharing  class MYBZ_MarketShare{
    }
    
    /* 
+    * @Method Name                    :  calculateGrossmargindistrictforSummary
+    * @Description                    :  Method used to calculate the district level gross margin for account managers district for 
+                                         each product for a month and year.
+    * @Return Type                    :  void
+    * @Param                          :  none
+   */
+   global static void calculateGrossmargindistrictforSummary(){	
+	   
+   
+	   if(!lstMarketShareAccSum.isEmpty()){
+				
+			for(MYBZ_Market_Share__c mo: lstMarketShareAccSum){
+				string markProdMonthYearMS =  mo.Market__c+mo.product__c+mo.Month_Number__c+mo.Year_Number__c;                
+				if(mo.Gross_Margin__c != null){
+					districtGrossMargin.put(markProdMonthYearMS,mo.Gross_Margin__c);
+				}else{
+					districtGrossMargin.put(markProdMonthYearMS,mo.Gross_Margin__c);
+				}
+			}
+	    }
+   
+   
+   }
+   
+   /* 
         * @Method Name                    :  calculateNational
         * @Description                    :  Method used to calculate the national/region/district level percentage change for each metric TRx/DDD units for 
                                              each product for a month and year.
@@ -639,7 +666,7 @@ global with Sharing  class MYBZ_MarketShare{
                 if(!marketShareList.isEmpty()){
                     for(MYBZ_Market_Share__c mObj  : marketShareList){ 
                         if(flag==0){ //acccount summary begins
-                          if(mobj.PGP__r.ID != null){ // its a prioritised PGP
+                          if(mobj.PGP__c != null){ // its a prioritised PGP
                                     if( mapMarketYearMonthProductMarketObj.containsKey(mobj.PGP__r.ID)){
                                         system.debug('++++mobj.system__r.Name' +mobj.system__r.Name + '+++mobj.PGP__r.Name' +mobj.PGP__r.Name);
                                         wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
@@ -897,20 +924,30 @@ global with Sharing  class MYBZ_MarketShare{
                                          generator.writeNumberField(System.Label.MYBZ_dddDollars,marketShareObj.DDD_Dollars__c);   
                                     else 
                                         generator.writeNullField(System.Label.MYBZ_dddDollars);
+                                        
+                                
                                   
                                 string markMonthYearMS =  marketShareObj.Market__c+marketShareObj.Month_Number__c+marketShareObj.Year_Number__c; 
-                                  
-                                if(marketShareObj.Gross_Margin__c!=null )
-                                     generator.writeNumberField(System.Label.MYBZ_grossMargins,marketShareObj.Gross_Margin__c);   
-                                else 
-                                    generator.writeNullField(System.Label.MYBZ_grossMargins);
-                                
+                                //system.debug(marketShareObj.product__c+''+product);
+                        		string markProdMonthYearMS =  marketShareObj.Market__c+marketShareObj.product__c+marketShareObj.Month_Number__c+marketShareObj.Year_Number__c;
+                    
+                                if(flag==0){
+                                	if(districtGrossMargin.containsKey(markProdMonthYearMS)){                                		
+                                		generator.writeNumberField(System.Label.MYBZ_grossMargins,districtGrossMargin.get(markProdMonthYearMS)); 
+                                	}else{
+                                		generator.writeNullField(System.Label.MYBZ_grossMargins);
+                                	}
+                                }else{
+                                	if(marketShareObj.Gross_Margin__c!=null )
+                                     	generator.writeNumberField(System.Label.MYBZ_grossMargins,marketShareObj.Gross_Margin__c);   
+                                	else 
+                                    	generator.writeNullField(System.Label.MYBZ_grossMargins);
+                                }
+                               
                                
                                 
                         
-                        //system.debug(marketShareObj.product__c+''+product);
-                        string markProdMonthYearMS =  marketShareObj.Market__c+marketShareObj.product__c+marketShareObj.Month_Number__c+marketShareObj.Year_Number__c;
-                    
+                        
                         system.debug('nationalPercentChange' + nationalPercentChange);
                         system.debug('regionPercentChange' + regionPercentChange);
                         system.debug('districtPercentChange' + districtPercentChange);
