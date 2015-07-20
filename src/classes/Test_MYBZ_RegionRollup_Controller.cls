@@ -102,7 +102,7 @@ Market share, Product Trends etc.
         Insert Region;
         system.assert(Region.id!=null);
         
-        Region1.Name='PAC NW';
+        Region1.Name=' Test PAC NW';
         Region1.Parent__c=Div.ID;
         Insert Region1;
         system.assert(Region1.id!=null);
@@ -117,7 +117,6 @@ Market share, Product Trends etc.
         District1.Region__c=Region1.ID;
         Insert District1;
         system.assert(District1.id!=null);
-        
         
         Territory.Name='TestTerritory';
         Territory.State__c = District.id;
@@ -298,12 +297,14 @@ Market share, Product Trends etc.
         List<MYBZ_PGP__c> PGPList = new List<MYBZ_PGP__c>();
         MYBZ_PGP__c PGP1 = new MYBZ_PGP__c();
         PGP1.System__c = SystemList[0].id;
+        PGP1.Global_IDs__c = '114017';
         PGP1.Aligned_Districts__c = 'MA IHS DISTRICT';
         PGP1.Aligned_Territories__c = 'CAREGROUP MA IH Partner 125395';
         PGPList.add(PGP1);
         
         MYBZ_PGP__c PGP2 = new MYBZ_PGP__c();
         PGP2.System__c = SystemList[0].id;
+        PGP2.Global_IDs__c = '114017';
         PGP2.Aligned_Districts__c = 'MA IHS DISTRICT';
         PGP2.Aligned_Territories__c = 'BAYSTATE MA IH Specialist 125376';
         PGPList.add(PGP2);
@@ -321,9 +322,9 @@ Market share, Product Trends etc.
         TargetGoal.TRx_Goal__c=2;
         TargetGoal.TRx_Goal_Attainment__c=2;
         TargetGoal.Year__c=2015;
-        //TargetGoal.baseline__c=123;
-        //TargetGoal.Product_Weight_DDD__c=12;
-        //TargetGoal.Product_Weight_TRx__c=11;
+        TargetGoal.baseline__c=123;
+        TargetGoal.Product_Weight_DDD__c=12;
+        TargetGoal.Product_Weight_TRx__c=11;
         Insert TargetGoal;
         system.assert(TargetGoal.id!=null);
         
@@ -342,9 +343,12 @@ Market share, Product Trends etc.
         
         MYBZ_Target_Goal__c TargetGoal2 = New MYBZ_Target_Goal__c();
         TargetGoal2.Name='TestTargetGoal';
-        TargetGoal2.Global_Id__c='114017';
+        TargetGoal2.Global_Id__c='  ';
+        TargetGoal2.Product__c=IHSProduct.ID;
+        TargetGoal2.Month__c=1;
         TargetGoal2.TRx_Goal__c=2;
         TargetGoal2.TRx_Goal_Attainment__c=2;
+        TargetGoal2.Year__c=2015;
         Insert TargetGoal2;
         system.assert(TargetGoal2.id!=null);
         
@@ -493,6 +497,7 @@ Market share, Product Trends etc.
         Call.Name='Test';
         Call.Physician_ID__c = 'ppp';
         Call.Call_ID__c='A101';
+        Call.Range__c='6M';
         Insert Call;
         system.assert(Call.id!=null);
         
@@ -508,6 +513,7 @@ Market share, Product Trends etc.
         Call1.Name='Test';
         Call1.Physician_ID__c = 'ppp';
         Call1.Call_ID__c='A101';
+        Call1.Range__c='6M';
         Insert Call1;
         system.assert(Call1.id!=null);
         
@@ -523,6 +529,7 @@ Market share, Product Trends etc.
         Call2.Name='Test';
         Call2.Physician_ID__c = 'ppp';
         Call2.Call_ID__c='A102';
+        Call2.Range__c='6M';
         Insert Call2;
         system.assert(Call2.id!=null);
         
@@ -538,6 +545,7 @@ Market share, Product Trends etc.
         Call3.Name='Test';
         Call3.Physician_ID__c = 'ppp';
         Call3.Call_ID__c='A102';
+        Call3.Range__c='6M';
         Insert Call3;
         system.assert(Call3.id!=null);
         
@@ -550,6 +558,7 @@ Market share, Product Trends etc.
         Call4.Name='Test';
         Call4.Physician_ID__c = 'ppp';
         Call4.Call_ID__c='A103';
+        Call4.Range__c='6M';
         Insert Call4;
         system.assert(Call4.id!=null);  
         
@@ -565,6 +574,7 @@ Market share, Product Trends etc.
         Call5.Name='Test';
         Call5.Physician_ID__c = 'aaa';
         Call5.Call_ID__c='A100';
+        Call5.Range__c='6M';
         Insert Call5;
         system.assert(Call5.id!=null);
         
@@ -917,68 +927,54 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
                
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            system.assert(jsonrespasString.contains(System.Label.MYBZ_IHSDivision));
+            jsonrespasString = Obj+'';
+            //Assert to check the generated JSON has the division name from Test Data created 
+            system.assert(jsonrespasString.contains('IHS Division'));
             system.assert(jsonrespasString.contains('2015-01-21T00:00:00.000Z'));
              
-            Obj=testTargetGoal1();
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-             //system.assert(jsonrespasString.contains('EFFIENT'));
-             
+            Obj=testTargetGoal1();           
+            jsonrespasString = Obj+'';
+            
+            // Assert to check whether the JSON contains relevant product,goal set, year and goal met from test data   
+            system.assert(jsonrespasString.contains('2015'));
+            system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('2'));
             
             Obj=testTrendsPrescriber1();
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
             system.assert(jsonrespasString.contains('Test'));
             
             
             Obj=testProductTrends1();  
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';          
+            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
+            system.assert(jsonrespasString.contains('EFFIENT'));            
+            system.assert(jsonrespasString.contains('2014'));
+            system.assert(jsonrespasString.contains('3'));
+            
+            
+            Obj=testcallPlanning1();             
+            jsonrespasString = Obj+'';
+            //System.assertEquals('this will fail' ,'' + Obj); 
+            // Assert to check whether the JSON contains relevant product and Tier inserted from  test data
             system.assert(jsonrespasString.contains('EFFIENT'));
-            
-            
-            Obj=testcallPlanning1(); 
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('1'));
             
             
             Obj=testMarketShare1();
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product and Market inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('test')); 
             
             
-            
-            runAsUser.Prsnl_Nbr_GLBL__c='yyyyy';
-            update runAsUser;
-            
-            Obj=testcallPlanning1();
-            System.assertEquals(null,obj);   
-            Obj=testRegionRollup1();
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
-            
-            
-            Obj=testProductTrends1();
-            System.assertEquals(null,obj);     
-            Obj=testMarketShare1();
-            System.assertEquals(null,obj);   
-            Obj=testTargetGoal1();
-            System.assertEquals(null,obj); 
-            Obj=testTrendsPrescriber1();
-            system.assertEquals(JSON.deserializeUntyped('[]'),Obj);
-            
-            MYBZ_Region_Rollup_Controller.targetGoal();
-            system.assert(Obj!=null);
         }
     }
     
-    /*
+      /*
 * @Method Name                    :  testAsMajorManAlignment
 * @Description                    :  method to test as Major Market Manager(Role) generation of JSONS for each report as in
 Region Roll up, Product trends, Market Share, Call Planning etc.                                     
@@ -993,23 +989,29 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             // Asserting the JSONs generated from querying records for each report after selection done using Territory picker
             Obj=testAlignment(); 
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant district and global id from  test data               
+            system.assert(jsonrespasString.contains('114017')); 
             system.assert(jsonrespasString.contains('TestRegion')); 
             
             
             Obj=testTargetGoal();            
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            system.assert(jsonrespasString.contains('EFFIENT'));    
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,goal set and goal met from test data  
+            system.assert(jsonrespasString.contains('EFFIENT'));        
+            system.assert(jsonrespasString.contains('2')); 
             
             
             Obj=testProductTrends();
             system.assertEquals(null,Obj);
             
             Obj=testcallPlanning();
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(Obj!=null);
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product and prescriber name inserted from  test data
+            system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('FirstName'));
             
             
             Obj=testMarketShare(); 
@@ -1017,33 +1019,42 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(Obj!=null);
+            jsonrespasString = Obj+'';
+            system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('IHS Division'));
             
             
             Obj=testTargetGoal1();
-            system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            system.assert(jsonrespasString.contains('EFFIENT'));
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,goal set and goal met from test data  
+            system.assert(jsonrespasString.contains('EFFIENT'));        
+            system.assert(jsonrespasString.contains('2'));
             
             
             Obj=testTrendsPrescriber1();
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,prescriber inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('topFivePrescribers'));
+            system.assert(jsonrespasString.contains('Test'));
             
             
             Obj=testProductTrends1(); 
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            system.assert(jsonrespasString.contains('EFFIENT'));
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
+            system.assert(jsonrespasString.contains('EFFIENT'));            
+            system.assert(jsonrespasString.contains('2014'));
+            system.assert(jsonrespasString.contains('3'));
             
             
             Obj=testcallPlanning1();
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant products inserted from  test data
+            system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('FirstName'));
             
                        
             Obj=testMarketShare1();
@@ -1053,10 +1064,9 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             
             
         }
-    }
+    } 
     
-    
-    /*
+        /*
 * @Method Name                    :  testAsDisManAlignment
 * @Description                    :  method to test as District Sales Manager(Role) generation of JSONS for each report as in
 Region Roll up, Product trends, Market Share, Call Planning etc.                                     
@@ -1071,71 +1081,99 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             // Asserting the JSONs generated from querying records for each report after selection done using Territory picker
             Obj=testAlignment();
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant district and global id from  test data  
             system.assert(jsonrespasString.contains('TestDistrict'));   
-            
+            system.assert(jsonrespasString.contains('114017'));
             
             Obj=testTrendsPrescriber();
             system.assert(Obj!=null);
              jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,prescriber inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('topFivePrescribers'));
+            system.assert(jsonrespasString.contains('Test'));
             
             
-            Obj=testTargetGoal(); 
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));        
+            Obj=testTargetGoal();           
+            system.assert(Obj==null);
+            // jsonrespasString = Obj+'';
             
             
             Obj=testProductTrends();       
             system.assert(Obj!=null);
              jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
             system.assert(jsonrespasString.contains('EFFIENT'));            
+            system.assert(jsonrespasString.contains('2014'));
+            system.assert(jsonrespasString.contains('3'));
             
             Obj=testcallPlanning(); 
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(Obj!=null);
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant products inserted from  test data
+            system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('1'));
             
             
             Obj=testMarketShare(); 
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product and Market inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('test')); 
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(Obj!=null);
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant district and global id from  test data 
+            system.assert(jsonrespasString.contains('IHS Division'));   
+            system.assert(jsonrespasString.contains('EFFIENT'));
             
             Obj=testTargetGoal1();
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(Obj!=null);
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,goal set and goal met from test data  
+            system.assert(jsonrespasString.contains('EFFIENT'));        
+            system.assert(jsonrespasString.contains('2'));
+            
             
             Obj=testTrendsPrescriber1();
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            system.assert(jsonrespasString.contains('EFFIENT'));
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,prescriber inserted from  test data  
+            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('topFivePrescribers'));
+            system.assert(jsonrespasString.contains('Test'));
             
             Obj=testProductTrends1();            
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            system.assert(jsonrespasString.contains('EFFIENT'));
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
+            system.assert(jsonrespasString.contains('EFFIENT'));            
+            system.assert(jsonrespasString.contains('2014'));
+            system.assert(jsonrespasString.contains('3'));
             
             Obj=testcallPlanning1(); 
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(Obj!=null);
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant products inserted from  test data
+            system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('1'));
             
             Obj=testMarketShare1();
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            system.assert(jsonrespasString.contains('EFFIENT')); 
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product and Market inserted from  test data  
+            system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('test')); 
         }
     }
+    //////////////////
     
+    
+
     /*
 * @Method Name                    :  testAsAccountManager
 * @Description                    :  method to test as Account Manager(Role) generation of JSONS for each report as in
@@ -1150,67 +1188,90 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             // Asserting the JSONs generated from querying records for each report after selection done using Territory picker
             Obj=testAlignment();
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant region and global id from  test data 
             system.assert(jsonrespasString.contains('TestRegion')); 
             
             
             Obj=testTrendsPrescriber();
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,prescriber inserted from  test data 
             system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('topFivePrescribers'));
+            system.assert(jsonrespasString.contains('Test'));
             
             Obj=testTargetGoal();            
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(Obj==null);
+            //jsonrespasString = Obj+'';
+            
             
             Obj=testProductTrends();            
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('2014'));
+            system.assert(jsonrespasString.contains('3'));
             
             Obj=testcallPlanning(); 
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(Obj!=null);
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant products inserted from  test data
+            system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('1'));
             
             Obj=testMarketShare(); 
             system.assert(Obj!=null);
              jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product and Market inserted from  test data 
             system.assert(jsonrespasString.contains('EFFIENT')); 
+            system.assert(jsonrespasString.contains('test'));  
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(Obj!=null);
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,division from test data 
+            system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('IHS Division'));
             
-            Obj=testTargetGoal();
-            //system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
             
             Obj=testTrendsPrescriber1();
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            //System.assertEquals('this will fail' ,'' + Obj);  
+            // Assert to check whether the JSON contains relevant product,prescriber inserted from  test data 
             system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('topFivePrescribers'));
+            system.assert(jsonrespasString.contains('Test'));
             
             Obj=testProductTrends1();            
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('2014'));
+            system.assert(jsonrespasString.contains('3'));
             
             Obj=testcallPlanning1(); 
             //system.assert(Obj!=null);
              jsonrespasString = Obj+'';
-            //system.assert(jsonrespasString.contains('EFFIENT'));
+            // Assert to check whether the JSON contains relevant products inserted from  test data  
+            system.assert(jsonrespasString.contains('EFFIENT'));
+            system.assert(jsonrespasString.contains('1'));
             
             Obj=testMarketShare1();
             system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
+            jsonrespasString = Obj+'';
+            // Assert to check whether the JSON contains relevant product and Market inserted from  test data 
             system.assert(jsonrespasString.contains('EFFIENT'));  
+            system.assert(jsonrespasString.contains('test'));    
         }
     }
+    
+   
+    //////////////////
     
     static testMethod void testAsSuperUser() {
         User runAsUser = createUser('Super User');     
@@ -1270,4 +1331,7 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
              system.assert(Obj!=null);
         }
     }
+    
+    
+  
 }

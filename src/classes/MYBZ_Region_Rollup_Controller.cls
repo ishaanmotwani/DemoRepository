@@ -342,7 +342,7 @@ This object is later used to report on User activity on this application.
                         response_PGP.name = pgp.name;
                         response_PGP.pgpID = pgp.PGP_ID__c;
                         if(pgp.Aligned_Territories__c != null) {
-                            if(Role == System.Label.MYBZ_SuperUser){                     
+                            if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){                     
                                 response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
                             }
                             else{
@@ -360,7 +360,7 @@ This object is later used to report on User activity on this application.
                         }   
                         
                         if(pgp.Aligned_Districts__c != null){
-                             if(Role == System.Label.MYBZ_SuperUser){
+                             if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){
                                 response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
                              }
                             else{                            
@@ -390,7 +390,7 @@ This object is later used to report on User activity on this application.
                     response_System.systemID = sys.System_ID__c;
                     response_System.children = pgps;
                     if(sys.Aligned_Territories__c != null) {
-                            if(Role == System.Label.MYBZ_SuperUser){                     
+                            if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){                     
                                 response_System.alignedTerritories = sys.Aligned_Territories__c.split(';');
                             }
                             else{
@@ -408,7 +408,7 @@ This object is later used to report on User activity on this application.
                         }   
                         
                         if(sys.Aligned_Districts__c != null){
-                             if(Role == System.Label.MYBZ_SuperUser){
+                             if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){
                                 response_System.alignedDistricts = sys.Aligned_Districts__c.split(';');
                              }
                             else{                            
@@ -440,7 +440,7 @@ This object is later used to report on User activity on this application.
                     response_PGP.name = pgp.Name;
                     response_PGP.pgpID = pgp.PGP_ID__c;
                     if(pgp.Aligned_Territories__c != null) {
-                            if(Role == System.Label.MYBZ_SuperUser){                     
+                            if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){                     
                                 response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
                             }
                             else{
@@ -458,7 +458,7 @@ This object is later used to report on User activity on this application.
                         }   
                         
                         if(pgp.Aligned_Districts__c != null){
-                             if(Role == System.Label.MYBZ_SuperUser){
+                             if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){
                                 response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
                              }
                             else{                            
@@ -908,19 +908,39 @@ Territory - The territory selected via a territory picker.
              Boolean flagshowPAC = false ;
              if(Role != System.Label.MYBZ_SuperUser ){
                 system.debug('*** user id' + userId);
+                String UserDivision ;
+                String UserDistrict ;
+                String UserRegion ;
+                
                 /*MYBZ_Region_Rollup__c userDivisionRR = [Select IHS_Division__r.name, GLOBAL_ID__C, Alignment_Level__c from MYBZ_Region_Rollup__c where GLOBAL_ID__C =: GlobalId LIMIT 1];
                 string UserDivision = userDivisionRR.IHS_Division__r.name;*/
-                MYBZ_Market_Share__c userDivisionRR = [Select Division__r.name,District__r.name, GLOBAL_ID__C from MYBZ_Market_Share__c where GLOBAL_ID__C =: GlobalId LIMIT 1];
-                string UserDivision = userDivisionRR.Division__r.name;
-                string UserDistrict = userDivisionRR.District__r.name;
+                List<MYBZ_Market_Share__c> userDivisionRR = new list<MYBZ_Market_Share__c>([Select Division__r.name,District__r.name,Region__r.name, GLOBAL_ID__C from MYBZ_Market_Share__c where GLOBAL_ID__C =: GlobalId LIMIT 1]);
+               
                 
-                if(UserDivision.contains(system.label.MYBZ_PACArea)|| UserDistrict.contains(system.label.MYBZ_IHSAM)){
-                  flagshowPAC = true;
-                }
+                if(userDivisionRR.size() != 0){
+                   
+                   if(userDivisionRR[0].Division__r.name != NULL &&  userDivisionRR[0].Division__r.name != ''){
+                      UserDivision = userDivisionRR[0].Division__r.name;
+                      if(UserDivision.contains(system.label.MYBZ_PACArea)){
+                         flagshowPAC = true;
+                      }
+                   }
+                   if(userDivisionRR[0].Region__r.name != NULL &&  userDivisionRR[0].Region__r.name != ''){
+                      UserRegion = userDivisionRR[0].Region__r.name;  
+                      if(UserRegion.contains(system.label.MYBZ_PACArea)){
+                        flagshowPAC = true;
+                      }
+                   }                   
+                   if(userDivisionRR[0].District__r.name != NULL &&  userDivisionRR[0].District__r.name != ''){
+                      UserDistrict = userDivisionRR[0].District__r.name;                    
+                      if(UserDistrict.contains(system.label.MYBZ_IHSAM))
+                         flagshowPAC = true;
+                   }
+                                
+                }              
+                
              }
              else flagshowPAC = true;
-                
-             
                 
              List<MYBZ_IHS_Division__c> divisionObjList = new List<MYBZ_IHS_Division__c>();
              if(flagshowPAC)
