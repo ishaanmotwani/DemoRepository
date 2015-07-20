@@ -194,10 +194,10 @@ global with Sharing  class MYBZ_MarketShare{
             
         }
         if(!lstMarketShareAlign.isEmpty()){
-        	lstMarketShareAccSum = [SELECT id, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c,Owner__c, 
-                           			Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name 
-                           			FROM MYBZ_Market_Share__c
-						   			WHERE LoadIdentifier__c='AFFLTN' and district__c =:lstMarketShareAlign[0].district__c and territory__c = null];
+            lstMarketShareAccSum = [SELECT id, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c,Owner__c, 
+                                    Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name 
+                                    FROM MYBZ_Market_Share__c
+                                    WHERE LoadIdentifier__c='AFFLTN' and district__c =:lstMarketShareAlign[0].district__c and territory__c = null];
         }
         
         calculateGrossmargindistrictforSummary();
@@ -526,20 +526,20 @@ global with Sharing  class MYBZ_MarketShare{
     * @Return Type                    :  void
     * @Param                          :  none
    */
-   global static void calculateGrossmargindistrictforSummary(){	
-	   
+   global static void calculateGrossmargindistrictforSummary(){ 
+       
    
-	   if(!lstMarketShareAccSum.isEmpty()){
-				
-			for(MYBZ_Market_Share__c mo: lstMarketShareAccSum){
-				string markProdMonthYearMS =  mo.Market__c+mo.product__c+mo.Month_Number__c+mo.Year_Number__c;                
-				if(mo.Gross_Margin__c != null){
-					districtGrossMargin.put(markProdMonthYearMS,mo.Gross_Margin__c);
-				}else{
-					districtGrossMargin.put(markProdMonthYearMS,mo.Gross_Margin__c);
-				}
-			}
-	    }
+       if(!lstMarketShareAccSum.isEmpty()){
+                
+            for(MYBZ_Market_Share__c mo: lstMarketShareAccSum){
+                string markProdMonthYearMS =  mo.Market__c+mo.product__c+mo.Month_Number__c+mo.Year_Number__c;                
+                if(mo.Gross_Margin__c != null){
+                    districtGrossMargin.put(markProdMonthYearMS,mo.Gross_Margin__c);
+                }else{
+                    districtGrossMargin.put(markProdMonthYearMS,mo.Gross_Margin__c);
+                }
+            }
+        }
    
    
    }
@@ -929,19 +929,23 @@ global with Sharing  class MYBZ_MarketShare{
                                   
                                 string markMonthYearMS =  marketShareObj.Market__c+marketShareObj.Month_Number__c+marketShareObj.Year_Number__c; 
                                 //system.debug(marketShareObj.product__c+''+product);
-                        		string markProdMonthYearMS =  marketShareObj.Market__c+marketShareObj.product__c+marketShareObj.Month_Number__c+marketShareObj.Year_Number__c;
+                                string markProdMonthYearMS =  marketShareObj.Market__c+marketShareObj.product__c+marketShareObj.Month_Number__c+marketShareObj.Year_Number__c;
                     
                                 if(flag==0){
-                                	if(districtGrossMargin.containsKey(markProdMonthYearMS)){                                		
-                                		generator.writeNumberField(System.Label.MYBZ_grossMargins,districtGrossMargin.get(markProdMonthYearMS)); 
-                                	}else{
-                                		generator.writeNullField(System.Label.MYBZ_grossMargins);
-                                	}
+                                    if(districtGrossMargin.containsKey(markProdMonthYearMS)){  
+										if(districtGrossMargin.get(markProdMonthYearMS) != 0 && districtGrossMargin.get(markProdMonthYearMS) != null){
+											generator.writeNumberField(System.Label.MYBZ_grossMargins,districtGrossMargin.get(markProdMonthYearMS)); 
+										}else{
+											generator.writeNullField(System.Label.MYBZ_grossMargins);
+										}                                  
+                                    }else{
+                                        generator.writeNullField(System.Label.MYBZ_grossMargins);
+                                    }
                                 }else{
-                                	if(marketShareObj.Gross_Margin__c!=null )
-                                     	generator.writeNumberField(System.Label.MYBZ_grossMargins,marketShareObj.Gross_Margin__c);   
-                                	else 
-                                    	generator.writeNullField(System.Label.MYBZ_grossMargins);
+                                    if(marketShareObj.Gross_Margin__c!=null )
+                                        generator.writeNumberField(System.Label.MYBZ_grossMargins,marketShareObj.Gross_Margin__c);   
+                                    else 
+                                        generator.writeNullField(System.Label.MYBZ_grossMargins);
                                 }
                                
                                
