@@ -987,10 +987,10 @@ global with Sharing  class MYBZ_MarketShare{
                                     if(nationalmarketshare.get(markProdMonthYearMS).Trx__c != null)
                                         generator.writeNumberField(System.Label.MYBZ_Percentage,(nationalmarketshare.get(markProdMonthYearMS).Trx__c/TotalTrx) );
                                     else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);           
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);           
                                 }
                                 else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);   
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);   
                                         
                                 system.debug('+++objNatWrapper.Percentage' + (marketShareObj.Trx__c/TotalTrx) );
                                 if(nationalPercentChange.get(markProdMonthYearMS)!=null)
@@ -1004,10 +1004,10 @@ global with Sharing  class MYBZ_MarketShare{
                                     if(nationalmarketshare.get(markProdMonthYearMS).DDD_Units__c != null)
                                         generator.writeNumberField(System.Label.MYBZ_Percentage,(nationalmarketshare.get(markProdMonthYearMS).DDD_Units__c /TotalDDD) );
                                     else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);                   
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);                   
                                 }       
                                 else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);
                                 system.debug('+++objNatWrapper.Percentage' + (marketShareObj.DDD_Units__c/TotalDDD) );
                                 if(nationalPercentChange.get(markProdMonthYearMS)!=null)
                                     generator.writeNumberField(System.Label.MYBZ_PercentageChange,nationalPercentChange.get(markProdMonthYearMS));
@@ -1044,10 +1044,10 @@ global with Sharing  class MYBZ_MarketShare{
                                     if(districtmarketshare.get(markProdMonthYearMS).Trx__c != null)
                                         generator.writeNumberField(System.Label.MYBZ_Percentage,(districtmarketshare.get(markProdMonthYearMS).Trx__c/TotalTrxDis) );
                                     else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);                                   
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);                                   
                             }
                             else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);
                             if(districtPercentChange.get(markProdMonthYearMS)!=null)
                                 generator.writeNumberField(System.Label.MYBZ_PercentageChange,districtPercentChange.get(markProdMonthYearMS));
                             else
@@ -1059,10 +1059,10 @@ global with Sharing  class MYBZ_MarketShare{
                                     if(districtmarketshare.get(markProdMonthYearMS).DDD_Units__c != null)
                                         generator.writeNumberField(System.Label.MYBZ_Percentage,(districtmarketshare.get(markProdMonthYearMS).DDD_Units__c/TotalDDDDis) );
                                     else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);       
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);       
                             }           
                             else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);
                                         
                             if(districtPercentChange.get(markProdMonthYearMS)!=null)
                                 generator.writeNumberField(System.Label.MYBZ_PercentageChange,districtPercentChange.get(markProdMonthYearMS));
@@ -1098,10 +1098,10 @@ global with Sharing  class MYBZ_MarketShare{
                                     if(regionmarketshare.get(markProdMonthYearMS).Trx__c != null)
                                         generator.writeNumberField(System.Label.MYBZ_Percentage,(regionmarketshare.get(markProdMonthYearMS).Trx__c/TotalTrxReg) );
                                     else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);
                              }          
                             else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);
                             if(regionPercentChange.get(markProdMonthYearMS)!=null)
                                 generator.writeNumberField(System.Label.MYBZ_PercentageChange,regionPercentChange.get(markProdMonthYearMS));
                             else
@@ -1113,10 +1113,10 @@ global with Sharing  class MYBZ_MarketShare{
                                     if(regionmarketshare.get(markProdMonthYearMS).DDD_Units__c != null)
                                         generator.writeNumberField(System.Label.MYBZ_Percentage,(regionmarketshare.get(markProdMonthYearMS).DDD_Units__c/TotalDDDReg) );
                                     else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);   
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);   
                             }           
                             else
-                                        generator.writeNullField(System.Label.MYBZ_PercentageChange);
+                                        generator.writeNullField(System.Label.MYBZ_Percentage);
                             if(regionPercentChange.get(markProdMonthYearMS)!=null)
                                 generator.writeNumberField(System.Label.MYBZ_PercentageChange,regionPercentChange.get(markProdMonthYearMS));
                             else
