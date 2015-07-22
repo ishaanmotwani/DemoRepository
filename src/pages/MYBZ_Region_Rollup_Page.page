@@ -83,6 +83,7 @@ function getCallPlanningDataFromSalesforce(geography, callback, affiliation, fla
     Visualforce.remoting.Manager.invokeAction(
         'MYBZ_Region_Rollup_Controller.callPlanningUsingPicker', region, district, territory, callback
     );
+    return;
     }
     
         Visualforce.remoting.Manager.invokeAction(
