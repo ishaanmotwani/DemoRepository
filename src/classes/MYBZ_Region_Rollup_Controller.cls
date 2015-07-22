@@ -925,7 +925,7 @@ Territory - The territory selected via a territory picker.
                          flagshowPAC = true;
                       }
                    }
-                   if(userDivisionRR[0].Region__r.name != NULL &&  userDivisionRR[0].Region__r.name != ''){
+                   /*if(userDivisionRR[0].Region__r.name != NULL &&  userDivisionRR[0].Region__r.name != ''){
                       UserRegion = userDivisionRR[0].Region__r.name;  
                       if(UserRegion.contains(system.label.MYBZ_PACArea)){
                         flagshowPAC = true;
@@ -935,12 +935,12 @@ Territory - The territory selected via a territory picker.
                       UserDistrict = userDivisionRR[0].District__r.name;                    
                       if(UserDistrict.contains(system.label.MYBZ_IHSAM))
                          flagshowPAC = true;
-                   }
+                   }*/
                                 
                 }              
                 
              }
-             else flagshowPAC = true;
+             else flagshowPAC = false;
                 
              List<MYBZ_IHS_Division__c> divisionObjList = new List<MYBZ_IHS_Division__c>();
              if(flagshowPAC)
