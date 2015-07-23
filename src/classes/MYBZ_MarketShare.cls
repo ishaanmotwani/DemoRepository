@@ -968,9 +968,19 @@ global with Sharing  class MYBZ_MarketShare{
                         system.debug('nationalPercentChange' + nationalPercentChange);
                         system.debug('regionPercentChange' + regionPercentChange);
                         system.debug('districtPercentChange' + districtPercentChange);
-                    system.debug('mapAggNat'+mapAggNat);
-                    system.debug('mapAggReg'+mapAggReg);
-                    system.debug('mapAggDis'+mapAggDis);
+                    
+                    system.debug('mapAggNat.getProduct for '+ markMonthYearMS +mapAggNat.get(markMonthYearMS));
+                    system.debug('mapAggReg.getProduct for '+ markMonthYearMS +mapAggReg.get(markMonthYearMS));
+                    system.debug('mapAggDis.getProduct for '+ markMonthYearMS +mapAggDis.get(markMonthYearMS));
+                    
+                    // Clearing global static  variables
+                    TotalTrx = 0;TotalPrevTrx = 0;
+                    TotalDDD =0;TotalPrevDDD = 0;
+                    TotalTrxDis=0;TotalPrevTrxDis=0;
+                    TotalTrxReg=0;TotalPrevTrxReg=0;
+                    TotalDDDDis=0; TotalDDDReg=0; 
+                    TotalPrevDDDDis=0;TotalPrevDDDReg=0;   
+                    
                     if(flag==1){
                             generator.writeFieldName(System.Label.MYBZ_geolevelcomparison);  
                             generator.writeStartObject();
@@ -980,7 +990,7 @@ global with Sharing  class MYBZ_MarketShare{
                                 if(!mapAggNat.isempty() ) {
                                     if(mapAggNat.get(markMonthYearMS)!=null){
                                         if(mapAggNat.get(markMonthYearMS).get(0).get('TotTrx')!=null)
-                                            TotalTrx=(Decimal)mapAggNat.get(markMonthYearMS).get(0).get('TotTrx');
+                                            TotalTrx=(Decimal)mapAggNat.get(markMonthYearMS).get(0).get('TotTrx');                                          
                                         if(mapAggNat.get(markMonthYearMS).get(0).get('TotDDD')!=null)
                                             TotalDDD=(Decimal)mapAggNat.get(markMonthYearMS).get(0).get('TotDDD'); 
                                         if(mapAggNat.get(markMonthYearMS).get(0).get('TotPrevTrx') != null)
@@ -989,9 +999,11 @@ global with Sharing  class MYBZ_MarketShare{
                                             TotalPrevDDD=(Decimal)mapAggNat.get(markMonthYearMS).get(0).get('TotPrevDDD');  
                                     }
                                 }
+                                if(marketShareObj.market__c == 'HOSP LOGS') {           
+                                system.debug('@@@markMonthYearMS' + markMonthYearMS);
                                 System.debug('@@@TotalTrx'+TotalTrx + '@@@TotalPrevTrx' + TotalPrevTrx);
                                 System.debug('@@@TotalDDD'+TotalDDD + '@@@TotalPrevDDD' + TotalPrevDDD);  
-                                
+                                }
                                 if(TotalTrx!=0){
                                         if(nationalmarketshare.get(markProdMonthYearMS)!=null){
                                             if(nationalmarketshare.get(markProdMonthYearMS).Trx__c != null)
@@ -1061,10 +1073,12 @@ global with Sharing  class MYBZ_MarketShare{
                                         if(mapAggDis.get(markMonthYearMS).get(0).get('TotPrevDDD')!=null)
                                             TotalPrevDDDDis = (Decimal)mapAggDis.get(markMonthYearMS).get(0).get('TotPrevDDD');             
                                     }                        
-                                }    
+                                }   
+                                if(marketShareObj.market__c == 'HOSP LOGS') {                   
                                 system.debug('@@@markMonthYearMS' + markMonthYearMS);   
                                 System.debug('@@@TotalTrxDis'+TotalTrxDis + '@@@TotalPrevTrxDis ' + TotalPrevTrxDis);
-                                System.debug('@@@TotalDDDDis'+TotalDDDDis + '@@@TotalPrevDDDDis ' + TotalPrevDDDDis);     
+                                System.debug('@@@TotalDDDDis'+TotalDDDDis + '@@@TotalPrevDDDDis ' + TotalPrevDDDDis);  
+                                }                               
                                 if(TotalTrxDis!=0 ){
                                    ////
                                     if(districtmarketshare.get(markProdMonthYearMS)!=null){                          
