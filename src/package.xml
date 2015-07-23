@@ -96,6 +96,12 @@
         <members>MYBZ_Region__c.Dataload_Id__c</members>
         <members>MYBZ_Target_Goal__c.Dataload_Id__c</members>
         <members>MYBZ_Territory__c.Dataload_Id__c</members>
+		<members>MYBZ_Target_Goal__c.actualDddUnits__c</members>
+        <members>MYBZ_Target_Goal__c.Baseline__c</members>
+        <members>MYBZ_Target_Goal__c.TRx_Goal__c</members>
+        <members>MYBZ_Target_Goal__c.TRx_Goal_Attainment__c</members>
+        <members>MYBZ_Target_Goal__c.Product_Weight_DDD__c</members>
+        <members>MYBZ_Target_Goal__c.Product_Weight_TRx__c</members>
         <name>CustomField</name>
     </types>
     <types>
