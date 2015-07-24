@@ -87,8 +87,14 @@ global with Sharing  class MYBZ_MarketShare{
         * @Param                          :  
       */ 
       @RemoteAction
-        global static Object marketShareControllerNonAff() { 
+        global static Object marketShareControllerNonAff(Boolean flagAff) { 
             fetchUserInfo();
+            UserId = UserInfo.getUserId();      
+             User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
+            //Changes to align Account manager to DSM for Geo
+            if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }
             system.debug('GlobalId'+GlobalId+'Role'+Role);    
             flag=1;
             getAlignment();
@@ -167,9 +173,14 @@ global with Sharing  class MYBZ_MarketShare{
         * @Param                          :  
     */ 
     @RemoteAction
-    global static Object accountSummary(){
+    global static Object accountSummary(Boolean flagAff){
         fetchUserInfo();
-             
+        UserId = UserInfo.getUserId();      
+             User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
+            //Changes to align Account manager to DSM for Geo
+            if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }     
         flag=0;
         system.debug('Inside summary');
         // Prioritised Account modification

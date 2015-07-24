@@ -62,7 +62,7 @@ window.$Tableau = '{!JSENCODE($Label.MYBZ_TableauURL)}';
 function getAlignmentDataFromSalesforce(geography, callback, affiliation, flagAff) {
     window.sfHelper.validateRDT(geography);
     Visualforce.remoting.Manager.invokeAction(
-        'MYBZ_Region_Rollup_Controller.alignment', callback
+        'MYBZ_Region_Rollup_Controller.alignment', flagAff,callback
     );
 }
 
@@ -103,7 +103,7 @@ function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation,
     if (flagAff !== true) {
         if (window.sfHelper.isSet(geography) === false) {
             Visualforce.remoting.Manager.invokeAction(
-                'MYBZ_ProductTrendDetailsController.trendsPrescriber', callback
+                'MYBZ_ProductTrendDetailsController.trendsPrescriber',flagAff, callback
             );
             return;
         }
@@ -139,7 +139,7 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
         if (window.sfHelper.isSet(geography) === false) {
             //alert('marketShareControllerNonAff' + 'called for' + window.$Role);
             Visualforce.remoting.Manager.invokeAction(
-                'MYBZ_MarketShare.marketShareControllerNonAff', callback
+                'MYBZ_MarketShare.marketShareControllerNonAff', flagAff, callback
             );
             
             return;
@@ -176,7 +176,7 @@ function getGoalsDataFromSalesforce(geography, callback, affiliation, flagAff) {
     window.sfHelper.validateRDT(geography);
     if (window.sfHelper.isSet(geography) === false) {
         Visualforce.remoting.Manager.invokeAction(
-            'MYBZ_Region_Rollup_Controller.targetGoal', callback
+            'MYBZ_Region_Rollup_Controller.targetGoal', flagAff,callback
         );
         return;
     }
@@ -192,7 +192,7 @@ function getGoalsDataFromSalesforce(geography, callback, affiliation, flagAff) {
 function getRegionRollupDataFromSalesforce(geography, callback, affiliation, flagAff) {
     window.sfHelper.validateRDT(geography);
     Visualforce.remoting.Manager.invokeAction(
-        'MYBZ_Region_Rollup_Controller.regionRollup', callback
+        'MYBZ_Region_Rollup_Controller.regionRollup', flagAff,callback
     );
 }
                 
@@ -222,7 +222,7 @@ function getSummaryDataFromSalesforce(geography,callback, affiliation, flagAff) 
     //alert('Account summary is being called');
     window.sfHelper.validateRDT(geography);
     Visualforce.remoting.Manager.invokeAction(
-        'MYBZ_MarketShare.accountSummary',  callback
+        'MYBZ_MarketShare.accountSummary',  flagAff, callback
      );
 }
                 

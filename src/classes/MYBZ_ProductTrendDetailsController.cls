@@ -83,11 +83,18 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
 
 */
     @RemoteAction 
-    global static Object trendsPrescriber()
+    global static Object trendsPrescriber(Boolean flagAff)
     {
         try
         {
             fetchUserInfo();
+            UserId = UserInfo.getUserId();      
+             User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
+            //Changes to align Account manager to DSM for Geo
+            if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }
+            
             if(Role == System.Label.MYBZ_SalesRepresentative || (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) || Role == System.Label.MYBZ_MajorMarketManager){
                 TrendsDetailsList.clear();
                 //List of all trend-details for a particular user
