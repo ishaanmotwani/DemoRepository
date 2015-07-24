@@ -766,7 +766,8 @@ Market share, Product Trends etc.
 * @Param                          :      
 */
     static Object testRegionRollup1(){
-        Obj=MYBZ_Region_Rollup_Controller.RegionRollup(); 
+        Boolean flagAff = false;
+        Obj=MYBZ_Region_Rollup_Controller.RegionRollup(flagAff); 
         return obj;        
     }
     
@@ -786,7 +787,8 @@ Market share, Product Trends etc.
             
         //}
         insertTestData();
-        Obj=MYBZ_Region_Rollup_Controller.Alignment();
+        Boolean flagAff = false;
+        Obj=MYBZ_Region_Rollup_Controller.Alignment(flagAff);
         return Obj;
     }
     
@@ -808,7 +810,8 @@ Market share, Product Trends etc.
 * @Param                          :      
 */
     static Object testTargetGoal1(){
-        Obj=MYBZ_Region_Rollup_Controller.TargetGoal(); 
+        Boolean flagAff = false;
+        Obj=MYBZ_Region_Rollup_Controller.TargetGoal(flagAff); 
         return Obj;        
     }
     
@@ -986,7 +989,7 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
              
          String jsonrespasString;
         System.runas(runAsUser){ 
-            // Asserting the JSONs generated from querying records for each report after selection done using Territory picker
+            // Asserting the JSONs generated from querying records for each report after selection done using Territory picker          
             Obj=testAlignment(); 
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
@@ -1078,7 +1081,7 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
         User runAsUser = createUser('District Sales Manager');
                             
         System.runas(runAsUser){ 
-            // Asserting the JSONs generated from querying records for each report after selection done using Territory picker
+            // Asserting the JSONs generated from querying records for each report after selection done using Territory picker          
             Obj=testAlignment();
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
@@ -1185,7 +1188,7 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
      String jsonrespasString;
         User runAsUser = createUser('Account Manager');             
         System.runas(runAsUser){ 
-            // Asserting the JSONs generated from querying records for each report after selection done using Territory picker
+            // Asserting the JSONs generated from querying records for each report after selection done using Territory picker          
             Obj=testAlignment();
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
@@ -1309,15 +1312,16 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
                                     
         System.runas(runAsUser){ 
              String jsonrespasString;
-             Obj=MYBZ_Region_Rollup_Controller.alignment(); 
+             Boolean flagAff = false;
+             Obj=MYBZ_Region_Rollup_Controller.alignment(flagAff); 
              system.assert(Obj!=null);
              Obj=MYBZ_Region_Rollup_Controller.productTrendsUsingPicker(Region.Name, District.Name, Territory.Name);
              system.assert(Obj!=null); 
              Obj=MYBZ_Region_Rollup_Controller.productTrendsUsingPicker(Region.Name, null, Territory.Name); 
              system.assert(Obj!=null);
              Obj=MYBZ_Region_Rollup_Controller.productTrendsUsingPicker(null, null, Territory.Name); 
-             system.assert(Obj!=null);
-             Obj=MYBZ_Region_Rollup_Controller.regionRollup();
+             system.assert(Obj!=null);           
+             Obj=MYBZ_Region_Rollup_Controller.regionRollup(flagAff);
              system.assert(Obj!=null);
              Obj=MYBZ_Region_Rollup_Controller.callPlanningUsingPicker(Region.Name, District.Name, Territory.Name);
              system.assert(Obj!=null); 
@@ -1326,8 +1330,8 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
              Obj=MYBZ_Region_Rollup_Controller.callPlanningUsingPicker(null, null, Territory.Name);
              system.assert(Obj!=null); 
              MYBZ_Region_Rollup_Controller.callPlanning();
-             system.assert(Obj!=null);
-             MYBZ_Region_Rollup_Controller.targetGoal();
+             system.assert(Obj!=null);           
+             MYBZ_Region_Rollup_Controller.targetGoal(flagAff);
              system.assert(Obj!=null);
         }
     }

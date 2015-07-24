@@ -18,18 +18,18 @@ private class Test_MYBZ_MarketShare {
     static Object Obj;
     
     /*
-	* @Method Name                    :  createUserToRun
-	* @Description                    :  method to create User of certain Role                                  
-	* @Return Type                    :  User
-	* @Param                          :      
-	*/
+    * @Method Name                    :  createUserToRun
+    * @Description                    :  method to create User of certain Role                                  
+    * @Return Type                    :  User
+    * @Param                          :      
+    */
     public static User createUserToRun(String Role, String Globalid){
         Profile pfl = [select id from profile where name='GSO Basic User_Platform'];
         //Declaring the User
         User runAsUser = new User(alias = 'BasicIHS', email='appBasicIhs@testorg.com',
                                   emailencodingkey='UTF-8', lastname='Testing', languagelocalekey='en_US',
                                   localesidkey='en_US', profileid = pfl.Id,  country='United States', CommunityNickname = 'u1'+Math.random()*100 ,
-                                  timezonesidkey='America/Los_Angeles', username='appBasicIhs@gso_org.com'+Math.random()*100 , MYBZ_Role__c=Role, Prsnl_Nbr_GLBL__c=Globalid,MYBZ_Reporting_ID__c='114017');
+                                  timezonesidkey='America/Los_Angeles', username='appBasicIhs@gso_org.com'+Math.random()*100 , MYBZ_Role__c=Role, Prsnl_Nbr_GLBL__c=Globalid,MYBZ_Reporting_ID__c='3');
         
         Insert runAsUser;
         
@@ -175,8 +175,8 @@ private class Test_MYBZ_MarketShare {
         insert lstPriorityAcccount;
         
 
-		// NON Affliation division level dataa
-		
+        // NON Affliation division level dataa
+        
         MYBZ_Market_Share__c MarketShare1 = New MYBZ_Market_Share__c();
         MarketShare1.Name='TestMarket';
         MarketShare1.Market__c = 'Test Market 1';
@@ -224,7 +224,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare2.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare2);
 
-		MYBZ_Market_Share__c MarketShare3 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare3 = New MYBZ_Market_Share__c();
         MarketShare3.Name='TestMarket';
         MarketShare3.Market__c = 'Test Market 1';
         MarketShare3.Global_Id__c='1';        
@@ -295,7 +295,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare5.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare5);
 
-		MYBZ_Market_Share__c MarketShare6 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare6 = New MYBZ_Market_Share__c();
         MarketShare6.Name='TestMarket';
         MarketShare6.Market__c = 'Test Market 1';
         MarketShare6.Global_Id__c='1';        
@@ -365,7 +365,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare8.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare8);
 
-		MYBZ_Market_Share__c MarketShare9 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare9 = New MYBZ_Market_Share__c();
         MarketShare9.Name='TestMarket';
         MarketShare9.Market__c = 'Test Market 2';
         MarketShare9.Global_Id__c='1';        
@@ -390,7 +390,7 @@ private class Test_MYBZ_MarketShare {
         
         
         // NON Affliation Region level dataa
-		
+        
         MYBZ_Market_Share__c MarketShare10 = New MYBZ_Market_Share__c();
         MarketShare10.Name='TestMarket';
         MarketShare10.Market__c = 'Test Market 1';
@@ -438,7 +438,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare11.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare11);
 
-		MYBZ_Market_Share__c MarketShare12 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare12 = New MYBZ_Market_Share__c();
         MarketShare12.Name='TestMarket';
         MarketShare12.Market__c = 'Test Market 1';
         MarketShare12.Global_Id__c='2';        
@@ -509,7 +509,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare14.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare14);
 
-		MYBZ_Market_Share__c MarketShare15 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare15 = New MYBZ_Market_Share__c();
         MarketShare15.Name='TestMarket';
         MarketShare15.Market__c = 'Test Market 1';
         MarketShare15.Global_Id__c='2';        
@@ -579,7 +579,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare17.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare17);
 
-		MYBZ_Market_Share__c MarketShare18 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare18 = New MYBZ_Market_Share__c();
         MarketShare18.Name='TestMarket';
         MarketShare18.Market__c = 'Test Market 2';
         MarketShare18.Global_Id__c='2';        
@@ -604,7 +604,7 @@ private class Test_MYBZ_MarketShare {
         
         
          // NON Affliation District level dataa
-		
+        
         MYBZ_Market_Share__c MarketShare19 = New MYBZ_Market_Share__c();
         MarketShare19.Name='TestMarket';
         MarketShare19.Market__c = 'Test Market 1';
@@ -652,7 +652,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare20.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare20);
 
-		MYBZ_Market_Share__c MarketShare21 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare21 = New MYBZ_Market_Share__c();
         MarketShare21.Name='TestMarket';
         MarketShare21.Market__c = 'Test Market 1';
         MarketShare21.Global_Id__c='3';        
@@ -723,7 +723,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare23.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare23);
 
-		MYBZ_Market_Share__c MarketShare24 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare24 = New MYBZ_Market_Share__c();
         MarketShare24.Name='TestMarket';
         MarketShare24.Market__c = 'Test Market 1';
         MarketShare24.Global_Id__c='3';        
@@ -793,7 +793,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare26.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare26);
 
-		MYBZ_Market_Share__c MarketShare27 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare27 = New MYBZ_Market_Share__c();
         MarketShare27.Name='TestMarket';
         MarketShare27.Market__c = 'Test Market 2';
         MarketShare27.Global_Id__c='3';        
@@ -817,7 +817,7 @@ private class Test_MYBZ_MarketShare {
         marketShareList.add(MarketShare27);
         
         // NON Affliation Territory level dataa
-		
+        
         MYBZ_Market_Share__c MarketShare28 = New MYBZ_Market_Share__c();
         MarketShare28.Name='TestMarket';
         MarketShare28.Market__c = 'Test Market 1';
@@ -865,7 +865,7 @@ private class Test_MYBZ_MarketShare {
        MarketShare29.LoadIdentifier__c = 'NON_AFFLTN';
        marketShareList.add(MarketShare29);
 
-		MYBZ_Market_Share__c MarketShare30 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare30 = New MYBZ_Market_Share__c();
         MarketShare30.Name='TestMarket';
         MarketShare30.Market__c = 'Test Market 1';
         MarketShare30.Global_Id__c='4';        
@@ -936,7 +936,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare32.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare32);
 
-		MYBZ_Market_Share__c MarketShare33 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare33 = New MYBZ_Market_Share__c();
         MarketShare33.Name='TestMarket';
         MarketShare33.Market__c = 'Test Market 1';
         MarketShare33.Global_Id__c='4';        
@@ -1005,7 +1005,7 @@ private class Test_MYBZ_MarketShare {
         MarketShare35.LoadIdentifier__c = 'NON_AFFLTN';
         marketShareList.add(MarketShare35);
 
-		MYBZ_Market_Share__c MarketShare36 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShare36 = New MYBZ_Market_Share__c();
         MarketShare36.Name='TestMarket';
         MarketShare36.Market__c = 'Test Market 2';
         MarketShare36.Global_Id__c='4';        
@@ -1030,7 +1030,7 @@ private class Test_MYBZ_MarketShare {
         
         
         //  Affliation division level dataa
-		
+        
         MYBZ_Market_Share__c MarketShareAff1 = New MYBZ_Market_Share__c();
         MarketShareAff1.Name='TestMarket';
         MarketShareAff1.Market__c = 'Test Market 1';
@@ -1078,7 +1078,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff2.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff2);
 
-		MYBZ_Market_Share__c MarketShareAff3 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff3 = New MYBZ_Market_Share__c();
         MarketShareAff3.Name='TestMarket';
         MarketShareAff3.Market__c = 'Test Market 1';
         MarketShareAff3.Global_Id__c='1';        
@@ -1149,7 +1149,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff5.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff5);
 
-		MYBZ_Market_Share__c MarketShareAff6 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff6 = New MYBZ_Market_Share__c();
         MarketShareAff6.Name='TestMarket';
         MarketShareAff6.Market__c = 'Test Market 1';
         MarketShareAff6.Global_Id__c='1';        
@@ -1219,7 +1219,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff8.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff8);
 
-		MYBZ_Market_Share__c MarketShareAff9 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff9 = New MYBZ_Market_Share__c();
         MarketShareAff9.Name='TestMarket';
         MarketShareAff9.Market__c = 'Test Market 2';
         MarketShareAff9.Global_Id__c='1';        
@@ -1244,7 +1244,7 @@ private class Test_MYBZ_MarketShare {
         
         
         // Affliation Region level dataa
-		
+        
         MYBZ_Market_Share__c MarketShareAff10 = New MYBZ_Market_Share__c();
         MarketShareAff10.Name='TestMarket';
         MarketShareAff10.Market__c = 'Test Market 1';
@@ -1292,7 +1292,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff11.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff11);
 
-		MYBZ_Market_Share__c MarketShareAff12 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff12 = New MYBZ_Market_Share__c();
         MarketShareAff12.Name='TestMarket';
         MarketShareAff12.Market__c = 'Test Market 1';
         MarketShareAff12.Global_Id__c='2';        
@@ -1363,7 +1363,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff14.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff14);
 
-		MYBZ_Market_Share__c MarketShareAff15 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff15 = New MYBZ_Market_Share__c();
         MarketShareAff15.Name='TestMarket';
         MarketShareAff15.Market__c = 'Test Market 1';
         MarketShareAff15.Global_Id__c='2';        
@@ -1433,7 +1433,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff17.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff17);
 
-		MYBZ_Market_Share__c MarketShareAff18 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff18 = New MYBZ_Market_Share__c();
         MarketShareAff18.Name='TestMarket';
         MarketShareAff18.Market__c = 'Test Market 2';
         MarketShareAff18.Global_Id__c='2';        
@@ -1458,7 +1458,7 @@ private class Test_MYBZ_MarketShare {
         
         
          // Affliation District level dataa
-		
+        
         MYBZ_Market_Share__c MarketShareAff19 = New MYBZ_Market_Share__c();
         MarketShareAff19.Name='TestMarket';
         MarketShareAff19.Market__c = 'Test Market 1';
@@ -1506,7 +1506,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff20.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff20);
 
-		MYBZ_Market_Share__c MarketShareAff21 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff21 = New MYBZ_Market_Share__c();
         MarketShareAff21.Name='TestMarket';
         MarketShareAff21.Market__c = 'Test Market 1';
         MarketShareAff21.Global_Id__c='3';        
@@ -1577,7 +1577,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff23.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff23);
 
-		MYBZ_Market_Share__c MarketShareAff24 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff24 = New MYBZ_Market_Share__c();
         MarketShareAff24.Name='TestMarket';
         MarketShareAff24.Market__c = 'Test Market 1';
         MarketShareAff24.Global_Id__c='3';        
@@ -1647,7 +1647,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff26.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff26);
 
-		MYBZ_Market_Share__c MarketShareAff27 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff27 = New MYBZ_Market_Share__c();
         MarketShareAff27.Name='TestMarket';
         MarketShareAff27.Market__c = 'Test Market 2';
         MarketShareAff27.Global_Id__c='3';        
@@ -1671,7 +1671,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareList.add(MarketShareAff27);
         
         // Affliation Territory level dataa
-		
+        
         MYBZ_Market_Share__c MarketShareAff28 = New MYBZ_Market_Share__c();
         MarketShareAff28.Name='TestMarket';
         MarketShareAff28.Market__c = 'Test Market 1';
@@ -1719,7 +1719,7 @@ private class Test_MYBZ_MarketShare {
        MarketShareAff29.LoadIdentifier__c = 'AFFLTN';
        MarketShareList.add(MarketShareAff29);
 
-		MYBZ_Market_Share__c MarketShareAff30 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff30 = New MYBZ_Market_Share__c();
         MarketShareAff30.Name='TestMarket';
         MarketShareAff30.Market__c = 'Test Market 1';
         MarketShareAff30.Global_Id__c='4';        
@@ -1790,7 +1790,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff32.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff32);
 
-		MYBZ_Market_Share__c MarketShareAff33 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff33 = New MYBZ_Market_Share__c();
         MarketShareAff33.Name='TestMarket';
         MarketShareAff33.Market__c = 'Test Market 1';
         MarketShareAff33.Global_Id__c='4';        
@@ -1859,7 +1859,7 @@ private class Test_MYBZ_MarketShare {
         MarketShareAff35.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAff35);
 
-		MYBZ_Market_Share__c MarketShareAff36 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAff36 = New MYBZ_Market_Share__c();
         MarketShareAff36.Name='TestMarket';
         MarketShareAff36.Market__c = 'Test Market 2';
         MarketShareAff36.Global_Id__c='4';        
@@ -1904,8 +1904,8 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffSys1.Previous_DDD_Dollars__c=null;
         MarketShareAffSys1.DDD_Units__c=null;
         MarketShareAffSys1.Previous_DDD_Units__c=null;
-		MarketShareAffSys1.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffSys1.System__c = objSystem.id;
+        MarketShareAffSys1.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffSys1.System__c = objSystem.id;
         MarketShareAffSys1.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffSys1);
         
@@ -1930,12 +1930,12 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffSys2.Previous_DDD_Dollars__c=null;
         MarketShareAffSys2.DDD_Units__c=null;
         MarketShareAffSys2.Previous_DDD_Units__c=null;
-		MarketShareAffSys2.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffSys2.System__c = objSystem.id;
+        MarketShareAffSys2.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffSys2.System__c = objSystem.id;
         MarketShareAffSys2.LoadIdentifier__c = 'AFFLTN';        
         MarketShareList.add(MarketShareAffSys2);
 
-		MYBZ_Market_Share__c MarketShareAffSys3 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAffSys3 = New MYBZ_Market_Share__c();
         MarketShareAffSys3.Name='TestMarket';
         MarketShareAffSys3.Market__c = 'Test Market 1';
         MarketShareAffSys3.Global_Id__c='1';        
@@ -1955,12 +1955,12 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffSys3.Previous_DDD_Dollars__c=null;
         MarketShareAffSys3.DDD_Units__c=null;
         MarketShareAffSys3.Previous_DDD_Units__c=null;
-		MarketShareAffSys3.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffSys3.System__c = objSystem.id;        
+        MarketShareAffSys3.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffSys3.System__c = objSystem.id;        
         MarketShareAffSys3.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffSys3);
-		
-		MYBZ_Market_Share__c MarketShareAffSys4 = New MYBZ_Market_Share__c();
+        
+        MYBZ_Market_Share__c MarketShareAffSys4 = New MYBZ_Market_Share__c();
         MarketShareAffSys4.Name='TestMarket';
         MarketShareAffSys4.Market__c = 'Test Market 1';
         MarketShareAffSys4.Global_Id__c='1';        
@@ -1980,8 +1980,8 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffSys4.Previous_DDD_Dollars__c=null;
         MarketShareAffSys4.DDD_Units__c=null;
         MarketShareAffSys4.Previous_DDD_Units__c=null;
-		MarketShareAffSys4.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffSys4.System__c = objSystem.id;        
+        MarketShareAffSys4.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffSys4.System__c = objSystem.id;        
         MarketShareAffSys4.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffSys4);
         
@@ -2006,12 +2006,12 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffSys5.Previous_DDD_Dollars__c=null;
         MarketShareAffSys5.DDD_Units__c=null;
         MarketShareAffSys5.Previous_DDD_Units__c=null;
-		MarketShareAffSys5.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffSys5.System__c = objSystem.id;        
+        MarketShareAffSys5.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffSys5.System__c = objSystem.id;        
         MarketShareAffSys5.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffSys5);
 
-		MYBZ_Market_Share__c MarketShareAffSys6 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAffSys6 = New MYBZ_Market_Share__c();
         MarketShareAffSys6.Name='TestMarket';
         MarketShareAffSys6.Market__c = 'Test Market 1';
         MarketShareAffSys6.Global_Id__c='1';        
@@ -2031,8 +2031,8 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffSys6.Previous_DDD_Dollars__c=null;
         MarketShareAffSys6.DDD_Units__c=null;
         MarketShareAffSys6.Previous_DDD_Units__c=null;
-		MarketShareAffSys6.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffSys6.System__c = objSystem.id;  
+        MarketShareAffSys6.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffSys6.System__c = objSystem.id;  
         MarketShareAffSys6.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffSys6);
         
@@ -2056,8 +2056,8 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffSys7.Previous_DDD_Dollars__c=90;
         MarketShareAffSys7.DDD_Units__c=80;
         MarketShareAffSys7.Previous_DDD_Units__c=90;
-		MarketShareAffSys7.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffSys7.System__c = objSystem.id;  
+        MarketShareAffSys7.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffSys7.System__c = objSystem.id;  
         MarketShareAffSys7.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffSys7);
         
@@ -2082,12 +2082,12 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffSys8.Previous_DDD_Dollars__c=80;
         MarketShareAffSys8.DDD_Units__c=100;
         MarketShareAffSys8.Previous_DDD_Units__c=80;
-		MarketShareAffSys8.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffSys8.System__c = objSystem.id;
+        MarketShareAffSys8.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffSys8.System__c = objSystem.id;
         MarketShareAffSys8.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffSys8);
 
-		MYBZ_Market_Share__c MarketShareAffSys9 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAffSys9 = New MYBZ_Market_Share__c();
         MarketShareAffSys9.Name='TestMarket';
         MarketShareAffSys9.Market__c = 'Test Market 2';
         MarketShareAffSys9.Global_Id__c='1';        
@@ -2107,8 +2107,8 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffSys9.Previous_DDD_Dollars__c=90;
         MarketShareAffSys9.DDD_Units__c=100;
         MarketShareAffSys9.Previous_DDD_Units__c=90;
-		MarketShareAffSys9.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffSys9.System__c = objSystem.id;
+        MarketShareAffSys9.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffSys9.System__c = objSystem.id;
         MarketShareAffSys9.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffSys9);
         
@@ -2135,10 +2135,10 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffPGP1.Previous_DDD_Dollars__c=null;
         MarketShareAffPGP1.DDD_Units__c=null;
         MarketShareAffPGP1.Previous_DDD_Units__c=null;
-		MarketShareAffPGP1.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffPGP1.System__c = objSystem.id;
-		MarketShareAffPGP1.LE_ID_PGP__c = 'ABC';		
-		MarketShareAffPGP1.PGP__c	= PGP.id;		
+        MarketShareAffPGP1.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffPGP1.System__c = objSystem.id;
+        MarketShareAffPGP1.LE_ID_PGP__c = 'ABC';        
+        MarketShareAffPGP1.PGP__c   = PGP.id;       
         MarketShareAffPGP1.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffPGP1);
         
@@ -2163,14 +2163,14 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffPGP2.Previous_DDD_Dollars__c=null;
         MarketShareAffPGP2.DDD_Units__c=null;
         MarketShareAffPGP2.Previous_DDD_Units__c=null;
-		MarketShareAffPGP2.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffPGP2.System__c = objSystem.id;
-		MarketShareAffPGP2.LE_ID_PGP__c = 'ABC';		
-		MarketShareAffPGP2.PGP__c	= PGP.id;	
+        MarketShareAffPGP2.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffPGP2.System__c = objSystem.id;
+        MarketShareAffPGP2.LE_ID_PGP__c = 'ABC';        
+        MarketShareAffPGP2.PGP__c   = PGP.id;   
         MarketShareAffPGP2.LoadIdentifier__c = 'AFFLTN';        
         MarketShareList.add(MarketShareAffPGP2);
 
-		MYBZ_Market_Share__c MarketShareAffPGP3 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAffPGP3 = New MYBZ_Market_Share__c();
         MarketShareAffPGP3.Name='TestMarket';
         MarketShareAffPGP3.Market__c = 'Test Market 1';
         MarketShareAffPGP3.Global_Id__c='1';        
@@ -2190,14 +2190,14 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffPGP3.Previous_DDD_Dollars__c=null;
         MarketShareAffPGP3.DDD_Units__c=null;
         MarketShareAffPGP3.Previous_DDD_Units__c=null;
-		MarketShareAffPGP3.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffPGP3.System__c = objSystem.id;   
-		MarketShareAffPGP3.LE_ID_PGP__c = 'ABC';		
-		MarketShareAffPGP3.PGP__c	= PGP.id;	
+        MarketShareAffPGP3.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffPGP3.System__c = objSystem.id;   
+        MarketShareAffPGP3.LE_ID_PGP__c = 'ABC';        
+        MarketShareAffPGP3.PGP__c   = PGP.id;   
         MarketShareAffPGP3.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffPGP3);
-		
-		MYBZ_Market_Share__c MarketShareAffPGP4 = New MYBZ_Market_Share__c();
+        
+        MYBZ_Market_Share__c MarketShareAffPGP4 = New MYBZ_Market_Share__c();
         MarketShareAffPGP4.Name='TestMarket';
         MarketShareAffPGP4.Market__c = 'Test Market 1';
         MarketShareAffPGP4.Global_Id__c='1';        
@@ -2217,10 +2217,10 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffPGP4.Previous_DDD_Dollars__c=null;
         MarketShareAffPGP4.DDD_Units__c=null;
         MarketShareAffPGP4.Previous_DDD_Units__c=null;
-		MarketShareAffPGP4.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffPGP4.System__c = objSystem.id;   
-	    MarketShareAffPGP4.LE_ID_PGP__c = 'ABC';		
-		MarketShareAffPGP4.PGP__c	= PGP.id;	
+        MarketShareAffPGP4.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffPGP4.System__c = objSystem.id;   
+        MarketShareAffPGP4.LE_ID_PGP__c = 'ABC';        
+        MarketShareAffPGP4.PGP__c   = PGP.id;   
         MarketShareAffPGP4.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffPGP4);
         
@@ -2245,14 +2245,14 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffPGP5.Previous_DDD_Dollars__c=null;
         MarketShareAffPGP5.DDD_Units__c=null;
         MarketShareAffPGP5.Previous_DDD_Units__c=null;
-		MarketShareAffPGP5.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffPGP5.System__c = objSystem.id;
-		MarketShareAffPGP5.LE_ID_PGP__c = 'ABC';		
-		MarketShareAffPGP5.PGP__c	= PGP.id;	
+        MarketShareAffPGP5.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffPGP5.System__c = objSystem.id;
+        MarketShareAffPGP5.LE_ID_PGP__c = 'ABC';        
+        MarketShareAffPGP5.PGP__c   = PGP.id;   
         MarketShareAffPGP5.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffPGP5);
 
-		MYBZ_Market_Share__c MarketShareAffPGP6 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAffPGP6 = New MYBZ_Market_Share__c();
         MarketShareAffPGP6.Name='TestMarket';
         MarketShareAffPGP6.Market__c = 'Test Market 1';
         MarketShareAffPGP6.Global_Id__c='1';        
@@ -2272,10 +2272,10 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffPGP6.Previous_DDD_Dollars__c=null;
         MarketShareAffPGP6.DDD_Units__c=null;
         MarketShareAffPGP6.Previous_DDD_Units__c=null;
-		MarketShareAffPGP6.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffPGP6.System__c = objSystem.id;  
-		MarketShareAffPGP6.LE_ID_PGP__c = 'ABC';		
-		MarketShareAffPGP6.PGP__c	= PGP.id;	
+        MarketShareAffPGP6.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffPGP6.System__c = objSystem.id;  
+        MarketShareAffPGP6.LE_ID_PGP__c = 'ABC';        
+        MarketShareAffPGP6.PGP__c   = PGP.id;   
         MarketShareAffPGP6.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffPGP6);
         
@@ -2299,10 +2299,10 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffPGP7.Previous_DDD_Dollars__c=90;
         MarketShareAffPGP7.DDD_Units__c=80;
         MarketShareAffPGP7.Previous_DDD_Units__c=90;
-		MarketShareAffPGP7.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffPGP7.System__c = objSystem.id;  
-		MarketShareAffPGP7.LE_ID_PGP__c = 'ABC';		
-		MarketShareAffPGP7.PGP__c	= PGP.id;	
+        MarketShareAffPGP7.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffPGP7.System__c = objSystem.id;  
+        MarketShareAffPGP7.LE_ID_PGP__c = 'ABC';        
+        MarketShareAffPGP7.PGP__c   = PGP.id;   
         MarketShareAffPGP7.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffPGP7);
         
@@ -2327,14 +2327,14 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffPGP8.Previous_DDD_Dollars__c=80;
         MarketShareAffPGP8.DDD_Units__c=100;
         MarketShareAffPGP8.Previous_DDD_Units__c=80;
-		MarketShareAffPGP8.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffPGP8.System__c = objSystem.id;
-		MarketShareAffPGP8.LE_ID_PGP__c = 'ABC';		
-		MarketShareAffPGP8.PGP__c	= PGP.id;	
+        MarketShareAffPGP8.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffPGP8.System__c = objSystem.id;
+        MarketShareAffPGP8.LE_ID_PGP__c = 'ABC';        
+        MarketShareAffPGP8.PGP__c   = PGP.id;   
         MarketShareAffPGP8.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffPGP8);
 
-		MYBZ_Market_Share__c MarketShareAffPGP9 = New MYBZ_Market_Share__c();
+        MYBZ_Market_Share__c MarketShareAffPGP9 = New MYBZ_Market_Share__c();
         MarketShareAffPGP9.Name='TestMarket';
         MarketShareAffPGP9.Market__c = 'Test Market 2';
         MarketShareAffPGP9.Global_Id__c='1';        
@@ -2354,17 +2354,17 @@ private class Test_MYBZ_MarketShare {
         MarketShareAffPGP9.Previous_DDD_Dollars__c=90;
         MarketShareAffPGP9.DDD_Units__c=100;
         MarketShareAffPGP9.Previous_DDD_Units__c=90;
-		MarketShareAffPGP9.LE_ID_IHS__c = 'XYZ';
-		MarketShareAffPGP9.System__c = objSystem.id;
-		MarketShareAffPGP9.LE_ID_PGP__c = 'ABC';		
-		MarketShareAffPGP9.PGP__c	= PGP.id;	
+        MarketShareAffPGP9.LE_ID_IHS__c = 'XYZ';
+        MarketShareAffPGP9.System__c = objSystem.id;
+        MarketShareAffPGP9.LE_ID_PGP__c = 'ABC';        
+        MarketShareAffPGP9.PGP__c   = PGP.id;   
         MarketShareAffPGP9.LoadIdentifier__c = 'AFFLTN';
         MarketShareList.add(MarketShareAffPGP9);       
         
         
         insert MarketShareList;
-		
-		
+        
+        
         
     }
     
@@ -2391,7 +2391,7 @@ private class Test_MYBZ_MarketShare {
             
                 MYBZ_MarketShare controller = new MYBZ_MarketShare();
                 
-                Obj=MYBZ_MarketShare.marketShareControllerNonAff();
+                Obj=MYBZ_MarketShare.marketShareControllerNonAff(false);
                 system.assert(Obj!=null);
                 jsonrespasString = Obj+'';
                 system.assert(jsonrespasString.contains('Test Market 1'));
@@ -2438,7 +2438,7 @@ private class Test_MYBZ_MarketShare {
             Test.startTest();
             
             
-             	Obj=MYBZ_MarketShare.marketShareControllerNonAff();
+                Obj=MYBZ_MarketShare.marketShareControllerNonAff(false);
                 system.assert(Obj!=null);
                 jsonrespasString = Obj+'';
                 system.assert(jsonrespasString.contains('Test Market 1'));
@@ -2514,7 +2514,7 @@ private class Test_MYBZ_MarketShare {
         System.runas(runAsUser){ 
             
             Test.startTest();
-            	Obj=MYBZ_MarketShare.marketShareControllerNonAff();
+                Obj=MYBZ_MarketShare.marketShareControllerNonAff(false);
                 system.assert(Obj!=null);
                 jsonrespasString = Obj+'';
                 system.assert(jsonrespasString.contains('Test Market 1'));
@@ -2569,7 +2569,7 @@ private class Test_MYBZ_MarketShare {
                 system.assert(jsonrespasString.contains('LILLY Product 1'));
                 system.assert(jsonrespasString.contains('COMPETITOR Product 4'));                     
                 
-                Obj = MYBZ_MarketShare.accountSummary();
+                Obj = MYBZ_MarketShare.accountSummary(false);
                 system.assert(Obj!=null);
                 jsonrespasString = Obj+'';
                 System.debug('@@@'+jsonrespasString);
@@ -2602,7 +2602,7 @@ private class Test_MYBZ_MarketShare {
         System.runas(runAsUser){ 
             
             Test.startTest();
-            	Obj=MYBZ_MarketShare.marketShareControllerNonAff();
+                Obj=MYBZ_MarketShare.marketShareControllerNonAff(false);
                 system.assert(Obj!=null);
                 jsonrespasString = Obj+'';
                 system.assert(jsonrespasString.contains('Test Market 1'));
@@ -2705,7 +2705,7 @@ private class Test_MYBZ_MarketShare {
         System.runas(runAsUser){ 
             
             Test.startTest();
-            	            	Obj=MYBZ_MarketShare.marketShareControllerNonAff();
+                                Obj=MYBZ_MarketShare.marketShareControllerNonAff(false);
                 system.assert(Obj!=null);
                 jsonrespasString = Obj+'';
                 system.assert(jsonrespasString.contains('Test Market 1'));
@@ -2784,7 +2784,7 @@ private class Test_MYBZ_MarketShare {
                 system.assert(jsonrespasString.contains('LILLY Product 1'));
                 system.assert(jsonrespasString.contains('COMPETITOR Product 4'));  
                 
-          	Test.stopTest();
+            Test.stopTest();
         }
             
      }
