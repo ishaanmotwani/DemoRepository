@@ -121,7 +121,7 @@ function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation,
     }
     //alert('22222');
     Visualforce.remoting.Manager.invokeAction(
-            'MYBZ_ProductTrendDetailsController.trendsPrescriberUsingAffiliationPicker', system, pgp,callback
+            'MYBZ_ProductTrendDetailsController.trendsPrescriberUsingAffiliationPicker', system, pgp,flagAff, callback
         );
         return;
 }
