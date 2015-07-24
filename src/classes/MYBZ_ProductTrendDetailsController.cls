@@ -83,11 +83,18 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
 
 */
     @RemoteAction 
-    global static Object trendsPrescriber()
+    global static Object trendsPrescriber(Boolean flagAff)
     {
         try
         {
             fetchUserInfo();
+            UserId = UserInfo.getUserId();      
+             User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
+            //Changes to align Account manager to DSM for Geo
+            if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }
+            
             if(Role == System.Label.MYBZ_SalesRepresentative || (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) || Role == System.Label.MYBZ_MajorMarketManager){
                 TrendsDetailsList.clear();
                 //List of all trend-details for a particular user
@@ -177,13 +184,19 @@ Territory - The territory selected via a territory picker.
 */
     
     @RemoteAction 
-    global static Object trendsPrescriberUsingAffiliationPicker(String LE_ID_IHS, String LE_ID_PGP)
+    global static Object trendsPrescriberUsingAffiliationPicker(String LE_ID_IHS, String LE_ID_PGP, Boolean flagAff)
     {
         try
         {
             System.debug('--LE_ID_IHS'+LE_ID_IHS);
             System.debug('--LE_ID_PGP'+LE_ID_PGP);
             fetchUserInfo();  
+             UserId = UserInfo.getUserId();      
+             User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
+            //Changes to align Account manager to DSM for Geo
+            if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }
             DefaultSystem=[SELECT LE_ID_IHS__c FROM MYBZ_Product_Trend_Detail__c WHERE Global_Id__c =: GlobalId and  LoadIdentifier__c='AFFLTN' ORDER BY LE_ID_IHS__c LIMIT 1];
             if(Role == System.Label.MYBZ_SalesRepresentative || Role == System.Label.MYBZ_AccountManager)
             {

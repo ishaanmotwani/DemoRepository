@@ -103,14 +103,21 @@ This object is later used to report on User activity on this application.
 */
     
     @RemoteAction 
-    global static Object alignment()
+    global static Object alignment(Boolean flagAff)
     {
         try
         {
             //Call fetch user function so that Role and Global id value is available in this method.
             fetchUserInfo();
             
-             //Returns a new JSON generator.
+             UserId = UserInfo.getUserId();      
+             User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
+            //Changes to align Account manager to DSM for Geo
+            if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }
+            
+            //Returns a new JSON generator.
             generator = JSON.createGenerator(true);
             
             //Set of unique Region id's .
@@ -176,8 +183,10 @@ This object is later used to report on User activity on this application.
                     }
                  
                 // for including PAC NW Geo   
-                 
-                List<MYBZ_Market_Share__c> territoryObj = [SELECT Id, Territory__r.Name, Territory__r.State__r.name,Territory__r.state__r.region__r.name , Global_Id__c
+                /*
+                   IHS AM Dist/Terr should not come in the picker hence, commenting the below:
+                */
+                /*List<MYBZ_Market_Share__c> territoryObj = [SELECT Id, Territory__r.Name, Territory__r.State__r.name,Territory__r.state__r.region__r.name , Global_Id__c
                                                              FROM MYBZ_Market_Share__c 
                                                              WHERE Territory__r.state__r.region__r.name LIKE '%PAC NW%' OR Territory__r.Name LIKE '%IHS AM%' ];
                 for(MYBZ_Market_Share__c mobj : territoryObj ){
@@ -206,7 +215,7 @@ This object is later used to report on User activity on this application.
                         TerritoryNameAndGlobalIdMap.put(mobj.Territory__r.Name, mobj.Global_Id__c);
                     }    
                 }
-
+                */
                  
                  
                 if(!RegionNameAndGlobalIdMap.isEmpty() && !RegionNameAndDistrictMap.isEmpty() && !DistrictNameAndGlobalIdMap.isEmpty() && !DistrictNameAndTerritoryMap.isEmpty() && !TerritoryNameAndGlobalIdMap.isEmpty()){
@@ -278,7 +287,8 @@ This object is later used to report on User activity on this application.
                 System.debug('--Alignment'+sdata );
                 Object obj = Json.deserializeUntyped(sdata);
                 
-                 // Begin processing of affiliation data
+                
+                // Begin processing of affiliation data
                 List<MYBZ_System__c> sysList;
                 List<MYBZ_PGP__c> orphanedPGP_list;
                 if(Role == System.Label.MYBZ_SuperUser || GlobalID == null || GlobalID == '')
@@ -293,26 +303,8 @@ This object is later used to report on User activity on this application.
                     orphanedPGP_list = [SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c
                                         FROM MYBZ_PGP__c];
                 }
-                //Added newly so that salesRep gets to view the system/PGP aligned to Reps Territorie's District
-                /*else if( Role == System.Label.MYBZ_SalesRepresentative){
-                     MYBZ_Region_Rollup__c districtRR = [SELECT Id, Region__r.Name, District__r.Name, Global_Id__c, Alignment_Level__c FROM MYBZ_Region_Rollup__c WHERE Alignment_Level__c = :System.Label.MYBZ_Territory AND Global_Id__c =: GlobalID Limit 1 ];
-                     
-                    sysList  = [SELECT 
-                                    Name, 
-                                    System_ID__c, 
-                                    Aligned_Territories__c,
-                                    Aligned_Districts__c, 
-                                    (SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c FROM pgps__r) 
-                               FROM MYBZ_System__c
-                               WHERE Aligned_Districts__c INCLUDES (:districtRR.District__r.Name)];
-                               
-                    orphanedPGP_list = [SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c
-                                        FROM MYBZ_PGP__c
-                                        WHERE Aligned_Districts__c INCLUDES (:districtRR.District__r.Name)];               
-                } */
                 else
-                {   
-                    system.debug('*****Global id' + GlobalID);
+                {
                     sysList = [SELECT 
                                     Name, 
                                     System_ID__c, 
@@ -321,12 +313,10 @@ This object is later used to report on User activity on this application.
                                     (SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c FROM pgps__r) 
                                FROM MYBZ_System__c
                                WHERE Global_IDs__c INCLUDES (:GlobalID)];
-                               
-                    system.debug('*****syslist'+ sysList);
+
                     orphanedPGP_list = [SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c
                                         FROM MYBZ_PGP__c
                                         WHERE Global_IDs__c INCLUDES (:GlobalID)];
-                    system.debug('****orphanedPGP_list'+ orphanedPGP_list);                    
                 }
 
                 MYBZ_AlignmentWrapper.Affiliation_Data response_affiliationData = new MYBZ_AlignmentWrapper.Affiliation_Data();
@@ -341,46 +331,10 @@ This object is later used to report on User activity on this application.
                         MYBZ_AlignmentWrapper.PGP response_PGP = new MYBZ_AlignmentWrapper.PGP();
                         response_PGP.name = pgp.name;
                         response_PGP.pgpID = pgp.PGP_ID__c;
-                        if(pgp.Aligned_Territories__c != null) {
-                            if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){                     
-                                response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
-                            }
-                            else{
-                                List<String> alignTerr = pgp.Aligned_Territories__c.split(';');
-                                set<String> alignTerrOfUser = new set<string>();
-                                if(alignTerr.size() != 0) {
-                                  for(String aTerritory : alignTerr){
-                                    if(TerritoryNameAndGlobalIdMap.get(aTerritory) == globalId){
-                                      alignTerrOfUser.add(aTerritory);
-                                    }
-                                  }
-                                }
-                                response_PGP.alignedTerritories = new list<String>(alignTerrOfUser);
-                            }
-                        }   
-                        
-                        if(pgp.Aligned_Districts__c != null){
-                             if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){
-                                response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
-                             }
-                            else{                            
-                                List<String> alignDist = pgp.Aligned_Districts__c.split(';');
-                                set<String> alignDistOfUser = new set<string>();
-                                if(alignDist.size() != 0) {
-                                  for(String aDistrict : alignDist){    
-                                    if(Role == System.Label.MYBZ_AccountManager){
-                                      if(DistrictNameAndGlobalIdMap.get(aDistrict) == null){
-                                        alignDistOfUser.add(aDistrict);
-                                      }
-                                    }                                   
-                                    else if(DistrictNameAndGlobalIdMap.get(aDistrict) == globalId){
-                                      alignDistOfUser.add(aDistrict);
-                                    }
-                                  }
-                                }
-                                response_PGP.alignedDistricts = new list<String>(alignDistOfUser);
-                            } 
-                        }
+                        if(pgp.Aligned_Territories__c != null)
+                            response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
+                        if(pgp.Aligned_Districts__c != null)
+                            response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
 
                         pgps.add(response_PGP);
                     }
@@ -389,46 +343,10 @@ This object is later used to report on User activity on this application.
                     response_System.name = sys.name;
                     response_System.systemID = sys.System_ID__c;
                     response_System.children = pgps;
-                    if(sys.Aligned_Territories__c != null) {
-                            if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){                     
-                                response_System.alignedTerritories = sys.Aligned_Territories__c.split(';');
-                            }
-                            else{
-                                List<String> alignTerr = sys.Aligned_Territories__c.split(';');
-                                set<String> alignTerrOfUser = new set<String>();
-                                if(alignTerr.size() != 0) {
-                                  for(String aTerritory : alignTerr){
-                                    if(TerritoryNameAndGlobalIdMap.get(aTerritory) == globalId){
-                                      alignTerrOfUser.add(aTerritory);
-                                    }
-                                  }
-                                }
-                                response_System.alignedTerritories = new list<String>(alignTerrOfUser);
-                            }
-                        }   
-                        
-                        if(sys.Aligned_Districts__c != null){
-                             if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){
-                                response_System.alignedDistricts = sys.Aligned_Districts__c.split(';');
-                             }
-                            else{                            
-                                List<String> alignDist = sys.Aligned_Districts__c.split(';');
-                                set<String> alignDistOfUser = new set<String>();
-                                if(alignDist.size() != 0) {
-                                  for(String aDistrict : alignDist){
-                                    if(Role == System.Label.MYBZ_AccountManager){
-                                      if(DistrictNameAndGlobalIdMap.get(aDistrict) == null){
-                                        alignDistOfUser.add(aDistrict);
-                                      }
-                                    }
-                                    else if(DistrictNameAndGlobalIdMap.get(aDistrict) == globalId){
-                                      alignDistOfUser.add(aDistrict);
-                                    }
-                                  }
-                                }
-                                response_System.alignedDistricts = new list<String>(alignDistOfUser);
-                            } 
-                        }
+                    if(sys.Aligned_Territories__c != null)
+                        response_System.alignedTerritories = sys.Aligned_territories__c.split(';');
+                    if(sys.Aligned_Districts__c != null)
+                        response_System.alignedDistricts = sys.Aligned_Districts__c.split(';');
 
                     response_affiliationData.systems.add(response_System);
                 }
@@ -439,59 +357,21 @@ This object is later used to report on User activity on this application.
                     MYBZ_AlignmentWrapper.PGP response_PGP = new MYBZ_AlignmentWrapper.PGP();
                     response_PGP.name = pgp.Name;
                     response_PGP.pgpID = pgp.PGP_ID__c;
-                    if(pgp.Aligned_Territories__c != null) {
-                            if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){                     
-                                response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
-                            }
-                            else{
-                                List<String> alignTerr = pgp.Aligned_Territories__c.split(';');
-                                set<String> alignTerrOfUser = new set<String>();
-                                if(alignTerr.size() != 0) {
-                                  for(String aTerritory : alignTerr){
-                                    if(TerritoryNameAndGlobalIdMap.get(aTerritory) == globalId){
-                                      alignTerrOfUser.add(aTerritory);
-                                    }
-                                  }
-                                }
-                                response_PGP.alignedTerritories = new list<String>(alignTerrOfUser);
-                            }
-                        }   
-                        
-                        if(pgp.Aligned_Districts__c != null){
-                             if(Role == System.Label.MYBZ_SuperUser || Role == System.Label.MYBZ_MajorMarketManager){
-                                response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
-                             }
-                            else{                            
-                                List<String> alignDist = pgp.Aligned_Districts__c.split(';');
-                                set<String> alignDistOfUser = new set<String>();
-                                if(alignDist.size() != 0) {
-                                  for(String aDistrict : alignDist){
-                                  if(Role == System.Label.MYBZ_AccountManager){
-                                      if(DistrictNameAndGlobalIdMap.get(aDistrict) == null){
-                                        alignDistOfUser.add(aDistrict);
-                                      }
-                                  }
-                                  else if(DistrictNameAndGlobalIdMap.get(aDistrict) == globalId){
-                                      alignDistOfUser.add(aDistrict);
-                                    }
-                                  }
-                                }
-                                response_PGP.alignedDistricts = new list<String>(alignDistOfUser);
-                            } 
-                        }
-
+                    if(pgp.Aligned_Territories__c != null)
+                        response_PGP.alignedTerritories = pgp.Aligned_Territories__c.split(';');
+                    if(pgp.Aligned_Districts__c != null)
+                        response_PGP.alignedDistricts = pgp.Aligned_Districts__c.split(';');
 
                     response_affiliationData.orphanedPGPs.add(response_PGP);
                 }
-                
+
                 MYBZ_AlignmentWrapper.Response response_Alignment = new MYBZ_AlignmentWrapper.Response();
                 response_Alignment.affiliationData = response_affiliationData;
                 response_Alignment.geoData = obj;
 
-                system.debug('--Alignment' + JSON.serializePretty(response_Alignment));
+                system.debug('--Alignment'  + JSON.serializePretty(response_Alignment));
 
-                return response_Alignment;                              
-                //return obj;
+                return response_Alignment;
             }
         }    
         catch(Exception E) 
@@ -896,12 +776,19 @@ Territory - The territory selected via a territory picker.
 
 */    
     @RemoteAction 
-    global static Object regionRollup()
+    global static Object regionRollup(Boolean flagAff)
     {
         try
         {
             //Call fetch user function so that Role and Global id value is available in this method.
             fetchUserInfo();
+            
+            UserId = UserInfo.getUserId();      
+             User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
+            //Changes to align Account manager to DSM for Geo
+            if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }
             
             //Checking if the division record exist. There will be only one Division record.
             //MYBZ_IHS_Division__c divisionObj = [SELECT Name FROM MYBZ_IHS_Division__c LIMIT 1];
@@ -2384,11 +2271,18 @@ Territory - The territory selected via a territory picker.
 
 */    
     @RemoteAction 
-    global static Object targetGoal()
+    global static Object targetGoal(Boolean flagAff)
     {
         try{
             // fetching logged in user information like Role,global id etc.
-            fetchUserInfo();
+            fetchUserInfo();            
+            
+            UserId = UserInfo.getUserId();      
+             User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
+            //Changes to align Account manager to DSM for Geo
+            if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }
             
             // Query for target Goal records based on the role of logged in user, decides the data available on report
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager)){
