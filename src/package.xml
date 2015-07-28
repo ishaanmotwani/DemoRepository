@@ -10,6 +10,7 @@
         <members>Test_MYBZ_RegionRollup_Controller</members>
         <members>Test_MYBZ_CallPlanningController</members>
         <members>Test_MYBZ_MarketShare</members>
+		 <members>Test_MYBZ_ProductTrendDetailsController</members>
         <name>ApexClass</name>
     </types>
     <types>

@@ -814,51 +814,57 @@ Market share, Product Trends etc.
         Obj=MYBZ_Region_Rollup_Controller.TargetGoal(flagAff); 
         return Obj;        
     }
-    
+ 
+/**** DEPRECATED ******/ 
     /*
 * @Method Name                    :  testProductTrends
 * @Description                    :  method to generate Product Trends Report using Territory Picker                                                                  
 * @Return Type                    :  Returns JSON Object for Product Trends
 * @Param                          :      
 */
-    static Object testProductTrends(){       
+  /*  static Object testProductTrends(){       
         Obj=MYBZ_Region_Rollup_Controller.ProductTrendsUsingPicker(Region.Name,District.Name,Territory.Name);
         return Obj;
     }
-    
+    */
     /*
 * @Method Name                    :  testProductTrends1
 * @Description                    :  method to generate Product Trends Report without using Territory Picker                                                                  
 * @Return Type                    :  Returns JSON Object for Product Trends
 * @Param                          :      
 */
-    static Object testProductTrends1(){
+  /*  static Object testProductTrends1(){
         Obj=MYBZ_Region_Rollup_Controller.ProductTrends();
         return Obj;        
     }
-    
-    /*
+   */
+/**** DEPRECATED PRODUCT TRENDS ENDS******/  
+/**** DEPRECATED ****/  
+/*
 * @Method Name                    :  testMarketShare
 * @Description                    :  method to generate Market Share Report using Territory Picker                                                                  
 * @Return Type                    :  Returns JSON Object for Market Share
 * @Param                          :      
 */
-    static Object testMarketShare(){
+ /*   static Object testMarketShare(){
         Obj = MYBZ_Region_Rollup_Controller.MarketShareUsingPicker(Region.Name,District.Name,Territory.Name);  
         return Obj;
     }
     
-    /*
+*/
+/*
 * @Method Name                    :  testMarketShare1
 * @Description                    :  method to generate Market Share Report without using Territory Picker                                                                  
 * @Return Type                    :  Returns JSON Object for Market Share
 * @Param                          :      
 */
-    static Object testMarketShare1(){
+/*    static Object testMarketShare1(){
         Obj = MYBZ_Region_Rollup_Controller.MarketShare();
         return Obj;
     }
-    
+*/  
+/**** DEPRECATED MARKETSHARE ENDS******/   
+   
     /*
 * @Method Name                    :  testTrendsPrescriber1
 * @Description                    :  method to generate Trends Prescriber Report                                                               
@@ -949,13 +955,13 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('Test'));
             
             
-            Obj=testProductTrends1();  
+            /*Obj=testProductTrends1();  
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';          
             // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
             system.assert(jsonrespasString.contains('EFFIENT'));            
             system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));
+            system.assert(jsonrespasString.contains('3'));*/
             
             
             Obj=testcallPlanning1();             
@@ -966,12 +972,12 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('1'));
             
             
-            Obj=testMarketShare1();
+            /*Obj=testMarketShare1();
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product and Market inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('test')); 
+            system.assert(jsonrespasString.contains('test')); */
             
             
         }
@@ -1006,8 +1012,8 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('2')); 
             
             
-            Obj=testProductTrends();
-            system.assertEquals(null,Obj);
+            /*Obj=testProductTrends();
+            system.assertEquals(null,Obj);*/
             
             Obj=testcallPlanning();
             system.assert(Obj!=null);
@@ -1017,8 +1023,8 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('FirstName'));
             
             
-            Obj=testMarketShare(); 
-            system.assertEquals(null,Obj);
+            /*Obj=testMarketShare(); 
+            system.assertEquals(null,Obj);*/
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
@@ -1044,13 +1050,13 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('Test'));
             
             
-            Obj=testProductTrends1(); 
+            /*Obj=testProductTrends1(); 
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
             system.assert(jsonrespasString.contains('EFFIENT'));            
             system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));
+            system.assert(jsonrespasString.contains('3'));*/
             
             
             Obj=testcallPlanning1();
@@ -1060,10 +1066,11 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('FirstName'));
             
                        
-            Obj=testMarketShare1();
+           /* Obj=testMarketShare1();
             system.assert(Obj!=null);
              jsonrespasString = Obj+'';
             system.assert(jsonrespasString.contains('EFFIENT'));
+           */   
             
             
         }
@@ -1103,13 +1110,13 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             // jsonrespasString = Obj+'';
             
             
-            Obj=testProductTrends();       
+           /* Obj=testProductTrends();       
             system.assert(Obj!=null);
              jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
             system.assert(jsonrespasString.contains('EFFIENT'));            
             system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));
+            system.assert(jsonrespasString.contains('3'));*/
             
             Obj=testcallPlanning(); 
             system.assert(Obj!=null);
@@ -1119,12 +1126,12 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('1'));
             
             
-            Obj=testMarketShare(); 
+            /*Obj=testMarketShare(); 
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product and Market inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('test')); 
+            system.assert(jsonrespasString.contains('test')); */
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
@@ -1150,13 +1157,13 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('topFivePrescribers'));
             system.assert(jsonrespasString.contains('Test'));
             
-            Obj=testProductTrends1();            
+            /*Obj=testProductTrends1();            
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
             system.assert(jsonrespasString.contains('EFFIENT'));            
             system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));
+            system.assert(jsonrespasString.contains('3'));*/
             
             Obj=testcallPlanning1(); 
             system.assert(Obj!=null);
@@ -1165,12 +1172,12 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('1'));
             
-            Obj=testMarketShare1();
+            /*Obj=testMarketShare1();
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product and Market inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('test')); 
+            system.assert(jsonrespasString.contains('test')); */
         }
     }
     //////////////////
@@ -1209,13 +1216,13 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             //jsonrespasString = Obj+'';
             
             
-            Obj=testProductTrends();            
+            /*Obj=testProductTrends();            
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product,year and month inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));
+            system.assert(jsonrespasString.contains('3'));*/
             
             Obj=testcallPlanning(); 
             system.assert(Obj!=null);
@@ -1224,12 +1231,12 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('1'));
             
-            Obj=testMarketShare(); 
+            /*Obj=testMarketShare(); 
             system.assert(Obj!=null);
              jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product and Market inserted from  test data 
             system.assert(jsonrespasString.contains('EFFIENT')); 
-            system.assert(jsonrespasString.contains('test'));  
+            system.assert(jsonrespasString.contains('test'));  */
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
@@ -1249,13 +1256,13 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('topFivePrescribers'));
             system.assert(jsonrespasString.contains('Test'));
             
-            Obj=testProductTrends1();            
+            /*Obj=testProductTrends1();            
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product,year and month inserted from  test data  
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));
+            system.assert(jsonrespasString.contains('3'));*.
             
             Obj=testcallPlanning1(); 
             //system.assert(Obj!=null);
@@ -1264,12 +1271,12 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('1'));
             
-            Obj=testMarketShare1();
+            /*Obj=testMarketShare1();
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product and Market inserted from  test data 
             system.assert(jsonrespasString.contains('EFFIENT'));  
-            system.assert(jsonrespasString.contains('test'));    
+            system.assert(jsonrespasString.contains('test'));   */ 
         }
     }
     
@@ -1290,10 +1297,12 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assertEquals(null,Obj);
             Obj=testTrendsPrescriber1();
             system.assertEquals(null,Obj);
-            Obj=testProductTrends1();            
-            system.assertEquals(null,Obj);
-            Obj=testMarketShare1();
-            system.assertEquals(null,Obj);
+            /*Obj=testProductTrends1();            
+            system.assertEquals(null,Obj); */
+            /*Obj=testMarketShare1();            
+            // Assert to check whether the JSON contains relevant product and Market inserted from  test data 
+            system.assert(jsonrespasString.contains('EFFIENT'));  
+            */
         }
     }
     
@@ -1315,12 +1324,12 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
              Boolean flagAff = false;
              Obj=MYBZ_Region_Rollup_Controller.alignment(flagAff); 
              system.assert(Obj!=null);
-             Obj=MYBZ_Region_Rollup_Controller.productTrendsUsingPicker(Region.Name, District.Name, Territory.Name);
+             /*Obj=MYBZ_Region_Rollup_Controller.productTrendsUsingPicker(Region.Name, District.Name, Territory.Name);
              system.assert(Obj!=null); 
              Obj=MYBZ_Region_Rollup_Controller.productTrendsUsingPicker(Region.Name, null, Territory.Name); 
              system.assert(Obj!=null);
              Obj=MYBZ_Region_Rollup_Controller.productTrendsUsingPicker(null, null, Territory.Name); 
-             system.assert(Obj!=null);           
+             system.assert(Obj!=null);*/           
              Obj=MYBZ_Region_Rollup_Controller.regionRollup(flagAff);
              system.assert(Obj!=null);
              Obj=MYBZ_Region_Rollup_Controller.callPlanningUsingPicker(Region.Name, District.Name, Territory.Name);

@@ -39,35 +39,23 @@ Territory - The territory selected via a territory picker.
     @RemoteAction 
     global static Object trendsPrescriberUsingPicker(String region, String district, String territory)
     {
-        try
-        {
+        
             System.debug('--region'+region);
             System.debug('--district'+district);
             System.debug('--territory'+territory);
             fetchUserInfo();
             if((Role == System.Label.MYBZ_MajorMarketManager || (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) || Role == System.Label.MYBZ_SuperUser) && district !=null && district !=''){
                 TrendsDetailsList.clear();
-                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where District__r.Name =:district AND Territory__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c, Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where District__r.Name =:district AND Territory__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
             }
             if((Role == System.Label.MYBZ_MajorMarketManager || Role == System.Label.MYBZ_SuperUser) && region !=null && region !='' && (district ==null || district =='')){
                 TrendsDetailsList.clear();
-                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where Area__r.Name =:region AND District__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c, Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where Area__r.Name =:region AND District__c = null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
             }
             if((Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager || Role == System.Label.MYBZ_SuperUser) && territory !=null && territory !=''){
                 TrendsDetailsList.clear();
-                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where territory__r.Name =:territory AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c, Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where territory__r.Name =:territory AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
             }
-        }
-        catch(Exception E) 
-        {
-            system.debug('Exception occurred during execution of RegionRollup1 method' + e);
-            GLBL_Error_Log__c errLog = new GLBL_Error_Log__c(Error_Datetime__c= DateTime.Now(),
-                                                             Error_Message__c= e.getMessage(),
-                                                             Running_User__c = UserInfo.getUserId() ,
-                                                             Stack_Trace__c = e.getStackTraceString()); 
-            insert errlog;
-            return null ;
-        }
         
         Object trendsPrescriberObject=trendsPrescriberProcessor();
         System.debug('TrendsPrescriberObject--'+TrendsPrescriberObject);
@@ -85,8 +73,7 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
     @RemoteAction 
     global static Object trendsPrescriber(Boolean flagAff)
     {
-        try
-        {
+        
             fetchUserInfo();
             UserId = UserInfo.getUserId();      
              User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
@@ -98,28 +85,19 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
             if(Role == System.Label.MYBZ_SalesRepresentative || (Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager) || Role == System.Label.MYBZ_MajorMarketManager){
                 TrendsDetailsList.clear();
                 //List of all trend-details for a particular user
-                //TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                //TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c, Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                 
-                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c, Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where Global_ID__c=:GlobalId AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
             }
             if(Role == System.Label.MYBZ_SuperUser){
                 TrendsDetailsList.clear();
                 
                 MYBZ_Region__c reg=[Select id from MYBZ_Region__c where Name =: System.Label.MYBZ_defaultRegion ];
                 
-                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where Area__c =:reg.Id and district__c=null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, Gain_or_Lose_Trx__c, Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where Area__c =:reg.Id and district__c=null AND LoadIdentifier__c = 'NON_AFFLTN' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
             }
-        }
-        catch(Exception E) 
-        {
-            system.debug('Exception occurred during execution of RegionRollup1 method' + e);
-            GLBL_Error_Log__c errLog = new GLBL_Error_Log__c(Error_Datetime__c= DateTime.Now(),
-                                                             Error_Message__c= e.getMessage(),
-                                                             Running_User__c = UserInfo.getUserId() ,
-                                                             Stack_Trace__c = e.getStackTraceString()); 
-            insert errlog;
-            return null ;
-        }
+        
+        
         
         Object trendsPrescriberObject=trendsPrescriberProcessor();
         System.debug('TrendsPrescriberObject--'+trendsPrescriberObject);
@@ -139,8 +117,7 @@ Territory - The territory selected via a territory picker.
     @RemoteAction 
     global static Object trendsPrescriberSuperUser(String LE_ID_IHS,String LE_ID_PGP,String region,String district,String territory)
     {
-        try
-        {
+        
             System.debug('--LE_ID_IHS'+LE_ID_IHS);
             System.debug('--LE_ID_PGP'+LE_ID_PGP);
             System.debug('--region'+region);
@@ -150,23 +127,13 @@ Territory - The territory selected via a territory picker.
             fetchUserInfo();
             if(LE_ID_PGP!=null && LE_ID_PGP!='')
             {
-              TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Area__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' order by Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+              TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, Area__c, Gain_or_Lose_Trx__c, Top_or_Bottom_PGP__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:LE_ID_PGP AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' order by Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
             }
             else if(LE_ID_IHS!=null && LE_ID_IHS!='')
             {
               TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c,Area__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:LE_ID_IHS AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' order by Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
             }
-        }
-        catch(Exception E) 
-        {
-            system.debug('Exception occurred during execution of RegionRollup1 method' + e);
-            GLBL_Error_Log__c errLog = new GLBL_Error_Log__c(Error_Datetime__c= DateTime.Now(),
-                                                             Error_Message__c= e.getMessage(),
-                                                             Running_User__c = UserInfo.getUserId() ,
-                                                             Stack_Trace__c = e.getStackTraceString()); 
-            insert errlog;
-            return null ;
-        }
+        
         
         Object trendsPrescriberObject=trendsPrescriberProcessor();
         System.debug('TrendsPrescriberObject--'+TrendsPrescriberObject);
@@ -186,8 +153,7 @@ Territory - The territory selected via a territory picker.
     @RemoteAction 
     global static Object trendsPrescriberUsingAffiliationPicker(String LE_ID_IHS, String LE_ID_PGP, Boolean flagAff)
     {
-        try
-        {
+        
             System.debug('--LE_ID_IHS'+LE_ID_IHS);
             System.debug('--LE_ID_PGP'+LE_ID_PGP);
             fetchUserInfo();  
@@ -221,17 +187,8 @@ Territory - The territory selected via a territory picker.
                     }
                 
             }   
-        }
-        catch(Exception E) 
-        {
-            system.debug('Exception occurred during execution of RegionRollup1 method' + e);
-            GLBL_Error_Log__c errLog = new GLBL_Error_Log__c(Error_Datetime__c= DateTime.Now(),
-                                                             Error_Message__c= e.getMessage(),
-                                                             Running_User__c = UserInfo.getUserId() ,
-                                                             Stack_Trace__c = e.getStackTraceString()); 
-            insert errlog;
-            return null ;
-        }
+        
+        
         
         Object trendsPrescriberObject=trendsPrescriberProcessor();
         System.debug('TrendsPrescriberObject--'+TrendsPrescriberObject);

@@ -385,6 +385,8 @@ This object is later used to report on User activity on this application.
             return null ;
         }
     }
+    
+/*** DEPRECATED ****/   
     /* 
 * @Method Name                    :  productTrendsUsingPicker
 * @Description                    :  JavaScript remoting to allow Product Trends records for each month to be retrieved from Salesforce in the form of a JSON object 
@@ -393,7 +395,7 @@ This object is later used to report on User activity on this application.
 * @Param                          :  Region - The region associated to the territory selected, District - The district associated to the territory selected
 Territory - The territory selected via a territory picker. 
 */    
-    @RemoteAction 
+  /*  @RemoteAction 
     global static Object productTrendsUsingPicker(String region, String district, String territory)
     {
         try
@@ -430,7 +432,7 @@ Territory - The territory selected via a territory picker.
         return ProductTrendsObject;
         
     }
-    
+    */
     /* 
 * @Method Name                    :  productTrends
 * @Description                    :  JavaScript remoting to allow Product Trends records for each month to be retrieved from Salesforce in the form of a JSON object 
@@ -439,7 +441,7 @@ Territory - The territory selected via a territory picker.
 * @Param                          :   
 */
     
-    @RemoteAction
+   /* @RemoteAction
     global static Object productTrends()
     {
         
@@ -481,14 +483,14 @@ Territory - The territory selected via a territory picker.
         return ProductTrendsObject;
         
     }
-    
+    */
     /* 
 * @Method Name                    :  productTrendsProcessor
 * @Description                    :  Utility method to form JSONs associated to Product trends report                                      
 * @Return Type                    :  object
 * @Param                          :  
 */    
-    global static Object productTrendsProcessor()
+ /*   global static Object productTrendsProcessor()
         
     {   
         Map<Decimal, Set<Decimal>> YearAndMonthsMap = new Map<Decimal, Set<Decimal>>();
@@ -767,7 +769,9 @@ Territory - The territory selected via a territory picker.
         
         return ProductTrendsObject;
     }
-    
+  */  
+ 
+/*** DEPRECATED PRODUCT TRENDS ENDS****/ 
       /* 
 * @Method Name                    :  regionRollup
 * @Description                    :  JavaScript remoting to allow Region Rollup records to be retrieved from Salesforce in the form of a JSON object to show Region Rollup Report.                                        
@@ -1909,7 +1913,7 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
         }
         
     }
-    
+ /**** DEPRECATED ****/   
     /* 
 * @Method Name                    :  marketShareUsingPicker
 * @Description                    :  JavaScript remoting to allow MarketShare record of Lilly and Competitor  products to be retrieved from Salesforce in the form of a JSON object in the presence of a territory picker.                                         
@@ -1918,7 +1922,7 @@ retrieved from Salesforce in the form of a JSON object in the absence of a terri
 Territory - The territory selected via a territory picker.  
 
 */    
-    @RemoteAction 
+  /*  @RemoteAction 
     global static Object marketShareUsingPicker(String region, String district, String territory)
     {
         try{
@@ -1954,7 +1958,7 @@ Territory - The territory selected via a territory picker.
         System.debug('MarketShareObject--'+marketShareObject);
         return marketShareObject;
     }
-    
+  */  
     /* 
 * @Method Name                    :  marketShare
 * @Description                    :  JavaScript remoting to allow MarketShare record of Lilly and Competitor products to be retrieved 
@@ -1963,7 +1967,7 @@ from Salesforce in the form of a JSON object based on Global id , without using 
 * @Param                          :  
 
 */    
-    @RemoteAction 
+   /* @RemoteAction 
     global static Object marketShare()
     {
         try{ 
@@ -2008,14 +2012,14 @@ from Salesforce in the form of a JSON object based on Global id , without using 
         System.debug('marketShareObject--'+marketShareObject);
         return marketShareObject;
     }   
-    
+ */   
     /* 
 * @Method Name                    :  marketShareProcessor
 * @Description                    :  Utility method for creating JSONs associated with marketsahre report                    
 * @Return Type                    :  object
 * @Param                          :  
 */    
-    global static Object marketShareProcessor()
+ /*   global static Object marketShareProcessor()
     {   
     
         // Initialization of variables   
@@ -2205,7 +2209,9 @@ from Salesforce in the form of a JSON object based on Global id , without using 
         }
     } 
     
-    
+*/
+
+/**** DEPRECATED MARKSETSHARE ENDS *****/    
     /* 
 * @Method Name                    :  targetGoalUsingPicker
 * @Description                    :  JavaScript remoting to allow TargetGoal record associated with particular district to be retrieved from Salesforce in the form of a JSON object                                         
