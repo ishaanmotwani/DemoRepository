@@ -33,6 +33,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_MYBZ_ProductTrendDetailsController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_MYBZ_RegionRollup_Controller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -40,6 +44,36 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>MYBZ_CallPlanningProductJunction__c.Dataload_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.Previous_TRx_Units_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.Previous_TRx_Units_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.Previous_TRx_Units_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.TRx_Units_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.TRx_Units_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_CallPlanningProductJunction__c.TRx_Units_6M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -134,6 +168,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Market_Share__c.DDD_Dollars__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Market_Share__c.DDD_Units__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Market_Share__c.Dataload_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -184,12 +228,32 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Market_Share__c.Previous_DDD_Dollars__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Market_Share__c.Previous_DDD_Units__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Market_Share__c.Previous_Month_TRx__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Market_Share__c.Prioritized_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>MYBZ_Market_Share__c.System__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Market_Share__c.TRx__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -339,6 +403,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Product_Trend_Detail__c.TRx_Units__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Product_Trend_Detail__c.Top_or_Bottom_PGP_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -354,12 +423,72 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.DDD_Dollars_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.DDD_Dollars_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.DDD_Dollars_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Region_Rollup__c.Dataload_Id__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Gross_Margin_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Gross_Margin_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Gross_Margin_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Region_Rollup__c.IHS_Division__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.NRx_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.NRx_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.NRx_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Profit_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Profit_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.Net_Profit_6M__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -394,6 +523,36 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.OPEX_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.OPEX_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.OPEX_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.TRx_1M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.TRx_3M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Region_Rollup__c.TRx_6M__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Region__c.Dataload_Id__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -419,8 +578,33 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Target_Goal__c.Baseline__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Target_Goal__c.Dataload_Id__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Target_Goal__c.Product_Weight_DDD__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Target_Goal__c.TRx_Goal_Attainment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Target_Goal__c.TRx_Goal__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MYBZ_Target_Goal__c.actualDddUnits__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

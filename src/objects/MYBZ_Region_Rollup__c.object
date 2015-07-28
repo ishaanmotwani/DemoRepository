@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <fields>
+        <fullName>DDD_Dollars_1M__c</fullName>
+        <externalId>false</externalId>
+        <label>DDD Dollars 1M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DDD_Dollars_3M__c</fullName>
+        <externalId>false</externalId>
+        <label>DDD Dollars 3M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DDD_Dollars_6M__c</fullName>
+        <externalId>false</externalId>
+        <label>DDD Dollars 6M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Dataload_Id__c</fullName>
         <caseSensitive>false</caseSensitive>
         <externalId>true</externalId>
@@ -11,6 +47,42 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Gross_Margin_1M__c</fullName>
+        <externalId>false</externalId>
+        <label>Gross Margin 1M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Gross_Margin_3M__c</fullName>
+        <externalId>false</externalId>
+        <label>Gross Margin 3M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Gross_Margin_6M__c</fullName>
+        <externalId>false</externalId>
+        <label>Gross Margin 6M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>IHS_Division__c</fullName>
@@ -26,12 +98,84 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>NRx_1M__c</fullName>
+        <externalId>false</externalId>
+        <label>NRx 1M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NRx_3M__c</fullName>
+        <externalId>false</externalId>
+        <label>NRx 3M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NRx_6M__c</fullName>
+        <externalId>false</externalId>
+        <label>NRx 6M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Net_Profit_1M__c</fullName>
+        <externalId>false</externalId>
+        <label>Net Profit 1M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Net_Profit_3M__c</fullName>
+        <externalId>false</externalId>
+        <label>Net Profit 3M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Net_Profit_6M__c</fullName>
+        <externalId>false</externalId>
+        <label>Net Profit 6M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Net_Sales_1M__c</fullName>
         <externalId>false</externalId>
         <label>Net Sales 1M</label>
-        <precision>12</precision>
+        <precision>18</precision>
         <required>false</required>
-        <scale>2</scale>
+        <scale>3</scale>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -41,9 +185,9 @@
         <fullName>Net_Sales_3M__c</fullName>
         <externalId>false</externalId>
         <label>Net Sales 3M</label>
-        <precision>12</precision>
+        <precision>18</precision>
         <required>false</required>
-        <scale>2</scale>
+        <scale>3</scale>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -53,9 +197,9 @@
         <fullName>Net_Sales_6M__c</fullName>
         <externalId>false</externalId>
         <label>Net Sales 6M</label>
-        <precision>12</precision>
+        <precision>18</precision>
         <required>false</required>
-        <scale>2</scale>
+        <scale>3</scale>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -87,5 +231,77 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>OPEX_1M__c</fullName>
+        <externalId>false</externalId>
+        <label>OPEX 1M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>OPEX_3M__c</fullName>
+        <externalId>false</externalId>
+        <label>OPEX 3M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>OPEX_6M__c</fullName>
+        <externalId>false</externalId>
+        <label>OPEX 6M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>TRx_1M__c</fullName>
+        <externalId>false</externalId>
+        <label>TRx 1M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>TRx_3M__c</fullName>
+        <externalId>false</externalId>
+        <label>TRx 3M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>TRx_6M__c</fullName>
+        <externalId>false</externalId>
+        <label>TRx 6M</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
     </fields>
 </CustomObject>
