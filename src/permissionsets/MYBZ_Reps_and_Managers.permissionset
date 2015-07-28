@@ -593,6 +593,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>MYBZ_Target_Goal__c.Product_Weight_TRx__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>MYBZ_Target_Goal__c.TRx_Goal_Attainment__c</field>
         <readable>true</readable>
     </fieldPermissions>
