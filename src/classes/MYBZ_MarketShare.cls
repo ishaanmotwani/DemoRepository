@@ -131,7 +131,7 @@ global with Sharing  class MYBZ_MarketShare{
                                                        DDD_Dollars__c, DDD_Units__c, TRx__c, Previous_DDD_Units__c, Previous_DDD_Dollars__c ,Previous_Month_TRx__c
                                                FROM MYBZ_Market_Share__c WHERE division__c =: ms[0].Division__c and territory__c = null and District__c = null and  Region__c = null  and lillyProduct__c=true  and LoadIdentifier__c='NON_AFFLTN'];
             
-            if(Role == System.Label.MYBZ_SalesRepresentative||  Role == System.Label.MYBZ_DistrictSalesManager) {
+            if(Role == System.Label.MYBZ_SalesRepresentative||  Role == System.Label.MYBZ_DistrictSalesManager || Role == System.Label.MYBZ_AccountManager ) {
      
             marketShareListDistrict.clear();
             marketShareListDistrict = [SELECT Market__c mar, SUM(TRx__c) TotTrx, SUM(PREVIOUS_MONTH_TRX__C) TotPrevTrx, SUM(DDD_Units__c) TotDDD, SUM(PREVIOUS_DDD_UNITS__C) TotPrevDDD, Month_Number__c mon, Year_Number__c yr 

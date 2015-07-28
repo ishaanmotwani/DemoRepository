@@ -30,11 +30,7 @@ window.sfHelper.validateRDT = function(geography) {
     }
 };
 
-//window.region = '';
-//window.district = '';
-//window.territory = '';
-//window.system = '';
-//window.pgp = '';
+
 window.urlPath = "{!URLFOR($Resource.MYBZ_Region_Rollup_Resource, '')}";
 window.RESOURCE_ROOT = urlPath.split('?')[0];
 window.$GLOBALID = '{!JSENCODE(GlobalId)}';
@@ -119,7 +115,7 @@ function getTrendsPrescriberDataFromSalesforce(geography, callback, affiliation,
         );
         return;
     }
-    //alert('22222');
+    
     Visualforce.remoting.Manager.invokeAction(
             'MYBZ_ProductTrendDetailsController.trendsPrescriberUsingAffiliationPicker', system, pgp,flagAff, callback
         );
@@ -144,11 +140,7 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
             
             return;
         }
-        
-        //alert('marketshareControllerNonAffUsingPicker' + 'called for' + window.$Role);
-        //alert('region' + region);
-        //alert('district' + district);
-        //alert('territory' + territory);
+
         
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerNonAffUsingPicker', region, district, territory, callback
@@ -158,14 +150,13 @@ function getMarketShareDataFromSalesforce(geography, callback, affiliation, flag
     }
     
     if(window.sfHelper.isSet(affiliation) === true && window.sfHelper.isSet(geography) === true && (region!='' || district!='' || territory!='') && window.$Role !== 'Sales Representative'){
-        //alert('marketshareControllerAffUsingPickerSuperUser' + 'called for' + window.$Role );
         Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerAffUsingPickerSuperUser', system, pgp,region, district, territory, callback
         );
         return;
         
     } 
-    //alert('marketshareControllerAffUsingPicker' + 'called for' + window.$Role);
+    
     Visualforce.remoting.Manager.invokeAction(
             'MYBZ_MarketShare.marketshareControllerAffUsingPicker', system, pgp, callback
      );
@@ -196,30 +187,7 @@ function getRegionRollupDataFromSalesforce(geography, callback, affiliation, fla
     );
 }
                 
-function getTrendsDataFromSalesforce(geography, callback, affiliation, flagAff) {
-    window.sfHelper.validateRDT(geography);
-    var region = window.sfHelper.getProperty(geography, 'region');
-    var district = window.sfHelper.getProperty(geography, 'district');
-    var territory = window.sfHelper.getProperty(geography, 'territory');
-    if (flagAff !== true && window.sfHelper.isSet(geography) === false) {
-        Visualforce.remoting.Manager.invokeAction(
-            'MYBZ_Region_Rollup_Controller.productTrends', callback
-        );
-        return;
-    }
-    if (flagAff === true && window.sfHelper.isSet(affiliation) === false) {
-        Visualforce.remoting.Manager.invokeAction(
-            'MYBZ_Region_Rollup_Controller.productTrends', callback
-        );
-        return;
-    }
-    Visualforce.remoting.Manager.invokeAction(
-        'MYBZ_Region_Rollup_Controller.productTrendsUsingPicker', region, district, territory, callback
-    );
-}
-                
 function getSummaryDataFromSalesforce(geography,callback, affiliation, flagAff) {
-    //alert('Account summary is being called');
     window.sfHelper.validateRDT(geography);
     Visualforce.remoting.Manager.invokeAction(
         'MYBZ_MarketShare.accountSummary',  flagAff, callback

@@ -65,7 +65,7 @@
         <members>MYBZ_Market_Share__c.percentageChangeFromPreviousMonth__c</members>
         <members>MYBZ_PriorityAccount__c.Global_Id__c</members>
         <members>MYBZ_PriorityAccount__c.LE_ID_IHS__c</members>
-        <members>MYBZ_PriorityAccount__c.System__c</members>
+        <members>MYBZ_PriorityAccount__c.System__c</members>        
         <members>MYBZ_Product_Trend_Detail__c.Alignment_Level__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Dataload_Id__c</members>
         <members>MYBZ_Product_Trend_Detail__c.Division__c</members>
@@ -119,11 +119,11 @@
         <members>MYBZ_Target_Goal__c.Baseline__c</members>
         <members>MYBZ_Target_Goal__c.Dataload_Id__c</members>
         <members>MYBZ_Target_Goal__c.Product_Weight_DDD__c</members>
+        <members>MYBZ_Target_Goal__c.Product_Weight_TRx__c</members>
         <members>MYBZ_Target_Goal__c.TRx_Goal_Attainment__c</members>
         <members>MYBZ_Target_Goal__c.TRx_Goal__c</members>
         <members>MYBZ_Target_Goal__c.actualDddUnits__c</members>
         <members>MYBZ_Territory__c.Dataload_Id__c</members>
-        <members>MYBZ_Target_Goal__c.Product_Weight_TRx__c</members>        
         <name>CustomField</name>
     </types>
     <types>

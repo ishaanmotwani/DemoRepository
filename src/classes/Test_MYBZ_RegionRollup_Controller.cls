@@ -59,7 +59,34 @@ public class Test_MYBZ_RegionRollup_Controller{
             insert psa;
         }
         Return runAsUser;
-    }   
+    }
+    
+          /*
+    * @Method Name                    :  createUserToRun
+    * @Description                    :  method to create User of certain Role                                  
+    * @Return Type                    :  User
+    * @Param                          :      
+    */
+    public static User createUserToRun(String Role, String Globalid){
+        Profile pfl = [select id from profile where name='GSO Basic User_Platform'];
+        //Declaring the User
+        User runAsUser = new User(alias = 'BasicIHS', email='appBasicIhs@testorg.com',
+                                  emailencodingkey='UTF-8', lastname='Testing', languagelocalekey='en_US',
+                                  localesidkey='en_US', profileid = pfl.Id,  country='United States', CommunityNickname = 'u1'+Math.random()*100 ,
+                                  timezonesidkey='America/Los_Angeles', username='appBasicIhs@gso_org.com'+Math.random()*100 , MYBZ_Role__c=Role, Prsnl_Nbr_GLBL__c=Globalid,MYBZ_Reporting_ID__c='3');
+        
+        Insert runAsUser;
+        
+        System.runAs(new User(Id = Userinfo.getUserId())) {
+            PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = 'MYBZ_Reps_and_Managers'];
+            PermissionSetAssignment psa = new PermissionSetAssignment();
+            psa.AssigneeId = runAsUser.Id;
+            psa.PermissionSetId = ps.Id;
+            insert psa;
+        }
+        Return runAsUser;
+    }     
+       
     static MYBZ_Region__c Region = New MYBZ_Region__c();
     static MYBZ_Region__c Region1 = New MYBZ_Region__c();
     static MYBZ_District__c District = New MYBZ_District__c();
@@ -67,6 +94,7 @@ public class Test_MYBZ_RegionRollup_Controller{
     static MYBZ_Territory__c Territory = New MYBZ_Territory__c();
     static MYBZ_Territory__c Territory2 = New MYBZ_Territory__c();
     static MYBZ_Territory__c Territory3 = New MYBZ_Territory__c();
+    static MYBZ_Territory__c TerritoryPAC = new MYBZ_Territory__c(); 
     static Object Obj;
     
     /*
@@ -97,188 +125,51 @@ Market share, Product Trends etc.
         Insert Div;  
         system.assert(Div.id!=null);
         
+        MYBZ_IHS_Division__c DivPAC = New MYBZ_IHS_Division__c();
+        DivPAC.Name='IHS PAC NW DIVISION';
+        Insert DivPAC;  
+        system.assert(DivPAC.id!=null);        
+        
         Region.Name='TestRegion';
         Region.Parent__c=Div.ID;
         Insert Region;
-        system.assert(Region.id!=null);
+        system.assert(Region.id!=null);        
         
         Region1.Name=' Test PAC NW';
-        Region1.Parent__c=Div.ID;
+        Region1.Parent__c=DivPAC.ID;
         Insert Region1;
-        system.assert(Region1.id!=null);
-        
+        system.assert(Region1.id!=null);        
         
         District.Name='TestDistrict';
         District.Region__c=Region.ID;
         Insert District;
-        system.assert(District.id!=null);
+        system.assert(District.id!=null);        
         
         District1.Name='TestDistrict';
         District1.Region__c=Region1.ID;
         Insert District1;
-        system.assert(District1.id!=null);
-        
+        system.assert(District1.id!=null);      
+               
         Territory.Name='TestTerritory';
         Territory.State__c = District.id;
         Insert Territory;
-        system.assert(Territory.id!=null);
+        system.assert(Territory.id!=null);        
         
         Territory2.Name='TestTerritory2';
         Territory2.State__c = District.id;
         Insert Territory2;
-        system.assert(Territory2.id!=null);
+        system.assert(Territory2.id!=null);        
         
         Territory3.Name='TestTerritory3';
         Territory3.State__c = District1.id;
         Insert Territory3;
-        system.assert(Territory3.id!=null);
+        system.assert(Territory3.id!=null);     
         
-        MYBZ_Market_Share__c MarketShare = New MYBZ_Market_Share__c();
-        MarketShare.Name='TestMarket';
-        MarketShare.Global_Id__c='114017';
-        MarketShare.Market__c='test';
-        MarketShare.Month__c=1;
-        MarketShare.Owner__c='LILLY';
-        MarketShare.Previous_Month_TRx__c=1;
-        MarketShare.Product__c=IHSProduct.ID;
-        MarketShare.Region__c=Region.ID;
-        MarketShare.Territory__c=Territory.ID;
-        MarketShare.TRx__c=1;
-        MarketShare.DDD_Dollars__c=1;
-        MarketShare.Previous_DDD_Dollars__c=1;
-        MarketShare.DDD_Units__c=1;
-        MarketShare.Previous_DDD_Units__c=1;
-        MarketShare.Year__c=2015;
-        Insert MarketShare;
-        system.assert(MarketShare.id!=null);
-        
-        MYBZ_Market_Share__c MarketShare1 = New MYBZ_Market_Share__c();
-        MarketShare1.Name='TestMarket';
-        MarketShare1.Global_Id__c='114017';
-        MarketShare1.Market__c='test';
-        MarketShare1.Month__c=1;
-        MarketShare1.Owner__c='LILLY';
-        MarketShare1.Previous_Month_TRx__c=1;
-        MarketShare1.Product__c=IHSProduct2.ID;
-        MarketShare1.Region__c=Region.ID;
-        MarketShare1.Territory__c=Territory.ID;
-        MarketShare1.TRx__c=1;
-        MarketShare1.DDD_Dollars__c=1;
-        MarketShare1.Previous_DDD_Dollars__c=1;
-        MarketShare1.DDD_Units__c=1;
-        MarketShare1.Previous_DDD_Units__c=1;
-        MarketShare1.Year__c=2015;
-        Insert MarketShare1;
-        system.assert(MarketShare1.id!=null);
-        
-        MYBZ_Market_Share__c MarketShare2 = New MYBZ_Market_Share__c();
-        MarketShare2.Name='TestMarket';
-        MarketShare2.Global_Id__c='yyyyy';
-        MarketShare2.Market__c='test';
-        MarketShare2.Month__c=1;
-        MarketShare2.Owner__c='COMPETITOR';
-        MarketShare2.Previous_Month_TRx__c=1;
-        MarketShare2.Product__c=IHSProduct2.ID;
-        MarketShare2.Region__c=Region.ID;
-        MarketShare2.Territory__c=Territory2.ID;
-        MarketShare2.Year__c=2015;
-        Insert MarketShare2;
-        system.assert(MarketShare2.id!=null); 
-        
-        MYBZ_Market_Share__c MarketShare3 = New MYBZ_Market_Share__c();
-        MarketShare3.Name='TestMarket';
-        MarketShare3.Global_Id__c='114017';
-        MarketShare3.Market__c='test';
-        MarketShare3.Month__c=2;
-        MarketShare3.Owner__c='LILLY';
-        MarketShare3.Product__c=IHSProduct.ID;
-        MarketShare3.Region__c=Region.ID;
-        MarketShare3.Territory__c=Territory.ID;
-        MarketShare3.Year__c=2015;
-        Insert MarketShare3;
-        system.assert(MarketShare3.id!=null);       
-        
-        MYBZ_Market_Share__c MarketShare4 = New MYBZ_Market_Share__c();
-        MarketShare4.Name='TestMarket';
-        MarketShare4.Global_Id__c='114017';
-        MarketShare4.Market__c='test';
-        MarketShare4.Month__c=2;
-        MarketShare4.Owner__c='LILLY';
-        MarketShare4.Product__c=IHSProduct2.ID;
-        MarketShare4.Region__c=Region.ID;
-        MarketShare4.Territory__c=Territory.ID;
-        MarketShare4.Year__c=2015;
-        Insert MarketShare4;
-        system.assert(MarketShare4.id!=null); 
-        
-        MYBZ_Market_Share__c MarketShare5 = New MYBZ_Market_Share__c();
-        MarketShare5.Name='TestMarket';
-        MarketShare5.Global_Id__c='114017';
-        MarketShare5.Market__c='test';
-        MarketShare5.Month__c=3;
-        MarketShare5.Owner__c='LILLY';
-        MarketShare5.Previous_Month_TRx__c=0;
-        MarketShare5.Product__c=IHSProduct.ID;
-        MarketShare5.Region__c=Region.ID;
-        MarketShare5.Territory__c=Territory.ID;
-        MarketShare5.TRx__c=10;
-        MarketShare5.DDD_Dollars__c=10;
-        MarketShare5.Previous_DDD_Dollars__c=0;
-        MarketShare5.DDD_Units__c=10;
-        MarketShare5.Previous_DDD_Units__c=0;
-        MarketShare5.Year__c=2014;
-        Insert MarketShare5;
-        system.assert(MarketShare5.id!=null);
-        
-        MYBZ_Market_Share__c MarketShare6 = New MYBZ_Market_Share__c();
-        MarketShare6.Name='TestMarket';
-        MarketShare6.Global_Id__c='114017';
-        MarketShare6.Market__c='test';
-        MarketShare6.Month__c=1;
-        MarketShare6.Owner__c='LILLY';
-        MarketShare6.Product__c=IHSProduct.ID;
-        MarketShare6.Region__c=Region.ID;
-        MarketShare6.Territory__c=Territory.ID;
-        MarketShare6.Year__c=2014;
-        Insert MarketShare6;
-        system.assert(MarketShare6.id!=null);
-        
-        MYBZ_Market_Share__c MarketShare7 = New MYBZ_Market_Share__c();
-        MarketShare7.Name='TestMarket';
-        MarketShare7.Global_Id__c='114017';
-        MarketShare7.Market__c='test';
-        MarketShare7.Month__c=3;
-        MarketShare7.Owner__c='LILLY';
-        MarketShare7.Previous_Month_TRx__c=0;
-        MarketShare7.Product__c=IHSProduct2.ID;
-        MarketShare7.Region__c=Region.ID;
-        MarketShare7.Territory__c=Territory3.id;
-        MarketShare7.TRx__c=0;
-        MarketShare7.DDD_Dollars__c=0;
-        MarketShare7.Previous_DDD_Dollars__c=0;
-        MarketShare7.DDD_Units__c=0;
-        MarketShare7.Previous_DDD_Units__c=0;
-        MarketShare7.Year__c=2015;
-        Insert MarketShare7;
-        system.assert(MarketShare7.id!=null);
-        
-        MYBZ_Market_Share__c MarketShare8 = New MYBZ_Market_Share__c();
-        MarketShare8.Name='TestMarket';
-        MarketShare8.Global_Id__c='yyyyy';
-        MarketShare8.Market__c='test';
-        MarketShare8.Owner__c='LILLY';
-        MarketShare8.Previous_Month_TRx__c=0;
-        MarketShare8.Product__c=IHSProduct2.ID;
-        MarketShare8.Region__c=Region1.ID;
-        MarketShare8.Territory__c=Territory2.ID;
-        MarketShare8.TRx__c=0;
-        MarketShare8.DDD_Dollars__c=0;
-        MarketShare8.Previous_DDD_Dollars__c=0;
-        MarketShare8.DDD_Units__c=0;
-        MarketShare8.Previous_DDD_Units__c=0;
-        Insert MarketShare8;
-        system.assert(MarketShare8.id!=null);
-        
+        TerritoryPAC.Name='TestTerritoryPAC';
+        TerritoryPAC.State__c = District1.id;
+        Insert TerritoryPAC;
+        system.assert(TerritoryPAC.id!=null);
+                
         List<MYBZ_System__c> SystemList = new List<MYBZ_System__c>();
         MYBZ_System__c System1 = new MYBZ_System__c();
         System1.Global_IDs__c = '114017';
@@ -351,54 +242,7 @@ Market share, Product Trends etc.
         TargetGoal2.Year__c=2015;
         Insert TargetGoal2;
         system.assert(TargetGoal2.id!=null);
-        
-        MYBZ_Product_Trend_Detail__c PTD = New MYBZ_Product_Trend_Detail__c();
-        PTD.Area__c=Region.ID;
-        PTD.District__c=District.ID;
-        PTD.End_Date__c=Date.ValueOf('2015-01-21')+30;
-        PTD.HCP_First_Name__c='Test';
-        PTD.Global_ID__c='114017';
-        PTD.IHS_Product__c=IHSProduct.ID;
-        PTD.HCP_Last_Name__c='Test';
-        PTD.Range__c='6M';
-        PTD.Start_Date__c=Date.ValueOf('2015-01-21');
-        PTD.Territory__c=Territory.ID;
-        PTD.TRx_Units__c=1;
-        Insert PTD;
-        system.assert(PTD.id!=null);
-        
-        MYBZ_Product_Trend_Detail__c PTD2 = New MYBZ_Product_Trend_Detail__c();
-        PTD2.Area__c=Region.ID;
-        PTD2.District__c=District.ID;
-        PTD2.End_Date__c=Date.ValueOf('2015-02-21')+30;
-        PTD2.Global_ID__c='114017';
-        PTD.IHS_Product__c=IHSProduct.ID;
-        PTD2.Range__c='6M';
-        PTD2.Start_Date__c=Date.ValueOf('2015-02-21');
-        PTD2.Territory__c=Territory.ID;
-        PTD2.TRx_Units__c=5;
-        Insert PTD2;
-        system.assert(PTD2.id!=null);
-        
-        MYBZ_Product_Trend_Detail__c PTD3 = New MYBZ_Product_Trend_Detail__c();
-        PTD3.Area__c=Region.ID;
-        PTD3.District__c=District.ID;
-        PTD3.HCP_First_Name__c='Test';
-        PTD3.Global_ID__c='114017';
-        PTD3.IHS_Product__c=IHSProduct.ID;
-        PTD3.HCP_Last_Name__c='Test';
-        PTD3.Range__c='6M';
-        PTD3.Territory__c=Territory.ID;
-        Insert PTD3;
-        system.assert(PTD3.id!=null);
-        
-        MYBZ_Product_Trend_Detail__c PTD4 = New MYBZ_Product_Trend_Detail__c();
-        PTD4.Area__c=Region.ID;
-        PTD4.District__c=District.ID;
-        PTD4.Global_ID__c='yyyyy';
-        PTD4.Territory__c=Territory.ID;
-        Insert PTD4;
-        system.assert(PTD4.id!=null);
+                
         
         
         MYBZ_Call_Planning__c CallPlanning = New MYBZ_Call_Planning__c();
@@ -452,7 +296,7 @@ Market share, Product Trends etc.
         MYBZ_Call_Planning__c CallPlanning4 = New MYBZ_Call_Planning__c();
         CallPlanning4.Name='Test';        
         CallPlanning4.First_Name__c='FirstName';
-        CallPlanning4.LoadIdentifier__c='AFFLTN';  
+        CallPlanning4.LoadIdentifier__c='NON_AFFLTN';    
         CallPlanning4.Global_ID__c='114017';        
         CallPlanning4.Last_Name__c='LastName';
         CallPlanning4.Territory__c=Territory.ID; 
@@ -485,6 +329,21 @@ Market share, Product Trends etc.
         Insert CallPlanning6;
         system.assert(CallPlanning6.id!=null);
         
+        MYBZ_Call_Planning__c CallPlanning7 = New MYBZ_Call_Planning__c();
+        CallPlanning7.Data_Load_Date__c=DateTime.valueOfGMT('2015-05-21 00:00:00');
+        CallPlanning7.First_Name__c='FN2';
+        CallPlanning7.Global_ID__c='2016016';
+        CallPlanning7.Last_Name__c='LN2';
+        CallPlanning7.LoadIdentifier__c='NON_AFFLTN';
+        CallPlanning7.Physician_ID__c='BBB';
+        CallPlanning7.Start_Date_1M__c=DateTime.valueOfGMT('2015-05-21 00:00:00');
+        CallPlanning7.Start_Date_3M__c=DateTime.valueOfGMT('2015-05-21 00:00:00');
+        CallPlanning7.Start_Date_6M__c=DateTime.valueOfGMT('2015-05-21 00:00:00');
+        CallPlanning7.Territory__c=Territory2.id;
+        CallPlanning7.Tier__c=1;
+        Insert CallPlanning7;
+        system.assert(CallPlanning7.id!=null);
+        
         MYBZ_Call__c Call = New MYBZ_Call__c();
         Call.Call_Date__c=null;
         Call.Call_Type__c='Test';
@@ -498,6 +357,7 @@ Market share, Product Trends etc.
         Call.Physician_ID__c = 'ppp';
         Call.Call_ID__c='A101';
         Call.Range__c='6M';
+        Call.LoadIdentifier__c='NON_AFFLTN';  
         Insert Call;
         system.assert(Call.id!=null);
         
@@ -514,6 +374,7 @@ Market share, Product Trends etc.
         Call1.Physician_ID__c = 'ppp';
         Call1.Call_ID__c='A101';
         Call1.Range__c='6M';
+        Call1.LoadIdentifier__c='NON_AFFLTN';  
         Insert Call1;
         system.assert(Call1.id!=null);
         
@@ -530,6 +391,7 @@ Market share, Product Trends etc.
         Call2.Physician_ID__c = 'ppp';
         Call2.Call_ID__c='A102';
         Call2.Range__c='6M';
+        Call2.LoadIdentifier__c='NON_AFFLTN';  
         Insert Call2;
         system.assert(Call2.id!=null);
         
@@ -546,6 +408,7 @@ Market share, Product Trends etc.
         Call3.Physician_ID__c = 'ppp';
         Call3.Call_ID__c='A102';
         Call3.Range__c='6M';
+        Call3.LoadIdentifier__c='NON_AFFLTN';  
         Insert Call3;
         system.assert(Call3.id!=null);
         
@@ -560,6 +423,7 @@ Market share, Product Trends etc.
         Call4.Call_ID__c='A103';
         Call4.Range__c='6M';
         Insert Call4;
+        Call4.LoadIdentifier__c='NON_AFFLTN';  
         system.assert(Call4.id!=null);  
         
         MYBZ_Call__c Call5 = New MYBZ_Call__c();
@@ -575,8 +439,110 @@ Market share, Product Trends etc.
         Call5.Physician_ID__c = 'aaa';
         Call5.Call_ID__c='A100';
         Call5.Range__c='6M';
+        Call5.LoadIdentifier__c='NON_AFFLTN';  
         Insert Call5;
         system.assert(Call5.id!=null);
+        
+        MYBZ_Call__c Call10 = New MYBZ_Call__c();
+        Call10.Call_Date__c=DateTime.valueOfGMT('2015-01-21 00:00:00');
+        Call10.Call_Type__c=System.Label.MYBZ_SampleOnly;
+        Call10.Product__c=IHSProduct2.ID; 
+        Call10.Global_ID__c='2016016';
+        Call10.Product_Position__c=2;
+        Call10.Territory__c=Territory2.ID;
+        Call10.Name='Test';
+        Call10.Physician_ID__c = 'BBB';
+        Call10.Call_ID__c='A103';
+        Call10.Range__c='6M';
+        Call10.LoadIdentifier__c='NON_AFFLTN';
+        Insert Call10;
+        system.assert(Call10.id!=null);  
+        
+        MYBZ_Call__c Call11 = New MYBZ_Call__c();
+        Call11.Call_Date__c=DateTime.valueOfGMT('2015-01-21 00:00:00');
+        Call11.Call_Type__c='Test';
+        Call11.First_Name__c='FirstName';
+        Call11.Last_Name__c='LastName';
+        Call11.Product__c=IHSProduct.ID; 
+        Call11.Global_ID__c='2016016';
+        Call11.Product_Position__c=1;
+        Call11.Territory__c=Territory2.ID;
+        Call11.Name='Test';
+        Call11.Physician_ID__c = 'BBB';
+        Call11.Call_ID__c='A100';
+        Call11.Range__c='6M';
+        Call11.LoadIdentifier__c='NON_AFFLTN';
+        Insert Call11;
+        system.assert(Call11.id!=null);
+        
+        MYBZ_Call__c Call6 = New MYBZ_Call__c();
+        Call6.Call_Date__c=null;
+        Call6.Call_Type__c='Test';
+        Call6.First_Name__c='FirstName';
+        Call6.Last_Name__c='LastName';
+        Call6.Product__c=IHSProduct.ID; 
+        Call6.Global_ID__c='2016016';
+        Call6.Product_Position__c=1;
+        Call6.Territory__c=Territory2.ID;
+        Call6.Name='Test';
+        Call6.Physician_ID__c = 'BBB';
+        Call6.Call_ID__c='A104';
+        Call6.Range__c='6M';
+        Call6.LoadIdentifier__c='NON_AFFLTN';
+        Insert Call6;
+        system.assert(Call6.id!=null);
+        
+        MYBZ_Call__c Call7 = New MYBZ_Call__c();
+        Call7.Call_Date__c=DateTime.valueOfGMT('2015-01-21 00:00:00');
+        Call7.Call_Type__c='Test';
+        Call7.First_Name__c='FirstName';
+        Call7.Last_Name__c='LastName';
+        Call7.Product__c=IHSProduct.ID; 
+        Call7.Global_ID__c='2016016';
+        Call7.Product_Position__c=1;
+        Call7.Territory__c=Territory2.ID;
+        Call7.Name='Test';
+        Call7.Physician_ID__c = 'BBB';
+        Call7.Call_ID__c='A105';
+        Call7.Range__c='6M';
+        Call7.LoadIdentifier__c='NON_AFFLTN';
+        Insert Call7;
+        system.assert(Call7.id!=null);
+        
+        MYBZ_Call__c Call8 = New MYBZ_Call__c();
+        Call8.Call_Date__c=DateTime.valueOfGMT('2015-01-21 00:00:00');
+        Call8.Call_Type__c='Test';
+        Call8.First_Name__c='FirstName';
+        Call8.Last_Name__c='LastName';
+        Call8.Product__c=IHSProduct.ID; 
+        Call8.Global_ID__c='2016016';
+        Call8.Product_Position__c=1;
+        Call8.Territory__c=Territory2.ID;
+        Call8.Name='Test';
+        Call8.Physician_ID__c = 'BBB';
+        Call8.Call_ID__c='A106';
+        Call8.Range__c='6M';
+        Call8.LoadIdentifier__c='NON_AFFLTN';
+        Insert Call8;
+        system.assert(Call8.id!=null);
+        
+        MYBZ_Call__c Call9 = New MYBZ_Call__c();
+        Call9.Call_Date__c=null;
+        Call9.Call_Type__c='Test';
+        Call9.First_Name__c='FirstName';
+        Call9.Last_Name__c='LastName';
+        Call9.Product__c=IHSProduct.ID; 
+        Call9.Global_ID__c='2016016';
+        Call9.Product_Position__c=1;
+        Call9.Territory__c=Territory2.ID;
+        Call9.Name='Test';
+        Call9.Physician_ID__c = 'BBB';
+        Call9.Call_ID__c='A107';
+        Call9.Range__c='6M';
+        Call9.LoadIdentifier__c='NON_AFFLTN';
+        Insert Call9;
+        system.assert(Call9.id!=null);
+        
         
         MYBZ_CallPlanningProductJunction__c  callPlanJunction1 = new MYBZ_CallPlanningProductJunction__c();
         callPlanJunction1.Call_Planning__c = CallPlanning1.id;
@@ -609,6 +575,41 @@ Market share, Product Trends etc.
         callPlanJunction7.Physician_ID__c ='qqq';
         insert callPlanJunction7;
         system.assert(callPlanJunction7.id!=null);
+        
+         MYBZ_CallPlanningProductJunction__c  CallPlanningJunction8 = new MYBZ_CallPlanningProductJunction__c();
+        CallPlanningJunction8.Call_Planning__c = CallPlanning7.id;
+        CallPlanningJunction8.Product__c = IHSProduct.id;
+        CallPlanningJunction8.TRx_Units_1M__c = 1;
+        CallPlanningJunction8.Previous_TRx_Units_1M__c = 1;
+        CallPlanningJunction8.TRx_Units_3M__c = 1;
+        CallPlanningJunction8.Previous_TRx_Units_3M__c = 1;
+        CallPlanningJunction8.TRx_Units_6M__c = 1;
+        CallPlanningJunction8.Previous_TRx_Units_6M__c = 1;
+        CallPlanningJunction8.Physician_ID__c ='BBB';
+        insert CallPlanningJunction8; 
+        
+        MYBZ_CallPlanningProductJunction__c  CallPlanningJunction9 = new MYBZ_CallPlanningProductJunction__c();
+        CallPlanningJunction9.Call_Planning__c = CallPlanning7.id;
+        CallPlanningJunction9.Product__c = IHSProduct2.id;
+        CallPlanningJunction9.TRx_Units_1M__c = 1;
+        CallPlanningJunction9.Previous_TRx_Units_1M__c = 0;
+        CallPlanningJunction9.TRx_Units_3M__c = 1;
+        CallPlanningJunction9.Previous_TRx_Units_3M__c = 0;
+        CallPlanningJunction9.TRx_Units_6M__c = 1;
+        CallPlanningJunction9.Previous_TRx_Units_6M__c = 0;
+        CallPlanningJunction9.Physician_ID__c ='BBB';
+        insert CallPlanningJunction9;
+        
+        MYBZ_CallPlanningProductJunction__c  CallPlanningJunction10 = new MYBZ_CallPlanningProductJunction__c();
+        CallPlanningJunction10.Call_Planning__c = CallPlanning7.id;
+        CallPlanningJunction10.TRx_Units_1M__c = 1;
+        CallPlanningJunction10.Previous_TRx_Units_1M__c = 1;
+        CallPlanningJunction10.TRx_Units_3M__c = 1;
+        CallPlanningJunction10.Previous_TRx_Units_3M__c = 1;
+        CallPlanningJunction10.TRx_Units_6M__c = 1;
+        CallPlanningJunction10.Previous_TRx_Units_6M__c = 1;
+        CallPlanningJunction10.Physician_ID__c ='BBB';
+        insert CallPlanningJunction10;
         
         List<MYBZ_Region_Rollup__c> regionRollUp = new List<MYBZ_Region_Rollup__c>();
         List<string> alignments = new List<String>{'Region', 'District', 'Territory'};
@@ -659,8 +660,7 @@ Market share, Product Trends etc.
                 eachRegionRollup.OPEX_Start_Date_6M__c = DateTime.valueOfGMT('2015-01-21 00:00:00');
                 eachRegionRollup.TRx_Start_Date_1M__c = DateTime.valueOfGMT('2015-01-21 00:00:00');
                 eachRegionRollup.TRx_Start_Date_3M__c = DateTime.valueOfGMT('2015-01-21 00:00:00');
-                eachRegionRollup.TRx_Start_Date_6M__c = DateTime.valueOfGMT('2015-01-21 00:00:00');
-                
+                eachRegionRollup.TRx_Start_Date_6M__c = DateTime.valueOfGMT('2015-01-21 00:00:00');                
                 eachRegionRollup.Global_ID__c = '114017';
                 
                 regionRollUp.add(eachRegionRollup);
@@ -747,7 +747,78 @@ Market share, Product Trends etc.
                 eachRegionRollup3.TRx_Start_Date_3M__c = DateTime.valueOfGMT('2015-01-21 00:00:00');
                 regionRollUp.add(eachRegionRollup3);
                 
+                //Region Roll up record at Region Level
+                MYBZ_Region_Rollup__c eachRegionRollupReg1 = new MYBZ_Region_Rollup__c();
+                eachRegionRollupReg1.Alignment_Level__c = alignments.get(0);
+                eachRegionRollupReg1.IHS_Division__c = Div.id;
+                eachRegionRollupReg1.Region__c = Region.id;
+                eachRegionRollupReg1.District__c = null;
+                eachRegionRollupReg1.Product__c = IHSProduct3.ID;
+                eachRegionRollupReg1.Territory__c = null;
+                //eachRegionRollupReg1.Global_ID__c = '114017';             
+                
+                regionRollUp.add(eachRegionRollupReg1);
+                
+                //Region Roll up record at district Level
+                MYBZ_Region_Rollup__c eachRegionRollupDist1 = new MYBZ_Region_Rollup__c();
+                eachRegionRollupDist1.Alignment_Level__c = alignments.get(1);
+                eachRegionRollupDist1.IHS_Division__c = Div.id;
+                eachRegionRollupDist1.Region__c = Region.id;
+                eachRegionRollupDist1.District__c = District.id;
+                eachRegionRollupDist1.Product__c = IHSProduct3.ID;
+                eachRegionRollupDist1.Territory__c = null;
+                //eachRegionRollupDist1.Global_ID__c = '114017';                
+                
+                regionRollUp.add(eachRegionRollupDist1);
+                
+                //Region Roll up record at territory Level
+                MYBZ_Region_Rollup__c eachRegionRollupTerr1 = new MYBZ_Region_Rollup__c();
+                eachRegionRollupTerr1.Alignment_Level__c = alignments.get(2);
+                eachRegionRollupTerr1.IHS_Division__c = Div.id;
+                eachRegionRollupTerr1.Region__c = Region.id;
+                eachRegionRollupTerr1.District__c = District.id;
+                eachRegionRollupTerr1.Product__c = IHSProduct3.ID;
+                eachRegionRollupTerr1.Territory__c = Territory2.id;
+                //eachRegionRollupTerr1.Global_ID__c = '114017';                
+                
+                //Region Roll up record at PAC Region level             
+                MYBZ_Region_Rollup__c eachRegionRollupRegPAC1 = new MYBZ_Region_Rollup__c();
+                eachRegionRollupRegPAC1.Alignment_Level__c = alignments.get(0);
+                eachRegionRollupRegPAC1.IHS_Division__c = DivPAC.id;
+                eachRegionRollupRegPAC1.Region__c = Region1.id;
+                eachRegionRollupRegPAC1.District__c = null;
+                eachRegionRollupRegPAC1.Product__c = IHSProduct3.ID;
+                eachRegionRollupRegPAC1.Territory__c = null;
+                eachRegionRollupRegPAC1.Global_ID__c = '114017';                
+                
+                regionRollUp.add(eachRegionRollupRegPAC1);
+                
+                //Region Roll up record at PAC district Level
+                MYBZ_Region_Rollup__c eachRegionRollupDistPAC1 = new MYBZ_Region_Rollup__c();
+                eachRegionRollupDistPAC1.Alignment_Level__c = alignments.get(1);
+                eachRegionRollupDistPAC1.IHS_Division__c = DivPAC.id;
+                eachRegionRollupDistPAC1.Region__c = Region1.id;
+                eachRegionRollupDistPAC1.District__c = District1.id;
+                eachRegionRollupDistPAC1.Product__c = IHSProduct3.ID;
+                eachRegionRollupDistPAC1.Territory__c = null;
+                eachRegionRollupDistPAC1.Global_ID__c = '114017';               
+                
+                regionRollUp.add(eachRegionRollupDistPAC1);
+                
+                //Region Roll up record at PAC territory Level
+                MYBZ_Region_Rollup__c eachRegionRollupTerrPAC1 = new MYBZ_Region_Rollup__c();
+                eachRegionRollupTerrPAC1.Alignment_Level__c = alignments.get(2);
+                eachRegionRollupTerrPAC1.IHS_Division__c = DivPAC.id;
+                eachRegionRollupTerrPAC1.Region__c = Region1.id;
+                eachRegionRollupTerrPAC1.District__c = District1.id;
+                eachRegionRollupTerrPAC1.Product__c = IHSProduct3.ID;
+                eachRegionRollupTerrPAC1.Territory__c = TerritoryPAC.id;
+                eachRegionRollupTerrPAC1.Global_ID__c = '114017';               
+                
+                regionRollUp.add(eachRegionRollupTerrPAC1);
+                
             }
+            
         insert regionRollUp;
         
         MYBZ_Region_Rollup_Controller.GlobalId='114017';
@@ -815,80 +886,7 @@ Market share, Product Trends etc.
         return Obj;        
     }
  
-/**** DEPRECATED ******/ 
-    /*
-* @Method Name                    :  testProductTrends
-* @Description                    :  method to generate Product Trends Report using Territory Picker                                                                  
-* @Return Type                    :  Returns JSON Object for Product Trends
-* @Param                          :      
-*/
-  /*  static Object testProductTrends(){       
-        Obj=MYBZ_Region_Rollup_Controller.ProductTrendsUsingPicker(Region.Name,District.Name,Territory.Name);
-        return Obj;
-    }
-    */
-    /*
-* @Method Name                    :  testProductTrends1
-* @Description                    :  method to generate Product Trends Report without using Territory Picker                                                                  
-* @Return Type                    :  Returns JSON Object for Product Trends
-* @Param                          :      
-*/
-  /*  static Object testProductTrends1(){
-        Obj=MYBZ_Region_Rollup_Controller.ProductTrends();
-        return Obj;        
-    }
-   */
-/**** DEPRECATED PRODUCT TRENDS ENDS******/  
-/**** DEPRECATED ****/  
-/*
-* @Method Name                    :  testMarketShare
-* @Description                    :  method to generate Market Share Report using Territory Picker                                                                  
-* @Return Type                    :  Returns JSON Object for Market Share
-* @Param                          :      
-*/
- /*   static Object testMarketShare(){
-        Obj = MYBZ_Region_Rollup_Controller.MarketShareUsingPicker(Region.Name,District.Name,Territory.Name);  
-        return Obj;
-    }
-    
-*/
-/*
-* @Method Name                    :  testMarketShare1
-* @Description                    :  method to generate Market Share Report without using Territory Picker                                                                  
-* @Return Type                    :  Returns JSON Object for Market Share
-* @Param                          :      
-*/
-/*    static Object testMarketShare1(){
-        Obj = MYBZ_Region_Rollup_Controller.MarketShare();
-        return Obj;
-    }
-*/  
-/**** DEPRECATED MARKETSHARE ENDS******/   
-   
-    /*
-* @Method Name                    :  testTrendsPrescriber1
-* @Description                    :  method to generate Trends Prescriber Report                                                               
-* @Return Type                    :  Returns JSON Object for Trends Prescriber
-* @Param                          :      
-*/
-    static Object testTrendsPrescriber1(){
-        Obj = MYBZ_Region_Rollup_Controller.TrendsPrescriber();                     
-        return Obj;
-    }
-    
-    /*
-* @Method Name                    :  testTrendsPrescriber
-* @Description                    :  method to generate Trends Prescriber Report using Territory Picker                                                             
-* @Return Type                    :  Returns JSON Object for Trends Prescriber
-* @Param                          :      
-*/
-    static Object testTrendsPrescriber(){
-        Obj = MYBZ_Region_Rollup_Controller.TrendsPrescriberUsingPicker(Region.Name,District.Name,Territory.Name);                     
-        return Obj;
-    }
-    
-    /*
-* @Method Name                    :  testcallPlanning
+/* @Method Name                    :  testcallPlanning
 * @Description                    :  method to generate call planning Report using Territory Picker                                                                  
 * @Return Type                    :  Returns JSON Object for call planning
 * @Param                          :      
@@ -949,20 +947,6 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('2'));
             
-            Obj=testTrendsPrescriber1();
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            system.assert(jsonrespasString.contains('Test'));
-            
-            
-            /*Obj=testProductTrends1();  
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';          
-            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
-            system.assert(jsonrespasString.contains('EFFIENT'));            
-            system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));*/
-            
             
             Obj=testcallPlanning1();             
             jsonrespasString = Obj+'';
@@ -970,15 +954,6 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             // Assert to check whether the JSON contains relevant product and Tier inserted from  test data
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('1'));
-            
-            
-            /*Obj=testMarketShare1();
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product and Market inserted from  test data  
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('test')); */
-            
             
         }
     }
@@ -1009,22 +984,9 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             jsonrespasString = Obj+'';
             // Assert to check whether the JSON contains relevant product,goal set and goal met from test data  
             system.assert(jsonrespasString.contains('EFFIENT'));        
-            system.assert(jsonrespasString.contains('2')); 
-            
-            
-            /*Obj=testProductTrends();
-            system.assertEquals(null,Obj);*/
+            system.assert(jsonrespasString.contains('2'));
             
             Obj=testcallPlanning();
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product and prescriber name inserted from  test data
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('FirstName'));
-            
-            
-            /*Obj=testMarketShare(); 
-            system.assertEquals(null,Obj);*/
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
@@ -1040,37 +1002,10 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('EFFIENT'));        
             system.assert(jsonrespasString.contains('2'));
             
-            
-            Obj=testTrendsPrescriber1();
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product,prescriber inserted from  test data  
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('topFivePrescribers'));
-            system.assert(jsonrespasString.contains('Test'));
-            
-            
-            /*Obj=testProductTrends1(); 
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
-            system.assert(jsonrespasString.contains('EFFIENT'));            
-            system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));*/
-            
-            
             Obj=testcallPlanning1();
             jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant products inserted from  test data
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('FirstName'));
-            
                        
-           /* Obj=testMarketShare1();
-            system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            system.assert(jsonrespasString.contains('EFFIENT'));
-           */   
+            
             
             
         }
@@ -1096,27 +1031,10 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('TestDistrict'));   
             system.assert(jsonrespasString.contains('114017'));
             
-            Obj=testTrendsPrescriber();
-            system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product,prescriber inserted from  test data  
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('topFivePrescribers'));
-            system.assert(jsonrespasString.contains('Test'));
-            
             
             Obj=testTargetGoal();           
             system.assert(Obj==null);
             // jsonrespasString = Obj+'';
-            
-            
-           /* Obj=testProductTrends();       
-            system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
-            system.assert(jsonrespasString.contains('EFFIENT'));            
-            system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));*/
             
             Obj=testcallPlanning(); 
             system.assert(Obj!=null);
@@ -1125,13 +1043,6 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('1'));
             
-            
-            /*Obj=testMarketShare(); 
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product and Market inserted from  test data  
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('test')); */
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
@@ -1149,22 +1060,6 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('2'));
             
             
-            Obj=testTrendsPrescriber1();
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product,prescriber inserted from  test data  
-            //system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('topFivePrescribers'));
-            system.assert(jsonrespasString.contains('Test'));
-            
-            /*Obj=testProductTrends1();            
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data   
-            system.assert(jsonrespasString.contains('EFFIENT'));            
-            system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));*/
-            
             Obj=testcallPlanning1(); 
             system.assert(Obj!=null);
             jsonrespasString = Obj+'';
@@ -1172,12 +1067,6 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('1'));
             
-            /*Obj=testMarketShare1();
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product and Market inserted from  test data  
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('test')); */
         }
     }
     //////////////////
@@ -1203,26 +1092,10 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('TestRegion')); 
             
             
-            Obj=testTrendsPrescriber();
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product,prescriber inserted from  test data 
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('topFivePrescribers'));
-            system.assert(jsonrespasString.contains('Test'));
-            
             Obj=testTargetGoal();            
             system.assert(Obj==null);
             //jsonrespasString = Obj+'';
             
-            
-            /*Obj=testProductTrends();            
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data  
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));*/
             
             Obj=testcallPlanning(); 
             system.assert(Obj!=null);
@@ -1231,12 +1104,6 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('1'));
             
-            /*Obj=testMarketShare(); 
-            system.assert(Obj!=null);
-             jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product and Market inserted from  test data 
-            system.assert(jsonrespasString.contains('EFFIENT')); 
-            system.assert(jsonrespasString.contains('test'));  */
             
             // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
             Obj=testRegionRollup1();
@@ -1246,23 +1113,7 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('IHS Division'));
             
-            
-            Obj=testTrendsPrescriber1();
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            //System.assertEquals('this will fail' ,'' + Obj);  
-            // Assert to check whether the JSON contains relevant product,prescriber inserted from  test data 
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('topFivePrescribers'));
-            system.assert(jsonrespasString.contains('Test'));
-            
-            /*Obj=testProductTrends1();            
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product,year and month inserted from  test data  
-            system.assert(jsonrespasString.contains('EFFIENT'));
-            system.assert(jsonrespasString.contains('2014'));
-            system.assert(jsonrespasString.contains('3'));*.
+           
             
             Obj=testcallPlanning1(); 
             //system.assert(Obj!=null);
@@ -1271,12 +1122,6 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             system.assert(jsonrespasString.contains('EFFIENT'));
             system.assert(jsonrespasString.contains('1'));
             
-            /*Obj=testMarketShare1();
-            system.assert(Obj!=null);
-            jsonrespasString = Obj+'';
-            // Assert to check whether the JSON contains relevant product and Market inserted from  test data 
-            system.assert(jsonrespasString.contains('EFFIENT'));  
-            system.assert(jsonrespasString.contains('test'));   */ 
         }
     }
     
@@ -1295,14 +1140,7 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
             //Asserting the JSONs generated from querying records for each report without using Territory picker
             Obj=testTargetGoal1();
             system.assertEquals(null,Obj);
-            Obj=testTrendsPrescriber1();
-            system.assertEquals(null,Obj);
-            /*Obj=testProductTrends1();            
-            system.assertEquals(null,Obj); */
-            /*Obj=testMarketShare1();            
-            // Assert to check whether the JSON contains relevant product and Market inserted from  test data 
-            system.assert(jsonrespasString.contains('EFFIENT'));  
-            */
+            
         }
     }
     
@@ -1324,12 +1162,7 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
              Boolean flagAff = false;
              Obj=MYBZ_Region_Rollup_Controller.alignment(flagAff); 
              system.assert(Obj!=null);
-             /*Obj=MYBZ_Region_Rollup_Controller.productTrendsUsingPicker(Region.Name, District.Name, Territory.Name);
-             system.assert(Obj!=null); 
-             Obj=MYBZ_Region_Rollup_Controller.productTrendsUsingPicker(Region.Name, null, Territory.Name); 
-             system.assert(Obj!=null);
-             Obj=MYBZ_Region_Rollup_Controller.productTrendsUsingPicker(null, null, Territory.Name); 
-             system.assert(Obj!=null);*/           
+                        
              Obj=MYBZ_Region_Rollup_Controller.regionRollup(flagAff);
              system.assert(Obj!=null);
              Obj=MYBZ_Region_Rollup_Controller.callPlanningUsingPicker(Region.Name, District.Name, Territory.Name);
@@ -1345,6 +1178,48 @@ Region Roll up, Product trends, Market Share, Call Planning etc.
         }
     }
     
+    static testMethod void testAsPACUser() {
+        User runAsUser = createUser('Account Manager');  
+        
+        System.runas(runAsUser){ 
+         String jsonrespasString;
+         Boolean flagAff = false;
+        // Asserting the JSONs generated from querying records for each report after selection done using Territory picker          
+        Obj=testAlignment();
+        system.assert(Obj!=null);
+        jsonrespasString = Obj+'';
+        // Assert to check whether the JSON contains relevant region and global id from  test data 
+        system.assert(jsonrespasString.contains('TestRegion'));
+        
+        // Asserting the JSONs generated from querying records for each report after selection done without using Territory picker
+        Obj=testRegionRollup1();
+        system.assert(Obj!=null);
+        jsonrespasString = Obj+'';
+        // Assert to check whether the JSON contains relevant product,division from test data 
+        system.assert(jsonrespasString.contains('EFFIENT'));
+        system.assert(jsonrespasString.contains('IHS Division'));   
+      }     
+    }
     
+     static testMethod void testAsSalesRepAlignment2() {
+        String jsonrespasString;
+         User runAsUser = createUserToRun(System.Label.MYBZ_SalesRepresentative, '2016016');  
+        
+        System.runas(runAsUser){ 
+        
+            // Insertion of Test Data
+            insertTestData();
+        
+        }
+        System.runas(runAsUser){ 
+            Test.startTest();
+               Obj=testcallPlanning1();
+               jsonrespasString = Obj+'';
+               //Assertion to Check whether the generated JSON contains the Test data related to Call Planning
+               system.assert(jsonrespasString.contains('05/20/2015'));             
+               system.assert(jsonrespasString.contains('EFFIENT'));
+               Test.stopTest();
+        }
+     }
   
 }
