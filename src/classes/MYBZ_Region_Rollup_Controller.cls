@@ -81,7 +81,7 @@ This object is later used to report on User activity on this application.
             metricsCount.DateTimeStamp__c=datetimeStamp;
             metricsCount.Global_Id__c=GlobalId;
             metricsCount.Page__c=Page;
-            //insert metricsCount;
+            insert metricsCount;
         }
         catch(Exception E) 
         {
@@ -431,17 +431,7 @@ This object is later used to report on User activity on this application.
                          flagshowPAC = true;
                       }
                    }
-                   /*if(userDivisionRR[0].Region__r.name != NULL &&  userDivisionRR[0].Region__r.name != ''){
-                      UserRegion = userDivisionRR[0].Region__r.name;  
-                      if(UserRegion.contains(system.label.MYBZ_PACArea)){
-                        flagshowPAC = true;
-                      }
-                   }                   
-                   if(userDivisionRR[0].District__r.name != NULL &&  userDivisionRR[0].District__r.name != ''){
-                      UserDistrict = userDivisionRR[0].District__r.name;                    
-                      if(UserDistrict.contains(system.label.MYBZ_IHSAM))
-                         flagshowPAC = true;
-                   }*/
+                  
                                 
                 }              
                 
