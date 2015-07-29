@@ -1,5 +1,9 @@
 public with sharing class MYBZ_AlignmentWrapper
-{
+{   
+    public MYBZ_AlignmentWrapper(){
+    
+    }
+    
     public class Response
     {
         public Object geoData;

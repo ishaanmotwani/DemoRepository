@@ -859,6 +859,7 @@ Market share, Product Trends etc.
         //}
         insertTestData();
         Boolean flagAff = false;
+        MYBZ_AlignmentWrapper alignWrap = new MYBZ_AlignmentWrapper();
         Obj=MYBZ_Region_Rollup_Controller.Alignment(flagAff);
         return Obj;
     }
