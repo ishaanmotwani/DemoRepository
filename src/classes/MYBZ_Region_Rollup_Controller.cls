@@ -12,6 +12,7 @@ global with sharing class MYBZ_Region_Rollup_Controller
     global static Id UserId;
     global static String Role{get;set;}
     global static String GlobalId{get;set;}
+    global static String AffliationAMGlobalId{get;set;}
     global static String datetimeStamp{get;set;}
     global static String uname{get;set;}
     global static String Page{get;set;}
@@ -54,6 +55,7 @@ user related data for reporting .
             Role = userObj.MYBZ_Role__c;
             if(Role==System.Label.MYBZ_AccountManager && userObj.MYBZ_Reporting_ID__c !=null){
                 GlobalId=userObj.MYBZ_Reporting_ID__c;
+                AffliationAMGlobalId = userObj.Prsnl_Nbr_GLBL__c;
             }
             else{ 
                 GlobalId = userObj.Prsnl_Nbr_GLBL__c;
@@ -317,8 +319,8 @@ This object is later used to report on User activity on this application.
                     orphanedPGP_list = [SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c
                                         FROM MYBZ_PGP__c
                                         WHERE Global_IDs__c INCLUDES (:GlobalID)];
-                }
-
+                }                
+                
                 MYBZ_AlignmentWrapper.Affiliation_Data response_affiliationData = new MYBZ_AlignmentWrapper.Affiliation_Data();
                 
                 response_affiliationData.systems = new List<MYBZ_AlignmentWrapper.IHS_System>();
