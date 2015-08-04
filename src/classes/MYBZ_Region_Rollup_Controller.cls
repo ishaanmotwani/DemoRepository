@@ -118,6 +118,9 @@ This object is later used to report on User activity on this application.
             if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
               GlobalId=userObj.MYBZ_Reporting_ID__c;
             }
+            else if(flagAff == true && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.Prsnl_Nbr_GLBL__c;
+            }
             
             //Returns a new JSON generator.
             generator = JSON.createGenerator(true);
@@ -409,6 +412,9 @@ This object is later used to report on User activity on this application.
             //Changes to align Account manager to DSM for Geo
             if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
               GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }
+            else if(flagAff == true && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.Prsnl_Nbr_GLBL__c;
             }
             
             //Checking if the division record exist. There will be only one Division record.
@@ -1334,6 +1340,9 @@ Territory - The territory selected via a territory picker.
             //Changes to align Account manager to DSM for Geo
             if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
               GlobalId=userObj.MYBZ_Reporting_ID__c;
+            }
+            else if(flagAff == true && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+              GlobalId=userObj.Prsnl_Nbr_GLBL__c;
             }
             
             // Query for target Goal records based on the role of logged in user, decides the data available on report
