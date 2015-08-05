@@ -115,10 +115,7 @@ This object is later used to report on User activity on this application.
              UserId = UserInfo.getUserId();      
              User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
             //Changes to align Account manager to DSM for Geo
-            if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
-              GlobalId=userObj.MYBZ_Reporting_ID__c;
-            }
-            else if(flagAff == true && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
+            if(userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager){
               GlobalId=userObj.Prsnl_Nbr_GLBL__c;
             }
             
