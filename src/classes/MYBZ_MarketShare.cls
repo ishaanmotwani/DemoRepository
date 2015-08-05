@@ -40,6 +40,7 @@ global with Sharing  class MYBZ_MarketShare{
     global static String Role;
     global static String GlobalId ;
     global static List<MYBZ_Market_Share__c> ms=new List<MYBZ_Market_Share__c>();
+    global static List<MYBZ_System__c> sysList = new List<MYBZ_System__c>();
     global static List<MYBZ_Market_Share__c> msobj=new List<MYBZ_Market_Share__c>();
     global static Decimal PercentageChangeDDDUnits=0;
     global object marketShare;
@@ -59,7 +60,20 @@ global with Sharing  class MYBZ_MarketShare{
         ms= [SELECT Territory__c,District__c,Region__c, Division__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId Limit 1];
     }
      
-     
+    /* 
+        * @Method Name                    :  getAffiliation
+        * @Description                    :  Helper method to find the affiliation information from given global id 
+        * @Return Type                    :  void
+        * @Param                          :  none   
+        
+    */
+    global static void  getAffiliation(){
+       sysList = [SELECT Name,System_ID__c,Aligned_Territories__c,Aligned_Districts__c                                    
+                                       FROM MYBZ_System__c
+                                       WHERE Global_IDs__c INCLUDES (:GlobalID) Limit 1];
+    }
+
+    
     /* 
         * @Method Name                    :  fetchUserInfo
         * @Description                    :  Method used to get logged in user's Role and Global id as it forms the basis to fetch 
@@ -360,15 +374,27 @@ global with Sharing  class MYBZ_MarketShare{
         
         flag=1;
         fetchUserInfo();
-        string Terr = '';            
+        string Terr = ''; 
+        string dist = '';
+        string reg = '';
         if(Role == System.Label.MYBZ_SalesRepresentative){
            getAlignment();
            if(!ms.isEmpty()){
               Terr = ms[0].Territory__c;
            }
         }
-      
-        Object marketShare= marketshareControllerAffUsingPickerSuperUser(LE_ID_IHS,LE_ID_PGP,'','', Terr);
+        
+        if(Role == System.Label.MYBZ_AccountManager){
+           getAffiliation();
+           getAlignment();
+           if(!sysList.isEmpty()){
+              LE_ID_IHS = sysList[0].System_ID__c;
+           }
+           if(!ms.isEmpty()){
+              dist = ms[0].District__c;
+           }
+        }
+        Object marketShare= marketshareControllerAffUsingPickerSuperUser(LE_ID_IHS,LE_ID_PGP,reg,dist, Terr);
         return marketShare;
     
     }
@@ -855,6 +881,7 @@ global with Sharing  class MYBZ_MarketShare{
                             
                  }//if closes 
                }
+               System.debug('++++Heap size mapMarketYearMonthProductMarketObj' + Limits.getHeapSize());
                //system.debug('mapPgpIhs'+mapPgpIhs);
                 generator.writeStartObject();
                 if(flag==0){
