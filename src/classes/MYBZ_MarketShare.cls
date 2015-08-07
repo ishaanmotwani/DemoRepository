@@ -4,7 +4,6 @@
 Class for retrieving salesforce data in the form of a string and returning as a JSON object via a remote action.
 *@ CreatedBy                                                     : Deloitte Consulting
 *@ CreatedOn                                                     : 04-20-2015
-*@modification log
 *                    
 */
 
@@ -1347,13 +1346,12 @@ global with Sharing  class MYBZ_MarketShare{
                         firstSystemPGPIteration = 0;
                         generator.writeStartObject();
                         SystemPGPId =ObjMarketShare.PGP__c;
+                        generator.writeStringField(System.Label.Mybz_name,ObjMarketShare.PGP__r.Name);
                         if(ObjMarketShare.System__c != null){
-                            generator.writeStringField(System.Label.Mybz_name,ObjMarketShare.System__r.Name);
+                            generator.writeStringField(System.Label.mybz_associationName,ObjMarketShare.System__r.Name);
                         }else{
-                            generator.writeNullField(System.Label.Mybz_name); 
+                            generator.writeNullField(System.Label.mybz_associationName); 
                         }
-                        generator.writeStringField(System.Label.mybz_associationName,ObjMarketShare.PGP__r.Name);
-                        
                         generator.writeFieldName(System.Label.Mybz_markets);
                         // MarketShareData Starts
                         generator.writeStartArray();
