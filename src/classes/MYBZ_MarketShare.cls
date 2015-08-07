@@ -4,6 +4,7 @@
 Class for retrieving salesforce data in the form of a string and returning as a JSON object via a remote action.
 *@ CreatedBy                                                     : Deloitte Consulting
 *@ CreatedOn                                                     : 04-20-2015
+*@modification log
 *                    
 */
 
