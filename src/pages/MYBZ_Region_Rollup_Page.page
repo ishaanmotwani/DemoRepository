@@ -34,7 +34,7 @@ window.sfHelper.validateRDT = function(geography) {
 window.urlPath = "{!URLFOR($Resource.MYBZ_Region_Rollup_Resource, '')}";
 window.RESOURCE_ROOT = urlPath.split('?')[0];
 window.$GLOBALID = '{!JSENCODE(GlobalId)}';
-window.$AFF_AM_GLOBALID = '{!JSENCODE(AffliationAMGlobalId)}'; 
+window.$AFF_AM_GLOBALID = '{!JSENCODE(AffliationAMGlobalId)}' || undefined; 
 window.$Role = '{!JSENCODE(Role)}';
 window.$uname = '{!JSENCODE(uname)}';
 if (window.$Role == 'Sales Representative') {
