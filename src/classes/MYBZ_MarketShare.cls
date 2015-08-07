@@ -33,22 +33,18 @@ global with Sharing  class MYBZ_MarketShare{
     global static Map<String,MYBZ_Market_Share__c> regionmarketshare=new Map<String,MYBZ_Market_Share__c>();
     
     global static Map<String,Decimal> districtGrossMargin =new Map<String,Decimal>();
-    //global static Decimal TotalTrx=0,TotalTrxDis=0,TotalTrxReg=0;
-    //global static Decimal TotalPrevTrx=0,TotalPrevTrxDis=0,TotalPrevTrxReg=0;
-    //global static Decimal TotalDDD=0, TotalDDDDis=0, TotalDDDReg=0;  
-    //global static Decimal TotalPrevDDD=0, TotalPrevDDDDis=0, TotalPrevDDDReg=0;     
+    global static Decimal TotalTrx=0,TotalTrxDis=0,TotalTrxReg=0;
+    global static Decimal TotalPrevTrx=0,TotalPrevTrxDis=0,TotalPrevTrxReg=0;
+    global static Decimal TotalDDD=0, TotalDDDDis=0, TotalDDDReg=0;  
+    global static Decimal TotalPrevDDD=0, TotalPrevDDDDis=0, TotalPrevDDDReg=0;     
     global static String Role;
     global static String GlobalId ;
     global static List<MYBZ_Market_Share__c> ms=new List<MYBZ_Market_Share__c>();
-    global static List<MYBZ_System__c> sysList = new List<MYBZ_System__c>();
-    global static List<MYBZ_PGP__c> pgplist = new  List<MYBZ_PGP__c>();
     global static List<MYBZ_Market_Share__c> msobj=new List<MYBZ_Market_Share__c>();
     global static Decimal PercentageChangeDDDUnits=0;
     global object marketShare;
     global static integer flag=1;
     global static id UserId;
-    
-    global static map<String,wrapperpriorityaccounts> mapPgpIhs=new map<String,wrapperpriorityaccounts>();
     
     /* 
         * @Method Name                    :  getAlignment
@@ -58,29 +54,10 @@ global with Sharing  class MYBZ_MarketShare{
         
     */
     global static void  getAlignment(){
-        ms= [SELECT Territory__c,Territory__r.name,District__c,District__r.name,Region__c, Region__r.name,
-                    Division__c,Division__r.name 
-             FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId Limit 1];
+        ms= [SELECT Territory__c,District__c,Region__c, Division__c FROM MYBZ_Market_Share__c WHERE Global_Id__c =:GlobalId Limit 1];
     }
      
-    /* 
-        * @Method Name                    :  getAffiliation
-        * @Description                    :  Helper method to find the affiliation information from given global id 
-        * @Return Type                    :  void
-        * @Param                          :  none   
-        
-    */
-    global static void  getAffiliation(){
-       sysList = [SELECT Name,System_ID__c,Aligned_Territories__c,Aligned_Districts__c                                    
-                                       FROM MYBZ_System__c
-                                       WHERE Global_IDs__c INCLUDES (:GlobalID) order by Name];
-       if(sysList.isEmpty())
-        pgplist = [SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c
-                                        FROM MYBZ_PGP__c
-                                        WHERE Global_IDs__c INCLUDES (:GlobalID) Order By Name ] ;                                     
-    }
-
-    
+     
     /* 
         * @Method Name                    :  fetchUserInfo
         * @Description                    :  Method used to get logged in user's Role and Global id as it forms the basis to fetch 
@@ -213,7 +190,7 @@ global with Sharing  class MYBZ_MarketShare{
         List<String> lstIHSNames = new List<String>();
         List<String> lstPGPNames= new List<String>();        
         
-        lstProrityAccount = [SELECT Global_Id__c, LE_ID_IHS__c,LE_ID_PGP__c,system__c,System__r.name FROM MYBZ_PriorityAccount__c WHERE Global_Id__c =:GlobalId];
+        lstProrityAccount = [SELECT Global_Id__c, LE_ID_IHS__c,LE_ID_PGP__c FROM MYBZ_PriorityAccount__c WHERE Global_Id__c =:GlobalId];
         lstMarketShareAlign =[SELECT district__c, territory__c  FROM MYBZ_Market_Share__c  WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='NON_AFFLTN' LIMIT 1];
 
         
@@ -227,23 +204,6 @@ global with Sharing  class MYBZ_MarketShare{
             }        
         }
         
-        for(MYBZ_PGP__c pgp :[SELECT Name, PGP_ID__c,id, system__r.name,System__c
-                                        FROM MYBZ_PGP__c WHERE PGP_ID__c IN: lstPGPNames]){
-            wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
-            wrapAcc.systemName = pgp.system__r.Name;
-            wrapAcc.pgpName =pgp.Name;
-            mapPgpIhs.put(pgp.id,wrapAcc);
-            }
-            
-        for(MYBZ_PriorityAccount__c prioAcc:lstProrityAccount){
-          if(prioAcc.LE_ID_PGP__c == null){
-            wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
-            wrapAcc.systemName = prioAcc.System__r.name;
-            wrapAcc.pgpName =null;
-            mapPgpIhs.put(prioAcc.system__c,wrapAcc);   
-           }            
-        }
-        
         System.debug('@@@IHSNames'+lstIHSNames);
         System.debug('@@@lstPGPNames'+lstPGPNames);
         if(!lstIHSNames.isEmpty() || !lstPGPNames.isEmpty()){
@@ -254,7 +214,7 @@ global with Sharing  class MYBZ_MarketShare{
                            Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c,LE_ID_IHS__c,system__c, system__r.ID, PGP__c, PGP__r.name
                            FROM MYBZ_Market_Share__c 
                            WHERE LoadIdentifier__c='AFFLTN' and (division__c = null and District__c = null and Region__c = null and territory__c = null)
-                           and ((LE_ID_IHS__c in :lstIHSNames and LE_ID_PGP__c = null) or (LE_ID_PGP__c in :lstPGPNames)) order by system__r.Name, PGP__r.name, Year__c, Month__c asc, Product__r.Name desc]; 
+                           and ((LE_ID_IHS__c in :lstIHSNames and LE_ID_PGP__c = null) or (LE_ID_PGP__c in :lstPGPNames))];
             
         }
         if(!lstMarketShareAlign.isEmpty()){
@@ -266,11 +226,8 @@ global with Sharing  class MYBZ_MarketShare{
         
         calculateGrossmargindistrictforSummary();
         
-        
-        //System.debug('++++Heap size' + Limits.getHeapSize());
-            //System.debug('@@@AccountSummary'+marketShareList);
-        //System.debug('++++Heap size' + Limits.getHeapSize());
-        Object marketShare= marketshareProcessorAM();
+        System.debug('@@@AccountSummary'+marketShareList);
+        Object marketShare= marketshareProcessor();
         return marketShare;             
                            
     }
@@ -381,30 +338,15 @@ global with Sharing  class MYBZ_MarketShare{
         
         flag=1;
         fetchUserInfo();
-        string Terr = ''; 
-        string dist = '';
-        string reg = '';
+        string Terr = '';            
         if(Role == System.Label.MYBZ_SalesRepresentative){
            getAlignment();
            if(!ms.isEmpty()){
               Terr = ms[0].Territory__c;
            }
         }
-        
-        if(Role == System.Label.MYBZ_AccountManager){
-           getAffiliation();
-           getAlignment();
-           if(!sysList.isEmpty()){
-              LE_ID_IHS = sysList[0].System_ID__c;
-           }
-           else if(!pgplist.isEmpty()){
-              LE_ID_PGP = pgplist[0].PGP_ID__c;
-           }
-           if(!ms.isEmpty()){
-              dist = ms[0].District__r.name;
-           }
-        }
-        Object marketShare= marketshareControllerAffUsingPickerSuperUser(LE_ID_IHS,LE_ID_PGP,reg,dist, Terr);
+      
+        Object marketShare= marketshareControllerAffUsingPickerSuperUser(LE_ID_IHS,LE_ID_PGP,'','', Terr);
         return marketShare;
     
     }
@@ -743,16 +685,19 @@ global with Sharing  class MYBZ_MarketShare{
             
             map<String, map<String, map<String, map< string , MYBZ_Market_Share__c>>>> mapMSData=new map<String, map<String, map<String, map< string , MYBZ_Market_Share__c>>>>();
             
-           
+            map<String,wrapperpriorityaccounts> mapPgpIhs=new map<String,wrapperpriorityaccounts>();
                 // creating a map to hold years per marketshare name 
                 if(!marketShareList.isEmpty()){
                     for(MYBZ_Market_Share__c mObj  : marketShareList){ 
                         if(flag==0){ //acccount summary begins
                           if(mobj.PGP__c != null){ // its a prioritised PGP
                                     if( mapMarketYearMonthProductMarketObj.containsKey(mobj.PGP__r.ID)){
-                                        //system.debug('++++mobj.system__r.Name' +mobj.system__r.Name + '+++mobj.PGP__r.Name' +mobj.PGP__r.Name);
-                                        
-                                       // system.debug('+++wrapAcc' + wrapAcc);    
+                                        system.debug('++++mobj.system__r.Name' +mobj.system__r.Name + '+++mobj.PGP__r.Name' +mobj.PGP__r.Name);
+                                        wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
+                                        wrapAcc.systemName = mobj.system__r.Name;
+                                        wrapAcc.pgpName =mobj.PGP__r.Name;
+                                        mapPgpIhs.put(mobj.PGP__r.ID,wrapAcc);
+                                        system.debug('+++wrapAcc' + wrapAcc);    
                                        if(mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).containsKey(mObj.Market__c)){
                                            if( mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).get(mObj.Market__c).containsKey(mObj.Month_Number__c)) {
                                              if(mapMarketYearMonthProductMarketObj.get(mobj.PGP__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).containsKey(mObj.Year_Number__c)){
@@ -795,14 +740,21 @@ global with Sharing  class MYBZ_MarketShare{
                                                 map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>> marketmonthYearMap = new map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>>();
                                                 marketmonthYearMap.put(mObj.Market__c, monthyearProdMap);
                                                 
-                                                mapMarketYearMonthProductMarketObj.put(mobj.PGP__r.ID, marketmonthYearMap); 
-                                                
+                                                mapMarketYearMonthProductMarketObj.put(mobj.PGP__r.ID, marketmonthYearMap);   
+                                                wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
+                                                wrapAcc.systemName = mobj.system__r.Name;
+                                                wrapAcc.pgpName =mobj.PGP__r.Name;
+                                                mapPgpIhs.put(mobj.PGP__r.ID,wrapAcc);
+
                                     }                   
                      } 
                         
                    else{ // if its a prioritised system
                        if( mapMarketYearMonthProductMarketObj.containsKey(mobj.System__r.ID)){
-                                    
+                                       wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
+                                        wrapAcc.systemName = mobj.system__r.Name;
+                                        wrapAcc.pgpName =null;
+                                        mapPgpIhs.put(mobj.System__r.ID,wrapAcc);
                                        if(mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).containsKey(mObj.Market__c)){
                                            if( mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).get(mObj.Market__c).containsKey(mObj.Month_Number__c)) {
                                              if(mapMarketYearMonthProductMarketObj.get(mobj.System__r.ID).get(mObj.Market__c).get(mObj.Month_Number__c).containsKey(mObj.Year_Number__c)){
@@ -845,8 +797,12 @@ global with Sharing  class MYBZ_MarketShare{
                                                 map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>> marketmonthYearMap = new map<string,map<string,map<string, map<string, MYBZ_Market_Share__c>>>>();
                                                 marketmonthYearMap.put(mObj.Market__c, monthyearProdMap);
                                                 
-                                                mapMarketYearMonthProductMarketObj.put(mobj.System__r.ID, marketmonthYearMap);  
-                                                
+                                                mapMarketYearMonthProductMarketObj.put(mobj.System__r.ID, marketmonthYearMap);   
+                                                wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
+                                                wrapAcc.systemName = mobj.system__r.Name;
+                                                wrapAcc.pgpName =null;
+                                                mapPgpIhs.put(mobj.System__r.ID,wrapAcc);
+
                                     }
 
                    }
@@ -891,8 +847,7 @@ global with Sharing  class MYBZ_MarketShare{
                             
                  }//if closes 
                }
-               System.debug('++++Heap size mapMarketYearMonthProductMarketObj' + Limits.getHeapSize());
-               //system.debug('mapPgpIhs'+mapPgpIhs);
+               system.debug('mapPgpIhs'+mapPgpIhs);
                 generator.writeStartObject();
                 if(flag==0){
                 generator.writeFieldName(System.Label.Mybz_summaryData);
@@ -900,7 +855,7 @@ global with Sharing  class MYBZ_MarketShare{
                 generator.writeFieldName(System.Label.Mybz_accounts);
                  generator.writeStartArray();
                 }
-                //system.debug('mapMarketYearMonthProductMarketObj'+mapMarketYearMonthProductMarketObj);
+                system.debug('mapMarketYearMonthProductMarketObj'+mapMarketYearMonthProductMarketObj);
                  for( string pgp : mapMarketYearMonthProductMarketObj.keyset()){
                     //generator.writeFieldName(System.Label.Mybz_summaryData);
                     if(flag==0){ // Account Summary block
@@ -929,7 +884,7 @@ global with Sharing  class MYBZ_MarketShare{
                  }          
                   generator.writeFieldName(System.Label.Mybz_markets);
                   generator.writeStartArray();
-                  //system.debug('mapMarketYearMonthProductMarketObj'+mapMarketYearMonthProductMarketObj);
+                  system.debug('mapMarketYearMonthProductMarketObj'+mapMarketYearMonthProductMarketObj);
                  for (String Market: mapMarketYearMonthProductMarketObj.get(pgp).keyset()){
                       generator.writeStartObject();
                       generator.writeStringField(System.Label.MYBZ_market,Market);
@@ -940,9 +895,9 @@ global with Sharing  class MYBZ_MarketShare{
                           
                          for(String month : mapMarketYearMonthProductMarketObj.get(pgp).get(Market).get(year).keyset()){
                             
-                             //system.debug('@@@Year'+year);
-                             //system.debug('@@@Month'+Month);
-                             //system.debug('@@@Market'+market);
+                             system.debug('@@@Year'+year);
+                             system.debug('@@@Month'+Month);
+                             system.debug('@@@Market'+market);
                              generator.writeStartObject();
                              generator.writeStringField(System.Label.MYBZ_month,Year);
                              generator.writeStringField(System.Label.MYBZ_Year,month);
@@ -1017,21 +972,25 @@ global with Sharing  class MYBZ_MarketShare{
                                         generator.writeNullField(System.Label.MYBZ_grossMargins);
                                 }
                                
-                      
+                               
+                                
+                        
+                        
+                        system.debug('nationalPercentChange' + nationalPercentChange);
+                        system.debug('regionPercentChange' + regionPercentChange);
+                        system.debug('districtPercentChange' + districtPercentChange);
+                    
+                    system.debug('mapAggNat.getProduct for '+ markMonthYearMS +mapAggNat.get(markMonthYearMS));
+                    system.debug('mapAggReg.getProduct for '+ markMonthYearMS +mapAggReg.get(markMonthYearMS));
+                    system.debug('mapAggDis.getProduct for '+ markMonthYearMS +mapAggDis.get(markMonthYearMS));
                     
                     // Clearing global static  variables
-                    Decimal TotalTrx = 0;
-                    Decimal TotalPrevTrx = 0;
-                    Decimal TotalDDD =0;
-                    Decimal TotalPrevDDD = 0;
-                    Decimal TotalTrxDis=0;
-                    Decimal TotalPrevTrxDis=0;
-                    Decimal TotalTrxReg=0;
-                    Decimal TotalPrevTrxReg=0;
-                    Decimal TotalDDDDis=0; 
-                    Decimal TotalDDDReg=0; 
-                    Decimal TotalPrevDDDDis=0;
-                    Decimal TotalPrevDDDReg=0;   
+                    TotalTrx = 0;TotalPrevTrx = 0;
+                    TotalDDD =0;TotalPrevDDD = 0;
+                    TotalTrxDis=0;TotalPrevTrxDis=0;
+                    TotalTrxReg=0;TotalPrevTrxReg=0;
+                    TotalDDDDis=0; TotalDDDReg=0; 
+                    TotalPrevDDDDis=0;TotalPrevDDDReg=0;   
                     
                     if(flag==1){
                             generator.writeFieldName(System.Label.MYBZ_geolevelcomparison);  
@@ -1052,9 +1011,9 @@ global with Sharing  class MYBZ_MarketShare{
                                     }
                                 }
                                 if(marketShareObj.market__c == 'HOSP LOGS') {           
-                                //system.debug('@@@markMonthYearMS' + markMonthYearMS);
-                                //system.debug('@@@TotalTrx'+TotalTrx + '@@@TotalPrevTrx' + TotalPrevTrx);
-                                //system.debug('@@@TotalDDD'+TotalDDD + '@@@TotalPrevDDD' + TotalPrevDDD);  
+                                system.debug('@@@markMonthYearMS' + markMonthYearMS);
+                                System.debug('@@@TotalTrx'+TotalTrx + '@@@TotalPrevTrx' + TotalPrevTrx);
+                                System.debug('@@@TotalDDD'+TotalDDD + '@@@TotalPrevDDD' + TotalPrevDDD);  
                                 }
                                 if(TotalTrx!=0){
                                         if(nationalmarketshare.get(markProdMonthYearMS)!=null){
@@ -1127,9 +1086,9 @@ global with Sharing  class MYBZ_MarketShare{
                                     }                        
                                 }   
                                 if(marketShareObj.market__c == 'HOSP LOGS') {                   
-                                //system.debug('@@@markMonthYearMS' + markMonthYearMS);   
-                                //system.debug('@@@TotalTrxDis'+TotalTrxDis + '@@@TotalPrevTrxDis ' + TotalPrevTrxDis);
-                                //system.debug('@@@TotalDDDDis'+TotalDDDDis + '@@@TotalPrevDDDDis ' + TotalPrevDDDDis);  
+                                system.debug('@@@markMonthYearMS' + markMonthYearMS);   
+                                System.debug('@@@TotalTrxDis'+TotalTrxDis + '@@@TotalPrevTrxDis ' + TotalPrevTrxDis);
+                                System.debug('@@@TotalDDDDis'+TotalDDDDis + '@@@TotalPrevDDDDis ' + TotalPrevDDDDis);  
                                 }                               
                                 if(TotalTrxDis!=0 ){
                                    ////
@@ -1204,8 +1163,8 @@ global with Sharing  class MYBZ_MarketShare{
                                             TotalPrevDDDReg = (Decimal)mapAggReg.get(markMonthYearMS).get(0).get('TotPrevDDD');     
                                     }
                                 }
-                                //system.debug('@@@TotalTrxReg'+TotalTrxReg + '@@@TotalPrevTrxReg' + TotalPrevTrxReg);
-                                //system.debug('@@@TotalDDDReg'+TotalDDDReg + '@@@TotalPrevDDDReg' + TotalPrevDDDReg);
+                                System.debug('@@@TotalTrxReg'+TotalTrxReg + '@@@TotalPrevTrxReg' + TotalPrevTrxReg);
+                                System.debug('@@@TotalDDDReg'+TotalDDDReg + '@@@TotalPrevDDDReg' + TotalPrevDDDReg);
                                 
                                 if(TotalTrxReg!=0){                                                   
                                         ////
@@ -1291,233 +1250,10 @@ global with Sharing  class MYBZ_MarketShare{
                          }
                         JsonString = generator.getAsString();
                        System.debug('--MarketShare'+JsonString);
-                      System.debug('++++Heap size' + Limits.getHeapSize());
                         Object marketShare = Json.deserializeUntyped(JsonString); 
                         return marketShare;
                    
-                    }
- 				
-    global static Object marketshareProcessorAM() { 
-	
-        String JsonString;
-        JSONGenerator generator= JSON.createGenerator(true); 
-		//Returns a new JSON Generator
-        generator = JSON.createGenerator(true);
-        generator.writeStartArray();  
-            
-        //Initializing variables
-        String Year='';
-        String Month;
-        String Products='';
-		String Market ='';
-		String SystemPGPId ='';
-		String SystemPGPName ='';
-		Integer newMarket=0;
-		Integer newMonth=0;
-		Integer newYear=0;
-		Integer newSystemPGP=0;
-        Integer productprescribercount;
-		Integer firstSystemPGPIteration=1;
-        Integer firstMarketIteration=1;		
-		Integer firstYearIteration=1;
-		Integer firstMonthIteration=1;	
-		Integer firstProductIteration=1;
-        
-        if(!marketShareList.isEmpty()){
-			
-			generator.writeStartObject();
-			generator.writeFieldName(System.Label.Mybz_summaryData);
-			generator.writeStartObject();
-			generator.writeFieldName(System.Label.Mybz_accounts);
-			generator.writeStartArray();
-			// Market Share list must be ordered
-            for(MYBZ_Market_Share__c ObjMarketShare  : marketShareList){ 
-			
-				if(ObjMarketShare.PGP__c == null &&  ObjMarketShare.System__c==null){
-                    continue;
-                }  
-				
-                if(ObjMarketShare.PGP__c != null){
-					if(!SystemPGPId.equals(String.Valueof(ObjMarketShare.PGP__c))){
-						if(firstSystemPGPIteration!=1){
-							generator.writeEndArray();
-							generator.writeEndObject();						
-						}
-						firstSystemPGPIteration = 0;
-						generator.writeStartObject();
-						SystemPGPId =ObjMarketShare.PGP__c;
-						generator.writeStringField(System.Label.Mybz_name,ObjMarketShare.PGP__r.Name);
-						if(ObjMarketShare.System__c != null){
-							generator.writeStringField(System.Label.mybz_associationName,ObjMarketShare.System__r.Name);
-						}else{
-							generator.writeNullField(System.Label.mybz_associationName); 
-						}		
-						generator.writeFieldName(System.Label.Mybz_markets);
-						// MarketShareData Starts
-						generator.writeStartArray();
-						firstMarketIteration=1;
-						Market= '';
-						Year = '';
-						Month='';	
-						Products='';
-						
-					}	
-				}else {
-					if(!SystemPGPId.equals(String.Valueof(ObjMarketShare.System__c))){
-						if(firstSystemPGPIteration!=1){
-							generator.writeEndArray();
-							generator.writeEndObject();						
-						}
-						firstSystemPGPIteration = 0;
-						generator.writeStartObject();
-						SystemPGPId =ObjMarketShare.System__c;
-						generator.writeStringField(System.Label.Mybz_name,ObjMarketShare.System__r.Name);    
-						generator.writeStringField(System.Label.mybz_associationName,ObjMarketShare.System__r.Name);
-						generator.writeFieldName(System.Label.Mybz_markets);
-						// MarketShareData Starts
-						generator.writeStartArray();
-						firstMarketIteration=1;
-						Market= '';
-						Year = '';
-						Month='';	
-						Products='';									
-					}
-				}
-				
-				if(ObjMarketShare.Market__c != null){
-					if(!Market.equals(ObjMarketShare.Market__c)){
-						Market = ObjMarketShare.Market__c;						
-						if(firstMarketIteration!=1){
-							// End Previous market
-							generator.writeEndArray();
-                            generator.writeEndObject();						
-						}
-							firstMarketIteration = 0;
-							// New Market Starts	
-							generator.writeStartObject();
-							generator.writeStringField(System.Label.MYBZ_market,ObjMarketShare.Market__c);
-                      
-							generator.writeFieldName(System.Label.MYBZ_data);
-							generator.writeStartArray();
-							firstMonthiteration=1;
-							Year = '';
-							Month ='';
-							Products='';	
-						}
-				}	
-				
-				if(ObjMarketShare.Year_Number__c != null){
-					if(!Year.equals(String.Valueof(ObjMarketShare.Year_Number__c))){
-						Year = String.Valueof(ObjMarketShare.Year_Number__c);
-						Month ='';
-					}
-				}	
-				
-				if(ObjMarketShare.Month_Number__c != null){
-					if(!Month.equals(String.Valueof(ObjMarketShare.Month_Number__c))){
-						Month = String.Valueof(ObjMarketShare.Month_Number__c);
-						if(firstMonthiteration!=1){
-							// Previous month object
-							generator.writeEndArray();  
-							generator.writeEndObject();
-						}
-                            firstMonthiteration=0;							
-                            generator.writeStartObject(); 	
-							firstProductIteration=1;
-							if(ObjMarketShare.Year_Number__c != null){							
-								generator.writeStringField(System.Label.MYBZ_month,Year);
-							}
-							generator.writeStringField(System.Label.MYBZ_Year,month);
-                            generator.writeFieldName(System.Label.MYBZ_Products);
-                            generator.writeStartArray();
-							Products='';	
-					}					
-				}
-				
-				if(ObjMarketShare.Product__c != null){
-					
-						generator.writeEndObject();
-						firstProductIteration=0;						
-						generator.writeStartObject(); 
-						if(ObjMarketShare.TRx__c !=null){
-                            generator.writeNumberField(System.Label.MYBZ_trx,ObjMarketShare.TRx__c);
-                        }else{    
-                            generator.writeNullField(System.Label.MYBZ_trx);
-                        }
-                                  
-                        if(ObjMarketShare.percentageChangeFromPreviousMonth__c != null){
-                            generator.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx,ObjMarketShare.percentageChangeFromPreviousMonth__c);
-                        }else{
-                            generator.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthTRx);
-                        }
-						generator.writeStringField(System.Label.MYBZ_productName,ObjMarketShare.Product__r.Name);
-                        generator.writeBooleanField(System.Label.MYBZ_lillyProduct,ObjMarketShare.lillyProduct__c);
-						
-						if(ObjMarketShare.DDD_Units__c!=null){
-                            generator.writeNumberField(System.Label.MYBZ_dddUnits,ObjMarketShare.DDD_Units__c);
-                        }
-                        else{    
-                            generator.writeNullField(System.Label.MYBZ_dddUnits);
-                        }
-                                      
-                        if(ObjMarketShare.Previous_DDD_Units__c != null){
-                            generator.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits,ObjMarketShare.PercentageChangeDDDunits__c);
-                        }else{
-                            generator.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDUnits);
-                        }
-                        if(ObjMarketShare.Previous_DDD_Dollars__c  != null){
-                            generator.writeNumberField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars,ObjMarketShare.PercentageChangeDDDDollars__c);
-                        } else{
-                            generator.writeNullField(System.Label.MYBZ_percentageChangeFromPreviousMonthDDDDollars);
-                        }
-                        if(ObjMarketShare.DDD_Dollars__c!=null )
-                            generator.writeNumberField(System.Label.MYBZ_dddDollars,ObjMarketShare.DDD_Dollars__c);   
-                         else 
-                        generator.writeNullField(System.Label.MYBZ_dddDollars);	
-                        
-                        string markProdMonthYearMS =  ObjMarketShare.Market__c+ObjMarketShare.product__c+ObjMarketShare.Month_Number__c+ObjMarketShare.Year_Number__c;
-                        
-                        if(districtGrossMargin.containsKey(markProdMonthYearMS)){  
-                        	if(districtGrossMargin.get(markProdMonthYearMS) != 0 && districtGrossMargin.get(markProdMonthYearMS) != null){
-                            	generator.writeNumberField(System.Label.MYBZ_grossMargins,districtGrossMargin.get(markProdMonthYearMS)); 
-                            }else{
-                            	generator.writeNullField(System.Label.MYBZ_grossMargins);
-                            }                                  
-                        }else{
-                        	generator.writeNullField(System.Label.MYBZ_grossMargins);
-                        }
-                        
-                        // Ending Product		
-						generator.writeEndObject();	
-						
-				}
-			}
-				
-			// Month object
-			generator.writeEndArray();  
-			generator.writeEndObject();
-			// End Previous market
-			generator.writeEndArray();
-            generator.writeEndObject();		
-			//End PGP/System
-			generator.writeEndArray();
-			generator.writeEndObject();
-			
-							
-			//Labels ending
-			generator.writeEndArray();
-            generator.writeEndObject();
-		}
-				
-
-			JsonString = generator.getAsString();
-            System.debug('--MarketShare'+JsonString);
-            System.debug('++++Heap size' + Limits.getHeapSize());
-            Object marketShare = Json.deserializeUntyped(JsonString); 
-            return marketShare;
-                   
-    }                  
-                      
+                      }
                      public MYBZ_MarketShare(){
                    
                      }
