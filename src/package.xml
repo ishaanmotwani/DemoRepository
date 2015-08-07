@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <version>30.0</version>
+     <types>        
+        <members>MYBZ_MarketShare</members>
+        <members>MYBZ_ProductTrendDetailsController</members>
+        <members>MYBZ_Region_Rollup_Controller</members> 
+        <members>Test_MYBZ_MarketShare</members>
+        <members>Test_MYBZ_ProductTrendDetailsController</members>
+        <members>Test_MYBZ_RegionRollup_Controller</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>MYBZ_Region_Rollup_Page</members>
+        <name>ApexPage</name>
+    </types>
+	<types>
+        <members>MYBZ_Region_Rollup_Resource</members>
+        <name>StaticResource</name>
+    </types>
+    <version>34.0</version>
 </Package>
