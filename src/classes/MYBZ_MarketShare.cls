@@ -189,92 +189,7 @@ global with Sharing  class MYBZ_MarketShare{
             return marketShare;
     }
     
-    /* 
-        * @Method Name                    :  accountSummary
-        * @Description                    :  Method used to generate Marketshare JSON for Account manager(Affiliation screen) on default account summary screen at account level data.hence no geo alignment considered in where clause                               
-        * @Return Type                    :  object
-        * @Param                          :  
-    */ 
-    @RemoteAction
-    global static Object accountSummary(Boolean flagAff){
-        fetchUserInfo();
-        UserId = UserInfo.getUserId();      
-             User userObj = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserId];
-            //Changes to align Account manager to DSM for Geo
-            if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
-              GlobalId=userObj.MYBZ_Reporting_ID__c;
-            }     
-        flag=0;
-        system.debug('Inside summary');
-        // Prioritised Account modification
-        List<MYBZ_PriorityAccount__c> lstProrityAccount = new List<MYBZ_PriorityAccount__c>();
-        List<MYBZ_Market_Share__c> lstMarketShareAlign = new List<MYBZ_Market_Share__c>();
-        
-        List<String> lstIHSNames = new List<String>();
-        List<String> lstPGPNames= new List<String>();        
-        
-        lstProrityAccount = [SELECT Global_Id__c, LE_ID_IHS__c,LE_ID_PGP__c,system__c,System__r.name FROM MYBZ_PriorityAccount__c WHERE Global_Id__c =:GlobalId];
-        lstMarketShareAlign =[SELECT district__c, territory__c  FROM MYBZ_Market_Share__c  WHERE Global_Id__c =:GlobalId and LoadIdentifier__c='NON_AFFLTN' LIMIT 1];
-
-        
-        if(!lstProrityAccount.isEmpty()){
-            for(MYBZ_PriorityAccount__c objProrityAccount: lstProrityAccount){
-                if(objProrityAccount.LE_ID_PGP__c != '' && objProrityAccount.LE_ID_PGP__c != null){
-                    lstPGPNames.add(objProrityAccount.LE_ID_PGP__c);
-                }else{
-                    lstIHSNames.add(objProrityAccount.LE_ID_IHS__c);
-                }
-            }        
-        }
-        
-        for(MYBZ_PGP__c pgp :[SELECT Name, PGP_ID__c,id, system__r.name,System__c
-                                        FROM MYBZ_PGP__c WHERE PGP_ID__c IN: lstPGPNames]){
-            wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
-            wrapAcc.systemName = pgp.system__r.Name;
-            wrapAcc.pgpName =pgp.Name;
-            mapPgpIhs.put(pgp.id,wrapAcc);
-            }
-            
-        for(MYBZ_PriorityAccount__c prioAcc:lstProrityAccount){
-          if(prioAcc.LE_ID_PGP__c == null){
-            wrapperpriorityaccounts wrapAcc = new wrapperpriorityaccounts();
-            wrapAcc.systemName = prioAcc.System__r.name;
-            wrapAcc.pgpName =null;
-            mapPgpIhs.put(prioAcc.system__c,wrapAcc);   
-           }            
-        }
-        
-        System.debug('@@@IHSNames'+lstIHSNames);
-        System.debug('@@@lstPGPNames'+lstPGPNames);
-        if(!lstIHSNames.isEmpty() || !lstPGPNames.isEmpty()){
-            System.debug('@@@Here');
-            marketShareList = [SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, 
-                           Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, 
-                           TRx__c, LE_ID_PGP__c,PGP__r.ID,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c,
-                           Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c,LE_ID_IHS__c,system__c, system__r.ID, PGP__c, PGP__r.name
-                           FROM MYBZ_Market_Share__c 
-                           WHERE LoadIdentifier__c='AFFLTN' and (division__c = null and District__c = null and Region__c = null and territory__c = null)
-                           and ((LE_ID_IHS__c in :lstIHSNames and LE_ID_PGP__c = null) or (LE_ID_PGP__c in :lstPGPNames)) order by system__r.Name, PGP__r.name, Market__c, Year__c, Month__c asc, Product__r.Name desc]; 
-            
-        }
-        if(!lstMarketShareAlign.isEmpty()){
-            lstMarketShareAccSum = [SELECT id, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c,Owner__c, 
-                                    Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name 
-                                    FROM MYBZ_Market_Share__c
-                                    WHERE LoadIdentifier__c='AFFLTN' and district__c =:lstMarketShareAlign[0].district__c and territory__c = null];
-        }
-        
-        calculateGrossmargindistrictforSummary();
-        
-        
-        //System.debug('++++Heap size' + Limits.getHeapSize());
-            //System.debug('@@@AccountSummary'+marketShareList);
-        //System.debug('++++Heap size' + Limits.getHeapSize());
-        Object marketShare= marketshareProcessorAM();
-        return marketShare;             
-                           
-    }
-        
+      
    
     /* 
         * @Method Name                    :  marketshareControllerNonAffUsingPicker
@@ -1296,15 +1211,120 @@ global with Sharing  class MYBZ_MarketShare{
                         return marketShare;
                    
                     }
+    /* 
+        * @Method Name                    :  fetchUserInfoNew
+        * @Description                    :  Method used to get logged in user's Role and Global id as it forms the basis to fetch records                                               
+        * @Return Type                    :  User
+        * @Param                          :  boolean
+    */       
+    global static User fetchUserInfoNew(Boolean flagAff){
+        List<User> lstUser = new List<User>();  
+        User objUser = new User();      
+        id UserIdNew = UserInfo.getUserId();   
+        lstUser = [SELECT name,Prsnl_Nbr_GLBL__c, MYBZ_Role__c, MYBZ_Reporting_ID__c FROM User WHERE Id =:UserIdNew limit 1];
+        if(!lstUser.isEmpty()){
+             objUser = lstUser[0];
+             return objUser;
+        }else{
+            return null;
+        }
+    }
                 
-    global static Object marketshareProcessorAM() { 
+    /* 
+        * @Method Name                    :  accountSummary
+        * @Description                    :  Method used to generate Marketshare JSON for Account manager(Affiliation screen) on default account summary screen at account level data.hence no geo alignment considered in where clause                               
+        * @Return Type                    :  object
+        * @Param                          :  
+    */ 
+
+    @RemoteAction
+    global static Object accountSummary(Boolean flagAff){
     
+        system.debug('Inside Account Summary');
+        // Initialization
+        List<MYBZ_PriorityAccount__c> lstProrityAccount = new List<MYBZ_PriorityAccount__c>();
+        List<MYBZ_Market_Share__c> lstMarketShareAlignAM = new List<MYBZ_Market_Share__c>();
+        User objUser = new User();
+        String GlobalIdAM;
+        
+        // System/PGP Names
+        List<String> lstIHSNamesAM = new List<String>();
+        List<String> lstPGPNamesAM= new List<String>();      
+        
+        objUser = fetchUserInfoNew(flagAff);
+        if(objUser != null){
+            GlobalIdAM = objUser.Prsnl_Nbr_GLBL__c;
+        }               
+                
+        if(!String.isBlank(GlobalIdAM)){
+            // Prioritised Accounts and Alignment Query  
+            lstProrityAccount = [SELECT Global_Id__c, LE_ID_IHS__c,LE_ID_PGP__c,system__c,System__r.name FROM MYBZ_PriorityAccount__c WHERE Global_Id__c =:GlobalIdAM];
+            lstMarketShareAlignAM =[SELECT district__c, territory__c  FROM MYBZ_Market_Share__c  WHERE Global_Id__c =:GlobalIdAM and LoadIdentifier__c='NON_AFFLTN' LIMIT 1];
+
+            
+            if(!lstProrityAccount.isEmpty()){
+                for(MYBZ_PriorityAccount__c objProrityAccount: lstProrityAccount){
+                    if(objProrityAccount.LE_ID_PGP__c != '' && objProrityAccount.LE_ID_PGP__c != null){
+                        lstPGPNamesAM.add(objProrityAccount.LE_ID_PGP__c);
+                    }else{
+                        lstIHSNamesAM.add(objProrityAccount.LE_ID_IHS__c);
+                    }
+                }        
+            }
+            
+        }
+        Object marketShare= marketshareProcessorAM(lstIHSNamesAM, lstPGPNamesAM, lstMarketShareAlignAM);
+        return marketShare;     
+    }                 
+   
+    
+    /* 
+        * @Method Name                    :  marketshareProcessorAM
+        * @Description                    :  Processor method utilised in every call out to form the marketshare JSON for Account Summary Screen
+        * @Return Type                    :  object
+        * @Param                          :  List<String>, List<String>, List<MYBZ_Market_Share__c>
+   */   
+    global static Object marketshareProcessorAM(List<String> lstIHSNames, List<String> lstPGPNames, List<MYBZ_Market_Share__c> lstMarketShareAlign) { 
+    
+        // Initialization
+        String strlstMarketShareAccSum = '';
+        String strlstMarketShare;
+        Map<String,Decimal> districtGrossMarginAM =new Map<String,Decimal>();
         String JsonString;
+        String AFFLTN = 'AFFLTN';
+        
+        if(!lstMarketShareAlign.isEmpty()){
+            Id DistrictId = lstMarketShareAlign[0].district__c;
+            strlstMarketShareAccSum = 'SELECT id, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c,Owner__c, Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name FROM MYBZ_Market_Share__c  WHERE LoadIdentifier__c=:AFFLTN and district__c =:DistrictId and territory__c = null';
+        
+        }
+        // Calculation of grossdistrictsummary
+        if(!String.isBlank(strlstMarketShareAccSum)){
+                
+            for(MYBZ_Market_Share__c mo: Database.Query(strlstMarketShareAccSum)){
+                string markProdMonthYearMS =  mo.Market__c+mo.product__c+mo.Month_Number__c+mo.Year_Number__c;                
+                if(mo.Gross_Margin__c != null){
+                    districtGrossMarginAM.put(markProdMonthYearMS,mo.Gross_Margin__c);
+                }else{
+                    districtGrossMarginAM.put(markProdMonthYearMS,mo.Gross_Margin__c);
+                }
+            }
+        }
+        strlstMarketShare = '';
+        if(!lstIHSNames.isEmpty() || !lstPGPNames.isEmpty()){
+            strlstMarketShare = 'SELECT Id, Region__c, Gross_Margin__c,District__c, Month__c ,Year__c ,territory__c,Global_Id__c, Owner__c, Market__c, percentageChangeFromPreviousMonth__c,lillyProduct__c, Month_Number__c, Year_Number__c, Product__r.Name, TRx__c, LE_ID_PGP__c,PGP__r.ID,system__r.Name,DDD_Dollars__c,PercentageChangeDDDunits__c,PercentageChangeDDDDollars__c, Previous_Month_TRx__c, DDD_Units__c,Previous_DDD_Units__c, Previous_DDD_Dollars__c,LE_ID_IHS__c,system__c, system__r.ID, PGP__c, PGP__r.name FROM MYBZ_Market_Share__c WHERE LoadIdentifier__c=:AFFLTN and (division__c = null and District__c = null and Region__c = null and territory__c = null) and ((LE_ID_IHS__c in :lstIHSNames and LE_ID_PGP__c = null) or (LE_ID_PGP__c in :lstPGPNames)) order by system__r.Name, PGP__r.name, Market__c, Year__c, Month__c asc, Product__r.Name desc';           
+        }
+        
+    
+        
         JSONGenerator generator= JSON.createGenerator(true); 
+        
         //Returns a new JSON Generator
         generator = JSON.createGenerator(true);
-       // generator.writeStartArray();  
-        generator.writeStartObject();  
+        
+        // generator.writeStartArray();  
+        generator.writeStartObject(); 
+        
         //Initializing variables
         String Year='';
         String Month;
@@ -1317,7 +1337,7 @@ global with Sharing  class MYBZ_MarketShare{
         Integer firstMonthIteration=1;  
         Integer firstProductIteration=1;
         
-        if(!marketShareList.isEmpty()){
+        if(!String.isBlank(strlstMarketShare)){
             
             //generator.writeStartObject();
             generator.writeFieldName(System.Label.Mybz_summaryData);
@@ -1325,7 +1345,7 @@ global with Sharing  class MYBZ_MarketShare{
             generator.writeFieldName(System.Label.Mybz_accounts);
             generator.writeStartArray();
             // Market Share list must be ordered
-            for(MYBZ_Market_Share__c ObjMarketShare  : marketShareList){ 
+            for(MYBZ_Market_Share__c ObjMarketShare  : Database.query(strlstMarketShare)){ 
             
                 if(ObjMarketShare.PGP__c == null &&  ObjMarketShare.System__c==null){
                     continue;
@@ -1486,9 +1506,9 @@ global with Sharing  class MYBZ_MarketShare{
                         
                         string markProdMonthYearMS =  ObjMarketShare.Market__c+ObjMarketShare.product__c+ObjMarketShare.Month_Number__c+ObjMarketShare.Year_Number__c;
                         
-                        if(districtGrossMargin.containsKey(markProdMonthYearMS)){  
-                            if(districtGrossMargin.get(markProdMonthYearMS) != 0 && districtGrossMargin.get(markProdMonthYearMS) != null){
-                                generator.writeNumberField(System.Label.MYBZ_grossMargins,districtGrossMargin.get(markProdMonthYearMS)); 
+                        if(districtGrossMarginAM.containsKey(markProdMonthYearMS)){  
+                            if(districtGrossMarginAM.get(markProdMonthYearMS) != 0 && districtGrossMarginAM.get(markProdMonthYearMS) != null){
+                                generator.writeNumberField(System.Label.MYBZ_grossMargins,districtGrossMarginAM.get(markProdMonthYearMS)); 
                             }else{
                                 generator.writeNullField(System.Label.MYBZ_grossMargins);
                             }                                  
@@ -1526,7 +1546,7 @@ global with Sharing  class MYBZ_MarketShare{
             Object marketShare = Json.deserializeUntyped(JsonString); 
             return marketShare;
                    
-    }                  
+    } 
                       
                      public MYBZ_MarketShare(){
                    
