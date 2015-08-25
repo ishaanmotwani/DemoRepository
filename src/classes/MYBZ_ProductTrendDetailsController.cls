@@ -13,12 +13,9 @@ global with sharing class MYBZ_ProductTrendDetailsController
     global static id UserId;
     static JSONGenerator generator;
     static String JsonString;
-    global static List<MYBZ_System__c> sysList = new List<MYBZ_System__c>();
-    global static List<MYBZ_PGP__c> pgplist = new  List<MYBZ_PGP__c>();
-    //global static List<MYBZ_Product_Trend_Detail__c> AlignmentHelper;
-    //global static List<MYBZ_Product_Trend_Detail__c> DefaultSystem;
+    global static List<MYBZ_Product_Trend_Detail__c> AlignmentHelper;
+    global static List<MYBZ_Product_Trend_Detail__c> DefaultSystem;
     static List<MYBZ_Product_Trend_Detail__c> TrendsDetailsList = new List<MYBZ_Product_Trend_Detail__c>();
-    
     global static void fetchUserInfo()
     {
         UserId = UserInfo.getUserId();      
@@ -27,23 +24,6 @@ global with sharing class MYBZ_ProductTrendDetailsController
             Role = userObj.MYBZ_Role__c;
             GlobalId = userObj.Prsnl_Nbr_GLBL__c;
         }
-    }
-    
-     /* 
-        * @Method Name                    :  getAffiliation
-        * @Description                    :  Helper method to find the affiliation information from given global id 
-        * @Return Type                    :  void
-        * @Param                          :  none   
-        
-    */
-    global static void  getAffiliation(){
-       sysList = [SELECT Name,System_ID__c,Aligned_Territories__c,Aligned_Districts__c                                    
-                                       FROM MYBZ_System__c
-                                       WHERE Global_IDs__c INCLUDES (:GlobalID) order by Name];
-       if(sysList.isEmpty())
-        pgplist = [SELECT Name, PGP_ID__c, Aligned_Territories__c, Aligned_Districts__c
-                                        FROM MYBZ_PGP__c
-                                        WHERE Global_IDs__c INCLUDES (:GlobalID) Order By Name ] ;                                     
     }
     
     /* 
@@ -183,8 +163,7 @@ Territory - The territory selected via a territory picker.
             if(flagAff == false && userObj.MYBZ_Role__c == System.Label.MYBZ_AccountManager  && userObj.MYBZ_Reporting_ID__c !=null){
               GlobalId=userObj.MYBZ_Reporting_ID__c;
             }
-            getAffiliation();
-            //DefaultSystem=[SELECT LE_ID_IHS__c FROM MYBZ_Product_Trend_Detail__c WHERE Global_Id__c =: GlobalId and  LoadIdentifier__c='AFFLTN' ORDER BY LE_ID_IHS__c LIMIT 1];
+            DefaultSystem=[SELECT LE_ID_IHS__c FROM MYBZ_Product_Trend_Detail__c WHERE Global_Id__c =: GlobalId and  LoadIdentifier__c='AFFLTN' ORDER BY LE_ID_IHS__c LIMIT 1];
             if(Role == System.Label.MYBZ_SalesRepresentative || Role == System.Label.MYBZ_AccountManager)
             {
                
@@ -201,13 +180,9 @@ Territory - The territory selected via a territory picker.
                     else
                     {
                         TrendsDetailsList.clear();
-                        if(!sysList.isEmpty())
+                        if(!DefaultSystem.isEmpty())
                         {
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:sysList[0].System_ID__c AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
-                        }
-                        else if(!pgplist.isEmpty())
-                        {
-                            TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_PGP__c=:pgplist[0].PGP_ID__c AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='HCP' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
+                        TrendsDetailsList = [Select Name,Month__c,Year__c,IHS_Product__c,Range__c,IHS_Product__r.Name,TRx_Units__c,Previous_Month_TRx__c,Global_ID__c,HCP_First_Name__c,HCP_Last_Name__c,Gain_or_Lose_Percentage__c, Gainer_Loser_Top__c,Rank__c, LoadIdentifier__c, LE_ID_IHS__c, LE_ID_PGP__c, HCP_or_PGP__c, Alignment_Level__c, District__c,Top_or_Bottom_PGP__c, Gain_or_Lose_Trx__c from MYBZ_Product_Trend_Detail__c where  LE_ID_IHS__c=:DefaultSystem[0].LE_ID_IHS__c AND LoadIdentifier__c = 'AFFLTN' AND HCP_or_PGP__c='PGP' order by  Year__c, Month__c asc, IHS_Product__r.Name desc, Gainer_Loser_Top__c desc, Rank__c asc];
                         }
                     }
                 
